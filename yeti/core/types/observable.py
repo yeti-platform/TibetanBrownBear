@@ -5,13 +5,27 @@ from marshmallow import fields, post_load
 from ..model.database import YetiObject, YetiSchema
 
 class ObservableSchema(YetiSchema):
+    """(De)serialization marshmallow.Schema for Observable objects."""
     value = fields.String(required=True)
 
     @post_load
     def load_observable(self, data):
+        """Load an Observable object from its JSON representation.
+
+        @post_load means this will be called after eath marshmallow.load call.
+
+        Returns:
+          The Observable object.
+        """
         return Observable(**data)
 
 class Observable(YetiObject):
+    """Observable Yeti object.
+
+    Attribuets:
+      key: Database primary key
+      value: Observable value
+    """
 
     _collection_name = 'observable'
     _schema = ObservableSchema()
