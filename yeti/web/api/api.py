@@ -1,8 +1,8 @@
 """API endpionts for Yeti."""
 
 from flask import Blueprint
-from .observable import Observable
+from .observable import ObservableResource
 
 blueprint = Blueprint("api", __name__)
 
-Observable.register(blueprint)
+ObservableResource.register(blueprint)

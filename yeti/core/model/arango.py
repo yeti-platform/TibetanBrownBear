@@ -67,7 +67,19 @@ class ArangoYetiConnector:
         Returns:
           A Yeti object."""
         document = cls._get_collection().get(key)
-        return cls._schema().load(document).data
+        if document:
+            return cls._schema().load(document).data
+        return None
+
+    @classmethod
+    def filter(cls, args):
+        colname = cls._collection_name
+        observables = cls._db.aql.execute(
+            'FOR o IN {0:s} FILTER o.value =~ @value RETURN o'.format(colname),
+            bind_vars={'value': args['value']}
+        )
+        return cls._schema(many=True).load(observables).data
+
 
     @classmethod
     def _get_collection(cls):
