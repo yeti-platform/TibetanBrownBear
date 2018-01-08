@@ -8,7 +8,7 @@ class YetiObject(ArangoYetiConnector):
     """Generic Yeti object.
 
     Attributes:
-      _schema: a marshmallow.Schema obejct allowing to (de)serialize Yeti
+      _schema: a marshmallow.Schema class used for (de)serializing Yeti
           objects.
     """
 

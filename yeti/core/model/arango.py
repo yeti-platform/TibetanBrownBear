@@ -31,7 +31,7 @@ class ArangoYetiConnector:
 
         Returns:
           A JSON representation of the Yeti object."""
-        return self._schema.dump(self).data
+        return self._schema().dump(self).data
 
     def save(self):
         """Inserts a Yeti object into the database.
@@ -47,7 +47,7 @@ class ArangoYetiConnector:
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
-        return self._schema.load(arangodoc).data
+        return self._schema().load(arangodoc).data
 
     @classmethod
     def list(cls):
@@ -55,7 +55,7 @@ class ArangoYetiConnector:
 
         Returns:
           An arango.cursor.Cursor object"""
-        return cls._get_collection().all()
+        return cls._schema(many=True).load(cls._get_collection().all()).data
 
     @classmethod
     def get(cls, key):
@@ -67,7 +67,7 @@ class ArangoYetiConnector:
         Returns:
           A Yeti object."""
         document = cls._get_collection().get(key)
-        return cls._schema.load(document).data
+        return cls._schema().load(document).data
 
     @classmethod
     def _get_collection(cls):

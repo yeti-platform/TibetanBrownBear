@@ -28,7 +28,7 @@ class Observable(YetiObject):
     """
 
     _collection_name = 'observable'
-    _schema = ObservableSchema()
+    _schema = ObservableSchema
 
     key = None
     value = None

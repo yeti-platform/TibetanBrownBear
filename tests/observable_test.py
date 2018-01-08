@@ -12,11 +12,11 @@ class TestObservables(unittest.TestCase):
         ArangoYetiConnector.clear_db()
 
     def test_observable_creation(self):
-        """Tests creating a single observable."""
+        """Tests the creation of a single observable."""
         obs = Observable(value='asd')
         self.assertIsNone(obs.key)
         obs = obs.save()
-        print(obs.dump(), obs.key)
+        self.assertIsInstance(obs, Observable)
         self.assertIsNotNone(obs.key)
 
     def test_observable_fetch(self):
@@ -24,12 +24,13 @@ class TestObservables(unittest.TestCase):
         obs = Observable(value='asd').save()
         key = obs.key
         fetched_obs = Observable.get(key)
+        self.assertIsInstance(fetched_obs, Observable)
         self.assertEqual(fetched_obs.key, key)
 
     def test_observables_list(self):
         """Tests fetching all observables in the database."""
         for num in range(10):
             Observable(value='asd{0:d}'.format(num)).save()
-        allitems = list(Observable.list())
+        allitems = Observable.list()
         self.assertIsInstance(allitems[0], Observable)
         self.assertEqual(len(allitems), 10)
