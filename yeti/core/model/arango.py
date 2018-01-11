@@ -1,30 +1,72 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
+import logging
 
 from arango import ArangoClient
+from arango.exceptions import DatabaseCreateError, CollectionCreateError
 
-client = ArangoClient(
-    protocol='http',
-    host='localhost',
-    port=8529,
-    username='root',
-    password='',
-    enable_logging=True
-)
+from yeti.common.config import yeti_config
 
-DB = client.database('yeti')
 
- # exhaustive list of needed collections here
-collections = [
-    'observable',
-]
+class ArangoDatabase:
+    """Class that contains the base class for the database.
 
-COLLECTIONS = dict()
-for collection_name in collections:
-    COLLECTIONS[collection_name] = DB.collection(collection_name)
+    Essentially a proxy that will delay the connection to the first call.
+    """
+    def __init__(self):
+        self.db = None
+        self.collections = dict()
+
+    def connect(self):
+        client = ArangoClient(
+            protocol='http',
+            host=yeti_config.arangodb.host,
+            port=yeti_config.arangodb.port,
+            username=yeti_config.arangodb.username,
+            password=yeti_config.arangodb.password,
+            enable_logging=True
+        )
+
+        # Create database if it does not exist
+        try:
+            client.create_database(yeti_config.arangodb.database)
+        except DatabaseCreateError:
+            # TODO: differentiate errors (only pass if database already exists)
+            pass
+
+        self.db = client.database(yeti_config.arangodb.database)
+
+    def clear(self):
+        for name in self.collections:
+            self.collections[name].truncate()
+
+    def collection(self, name):
+        if self.db is None:
+            self.connect()
+
+        if name not in self.collections:
+            # Create collection if it does not exist
+            try:
+                self.db.create_collection(name)
+            except CollectionCreateError:
+                # TODO: differentiate errors (only pass if collection already exists)
+                pass
+
+            self.collections[name] = self.db.collection(name)
+
+        return self.collections[name]
+
+    def __getattr__(self, key):
+        if self.db is None:
+            self.connect()
+
+        return getattr(self.db, key)
+
+db = ArangoDatabase()
+
 
 class ArangoYetiConnector:
     """Yeti connector for an ArangoDB backend."""
-    _db = DB
+    _db = db
 
     def dump(self):
         """Dumps a Yeti object into a JSON representation.
@@ -75,10 +117,4 @@ class ArangoYetiConnector:
 
         Returns:
           The ArangoDB collection corresponding to the object class."""
-        return COLLECTIONS[cls._collection_name]
-
-    @classmethod
-    def clear_db(cls):
-        """Clears the ArangoDB database."""
-        for collection in COLLECTIONS.values():
-            collection.truncate()
+        return cls._db.collection(cls._collection_name)
