@@ -1,6 +1,4 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
-import logging
-
 from arango import ArangoClient
 from arango.exceptions import DatabaseCreateError, CollectionCreateError
 

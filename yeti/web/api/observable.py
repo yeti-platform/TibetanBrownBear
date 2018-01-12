@@ -7,6 +7,7 @@ from webargs.flaskparser import use_args
 
 testobs = [{'id': 123, 'value': 'yeti.org'}]
 
+
 class ObservableSchema(Schema):
     class Meta:
         fields = ('id', 'value')
@@ -30,5 +31,5 @@ class Observable(FlaskView):
         for o in testobs:
             if args['value'] in o['value']:
                 return jsonify(o)
-        else:
-            return ""
+
+        return ""

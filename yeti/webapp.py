@@ -4,11 +4,11 @@
 
 from flask import Flask, url_for
 from web.api.api import blueprint
-import urllib
 
 app = Flask(__name__)
-
 app.register_blueprint(blueprint, url_prefix='/api')
+
+
 @app.route('/list_routes')
 def list_routes():
     output = []

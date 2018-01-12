@@ -1,3 +1,3 @@
 [MESSAGES CONTROL]
 
-disable=import-error,missing-docstring,no-member,invalid-name,too-few-public-methods,no-name-in-module
+disable=import-error,missing-docstring,no-member,invalid-name,too-few-public-methods,no-name-in-module,no-self-use

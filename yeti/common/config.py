@@ -45,8 +45,8 @@ class Config:
     def get(self, section, key, default=None):
         if not hasattr(self, section) or key not in self[section]:
             return default
-        else:
-            return self[section][key]
+
+        return self[section][key]
 
 
 yeti_config = Config()

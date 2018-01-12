@@ -1,6 +1,8 @@
+# pylint: disable=unused-argument
 """Tests for the Observable datatype."""
 
 from yeti.core.types.observable import Observable
+
 
 def test_observable_creation():
     """Tests the creation of a single observable."""
