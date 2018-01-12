@@ -10,7 +10,7 @@ services:
 
 before_install:
   - docker pull arangodb/arangodb:latest
-  - docker run -e ARANGO_NO_AUTH=1 -d -p 8529:8529 arangodb/arangodb:latest
+  - docker run -e ARANGO_NO_AUTH=1 -p 8529:8529 arangodb/arangodb:latest
 
 install:
   - pip install -r requirements.txt
