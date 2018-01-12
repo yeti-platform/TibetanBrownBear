@@ -1,0 +1,6 @@
+---
+engines:
+  bandit:
+    enabled: true
+    exclude_paths:
+      - tests/**
