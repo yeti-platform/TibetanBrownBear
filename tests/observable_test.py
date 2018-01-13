@@ -1,36 +1,31 @@
+# pylint: disable=unused-argument
 """Tests for the Observable datatype."""
 
-import unittest
-
 from yeti.core.types.observable import Observable
-from yeti.core.model.arango import ArangoYetiConnector
 
-class TestObservables(unittest.TestCase):
-    """Tests for the Observable datatype."""
 
-    def setUp(self):
-        ArangoYetiConnector.clear_db()
+def test_observable_creation():
+    """Tests the creation of a single observable."""
+    obs = Observable(value='asd')
+    assert obs.key is None
+    obs = obs.save()
+    assert isinstance(obs, Observable)
+    assert obs.key is not None
 
-    def test_observable_creation(self):
-        """Tests the creation of a single observable."""
-        obs = Observable(value='asd')
-        self.assertIsNone(obs.key)
-        obs = obs.save()
-        self.assertIsInstance(obs, Observable)
-        self.assertIsNotNone(obs.key)
 
-    def test_observable_fetch(self):
-        """Tests fetching a single observable by key."""
-        obs = Observable(value='asd').save()
-        key = obs.key
-        fetched_obs = Observable.get(key)
-        self.assertIsInstance(fetched_obs, Observable)
-        self.assertEqual(fetched_obs.key, key)
+def test_observable_fetch():
+    """Tests fetching a single observable by key."""
+    obs = Observable(value='asd').save()
+    key = obs.key
+    fetched_obs = Observable.get(key)
+    assert isinstance(fetched_obs, Observable)
+    assert fetched_obs.key == key
 
-    def test_observables_list(self):
-        """Tests fetching all observables in the database."""
-        for num in range(10):
-            Observable(value='asd{0:d}'.format(num)).save()
-        allitems = Observable.list()
-        self.assertIsInstance(allitems[0], Observable)
-        self.assertEqual(len(allitems), 10)
+
+def test_observables_list(clean_db):
+    """Tests fetching all observables in the database."""
+    for num in range(10):
+        Observable(value='asd{0:d}'.format(num)).save()
+    allitems = Observable.list()
+    assert isinstance(allitems[0], Observable)
+    assert len(allitems) == 10
