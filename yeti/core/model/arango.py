@@ -10,6 +10,7 @@ class ArangoDatabase:
 
     Essentially a proxy that will delay the connection to the first call.
     """
+
     def __init__(self):
         self.db = None
         self.collections = dict()
@@ -21,8 +22,7 @@ class ArangoDatabase:
             port=yeti_config.arangodb.port,
             username=yeti_config.arangodb.username,
             password=yeti_config.arangodb.password,
-            enable_logging=True
-        )
+            enable_logging=True)
 
         # Create database if it does not exist
         try:
@@ -58,6 +58,7 @@ class ArangoDatabase:
             self.connect()
 
         return getattr(self.db, key)
+
 
 db = ArangoDatabase()
 
@@ -116,10 +117,10 @@ class ArangoYetiConnector:
         colname = cls._collection_name
         observables = cls._db.aql.execute(
             'FOR o IN {0:s} FILTER o.value =~ @value RETURN o'.format(colname),
-            bind_vars={'value': args['value']}
-        )
+            bind_vars={
+                'value': args['value']
+            })
         return cls._schema(many=True).load(observables).data
-
 
     @classmethod
     def _get_collection(cls):

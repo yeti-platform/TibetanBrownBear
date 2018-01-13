@@ -4,6 +4,7 @@ from marshmallow import Schema, fields
 
 from .arango import ArangoYetiConnector
 
+
 class YetiObject(ArangoYetiConnector):
     """Generic Yeti object.
 

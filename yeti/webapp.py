@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """Main Yeti web module."""
 
 from flask import Flask, url_for
@@ -27,6 +26,7 @@ def list_routes():
         print(line)
 
     return "<br>".join(output)
+
 
 app.debug = True
 app.run()
