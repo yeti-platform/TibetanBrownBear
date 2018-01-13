@@ -3,6 +3,7 @@ from arango import ArangoClient
 from arango.exceptions import DatabaseCreateError, CollectionCreateError
 
 from yeti.common.config import yeti_config
+from .interfaces import AbstractYetiConnector
 
 
 class ArangoDatabase:
@@ -67,7 +68,7 @@ class ArangoDatabase:
 db = ArangoDatabase()
 
 
-class ArangoYetiConnector:
+class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
     _db = db
 
@@ -118,13 +119,22 @@ class ArangoYetiConnector:
 
     @classmethod
     def filter(cls, args):
+        """Search in an ArangoDb collection.
+
+        Search the collection for all objects whose 'value' attribute matches
+        the regex defined in the 'value' key of the args dict.
+
+        Args:
+            args: A key:value dictionary containing a 'value' key defining
+              the regular expression to match against.
+        """
         colname = cls._collection_name
-        observables = cls._db.aql.execute(
+        objects = cls._db.aql.execute(
             'FOR o IN {0:s} FILTER o.value =~ @value RETURN o'.format(colname),
             bind_vars={
                 'value': args['value']
             })
-        return cls._schema(many=True).load(observables).data
+        return cls._schema(many=True).load(objects).data
 
     @classmethod
     def _get_collection(cls):
