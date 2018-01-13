@@ -2,14 +2,12 @@
 
 from flask_classful import FlaskView, route
 from flask import jsonify
-from marshmallow import fields, Schema
-from webargs.flaskparser import use_args, use_kwargs
+from marshmallow import fields
+from webargs.flaskparser import use_args
 
 from core.types.observable import Observable
 
-searchargs = {
-    'value': fields.Str(required=True)
-}
+searchargs = {'value': fields.Str(required=True)}
 
 postargs = {
     'key': fields.Str(required=True),
@@ -30,10 +28,18 @@ class ObservableResource(FlaskView):
     # method so we can call Observable.load and Observable.dump
 
     def index(self):
-        return jsonify(Observable._schema(many=True).dump(
-            Observable.list()).data)
+        """Return a list of all Observables in the database."""
+        return jsonify(
+            Observable._schema(many=True).dump(Observable.list()).data)
 
     def get(self, key):
+        """Fetch a single observable from the database.
+        Args:
+            key: The Observable object's primary key.
+        Returns:
+            A JSON representation of the requested Observable, or a 404 HTTP
+            status code if the Observable cannot be found.
+        """
         obs = Observable.get(key)
         if not obs:
             return "", 404
@@ -42,10 +48,26 @@ class ObservableResource(FlaskView):
     @route('/', methods=["POST"])
     @use_args(searchargs)
     def post(self, args):
+        """Creates a new Observable.
+
+        Args:
+            args: key:value dictionary with which to populate the new
+            Observable's fields.
+
+        Returns:
+            A JSON representation of the saved Observable.
+        """
         observable = Observable._schema().load(args).data
         return jsonify(Observable._schema().dump(observable.save()).data)
 
     @use_args(searchargs)
     @route('/filter/', methods=["POST"])
     def filter(self, args):
-        return jsonify(Observable._schema(many=True).dump(Observable.filter(args)).data)
+        """Search the database for Observables with specific fields.
+
+        Args:
+            args: A key:value dictionary representing an Observable's
+              and its expected values.
+        """
+        return jsonify(
+            Observable._schema(many=True).dump(Observable.filter(args)).data)

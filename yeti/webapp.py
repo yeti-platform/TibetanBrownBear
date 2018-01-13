@@ -24,7 +24,7 @@ def list_routes():
         output.append(line)
 
     for line in sorted(output):
-        print (line)
+        print(line)
 
     return "<br>".join(output)
 
