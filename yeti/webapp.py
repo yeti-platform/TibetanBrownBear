@@ -1,8 +1,7 @@
-#!/usr/bin/env python
 """Main Yeti web module."""
 
 from flask import Flask, url_for
-from web.api.api import blueprint
+from .web.api.api import blueprint
 
 app = Flask(__name__)
 app.register_blueprint(blueprint, url_prefix='/api')
@@ -26,7 +25,3 @@ def list_routes():
         print(line)
 
     return "<br>".join(output)
-
-
-app.debug = True
-app.run()

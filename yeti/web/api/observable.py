@@ -5,7 +5,7 @@ from flask import jsonify
 from marshmallow import fields
 from webargs.flaskparser import use_args
 
-from core.types.observable import Observable
+from yeti.core.types.observable import Observable
 
 searchargs = {'value': fields.Str(required=True)}
 
@@ -20,17 +20,14 @@ class ObservableResource(FlaskView):
 
     route_base = '/observables/'
 
-    # NOTE: This "jsonify(Observable._schema().dump().data" pattern is not
+    # NOTE: This "jsonify(obs.dump())" pattern is not
     # sustainable We should use some kind of decorator to always return JSON
     # like what flask-apiscpec does.
 
-    # NOTE: implement the load and dump methods in the ArangoYetiConnector
-    # method so we can call Observable.load and Observable.dump
-
     def index(self):
         """Return a list of all Observables in the database."""
-        return jsonify(
-            Observable._schema(many=True).dump(Observable.list()).data)
+        observables = Observable.list()
+        return jsonify(Observable.dump_many(observables))
 
     def get(self, key):
         """Fetch a single observable from the database.
@@ -43,7 +40,7 @@ class ObservableResource(FlaskView):
         obs = Observable.get(key)
         if not obs:
             return "", 404
-        return jsonify(Observable._schema().dump(obs).data)
+        return jsonify(obs.dump())
 
     @route('/', methods=["POST"])
     @use_args(searchargs)
@@ -57,8 +54,8 @@ class ObservableResource(FlaskView):
         Returns:
             A JSON representation of the saved Observable.
         """
-        observable = Observable._schema().load(args).data
-        return jsonify(Observable._schema().dump(observable.save()).data)
+        observable = Observable.load(args)
+        return jsonify(observable.save().dump())
 
     @use_args(searchargs)
     @route('/filter/', methods=["POST"])
@@ -69,5 +66,5 @@ class ObservableResource(FlaskView):
             args: A key:value dictionary representing an Observable's
               and its expected values.
         """
-        return jsonify(
-            Observable._schema(many=True).dump(Observable.filter(args)).data)
+        observables = Observable.filter(args)
+        return jsonify(Observable.dump_many(observables))

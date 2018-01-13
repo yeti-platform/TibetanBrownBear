@@ -72,12 +72,28 @@ class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
     _db = db
 
+    @classmethod
+    def load(cls, args):
+        """Loads data from a dictionary into the corresponding YetiObject.
+
+        Args:
+          args: key:value dictionary with which to populate fields in the
+              YetiObject
+        """
+        ismany = isinstance(args, list)
+        return cls._schema(many=ismany).load(args).data
+
     def dump(self):
         """Dumps a Yeti object into a JSON representation.
 
         Returns:
-          A JSON representation of the Yeti object."""
+          A JSON representation of the Yeti object.
+        """
         return self._schema().dump(self).data
+
+    @classmethod
+    def dump_many(cls, objects):
+        return cls._schema(many=True).dump(objects).data
 
     def save(self):
         """Inserts a Yeti object into the database.

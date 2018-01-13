@@ -4,11 +4,26 @@ This interface defines the methods a YetiConnector needs to implement to
 successfully carry out all interactions with the database.
 """
 
-from abc import abstractmethod, ABCMeta
+from abc import abstractmethod, ABC
 
-class AbstractYetiConnector:
+class AbstractYetiConnector(ABC):
 
-    __metaclass__ = ABCMeta
+    @classmethod
+    @abstractmethod
+    def load(cls, args):
+        """Load a YetiObject from its JSON representation."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def dump(self):
+        """Dump a YetiObject into its JSON representation."""
+        raise NotImplementedError
+
+    @classmethod
+    @abstractmethod
+    def dump_many(cls, objects):
+        """Dump a list of YetiObject into its JSON representation."""
+        raise NotImplementedError
 
     @abstractmethod
     def save(self):
