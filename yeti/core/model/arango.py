@@ -27,9 +27,11 @@ class ArangoDatabase:
         # Create database if it does not exist
         try:
             client.create_database(yeti_config.arangodb.database)
-        except DatabaseCreateError:
-            # TODO: differentiate errors (only pass if database already exists)
-            pass
+        except DatabaseCreateError as err:
+            # 12707 - ERROR_ARANGO_DUPLICATE_NAME
+            # https://docs.arangodb.com/3.0/Manual/Appendix/ErrorCodes.html
+            if not err.error_code == 1207:
+                raise
 
         self.db = client.database(yeti_config.arangodb.database)
 
@@ -45,9 +47,11 @@ class ArangoDatabase:
             # Create collection if it does not exist
             try:
                 self.db.create_collection(name)
-            except CollectionCreateError:
-                # TODO: differentiate errors (only pass if collection already exists)
-                pass
+            except CollectionCreateError as err:
+                # 12707 - ERROR_ARANGO_DUPLICATE_NAME
+                # https://docs.arangodb.com/3.0/Manual/Appendix/ErrorCodes.html
+                if not err.error_code == 1207:
+                    raise
 
             self.collections[name] = self.db.collection(name)
 
