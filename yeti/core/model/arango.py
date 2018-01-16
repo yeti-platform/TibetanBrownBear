@@ -1,6 +1,7 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
 from arango.exceptions import DatabaseCreateError, CollectionCreateError
+from marshmallow import Schema, fields
 
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
@@ -67,6 +68,15 @@ class ArangoDatabase:
 
 db = ArangoDatabase()
 
+class ArangoYetiSchema(Schema):
+    """Generic (de)serialization marshmallow.Schema object for Yeti objects.
+
+    Attributes:
+      id: Database primary key placeholder (marshmallow.fields.Int)
+    """
+
+    id = fields.Int(load_from='_key', dump_to='_key')
+
 
 class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
@@ -89,7 +99,9 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           A JSON representation of the Yeti object.
         """
-        return self._schema().dump(self).data
+        data = self._schema().dump(self).data
+        data['id'] = data.pop('_key')
+        return data
 
     @classmethod
     def dump_many(cls, objects):
@@ -100,8 +112,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Returns:
           The created Yeti object."""
-        document_json = self.dump()
-        if not self.key:
+        document_json = self._schema().dump(self).data
+        if not self.id:
             del document_json['_key']
             result = self._get_collection().insert(
                 document_json, return_new=True)

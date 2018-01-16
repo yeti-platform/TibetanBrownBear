@@ -1,8 +1,7 @@
 """Interface definition for Yeti DB connectors."""
 
-from marshmallow import Schema, fields
 
-from .arango import ArangoYetiConnector
+from .arango import ArangoYetiConnector, ArangoYetiSchema
 
 
 class YetiObject(ArangoYetiConnector):
@@ -25,11 +24,6 @@ class YetiObject(ArangoYetiConnector):
         return cls._collection_name or cls.__name__.lower()
 
 
-class YetiSchema(Schema):
-    """Generic (de)serialization marshmallow.Schema object for Yeti objects.
-
-    Attributes:
-      key: Database primary key placeholder (marshmallow.fields.Int)
-    """
-
-    key = fields.Int(load_from='_key', dump_to='_key')
+class YetiSchema(ArangoYetiSchema):
+    """Generic (de)serialization marshmallow.Schema object for Yeti objects."""
+    pass

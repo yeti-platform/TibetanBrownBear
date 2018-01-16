@@ -32,11 +32,11 @@ class Observable(YetiObject):
     _collection_name = 'observable'
     _schema = ObservableSchema
 
-    key = None
+    id = None
     value = None
 
     def __init__(self, **kwargs):
-        self.key = kwargs.get('key')
+        self.id = kwargs.get('id')
         self.value = kwargs['value']
 
     # def __repr__(self):
