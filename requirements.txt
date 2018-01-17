@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+python-arango
+marshmallow
+flask
+flask-classful
+webargs

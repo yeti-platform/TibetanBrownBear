@@ -1,0 +1,12 @@
+[arangodb]
+
+##
+## Use these settings to configure how to connect to your ArangoDB database.
+## All settings are optional, with default values being the one in the comment.
+##
+
+# host = 127.0.0.1
+# port = 8529
+# database = yeti
+# username = root
+# password = ''
