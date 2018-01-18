@@ -121,6 +121,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             result = self._get_collection().insert(
                 document_json, return_new=True)
         else:
+            document_json['_key'] = str(document_json['_key'])
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
