@@ -28,10 +28,25 @@ def test_get(populated_db):
     assert isinstance(response, dict)
     assert response['id'] == 1
 
+def test_get_notfound(clean_db):
+    """Test fetching a given Observable by ID."""
+    rv = client.get('/api/observables/1/')
+    assert rv.status_code == 404
+
 def test_post(clean_db):
     """Tests the creation of a new Observable via POST."""
     observable_json = {'value': 'asd'}
     rv = client.post('/api/observables/', data=observable_json)
+    response = json.loads(rv.data)
+    assert isinstance(response['id'], int)
+
+def test_put(populated_db):
+    """Tests updating a new Observable via PUT."""
+    rv = client.get('/api/observables/1/')
+    observable_json = json.loads(rv.data)
+    rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
+                    data={'value': 'qwe'})
+    print(rv.data)
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
 

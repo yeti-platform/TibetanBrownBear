@@ -27,7 +27,7 @@ class AbstractYetiConnector(ABC):
 
     @abstractmethod
     def save(self):
-        """Inserts a Yeti object into the database.
+        """Inserts or updates a Yeti object into the database.
 
         Returns:
           The created Yeti object."""
@@ -54,7 +54,6 @@ class AbstractYetiConnector(ABC):
           A Yeti object."""
         raise NotImplementedError
 
-
     @classmethod
     def filter(cls, args):
         """Filters objects according to args.
@@ -63,3 +62,13 @@ class AbstractYetiConnector(ABC):
           args: parameters used to filter the objects.
         """
         raise NotImplementedError
+
+    def update(self, args):
+        """Updates an object with a dictionary.
+
+        Args:
+          args: key:value dictionary used to update the object.
+        """
+        for key, value in args.items():
+            setattr(self, key, value)
+        return self
