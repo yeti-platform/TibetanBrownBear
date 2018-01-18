@@ -17,6 +17,9 @@ def test_index(populated_db):
     rv = client.get('/api/observables/')
     response = json.loads(rv.data)
     assert len(response) == 10
+    for element in response:
+        print (element)
+        assert isinstance(element['id'], int)
 
 def test_get(populated_db):
     """Test fetching a given Observable by ID."""

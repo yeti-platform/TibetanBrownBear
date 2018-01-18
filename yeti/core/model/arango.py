@@ -105,7 +105,10 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     @classmethod
     def dump_many(cls, objects):
-        return cls._schema(many=True).dump(objects).data
+        data = cls._schema(many=True).dump(objects).data
+        for element in data:
+            element['id'] = element.pop('_key')
+        return data
 
     def save(self):
         """Inserts a Yeti object into the database.
