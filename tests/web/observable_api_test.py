@@ -18,7 +18,6 @@ def test_index(populated_db):
     response = json.loads(rv.data)
     assert len(response) == 10
     for element in response:
-        print (element)
         assert isinstance(element['id'], int)
 
 def test_get(populated_db):
@@ -46,7 +45,6 @@ def test_put(populated_db):
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
                     data={'value': 'qwe'})
-    print(rv.data)
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
 
