@@ -8,6 +8,7 @@ from ..model.database import YetiObject, YetiSchema
 class ObservableSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Observable objects."""
     value = fields.String(required=True)
+    type = fields.Constant("observable")
 
     @post_load
     def load_observable(self, data):
@@ -18,26 +19,37 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        return Observable(**data)
+        print( "Constructing", self.constructor, "from", data)
+        return self.constructor(**data)
 
 
 class Observable(YetiObject):
     """Observable Yeti object.
 
-    Attribuets:
+    Attributes:
       key: Database primary key
       value: Observable value
     """
 
-    _collection_name = 'observable'
+    _collection_name = 'observables'
     _schema = ObservableSchema
 
     id = None
     value = None
 
     def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
-        self.value = kwargs['value']
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
-    # def __repr__(self):
-    #     return '<Observable(value={value!r})>'.format(value=self.value)
+    def __repr__(self):
+        return '<{type!r}(value={value!r})>'.format(
+            type=self.__class__.__name__,
+            value=self.value)
+
+    @classmethod
+    def is_valid(cls, text):
+        if text is not None:
+            return True
+        return False
+
+ObservableSchema.constructor = Observable
