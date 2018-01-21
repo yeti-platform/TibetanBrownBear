@@ -5,10 +5,9 @@ import re
 import idna
 from marshmallow import fields
 from tldextract import extract
-from marshmallow import fields, post_load
-
 
 from yeti.core.helpers import refang
+from yeti.core.errors import ValidationError
 from .observable import Observable, ObservableSchema
 
 MAIN_REGEX = r'[-.\w[\]]+\[?\.\]?[\w]+'
@@ -32,18 +31,12 @@ class Hostname(Observable):
     _schema = HostnameSchema
     _collection_name = 'hostnames'
 
-    tld = None
     idna = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.tld = kwargs.get('tld')
-
-    @classmethod
-    def is_valid(cls, text):
-        match = COMPILED_FULL_REGEX.match(text)
+    def is_valid(self):
+        match = COMPILED_FULL_REGEX.match(self.value)
         if not match:
-            return False
+            raise ValidationError
 
         if match.group('pre') != '/' and match.group('post') != '/':
             value = refang(match.group('search'))
@@ -52,17 +45,15 @@ class Hostname(Observable):
                 if parts.suffix and parts.domain:
                     return True
 
-        return False
+        raise ValidationError
 
     def normalize(self):
         self.value = refang(self.value.lower())
         if self.value.endswith("."):
             self.value = self.value[:-1]
 
-        try:
-            self.idna = idna.encode(self.value)
-        except idna.core.InvalidCodepoint:
-            pass
+        self.value = idna.decode(self.value)
+        self.idna = idna.encode(self.value)
 
 
 HostnameSchema.constructor = Hostname

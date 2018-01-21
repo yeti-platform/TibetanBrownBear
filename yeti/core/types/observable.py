@@ -2,8 +2,8 @@
 
 from marshmallow import fields, post_load
 
+from yeti.core.errors import ValidationError
 from ..model.database import YetiObject, YetiSchema
-
 
 class ObservableSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Observable objects."""
@@ -19,8 +19,9 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        print( "Constructing", self.constructor, "from", data)
-        return self.constructor(**data)
+        object_ = self.constructor(**data)
+        object_.normalize()
+        return object_
 
 
 class Observable(YetiObject):
@@ -40,16 +41,19 @@ class Observable(YetiObject):
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
+        self.is_valid()
 
     def __repr__(self):
         return '<{type!r}(value={value!r})>'.format(
             type=self.__class__.__name__,
             value=self.value)
 
-    @classmethod
-    def is_valid(cls, text):
-        if text is not None:
+    def is_valid(self):
+        if self.value is not None:
             return True
-        return False
+        raise ValidationError
+
+    def normalize(self):
+        pass
 
 ObservableSchema.constructor = Observable

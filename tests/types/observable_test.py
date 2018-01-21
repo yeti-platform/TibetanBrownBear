@@ -1,6 +1,9 @@
 # pylint: disable=unused-argument
 """Tests for the Observable datatype."""
 
+import pytest
+
+from yeti.core.errors import ValidationError
 from yeti.core.types.observable import Observable
 
 
@@ -26,3 +29,9 @@ def test_observables_list(populated_db):
     allitems = Observable.list()
     assert isinstance(allitems[0], Observable)
     assert len(allitems) == 10
+
+
+def test_empty_value(clean_db):
+    """Tests that an observable with an empty value can't be created."""
+    with pytest.raises(ValidationError) as _:
+        Observable(value=None)
