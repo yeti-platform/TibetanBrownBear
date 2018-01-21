@@ -16,7 +16,7 @@ def test_index(populated_db):
     """Test that a GET request fetches all Observables."""
     rv = client.get('/api/observables/')
     response = json.loads(rv.data)
-    assert len(response) == 10
+    assert len(response) == 20
     for element in response:
         assert isinstance(element['id'], int)
 
@@ -53,4 +53,4 @@ def test_filter(populated_db):
     observable_json = {'value': 'asd[0-4]'}
     rv = client.post('/api/observables/filter/', data=observable_json)
     response = json.loads(rv.data)
-    assert len(response) == 5
+    assert len(response) == 10

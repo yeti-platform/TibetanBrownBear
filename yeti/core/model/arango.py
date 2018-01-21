@@ -76,6 +76,7 @@ class ArangoYetiSchema(Schema):
     """
 
     id = fields.Int(load_from='_key', dump_to='_key')
+    type = fields.List(fields.String())
 
 
 class ArangoYetiConnector(AbstractYetiConnector):
@@ -132,8 +133,15 @@ class ArangoYetiConnector(AbstractYetiConnector):
         """Lists all objects.
 
         Returns:
-          An arango.cursor.Cursor object"""
-        return cls._schema(many=True).load(cls._get_collection().all()).data
+          An arango.cursor.Cursor object.
+        """
+        colname = cls._collection_name
+        objects = cls._db.aql.execute(
+            'FOR o IN {0:s} FILTER o.type =~ @type RETURN o'.format(colname),
+            bind_vars={
+                'type': cls.__name__.lower()
+            })
+        return cls._schema(many=True).load(objects).data
 
     @classmethod
     def get(cls, key):

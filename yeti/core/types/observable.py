@@ -8,7 +8,7 @@ from ..model.database import YetiObject, YetiSchema
 class ObservableSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Observable objects."""
     value = fields.String(required=True)
-    type = fields.Constant("observable")
+    type = fields.String()
 
     @post_load
     def load_observable(self, data):
@@ -19,7 +19,8 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        object_ = self.constructor(**data)
+        datatype = DATATYPES[data['type']]
+        object_ = datatype(**data)
         object_.normalize()
         return object_
 
@@ -37,6 +38,7 @@ class Observable(YetiObject):
 
     id = None
     value = None
+    type = 'observable'
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -56,4 +58,9 @@ class Observable(YetiObject):
     def normalize(self):
         pass
 
-ObservableSchema.constructor = Observable
+from .hostname import Hostname
+
+DATATYPES = {
+    'observable': Observable,
+    'observable.hostname': Hostname,
+}

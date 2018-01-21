@@ -19,7 +19,7 @@ class HostnameSchema(ObservableSchema):
     """(De)serialization marshmallow.Schema for Hostname objects."""
     tld = fields.String(allow_none=True)
     idna = fields.String(allow_none=True)
-    type = fields.Constant("hostname")
+    type = fields.String()
 
 class Hostname(Observable):
     """Observable Yeti object.
@@ -29,8 +29,9 @@ class Hostname(Observable):
     """
 
     _schema = HostnameSchema
-    _collection_name = 'hostnames'
+    _collection_name = 'observables'
 
+    type = 'observable.hostname'
     idna = None
 
     def is_valid(self):
