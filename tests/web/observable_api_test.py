@@ -8,6 +8,7 @@ from yeti.webapp import app
 app.testing = True
 client = app.test_client()
 
+# pylint: disable=W0511
 # TODO: Consider using pytest-flask for easier testing flask stuff, e.g.:
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
