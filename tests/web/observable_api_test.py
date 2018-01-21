@@ -34,7 +34,7 @@ def test_get_notfound(clean_db):
 
 def test_post(clean_db):
     """Tests the creation of a new Observable via POST."""
-    observable_json = {'value': 'asd'}
+    observable_json = {'value': 'asd', 'type': 'observable'}
     rv = client.post('/api/observables/', data=observable_json)
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
