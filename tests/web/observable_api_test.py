@@ -21,14 +21,14 @@ def test_index(populated_db):
         assert isinstance(element['id'], int)
 
 def test_get(populated_db):
-    """Test fetching a given Observable by ID."""
+    """Test fetching single Observable by ID."""
     rv = client.get('/api/observables/1/')
     response = json.loads(rv.data)
     assert isinstance(response, dict)
     assert response['id'] == 1
 
 def test_get_notfound(clean_db):
-    """Test fetching a given Observable by ID."""
+    """Test error code when Observable does not exist."""
     rv = client.get('/api/observables/1/')
     assert rv.status_code == 404
 
