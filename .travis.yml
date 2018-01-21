@@ -14,12 +14,5 @@ before_install:
   - docker run -e ARANGO_ROOT_PASSWORD='' -d -p 8529:8529 --name db arangodb/arangodb:latest
   - docker run --link db:db waisbrot/wait
 
-install:
-  - pip install -r requirements.txt
-  - pip install codecov
-
 script:
-  - python -m pytest --cov=./
-
-after_success:
-  - codecov
+  - python setup.py test
