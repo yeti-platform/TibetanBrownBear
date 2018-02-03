@@ -14,7 +14,7 @@ def test_hostname_creation(clean_db):
     assert isinstance(obs, Hostname)
     assert obs.id is not None
 
-def test_hostname_attribuets(populated_db):
+def test_hostname_attributes(populated_db):
     """Tests that a created Hostname has all needed attributes."""
     allitems = Hostname.list()
     for hostname in allitems:
@@ -50,29 +50,16 @@ FAILING_TESTS = (
     ('yeti.org/'),
 )
 
-def test_hostname_normalization(clean_db):
-    """Tests that a Hostname's value is correctly normalized."""
-    for value, expected, _ in NORMALIZATION_TESTS:
-        obs = Hostname(value=value)
-        obs.normalize()
-        assert obs.value == expected
-
 def test_hostname_idna(clean_db):
-    """Tests that a Hostname's IDNA is correctly determined."""
-    for value, _, idna_value in NORMALIZATION_TESTS:
-        obs = Hostname(value=value)
-        obs.normalize()
-        assert obs.idna == idna_value
-
-def test_idna_to_hostname(clean_db):
-    """Tests that a Hostname's value will be the decoded IDNA if provided."""
-    for value, expected, _ in NORMALIZATION_TESTS:
+    """Tests that a Hostname's value and IDNA are correctly normalized."""
+    for value, expected, idna_value in NORMALIZATION_TESTS:
         obs = Hostname(value=value)
         obs.normalize()
         assert obs.value == expected
+        assert obs.idna == idna_value
 
 def test_hostname_fails(clean_db):
     """Test that invalid hostnames cannot be created."""
     for failing_value in FAILING_TESTS:
-        with pytest.raises(ValidationError) as _:
+        with pytest.raises(ValidationError):
             Hostname(value=failing_value)

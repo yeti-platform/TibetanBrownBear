@@ -3,7 +3,7 @@ import pytest
 from yeti.common.config import yeti_config
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
-# pylint: disable=C0413
+# pylint: disable=wrong-import-position
 from yeti.core.model.arango import db
 from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
@@ -12,7 +12,7 @@ from yeti.core.types.hostname import Hostname
 
 @pytest.fixture
 def clean_db():
-    # pylint: disable=W0212
+    # pylint: disable=protected-access
     # We need to access the collections to make sure they are in the cache
     Observable._get_collection()
     Hostname._get_collection()
@@ -24,7 +24,7 @@ def populated_db():
     db.clear()
     for num in range(10):
         # We need to control the keys with which objects are created
-        # pylint: disable=W0212
+        # pylint: disable=protected-access
         Observable._get_collection().insert({
             'value': 'asd{0:d}'.format(num),
             '_key': str(num),

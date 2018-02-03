@@ -45,5 +45,5 @@ def test_different_observable_types(populated_db):
 
 def test_empty_value(clean_db):
     """Tests that an observable with an empty value can't be created."""
-    with pytest.raises(ValidationError) as _:
+    with pytest.raises(ValidationError):
         Observable(value=None)
