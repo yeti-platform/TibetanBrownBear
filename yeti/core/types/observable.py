@@ -58,9 +58,6 @@ class Observable(YetiObject):
     def normalize(self):
         pass
 
-from .hostname import Hostname
-
 DATATYPES = {
     'observable': Observable,
-    'observable.hostname': Hostname,
 }
