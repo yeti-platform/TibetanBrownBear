@@ -2,12 +2,13 @@
 
 from marshmallow import fields, post_load
 
+from yeti.core.errors import ValidationError
 from ..model.database import YetiObject, YetiSchema
-
 
 class ObservableSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Observable objects."""
     value = fields.String(required=True)
+    type = fields.String()
 
     @post_load
     def load_observable(self, data):
@@ -18,26 +19,45 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        return Observable(**data)
+        datatype = DATATYPES[data['type']]
+        object_ = datatype(**data)
+        object_.normalize()
+        return object_
 
 
 class Observable(YetiObject):
     """Observable Yeti object.
 
-    Attribuets:
+    Attributes:
       key: Database primary key
       value: Observable value
     """
 
-    _collection_name = 'observable'
+    _collection_name = 'observables'
     _schema = ObservableSchema
 
     id = None
     value = None
+    type = 'observable'
 
     def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
-        self.value = kwargs['value']
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        self.is_valid()
 
-    # def __repr__(self):
-    #     return '<Observable(value={value!r})>'.format(value=self.value)
+    def __repr__(self):
+        return '<{type!r}(value={value!r})>'.format(
+            type=self.__class__.__name__,
+            value=self.value)
+
+    def is_valid(self):
+        if self.value is not None:
+            return True
+        raise ValidationError
+
+    def normalize(self):
+        pass
+
+DATATYPES = {
+    'observable': Observable,
+}

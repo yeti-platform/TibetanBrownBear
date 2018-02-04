@@ -8,11 +8,14 @@ from webargs.flaskparser import parser
 from yeti.core.types.observable import Observable
 from ..helpers import as_json, get_object_or_404
 
-searchargs = {'value': fields.Str(required=True)}
+searchargs = {
+    'value': fields.Str(required=True),
+    'type': fields.Str(),
+}
 
 postargs = {
     'key': fields.Str(required=True),
-    'value': fields.Str(required=True)
+    'value': fields.Str(required=True),
 }
 
 
