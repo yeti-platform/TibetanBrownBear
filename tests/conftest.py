@@ -7,6 +7,7 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 from yeti.core.model.arango import db
 from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
+from yeti.core.types.tag import Tag
 
 # Make sure we are not deleting the user's database when running tests
 
@@ -16,6 +17,7 @@ def clean_db():
     # We need to access the collections to make sure they are in the cache
     Observable._get_collection()
     Hostname._get_collection()
+    Tag._get_collection()
     db.clear()
 
 

@@ -47,3 +47,7 @@ def test_empty_value(clean_db):
     """Tests that an observable with an empty value can't be created."""
     with pytest.raises(ValidationError):
         Observable(value=None)
+
+def test_observable_formatting(clean_db):
+    obs = Observable(value='asd').save()
+    assert str(obs) == "<Observable(value='asd')>"

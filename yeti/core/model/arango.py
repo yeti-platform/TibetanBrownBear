@@ -126,7 +126,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
-        return self._schema().load(arangodoc).data
+        return self._schema(strict=True).load(arangodoc).data
 
     @classmethod
     def list(cls):
@@ -169,11 +169,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
               the regular expression to match against.
         """
         colname = cls._collection_name
-        objects = cls._db.aql.execute(
-            'FOR o IN {0:s} FILTER o.value =~ @value RETURN o'.format(colname),
-            bind_vars={
-                'value': args['value']
-            })
+        conditions = []
+        for key in args:
+            if key in ['value', 'name']:
+                conditions.append('o.{0:s} =~ @{0:s}'.format(key))
+        aql_string = """
+        FOR o IN {0:s} FILTER {1:s} RETURN o
+        """.format(colname, " OR ".join(conditions))
+        objects = cls._db.aql.execute(aql_string, bind_vars=args)
         return cls._schema(many=True).load(objects).data
 
     @classmethod
