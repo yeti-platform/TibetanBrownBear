@@ -1,4 +1,4 @@
-"""Detail the Yeti's Observable object structure."""
+"""Detail the Yeti's Tag object structure."""
 
 import re
 
@@ -12,7 +12,6 @@ from ..model.database import YetiObject, YetiSchema
 
 class RealTimeDelta(fields.Field):
     def _serialize(self, value, attr, obj):
-        # print(self, value, attr, obj)
         if value is None:
             value = timedelta(hours=24)
         return value.total_seconds()
@@ -22,7 +21,6 @@ class RealTimeDelta(fields.Field):
 
 class RealDateTime(fields.Field):
     def _serialize(self, value, attr, obj):
-        # print(self, value, attr, obj)
         if value is None:
             value = datetime.now(tz=pytz.utc)
         return value.isoformat()
