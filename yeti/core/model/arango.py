@@ -170,15 +170,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           A Yeti object.
         """
-        kwargs['type'] = cls.__name__.lower()
-        obj = cls._schema().load(kwargs).data
+        obj = cls(**kwargs)
         try:
             return obj.save()
         except DocumentInsertError as err:
             if not err.error_code == 1210: # Unique constraint violation
                 raise
             document = list(cls._get_collection().find(kwargs))[0]
-            return cls._schema().load(document).data
+            return cls._schema(strict=True).load(document).data
 
 
     @classmethod
