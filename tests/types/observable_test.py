@@ -41,6 +41,7 @@ def test_observables_list(populated_db):
     assert len(allitems) == 20
 
 def test_different_observable_types(populated_db):
+    """Tests that Observable objects are created with their respective types."""
     allitems = Observable.list()
     hostname_count = 0
     observable_count = 0
@@ -58,5 +59,6 @@ def test_empty_value(clean_db):
         Observable(value=None)
 
 def test_observable_formatting(clean_db):
+    """Tests that observables are formatted correctly when printed."""
     obs = Observable(value='asd').save()
     assert str(obs) == "<Observable(value='asd')>"

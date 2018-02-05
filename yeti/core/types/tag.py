@@ -40,6 +40,9 @@ class Tag(YetiObject):
     """
 
     _collection_name = 'tags'
+    _indexes = [
+        {'fields': ['name'], 'unique': True},
+    ]
     _schema = TagSchema
 
     id = None

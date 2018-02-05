@@ -67,7 +67,7 @@ class Observable(YetiObject):
         pass
 
     def tag(self, tag):
-        tag = Tag(name=tag).save()
+        tag = Tag.get_or_create(name=tag)
         if self.tags is None:
             self.tags = []
         now = datetime.utcnow()
@@ -80,6 +80,8 @@ class Observable(YetiObject):
 
         self.tags.append(reference)
         self.save()
+        tag.count += 1
+        tag.save()
 
 DATATYPES = {
     'observable': Observable,
