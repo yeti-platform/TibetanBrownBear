@@ -173,13 +173,11 @@ class ArangoYetiConnector(AbstractYetiConnector):
         kwargs['type'] = cls.__name__.lower()
         obj = cls._schema().load(kwargs).data
         try:
-            print("Trying to save", obj)
             return obj.save()
         except DocumentInsertError as err:
             if not err.error_code == 1210: # Unique constraint violation
                 raise
             document = list(cls._get_collection().find(kwargs))[0]
-            print("Duplicate value, returning object from db", document)
             return cls._schema().load(document).data
 
 
