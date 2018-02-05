@@ -13,6 +13,7 @@ class YetiObject(ArangoYetiConnector):
     """
 
     _schema = None
+    _indexes = []
 
     @classmethod
     def collection_name(cls):

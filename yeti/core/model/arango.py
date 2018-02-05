@@ -1,6 +1,6 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
-from arango.exceptions import DatabaseCreateError, CollectionCreateError
+from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
 from marshmallow import Schema, fields
 
 from yeti.common.config import yeti_config
@@ -158,6 +158,32 @@ class ArangoYetiConnector(AbstractYetiConnector):
         return None
 
     @classmethod
+    def get_or_create(cls, **kwargs):
+        """Fetches an object matching dict_ or creates it.
+
+        If an object matching kwargs is found, return the existing object. If
+        not, create it and return the newly created object.
+
+        Args:
+          **kwargs: Dictionary used to create the object.
+
+        Returns:
+          A Yeti object.
+        """
+        kwargs['type'] = cls.__name__.lower()
+        obj = cls._schema().load(kwargs).data
+        try:
+            print("Trying to save", obj)
+            return obj.save()
+        except DocumentInsertError as err:
+            if not err.error_code == 1210: # Unique constraint violation
+                raise
+            document = list(cls._get_collection().find(kwargs))[0]
+            print("Duplicate value, returning object from db", document)
+            return cls._schema().load(document).data
+
+
+    @classmethod
     def filter(cls, args):
         """Search in an ArangoDb collection.
 
@@ -183,6 +209,12 @@ class ArangoYetiConnector(AbstractYetiConnector):
     def _get_collection(cls):
         """Get the collection corresponding to this Yeti object class.
 
+        Ensures the collection is properly indexed.
+
         Returns:
-          The ArangoDB collection corresponding to the object class."""
-        return cls._db.collection(cls._collection_name)
+          The ArangoDB collection corresponding to the object class.
+        """
+        collection = cls._db.collection(cls._collection_name)
+        for index in cls._indexes:
+            collection.add_hash_index(**index)
+        return collection

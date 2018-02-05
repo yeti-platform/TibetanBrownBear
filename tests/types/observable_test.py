@@ -17,13 +17,22 @@ def test_observable_creation(clean_db):
     assert obs.id is not None
 
 
-def test_observable_fetch(clean_db):
+def test_observable_get(clean_db):
     """Tests fetching a single observable by id."""
     obs = Observable(value='asd').save()
     fetched_obs = Observable.get(obs.id)
     assert isinstance(fetched_obs, Observable)
     assert fetched_obs.id == obs.id
 
+def test_observable_get_or_create(populated_db):
+    """Tests the get_or_create function on observables."""
+    count = len(Observable.list())
+    first_object = Observable.get_or_create(value='asd0')
+    second_object = Observable.get_or_create(value='asd0')
+    assert count == len(Observable.list())
+    assert first_object.id == second_object.id
+    Observable.get_or_create(value='asd999')
+    assert count + 1 == len(Observable.list())
 
 def test_observables_list(populated_db):
     """Tests fetching all observables in the database."""
