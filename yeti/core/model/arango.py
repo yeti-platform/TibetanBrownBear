@@ -1,6 +1,6 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
-from arango.exceptions import DatabaseCreateError, CollectionCreateError
+from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
 from marshmallow import Schema, fields
 
 from yeti.common.config import yeti_config
@@ -126,7 +126,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
-        return self._schema().load(arangodoc).data
+        return self._schema(strict=True).load(arangodoc).data
 
     @classmethod
     def list(cls):
@@ -158,6 +158,29 @@ class ArangoYetiConnector(AbstractYetiConnector):
         return None
 
     @classmethod
+    def get_or_create(cls, **kwargs):
+        """Fetches an object matching dict_ or creates it.
+
+        If an object matching kwargs is found, return the existing object. If
+        not, create it and return the newly created object.
+
+        Args:
+          **kwargs: Dictionary used to create the object.
+
+        Returns:
+          A Yeti object.
+        """
+        obj = cls(**kwargs)
+        try:
+            return obj.save()
+        except DocumentInsertError as err:
+            if not err.error_code == 1210: # Unique constraint violation
+                raise
+            document = list(cls._get_collection().find(kwargs))[0]
+            return cls._schema(strict=True).load(document).data
+
+
+    @classmethod
     def filter(cls, args):
         """Search in an ArangoDb collection.
 
@@ -169,17 +192,26 @@ class ArangoYetiConnector(AbstractYetiConnector):
               the regular expression to match against.
         """
         colname = cls._collection_name
-        objects = cls._db.aql.execute(
-            'FOR o IN {0:s} FILTER o.value =~ @value RETURN o'.format(colname),
-            bind_vars={
-                'value': args['value']
-            })
+        conditions = []
+        for key in args:
+            if key in ['value', 'name']:
+                conditions.append('o.{0:s} =~ @{0:s}'.format(key))
+        aql_string = """
+        FOR o IN {0:s} FILTER {1:s} RETURN o
+        """.format(colname, " OR ".join(conditions))
+        objects = cls._db.aql.execute(aql_string, bind_vars=args)
         return cls._schema(many=True).load(objects).data
 
     @classmethod
     def _get_collection(cls):
         """Get the collection corresponding to this Yeti object class.
 
+        Ensures the collection is properly indexed.
+
         Returns:
-          The ArangoDB collection corresponding to the object class."""
-        return cls._db.collection(cls._collection_name)
+          The ArangoDB collection corresponding to the object class.
+        """
+        collection = cls._db.collection(cls._collection_name)
+        for index in cls._indexes:
+            collection.add_hash_index(**index)
+        return collection

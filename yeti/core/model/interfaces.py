@@ -55,6 +55,19 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @classmethod
+    @abstractmethod
+    def get_or_create(cls, **kwargs):
+        """Fetches an object matching dict_ or creates it.
+
+        Args:
+          **kwargs: Key-value dictionary used to create the object.
+
+        Returns:
+          A Yeti object.
+        """
+        raise NotImplementedError
+
+    @classmethod
     def filter(cls, args):
         """Filters objects according to args.
 

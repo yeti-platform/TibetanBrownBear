@@ -58,4 +58,3 @@ class Hostname(Observable):
         self.idna = idna.encode(self.value)
 
 DATATYPES['observable.hostname'] = Hostname
-HostnameSchema.constructor = Hostname

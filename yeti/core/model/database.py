@@ -13,16 +13,7 @@ class YetiObject(ArangoYetiConnector):
     """
 
     _schema = None
-
-    @classmethod
-    def collection_name(cls):
-        """Return the collection or table name corresponding to this class.
-
-        Returns;
-          A string representing the collection name.
-        """
-        return cls._collection_name or cls.__name__.lower()
-
+    _indexes = []
 
 class YetiSchema(ArangoYetiSchema):
     """Generic (de)serialization marshmallow.Schema object for Yeti objects."""

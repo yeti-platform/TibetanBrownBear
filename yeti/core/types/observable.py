@@ -1,14 +1,18 @@
 """Detail the Yeti's Observable object structure."""
 
+from datetime import datetime
+
 from marshmallow import fields, post_load
 
 from yeti.core.errors import ValidationError
 from ..model.database import YetiObject, YetiSchema
+from .tag import Tag, TagReference, TagReferenceSchema
 
 class ObservableSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Observable objects."""
     value = fields.String(required=True)
     type = fields.String()
+    tags = fields.Nested(TagReferenceSchema, many=True, allow_none=True)
 
     @post_load
     def load_observable(self, data):
@@ -34,11 +38,15 @@ class Observable(YetiObject):
     """
 
     _collection_name = 'observables'
+    _indexes = [
+        {'fields': ['value'], 'unique': True},
+    ]
     _schema = ObservableSchema
 
     id = None
     value = None
     type = 'observable'
+    tags = None
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -46,7 +54,7 @@ class Observable(YetiObject):
         self.is_valid()
 
     def __repr__(self):
-        return '<{type!r}(value={value!r})>'.format(
+        return '<{type:s}(value={value!r})>'.format(
             type=self.__class__.__name__,
             value=self.value)
 
@@ -57,6 +65,23 @@ class Observable(YetiObject):
 
     def normalize(self):
         pass
+
+    def tag(self, tag):
+        tag = Tag.get_or_create(name=tag)
+        if self.tags is None:
+            self.tags = []
+        now = datetime.utcnow()
+        reference = TagReference(
+            name=tag.name,
+            expiration=now + tag.default_expiration,
+            fresh=True,
+            first_seen=now,
+            last_seen=now)
+
+        self.tags.append(reference)
+        self.save()
+        tag.count += 1
+        tag.save()
 
 DATATYPES = {
     'observable': Observable,
