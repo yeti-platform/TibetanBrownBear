@@ -57,4 +57,4 @@ class Hostname(Observable):
         self.value = idna.decode(self.value)
         self.idna = idna.encode(self.value)
 
-DATATYPES['observable.hostname'] = Hostname
+DATATYPES[Hostname.type] = Hostname
