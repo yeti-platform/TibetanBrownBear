@@ -14,7 +14,7 @@ def test_hostname_creation(clean_db):
     assert isinstance(obs, Hostname)
     assert obs.id is not None
 
-def test_hostname_attributes(populated_db):
+def test_hostname_attributes(clean_db, populate_hostnames):
     """Tests that a created Hostname has all needed attributes."""
     allitems = Hostname.list()
     for hostname in allitems:
@@ -28,7 +28,7 @@ def test_hostname_fetch(clean_db):
     assert isinstance(fetched_obs, Hostname)
     assert fetched_obs.id == obs.id
 
-def test_hostnames_list(populated_db):
+def test_hostnames_list(clean_db, populate_hostnames):
     """Tests fetching all hostnames in the database."""
     allitems = Hostname.list()
     assert isinstance(allitems[0], Hostname)

@@ -22,11 +22,17 @@ def clean_db():
 
 
 @pytest.fixture
-def populated_db():
-    db.clear()
+def populate_observables():
     observables = []
     for num in range(10):
         obs = Observable.get_or_create(value='asd{0:d}'.format(num))
-        hostname = Hostname.get_or_create(value='asd{0:d}.com'.format(num))
-        observables.extend([obs, hostname])
+        observables.append(obs)
     return observables
+
+@pytest.fixture
+def populate_hostnames():
+    hostnames = []
+    for num in range(10):
+        hostname = Hostname.get_or_create(value='asd{0:d}.com'.format(num))
+        hostnames.append(hostname)
+    return hostnames
