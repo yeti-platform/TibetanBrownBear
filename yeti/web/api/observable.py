@@ -5,6 +5,7 @@ from flask_classful import FlaskView, route
 from marshmallow import fields
 from webargs.flaskparser import parser
 
+from yeti.core.errors import ValidationError
 from yeti.core.types.observable import Observable
 from ..helpers import as_json, get_object_or_404
 
@@ -52,7 +53,11 @@ class ObservableResource(FlaskView):
             A JSON representation of the saved Observable.
         """
         args = parser.parse(searchargs, request)
-        return Observable.load(args).save()
+        try:
+            obs = Observable.load(args).save()
+        except ValidationError as err:
+            return err, 400
+        return obs
 
     @as_json(Observable)
     @route('/<id>/', methods=["PUT"])
