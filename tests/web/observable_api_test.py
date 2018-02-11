@@ -3,7 +3,6 @@
 
 import json
 
-from yeti.core.types.observable import Observable
 from yeti.webapp import app
 
 app.testing = True

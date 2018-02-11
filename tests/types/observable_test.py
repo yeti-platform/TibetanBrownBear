@@ -16,7 +16,6 @@ def test_observable_creation(clean_db):
     assert isinstance(obs, Observable)
     assert obs.id is not None
 
-
 def test_observable_get(clean_db):
     """Tests fetching a single observable by id."""
     obs = Observable(value='asd').save()
