@@ -29,5 +29,4 @@ def populated_db():
         obs = Observable.get_or_create(value='asd{0:d}'.format(num))
         hostname = Hostname.get_or_create(value='asd{0:d}.com'.format(num))
         observables.extend([obs, hostname])
-        obs.tag('yeti')
     return observables
