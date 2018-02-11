@@ -3,6 +3,7 @@
 
 import json
 
+from yeti.core.types.observable import Observable
 from yeti.webapp import app
 
 app.testing = True
@@ -23,10 +24,10 @@ def test_index(populated_db):
 
 def test_get(populated_db):
     """Test fetching single Observable by ID."""
-    rv = client.get('/api/observables/1/')
+    rv = client.get('/api/observables/{0:d}/'.format(populated_db[0].id))
     response = json.loads(rv.data)
     assert isinstance(response, dict)
-    assert response['id'] == 1
+    assert response['id'] == populated_db[0].id
 
 def test_get_notfound(clean_db):
     """Test error code when Observable does not exist."""
@@ -42,7 +43,7 @@ def test_post(clean_db):
 
 def test_put(populated_db):
     """Tests updating a new Observable via PUT."""
-    rv = client.get('/api/observables/1/')
+    rv = client.get('/api/observables/{0:d}/'.format(populated_db[0].id))
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
                     data={'value': 'qwe'})

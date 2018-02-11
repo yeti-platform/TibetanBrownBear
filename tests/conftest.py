@@ -24,18 +24,10 @@ def clean_db():
 @pytest.fixture
 def populated_db():
     db.clear()
+    observables = []
     for num in range(10):
-        # We need to control the keys with which objects are created
-        # pylint: disable=protected-access
-        Observable._get_collection().insert({
-            'value': 'asd{0:d}'.format(num),
-            '_key': str(num),
-            'type': 'observable',
-        })
-        Hostname._get_collection().insert({
-            'value': 'asd{0:d}.com'.format(num),
-            '_key': str(num+10),
-            'tld': 'com',
-            'type': 'observable.hostname',
-            'idna': 'asd{0:d}.com'.format(num),
-        })
+        obs = Observable.get_or_create(value='asd{0:d}'.format(num))
+        hostname = Hostname.get_or_create(value='asd{0:d}.com'.format(num))
+        observables.extend([obs, hostname])
+        obs.tag('yeti')
+    return observables
