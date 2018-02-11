@@ -24,6 +24,12 @@ def test_tag_creation_on_tag(clean_db):
     tag_name = obs.tags[0].name
     assert len(Tag.filter({'name': tag_name})) == 1
 
+def test_tagref_creation(clean_db):
+    obs = Observable.get_or_create(value='asd')
+    obs.tag('yeti')
+    obs = Observable.get_or_create(value='asd')
+    assert obs.tags[0].name == 'yeti'
+
 def test_tag_count_update(clean_db):
     """Tests that tagging an observable increases the global tag number."""
     obs = Observable(value='asd').save()
