@@ -5,6 +5,8 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 # pylint: disable=wrong-import-position
 from yeti.core.model.arango import db
+from yeti.core.entities.entity import Entity
+from yeti.core.entities.malware import Malware
 from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
 from yeti.core.types.tag import Tag
@@ -15,6 +17,8 @@ from yeti.core.types.tag import Tag
 def clean_db():
     # pylint: disable=protected-access
     # We need to access the collections to make sure they are in the cache
+    Entity._get_collection()
+    Malware._get_collection()
     Observable._get_collection()
     Hostname._get_collection()
     Tag._get_collection()
@@ -36,3 +40,22 @@ def populate_hostnames():
         hostname = Hostname.get_or_create(value='asd{0:d}.com'.format(num))
         hostnames.append(hostname)
     return hostnames
+
+
+@pytest.fixture
+def populate_entities():
+    entities = []
+    for num in range(10):
+        entity = Entity.get_or_create(name='entity{0:d}'.format(num))
+        entities.append(entity)
+    return entities
+
+@pytest.fixture
+def populate_malware():
+    m1 = Malware(name='Gootkit').save()
+    m1.family = ['banker', 'trojan']
+    m1.save()
+    m2 = Malware(name='Sofacy').save()
+    m2.family = ['trojan']
+    m2.save()
+    return [m1, m2]
