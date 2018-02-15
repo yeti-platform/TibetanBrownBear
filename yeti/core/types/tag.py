@@ -76,12 +76,6 @@ class TagReferenceSchema(YetiSchema):
     first_seen = fields.DateTime(default=datetime.utcnow)
     last_seen = fields.DateTime(default=datetime.utcnow)
 
-    name = None
-    expiration = None
-    fresh = None
-    first_seen = None
-    last_seen = None
-
     @post_load
     def load_tag(self, data):
         """Load a TagReference object from its JSON representation.
@@ -112,3 +106,6 @@ class TagReference(YetiObject):
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+    def __repr__(self):
+        return '<TagRef({name!r})>'.format(name=self.name)

@@ -67,21 +67,36 @@ class Observable(YetiObject):
         pass
 
     def tag(self, tag):
-        tag = Tag.get_or_create(name=tag)
         if self.tags is None:
             self.tags = []
         now = datetime.utcnow()
-        reference = TagReference(
-            name=tag.name,
-            expiration=now + tag.default_expiration,
-            fresh=True,
-            first_seen=now,
-            last_seen=now)
 
-        self.tags.append(reference)
+        # NOTE: This may be a bit complex for large amounts of tagrefs in a
+        # single observable. Maybe use custom DictFields for TagRefs or similar?
+        # See https://github.com/marshmallow-code/marshmallow/issues/432
+        # for possible solution.
+
+        for tagref_ in self.tags:
+            if tagref_.name == tag:
+                # Tag is found, update .last_seen and .fresh
+                tagref = tagref_
+                tagref.last_seen = now
+                tagref.fresh = True
+                break
+        else:
+            tag = Tag.get_or_create(name=tag)
+            # Tag was not found, create new TagReference, update tag count
+            tagref = TagReference(
+                name=tag.name,
+                expiration=now + tag.default_expiration,
+                fresh=True,
+                first_seen=now,
+                last_seen=now)
+            self.tags.append(tagref)
+            tag.count += 1
+            tag.save()
+
         self.save()
-        tag.count += 1
-        tag.save()
 
 DATATYPES = {
     'observable': Observable,
