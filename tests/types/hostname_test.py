@@ -22,14 +22,14 @@ def test_hostname_attributes(clean_db, populate_hostnames):
         assert hostname.idna is not None
 
 def test_hostname_fetch(clean_db):
-    """Tests fetching a single hostname by id."""
+    """Tests that a fetched Hostname is of the correct type."""
     obs = Hostname(value='asd.com').save()
     fetched_obs = Hostname.get(obs.id)
     assert isinstance(fetched_obs, Hostname)
     assert fetched_obs.id == obs.id
 
 def test_hostnames_list(clean_db, populate_hostnames):
-    """Tests fetching all hostnames in the database."""
+    """Tests fetching all Hostnames in the database."""
     allitems = Hostname.list()
     assert isinstance(allitems[0], Hostname)
     assert len(allitems) == 10
