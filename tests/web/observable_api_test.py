@@ -56,6 +56,16 @@ def test_filter(clean_db, populate_observables):
     response = json.loads(rv.data)
     assert len(response) == 5
 
+def test_subclass_serialization(clean_db, populate_observables, populate_hostnames):
+    observable_json = {'value': 'asd[0-4]'}
+    rv = client.post('/api/observables/filter/', data=observable_json)
+    response = json.loads(rv.data)
+    for item in response:
+        if item['type'] == 'observable.hostname':
+            assert item.get('idna', None) is not None
+        else:
+            assert item.get('idna', None) is None
+
 def test_tag(populate_observables):
     uri = '/api/observables/{0:d}/tag'.format(populate_observables[0].id)
     rv = client.post(uri, data={'tags': ['tag1']})

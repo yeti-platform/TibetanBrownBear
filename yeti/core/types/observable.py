@@ -99,5 +99,5 @@ class Observable(YetiObject):
         self.save()
 
 DATATYPES = {
-    'observable': Observable,
+    Observable.type: Observable,
 }
