@@ -19,7 +19,7 @@ class EntitySchema(YetiSchema):
         Returns:
           The Entity object.
         """
-        datatype = DATATYPES[data['type']]
+        datatype = Entity.datatypes.get(data['type'], Entity)
         object_ = datatype(**data)
         return object_
 
@@ -36,6 +36,7 @@ class Entity(YetiObject):
         {'fields': ['name'], 'unique': True},
     ]
     _schema = EntitySchema
+    datatypes = {}
 
     id = None
     name = None
@@ -55,7 +56,3 @@ class Entity(YetiObject):
         if not isinstance(self.name, str):
             raise ValidationError(".name must be a string.")
         return True
-
-DATATYPES = {
-    'entity': Entity,
-}

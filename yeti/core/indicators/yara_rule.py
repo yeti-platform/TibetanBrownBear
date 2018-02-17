@@ -5,12 +5,11 @@ import yara
 
 from yeti.core.errors import ValidationError
 from .indicator import Indicator, IndicatorSchema
-from .indicator import DATATYPES
 
 
 class YaraRuleSchema(IndicatorSchema):
     """(De)serialization marshmallow.Schema for Malware objects."""
-    pattern = fields.String(required=True)
+    pattern = fields.String(required=True, allow_none=True)
 
     @post_load
     def load_yara_rule(self, rule_object):
@@ -35,7 +34,7 @@ class YaraRule(Indicator):
     _collection_name = 'indicators'
 
     type = 'indicator.yararule'
-    pattern = None
+    pattern = ''
     compiled_rule = None
 
     def is_valid(self):
@@ -49,4 +48,4 @@ class YaraRule(Indicator):
                 'Could not compile yara rule: {0:s}'.format(str(err)))
         return True
 
-DATATYPES[YaraRule.type] = YaraRule
+Indicator.datatypes[YaraRule.type] = YaraRule

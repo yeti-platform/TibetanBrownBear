@@ -9,7 +9,6 @@ from tldextract import extract
 from yeti.core.helpers import refang
 from yeti.core.errors import ValidationError
 from .observable import Observable, ObservableSchema
-from .observable import DATATYPES
 
 MAIN_REGEX = r'[-.\w[\]]+\[?\.\]?[\w]+'
 FULL_REGEX = r'(?P<pre>\W?)(?P<search>' + MAIN_REGEX + r')(?P<post>\W?)'
@@ -57,4 +56,4 @@ class Hostname(Observable):
         self.value = idna.decode(self.value)
         self.idna = idna.encode(self.value)
 
-DATATYPES[Hostname.type] = Hostname
+Observable.datatypes[Hostname.type] = Hostname

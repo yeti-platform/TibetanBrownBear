@@ -141,7 +141,12 @@ class ArangoYetiConnector(AbstractYetiConnector):
             bind_vars={
                 'type': cls.__name__.lower()
             })
-        return cls._schema(many=True).load(objects).data
+
+        yeti_objects = []
+        for obj in objects:
+            objtype = cls.datatypes.get(obj['type'], cls)
+            yeti_objects.append(objtype._schema().load(obj).data)
+        return yeti_objects
 
     @classmethod
     def get(cls, key):

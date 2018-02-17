@@ -19,7 +19,7 @@ class IndicatorSchema(YetiSchema):
         Returns:
           The Indicator object.
         """
-        datatype = DATATYPES[data['type']]
+        datatype = Indicator.datatypes.get(data['type'], Indicator)
         object_ = datatype(**data)
         return object_
 
@@ -36,6 +36,7 @@ class Indicator(YetiObject):
         {'fields': ['name'], 'unique': True},
     ]
     _schema = IndicatorSchema
+    datatypes = {}
 
     id = None
     name = None
@@ -55,7 +56,3 @@ class Indicator(YetiObject):
         if not isinstance(self.name, str):
             raise ValidationError(".name must be a string.")
         return True
-
-DATATYPES = {
-    'indicator': Indicator,
-}

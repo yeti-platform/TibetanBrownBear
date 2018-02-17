@@ -23,7 +23,7 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        datatype = DATATYPES[data['type']]
+        datatype = Observable.datatypes.get(data['type'], Observable)
         object_ = datatype(**data)
         object_.normalize()
         return object_
@@ -42,11 +42,13 @@ class Observable(YetiObject):
         {'fields': ['value'], 'unique': True},
     ]
     _schema = ObservableSchema
+    datatypes = {}
 
     id = None
     value = None
     type = 'observable'
     tags = None
+
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -97,7 +99,3 @@ class Observable(YetiObject):
             tag.save()
 
         self.save()
-
-DATATYPES = {
-    Observable.type: Observable,
-}
