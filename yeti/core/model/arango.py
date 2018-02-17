@@ -2,6 +2,8 @@
 from arango import ArangoClient
 from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
 from marshmallow import Schema, fields
+from marshmallow.exceptions import ValidationError as MarshmallowValidationError
+from yeti.core.errors import ValidationError
 
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
@@ -76,7 +78,6 @@ class ArangoYetiSchema(Schema):
     """
 
     id = fields.Int(load_from='_key', dump_to='_key')
-    type = fields.List(fields.String())
 
 
 class ArangoYetiConnector(AbstractYetiConnector):
@@ -84,15 +85,19 @@ class ArangoYetiConnector(AbstractYetiConnector):
     _db = db
 
     @classmethod
-    def load(cls, args):
+    def load(cls, args, strict=False):
         """Loads data from a dictionary into the corresponding YetiObject.
 
         Args:
           args: key:value dictionary with which to populate fields in the
               YetiObject
         """
-        ismany = isinstance(args, list)
-        return cls.schema(many=ismany).load(args).data
+        try:
+            if isinstance(args, list):
+                return [cls.load_object_from_type(doc, strict=strict) for doc in args]
+            return cls.load_object_from_type(args, strict=strict)
+        except MarshmallowValidationError as e:
+            raise ValidationError(e.messages)
 
     def dump(self):
         """Dumps a Yeti object into a JSON representation.
@@ -106,7 +111,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     @classmethod
     def dump_many(cls, objects):
-        data = cls.schema(many=True).dump(objects).data
+        data = [obj.dump() for obj in objects]
         for element in data:
             element['id'] = element.pop('_key')
         return data

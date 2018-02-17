@@ -1,8 +1,8 @@
 """Interface definition for Yeti DB connectors."""
 
 
+from yeti.core.errors import ValidationError
 from .arango import ArangoYetiConnector, ArangoYetiSchema
-
 
 class YetiObject(ArangoYetiConnector):
     """Generic Yeti object.
@@ -28,4 +28,7 @@ class YetiObject(ArangoYetiConnector):
 
 class YetiSchema(ArangoYetiSchema):
     """Generic (de)serialization marshmallow.Schema object for Yeti objects."""
-    pass
+
+    def handle_error(self, exc, data):  #pylint: disable=arguments-differ
+        """Log and raise our custom exception when (de)serialization fails."""
+        raise ValidationError(exc.messages)

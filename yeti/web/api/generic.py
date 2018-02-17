@@ -43,10 +43,11 @@ class GenericResource(FlaskView):
         """
         args = parser.parse(self.searchargs, request)
         try:
-            obs = self.resource_object.load(args).save()
+            print(args)
+            schema = self.resource_object.get_realschema(args)(strict=True)
+            return parser.parse(schema, request).save()
         except ValidationError as err:
             return err, 400
-        return obs
 
     @as_json
     @route('/<id>/', methods=["PUT"])

@@ -10,7 +10,7 @@ class AbstractYetiConnector(ABC):
 
     @classmethod
     @abstractmethod
-    def load(cls, args):
+    def load(cls, args, strict=False):
         """Load a YetiObject from its JSON representation."""
         raise NotImplementedError
 
