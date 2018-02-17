@@ -8,6 +8,10 @@ from yeti.core.errors import ValidationError
 from ..helpers import as_json, get_object_or_404
 
 
+@parser.error_handler
+def handle_args(err):
+    raise ValidationError(err.messages)
+
 class GenericResource(FlaskView):
     """Class describing resources to manipulate objects."""
 
@@ -41,9 +45,8 @@ class GenericResource(FlaskView):
         Returns:
             A JSON representation of the saved object.
         """
-        args = parser.parse(self.searchargs, request)
         try:
-            print(args)
+            args = parser.parse(self.searchargs, request)
             schema = self.resource_object.get_realschema(args)(strict=True)
             return parser.parse(schema, request).save()
         except ValidationError as err:

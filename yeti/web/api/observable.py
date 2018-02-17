@@ -5,9 +5,13 @@ from flask_classful import route
 from webargs.flaskparser import parser
 
 from yeti.core.types.observable import Observable
+from yeti.core.errors import ValidationError
 from .generic import GenericResource
 from ..helpers import as_json, get_object_or_404
 
+@parser.error_handler
+def handle_args(err):
+    raise ValidationError(err.messages)
 
 class ObservableResource(GenericResource):
     """Class describing resources to manipulate Observable objects."""
