@@ -1,12 +1,8 @@
-"""API resources for interacting with Observables."""
+"""API resources for interacting with Entities."""
 from marshmallow import fields
-# from flask import request
-# from flask_classful import route
-# from webargs.flaskparser import parser
 
 from yeti.core.entities.entity import Entity
 from .generic import GenericResource
-# from ..helpers import as_json, get_object_or_404
 
 
 class EntityResource(GenericResource):
@@ -18,8 +14,4 @@ class EntityResource(GenericResource):
     searchargs = {
         'name': fields.Str(required=True),
         'type': fields.Str(),
-    }
-
-    tagargs = {
-        'tags': fields.List(fields.String(), required=True),
     }
