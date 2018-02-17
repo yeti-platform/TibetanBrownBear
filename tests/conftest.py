@@ -78,3 +78,10 @@ TEST_RULE = """rule yeti_rule
 def populate_yara_rules():
     y1 = YaraRule(name='MZ', pattern=TEST_RULE).save()
     return [y1]
+
+@pytest.fixture
+def populate_all():
+    clean_db()
+    populate_hostnames()
+    populate_malware()
+    populate_yara_rules()
