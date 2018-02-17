@@ -5,6 +5,7 @@ from flask_classful import FlaskView, route
 from marshmallow import fields
 from webargs.flaskparser import parser
 
+from yeti.core.errors import ValidationError
 from yeti.core.types.observable import Observable
 from ..helpers import as_json, get_object_or_404
 
@@ -13,9 +14,8 @@ searchargs = {
     'type': fields.Str(),
 }
 
-postargs = {
-    'key': fields.Str(required=True),
-    'value': fields.Str(required=True),
+tagargs = {
+    'tags': fields.List(fields.String(), required=True),
 }
 
 
@@ -30,8 +30,7 @@ class ObservableResource(FlaskView):
         return Observable.list()
 
     @as_json(Observable)
-    # pylint: disable=W0622
-    def get(self, id):
+    def get(self, id):  # pylint: disable=redefined-builtin
         """Fetch a single observable from the database.
 
         Args:
@@ -52,13 +51,16 @@ class ObservableResource(FlaskView):
             A JSON representation of the saved Observable.
         """
         args = parser.parse(searchargs, request)
-        return Observable.load(args).save()
+        try:
+            obs = Observable.load(args).save()
+        except ValidationError as err:
+            return err, 400
+        return obs
 
     @as_json(Observable)
     @route('/<id>/', methods=["PUT"])
-    # pylint: disable=W0622
-    def put(self, id):
-        """Creates a new Observable.
+    def put(self, id):  # pylint: disable=redefined-builtin
+        """Updates a given Observable.
 
         Args:
             id: The Observable object's primary ID.
@@ -70,6 +72,24 @@ class ObservableResource(FlaskView):
         args = parser.parse(searchargs, request)
         observable = get_object_or_404(Observable, id)
         return observable.update(args).save()
+
+    @as_json(Observable)
+    @route('/<id>/tag', methods=['POST'])
+    def tag(self, id):  # pylint: disable=redefined-builtin
+        """Updates a given Observable.
+
+        Args:
+            id: The Observable object's primary ID.
+
+        Returns:
+            A JSON representation of the requested Observable, or a 404 HTTP
+            status code if the Observable cannot be found.
+        """
+        args = parser.parse(tagargs, request)
+        observable = get_object_or_404(Observable, id)
+        for tag in args['tags']:
+            observable.tag(tag)
+        return observable
 
 
     @route('/filter/', methods=["POST"])

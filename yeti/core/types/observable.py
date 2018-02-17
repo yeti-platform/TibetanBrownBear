@@ -61,7 +61,7 @@ class Observable(YetiObject):
     def is_valid(self):
         if self.value is not None:
             return True
-        raise ValidationError
+        raise ValidationError("`value` must be provided.")
 
     def normalize(self):
         pass

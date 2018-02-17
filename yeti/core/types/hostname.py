@@ -38,7 +38,7 @@ class Hostname(Observable):
     def is_valid(self):
         match = COMPILED_FULL_REGEX.match(self.value)
         if not match:
-            raise ValidationError
+            raise ValidationError("Provided hostname did not match regexp.")
 
         if match.group('pre') != '/' and match.group('post') != '/':
             value = refang(match.group('search'))
@@ -47,7 +47,7 @@ class Hostname(Observable):
                 if parts.suffix and parts.domain:
                     return True
 
-        raise ValidationError
+        raise ValidationError("Invalid hostname.")
 
     def normalize(self):
         self.value = refang(self.value.lower())
@@ -57,4 +57,4 @@ class Hostname(Observable):
         self.value = idna.decode(self.value)
         self.idna = idna.encode(self.value)
 
-DATATYPES['observable.hostname'] = Hostname
+DATATYPES[Hostname.type] = Hostname

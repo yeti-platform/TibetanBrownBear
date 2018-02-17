@@ -23,7 +23,7 @@ def test_observable_get(clean_db):
     assert isinstance(fetched_obs, Observable)
     assert fetched_obs.id == obs.id
 
-def test_observable_get_or_create(populated_db):
+def test_observable_get_or_create(clean_db, populate_observables):
     """Tests the get_or_create function on observables."""
     count = len(Observable.list())
     first_object = Observable.get_or_create(value='asd0')
@@ -33,13 +33,13 @@ def test_observable_get_or_create(populated_db):
     Observable.get_or_create(value='asd999')
     assert count + 1 == len(Observable.list())
 
-def test_observables_list(populated_db):
+def test_observables_list(clean_db, populate_observables):
     """Tests fetching all observables in the database."""
     allitems = Observable.list()
     assert isinstance(allitems[0], Observable)
-    assert len(allitems) == 20
+    assert len(allitems) == 10
 
-def test_different_observable_types(populated_db):
+def test_different_observable_types(clean_db, populate_hostnames, populate_observables):
     """Tests that Observable objects are created with their respective types."""
     allitems = Observable.list()
     hostname_count = 0
