@@ -48,17 +48,6 @@ class Observable(YetiObject):
     type = 'observable'
     tags = None
 
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.is_valid()
-
-    def __repr__(self):
-        return '<{type:s}(value={value!r})>'.format(
-            type=self.__class__.__name__,
-            value=self.value)
-
     def is_valid(self):
         if self.value is not None:
             return True

@@ -4,7 +4,7 @@ from flask import request
 from webargs.flaskparser import parser
 from flask_classful import FlaskView, route
 
-from yeti.core.errors import GenericYetiError
+from yeti.core.errors import GenericYetiError, ValidationError
 from ..helpers import as_json, get_object_or_404
 
 
@@ -37,7 +37,7 @@ class GenericResource(FlaskView):
         """
         return get_object_or_404(self.resource_object, id)
 
-    @route('/', methods=["POST"])
+    @route('/', methods=['POST'])
     @as_json
     def post(self):
         """Creates a new object.
@@ -53,7 +53,7 @@ class GenericResource(FlaskView):
             return err, 400
 
     @as_json
-    @route('/<id>/', methods=["PUT"])
+    @route('/<id>/', methods=['PUT'])
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a given object.
 
@@ -68,7 +68,7 @@ class GenericResource(FlaskView):
         obj = get_object_or_404(self.resource_object, id)
         return obj.update(args).save()
 
-    @route('/filter/', methods=["POST"])
+    @route('/filter/', methods=['POST'])
     @as_json
     def filter(self):
         """Search the database for object with specific fields."""

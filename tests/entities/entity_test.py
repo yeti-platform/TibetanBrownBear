@@ -60,4 +60,4 @@ def test_entitys_list(clean_db, populate_entities):
 def test_entity_formatting(clean_db, populate_entities):
     """Tests correct entity formatting to string."""
     ent = Entity(name='asd').save()
-    assert str(ent) == "<Entity(name='asd')>"
+    assert str(ent) == "<Entity('asd')>"

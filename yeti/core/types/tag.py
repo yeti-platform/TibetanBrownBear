@@ -51,10 +51,6 @@ class Tag(YetiObject):
     created_at = None
     default_expiration = None
 
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
     def __repr__(self):
         return '<Tag({name!r})>'.format(name=self.name)
 
@@ -102,10 +98,6 @@ class TagReference(YetiObject):
     last_seen = None
 
     schema = TagReferenceSchema
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
 
     def __repr__(self):
         return '<TagRef({name!r})>'.format(name=self.name)

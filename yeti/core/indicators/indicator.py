@@ -41,16 +41,6 @@ class Indicator(YetiObject):
     name = None
     type = 'indicator'
 
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.is_valid()
-
-    def __repr__(self):
-        return '<{type:s}(name={name!r})>'.format(
-            type=self.__class__.__name__,
-            name=self.name)
-
     def is_valid(self):
         if not isinstance(self.name, str):
             raise ValidationError(".name must be a string.")

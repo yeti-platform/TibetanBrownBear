@@ -16,6 +16,16 @@ class YetiObject(ArangoYetiConnector):
     _indexes = []
     datatypes = {}
 
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        self.is_valid()
+
+    def __repr__(self):
+        return '<{type:s}({key!r})>'.format(
+            type=self.__class__.__name__,
+            key=self.value if hasattr(self, 'value') else self.name)
+
     @classmethod
     def load_object_from_type(cls, obj, strict=False):
         objtype = cls.datatypes.get(obj.get('type'), cls)
@@ -24,6 +34,9 @@ class YetiObject(ArangoYetiConnector):
     @classmethod
     def get_realschema(cls, obj):
         return cls.datatypes.get(obj.get('type'), cls).schema
+
+    def is_valid(self):
+        return True
 
 
 class YetiSchema(ArangoYetiSchema):

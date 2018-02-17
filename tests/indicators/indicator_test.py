@@ -14,4 +14,4 @@ def test_invalid_indicator_name(clean_db):
 def test_indicator_formatting(clean_db, populate_entities):
     """Tests correct indicator formatting to string."""
     ent = Indicator(name='asd').save()
-    assert str(ent) == "<Indicator(name='asd')>"
+    assert str(ent) == "<Indicator('asd')>"

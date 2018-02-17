@@ -7,7 +7,7 @@ from .entity import EntityResource
 from .indicator import IndicatorResource
 
 
-blueprint = Blueprint("api", __name__)
+blueprint = Blueprint('api', __name__)
 
 ObservableResource.register(blueprint)
 EntityResource.register(blueprint)

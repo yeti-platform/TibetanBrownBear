@@ -60,4 +60,4 @@ def test_empty_value(clean_db):
 def test_observable_formatting(clean_db):
     """Tests that observables are formatted correctly when printed."""
     obs = Observable(value='asd').save()
-    assert str(obs) == "<Observable(value='asd')>"
+    assert str(obs) == "<Observable('asd')>"

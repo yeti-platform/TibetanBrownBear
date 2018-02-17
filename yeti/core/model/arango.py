@@ -190,7 +190,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         obj = cls(**kwargs)
         try:
             return obj.save()
-        except IntegrityError as err:
+        except IntegrityError:
             document = list(cls._get_collection().find(kwargs))[0]
             return cls.load_object_from_type(document, strict=True)
 
