@@ -3,7 +3,7 @@ from arango import ArangoClient
 from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
-from yeti.core.errors import ValidationError
+from yeti.core.errors import ValidationError, IntegrityError
 
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
@@ -124,8 +124,16 @@ class ArangoYetiConnector(AbstractYetiConnector):
         document_json = self.schema().dump(self).data
         if not self.id:
             del document_json['_key']
-            result = self._get_collection().insert(
-                document_json, return_new=True)
+            try:
+                result = self._get_collection().insert(
+                    document_json, return_new=True)
+            except DocumentInsertError as err:
+                if not err.error_code == 1210: # Unique constraint violation
+                    raise
+                conflict = 'name' if 'name' in document_json else 'value'
+                error = 'A {0} object with same `{1}` already exists'.format(
+                    self.__class__.__name__, conflict)
+                raise IntegrityError(error)
         else:
             document_json['_key'] = str(document_json['_key'])
             result = self._get_collection().update(
@@ -182,9 +190,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         obj = cls(**kwargs)
         try:
             return obj.save()
-        except DocumentInsertError as err:
-            if not err.error_code == 1210: # Unique constraint violation
-                raise
+        except IntegrityError as err:
             document = list(cls._get_collection().find(kwargs))[0]
             return cls.load_object_from_type(document, strict=True)
 

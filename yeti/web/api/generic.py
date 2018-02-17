@@ -4,7 +4,7 @@ from flask import request
 from webargs.flaskparser import parser
 from flask_classful import FlaskView, route
 
-from yeti.core.errors import ValidationError
+from yeti.core.errors import GenericYetiError
 from ..helpers import as_json, get_object_or_404
 
 
@@ -49,7 +49,7 @@ class GenericResource(FlaskView):
             args = parser.parse(self.searchargs, request)
             schema = self.resource_object.get_realschema(args)(strict=True)
             return parser.parse(schema, request).save()
-        except ValidationError as err:
+        except GenericYetiError as err:
             return err, 400
 
     @as_json
