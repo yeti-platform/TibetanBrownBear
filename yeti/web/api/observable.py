@@ -24,12 +24,12 @@ class ObservableResource(FlaskView):
 
     route_base = '/observables/'
 
-    @as_json(Observable)
+    @as_json
     def index(self):
         """Return a list of all Observables in the database."""
         return Observable.list()
 
-    @as_json(Observable)
+    @as_json
     def get(self, id):  # pylint: disable=redefined-builtin
         """Fetch a single observable from the database.
 
@@ -43,7 +43,7 @@ class ObservableResource(FlaskView):
         return get_object_or_404(Observable, id)
 
     @route('/', methods=["POST"])
-    @as_json(Observable)
+    @as_json
     def post(self):
         """Creates a new Observable.
 
@@ -57,7 +57,7 @@ class ObservableResource(FlaskView):
             return err, 400
         return obs
 
-    @as_json(Observable)
+    @as_json
     @route('/<id>/', methods=["PUT"])
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a given Observable.
@@ -73,7 +73,7 @@ class ObservableResource(FlaskView):
         observable = get_object_or_404(Observable, id)
         return observable.update(args).save()
 
-    @as_json(Observable)
+    @as_json
     @route('/<id>/tag', methods=['POST'])
     def tag(self, id):  # pylint: disable=redefined-builtin
         """Updates a given Observable.
@@ -93,7 +93,7 @@ class ObservableResource(FlaskView):
 
 
     @route('/filter/', methods=["POST"])
-    @as_json(Observable)
+    @as_json
     def filter(self):
         """Search the database for Observables with specific fields."""
         args = parser.parse(searchargs, request)
