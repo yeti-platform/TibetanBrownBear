@@ -35,8 +35,7 @@ class Entity(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
-    _schema = EntitySchema
-    datatypes = {}
+    schema = EntitySchema
 
     id = None
     name = None

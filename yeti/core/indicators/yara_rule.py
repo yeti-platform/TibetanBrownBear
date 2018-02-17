@@ -30,7 +30,7 @@ class YaraRule(Indicator):
       family: list(str), the families this malware belongs to.
     """
 
-    _schema = YaraRuleSchema
+    schema = YaraRuleSchema
     _collection_name = 'indicators'
 
     type = 'indicator.yararule'

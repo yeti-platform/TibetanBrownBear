@@ -35,8 +35,7 @@ class Indicator(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
-    _schema = IndicatorSchema
-    datatypes = {}
+    schema = IndicatorSchema
 
     id = None
     name = None

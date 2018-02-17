@@ -41,8 +41,7 @@ class Observable(YetiObject):
     _indexes = [
         {'fields': ['value'], 'unique': True},
     ]
-    _schema = ObservableSchema
-    datatypes = {}
+    schema = ObservableSchema
 
     id = None
     value = None

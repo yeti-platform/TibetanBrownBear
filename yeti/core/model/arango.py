@@ -92,7 +92,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
               YetiObject
         """
         ismany = isinstance(args, list)
-        return cls._schema(many=ismany).load(args).data
+        return cls.schema(many=ismany).load(args).data
 
     def dump(self):
         """Dumps a Yeti object into a JSON representation.
@@ -100,13 +100,13 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           A JSON representation of the Yeti object.
         """
-        data = self._schema().dump(self).data
+        data = self.schema().dump(self).data
         data['id'] = data.pop('_key')
         return data
 
     @classmethod
     def dump_many(cls, objects):
-        data = cls._schema(many=True).dump(objects).data
+        data = cls.schema(many=True).dump(objects).data
         for element in data:
             element['id'] = element.pop('_key')
         return data
@@ -116,7 +116,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Returns:
           The created Yeti object."""
-        document_json = self._schema().dump(self).data
+        document_json = self.schema().dump(self).data
         if not self.id:
             del document_json['_key']
             result = self._get_collection().insert(
@@ -126,7 +126,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
-        return self._schema(strict=True).load(arangodoc).data
+        return self.schema(strict=True).load(arangodoc).data
 
     @classmethod
     def list(cls):
@@ -144,8 +144,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         yeti_objects = []
         for obj in objects:
-            objtype = cls.datatypes.get(obj['type'], cls)
-            yeti_objects.append(objtype._schema().load(obj).data)
+            yeti_objects.append(cls.load_object_from_type(obj))
         return yeti_objects
 
     @classmethod
@@ -159,7 +158,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
           A Yeti object."""
         document = cls._get_collection().get(key)
         if document:
-            return cls._schema().load(document).data
+            return cls.load_object_from_type(document)
         return None
 
     @classmethod
@@ -182,7 +181,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             if not err.error_code == 1210: # Unique constraint violation
                 raise
             document = list(cls._get_collection().find(kwargs))[0]
-            return cls._schema(strict=True).load(document).data
+            return cls.load_object_from_type(document, strict=True)
 
 
     @classmethod
@@ -204,8 +203,11 @@ class ArangoYetiConnector(AbstractYetiConnector):
         aql_string = """
         FOR o IN {0:s} FILTER {1:s} RETURN o
         """.format(colname, " OR ".join(conditions))
-        objects = cls._db.aql.execute(aql_string, bind_vars=args)
-        return cls._schema(many=True).load(objects).data
+        documents = cls._db.aql.execute(aql_string, bind_vars=args)
+        yeti_objects = []
+        for doc in documents:
+            yeti_objects.append(cls.load_object_from_type(doc))
+        return yeti_objects
 
     @classmethod
     def _get_collection(cls):

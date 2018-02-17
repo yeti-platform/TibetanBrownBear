@@ -43,7 +43,7 @@ class Tag(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
-    _schema = TagSchema
+    schema = TagSchema
 
     id = None
     name = None
@@ -101,7 +101,7 @@ class TagReference(YetiObject):
     first_seen = None
     last_seen = None
 
-    _schema = TagReferenceSchema
+    schema = TagReferenceSchema
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():

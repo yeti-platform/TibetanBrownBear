@@ -28,7 +28,7 @@ class Hostname(Observable):
       tld: The corresponding TLD.
     """
 
-    _schema = HostnameSchema
+    schema = HostnameSchema
     _collection_name = 'observables'
 
     type = 'observable.hostname'
