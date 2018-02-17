@@ -14,9 +14,8 @@ searchargs = {
     'type': fields.Str(),
 }
 
-postargs = {
-    'key': fields.Str(required=True),
-    'value': fields.Str(required=True),
+tagargs = {
+    'tags': fields.List(fields.String(), required=True),
 }
 
 
@@ -31,8 +30,7 @@ class ObservableResource(FlaskView):
         return Observable.list()
 
     @as_json(Observable)
-    # pylint: disable=W0622
-    def get(self, id):
+    def get(self, id):  # pylint: disable=redefined-builtin
         """Fetch a single observable from the database.
 
         Args:
@@ -61,9 +59,8 @@ class ObservableResource(FlaskView):
 
     @as_json(Observable)
     @route('/<id>/', methods=["PUT"])
-    # pylint: disable=W0622
-    def put(self, id):
-        """Creates a new Observable.
+    def put(self, id):  # pylint: disable=redefined-builtin
+        """Updates a given Observable.
 
         Args:
             id: The Observable object's primary ID.
@@ -75,6 +72,24 @@ class ObservableResource(FlaskView):
         args = parser.parse(searchargs, request)
         observable = get_object_or_404(Observable, id)
         return observable.update(args).save()
+
+    @as_json(Observable)
+    @route('/<id>/tag', methods=['POST'])
+    def tag(self, id):  # pylint: disable=redefined-builtin
+        """Updates a given Observable.
+
+        Args:
+            id: The Observable object's primary ID.
+
+        Returns:
+            A JSON representation of the requested Observable, or a 404 HTTP
+            status code if the Observable cannot be found.
+        """
+        args = parser.parse(tagargs, request)
+        observable = get_object_or_404(Observable, id)
+        for tag in args['tags']:
+            observable.tag(tag)
+        return observable
 
 
     @route('/filter/', methods=["POST"])

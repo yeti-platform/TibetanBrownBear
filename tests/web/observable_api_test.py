@@ -55,3 +55,11 @@ def test_filter(clean_db, populate_observables):
     rv = client.post('/api/observables/filter/', data=observable_json)
     response = json.loads(rv.data)
     assert len(response) == 5
+
+def test_tag(populate_observables):
+    uri = '/api/observables/{0:d}/tag'.format(populate_observables[0].id)
+    rv = client.post(uri, data={'tags': ['tag1']})
+    response = json.loads(rv.data)
+    assert isinstance(response['id'], int)
+    assert response['tags']
+    assert 'tag1' in [tag['name'] for tag in response['tags']]
