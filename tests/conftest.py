@@ -1,6 +1,7 @@
 import pytest
 
 from yeti.common.config import yeti_config
+# Make sure we are not deleting the user's database when running tests
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 # pylint: disable=wrong-import-position
@@ -12,7 +13,6 @@ from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
 from yeti.core.types.tag import Tag
 
-# Make sure we are not deleting the user's database when running tests
 
 @pytest.fixture
 def clean_db():
