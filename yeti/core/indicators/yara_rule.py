@@ -40,7 +40,7 @@ class YaraRule(Indicator):
     def is_valid(self):
         Indicator.is_valid(self)
         if not isinstance(self.pattern, str):
-            raise ValidationError(".pattern must be str")
+            raise ValidationError('.pattern must be str')
         try:
             yara.compile(source=self.pattern)
         except (yara.SyntaxError, yara.Error) as err:

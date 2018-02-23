@@ -43,5 +43,5 @@ class Indicator(YetiObject):
 
     def is_valid(self):
         if not isinstance(self.name, str):
-            raise ValidationError(".name must be a string.")
+            raise ValidationError('.name must be a string.')
         return True
