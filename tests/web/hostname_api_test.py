@@ -39,10 +39,12 @@ def test_post_invalid_hostname():
 
 @pytest.mark.usefixtures("clean_db")
 def test_put(populate_hostnames):
-    """Tests updating a new object via PUT."""
+    """Tests that updating with a malformed value fails"""
     rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
                     data={'value': 'qwe'})
+    assert rv.status_code == 400
     response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
+    assert 'ValidationError' in response
+    assert 'match regexp.' in response['ValidationError']

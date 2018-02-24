@@ -64,9 +64,13 @@ class GenericResource(FlaskView):
             A JSON representation of the requested object, or a 404 HTTP
             status code if the object cannot be found.
         """
-        args = parser.parse(self.searchargs, request)
-        obj = get_object_or_404(self.resource_object, id)
-        return obj.update(args).save()
+        try:
+            args = parser.parse(self.searchargs, request)
+            obj = get_object_or_404(self.resource_object, id)
+            return obj.update(args).save()
+        except GenericYetiError as err:
+            return err, 400
+
 
     @route('/filter/', methods=['POST'])
     @as_json
