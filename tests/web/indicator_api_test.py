@@ -1,4 +1,3 @@
-# pylint: disable=unused-argument
 """Tests for the Entity datatype."""
 
 import json

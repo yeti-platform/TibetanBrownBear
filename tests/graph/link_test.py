@@ -2,7 +2,6 @@
 """Tests for the Yara rule datatype."""
 import pytest
 
-from yeti.core.model.database import YetiObject
 from yeti.core.types.hostname import Hostname
 
 @pytest.mark.usefixtures("clean_db")

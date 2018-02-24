@@ -1,4 +1,3 @@
-# pylint: disable=unused-argument
 """Tests for the Observable datatype."""
 
 import json
@@ -14,7 +13,7 @@ client = app.test_client()
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
 
-@pytest.mark.usefixtures("clean_db", "populate_observables")
+@pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_index():
     """Test that a GET request fetches all Observables."""
     rv = client.get('/api/observables/')
@@ -24,12 +23,12 @@ def test_index():
         assert isinstance(element['id'], int)
 
 @pytest.mark.usefixtures("clean_db")
-def test_get(populate_observables):
+def test_get(populate_hostnames):
     """Test fetching single Observable by ID."""
-    rv = client.get('/api/observables/{0:d}/'.format(populate_observables[0].id))
+    rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     response = json.loads(rv.data)
     assert isinstance(response, dict)
-    assert response['id'] == populate_observables[0].id
+    assert response['id'] == populate_hostnames[0].id
 
 @pytest.mark.usefixtures("clean_db")
 def test_get_notfound():
@@ -38,24 +37,17 @@ def test_get_notfound():
     assert rv.status_code == 404
 
 @pytest.mark.usefixtures("clean_db")
-def test_post():
-    """Tests the creation of a new Observable via POST."""
-    observable_json = {'value': 'asd', 'type': 'observable'}
-    rv = client.post('/api/observables/', data=observable_json)
-    response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
-
-@pytest.mark.usefixtures("clean_db")
-def test_put(populate_observables):
+def test_put(populate_hostnames):
     """Tests updating a new object via PUT."""
-    rv = client.get('/api/observables/{0:d}/'.format(populate_observables[0].id))
+    rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
-                    data={'value': 'qwe'})
+                    data={'value': 'qwe.com'})
     response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
+    assert response['id'] == observable_json['id']
+    assert response['value'] == 'qwe.com'
 
-@pytest.mark.usefixtures("clean_db", "populate_observables")
+@pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_filter():
     """Tests searching for specific Observables based on a value regexp."""
     observable_json = {'value': 'asd[0-4]'}
@@ -63,7 +55,7 @@ def test_filter():
     response = json.loads(rv.data)
     assert len(response) == 5
 
-@pytest.mark.usefixtures("clean_db", "populate_observables", "populate_hostnames")
+@pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_subclass_serialization():
     observable_json = {'value': 'asd[0-4]'}
     rv = client.post('/api/observables/filter/', data=observable_json)
@@ -75,8 +67,8 @@ def test_subclass_serialization():
             assert item.get('idna', None) is None
 
 @pytest.mark.usefixtures("clean_db")
-def test_tag(populate_observables):
-    uri = '/api/observables/{0:d}/tag'.format(populate_observables[0].id)
+def test_tag(populate_hostnames):
+    uri = '/api/observables/{0:d}/tag'.format(populate_hostnames[0].id)
     rv = client.post(uri, data={'tags': ['tag1']})
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)

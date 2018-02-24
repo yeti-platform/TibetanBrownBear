@@ -28,14 +28,6 @@ def clean_db():
 
 
 @pytest.fixture
-def populate_observables():
-    observables = []
-    for num in range(10):
-        obs = Observable.get_or_create(value='asd{0:d}'.format(num))
-        observables.append(obs)
-    return observables
-
-@pytest.fixture
 def populate_hostnames():
     hostnames = []
     for num in range(10):
