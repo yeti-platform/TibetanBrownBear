@@ -89,6 +89,7 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    # pylint: disable=too-many-arguments
     def neighbors(self,
                   link_type,
                   direction='any',

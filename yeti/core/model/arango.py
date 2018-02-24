@@ -249,6 +249,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         }
         return edge_collection.insert(document)
 
+    # pylint: disable=too-many-arguments
     def neighbors(self,
                   link_type,
                   direction='any',

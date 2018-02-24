@@ -1,6 +1,6 @@
 """API resources for interacting with Observables."""
-from marshmallow import fields
 from flask import request
+from marshmallow import fields
 from flask_classful import route
 from webargs.flaskparser import parser
 
