@@ -1,6 +1,6 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
-from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
+from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError, GraphCreateError, EdgeDefinitionCreateError  # pylint: disable=line-too-long
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 from yeti.core.errors import ValidationError, IntegrityError
@@ -8,6 +8,10 @@ from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
 
+LINK_TYPE_TO_GRAPH = {
+    'tagged': 'tags',
+    'uses': 'entities',
+}
 
 class ArangoDatabase:
     """Class that contains the base class for the database.
@@ -18,6 +22,17 @@ class ArangoDatabase:
     def __init__(self):
         self.db = None
         self.collections = dict()
+        self.graphs = dict()
+        self.create_edge_definition(self.graph('tags'), {
+            'name': 'tagged',
+            'from_collections': ['observables'],
+            'to_collections': ['tags'],
+        })
+        self.create_edge_definition(self.graph('entities'), {
+            'name': 'uses',
+            'from_collections': ['entities'],
+            'to_collections': ['observables', 'entities'],
+        })
 
     def connect(self):
         client = ArangoClient(
@@ -61,6 +76,28 @@ class ArangoDatabase:
 
         return self.collections[name]
 
+    def graph(self, name):
+        if self.db is None:
+            self.connect()
+
+        try:
+            return self.db.create_graph(name)
+        except GraphCreateError as err:
+            if err.error_code in [1207, 1925]:
+                return self.db.graph(name)
+            raise
+
+    def create_edge_definition(self, graph, definition):
+        if self.db is None:
+            self.connect()
+
+        try:
+            return graph.create_edge_definition(**definition)
+        except EdgeDefinitionCreateError as err:
+            if err.error_code in [1920]:
+                return graph.edge_collection(definition['name'])
+            raise
+
     def __getattr__(self, key):
         if self.db is None:
             self.connect()
@@ -78,7 +115,7 @@ class ArangoYetiSchema(Schema):
     """
 
     id = fields.Int(load_from='_key', dump_to='_key')
-
+    _arango_id = fields.Str(load_from='_id', dump_to='_id')
 
 class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
@@ -106,7 +143,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
           A JSON representation of the Yeti object.
         """
         data = self.schema().dump(self).data
-        data['id'] = data.pop('_key')
+        if '_key' in data:
+            data['id'] = data.pop('_key')
         return data
 
     @classmethod
@@ -193,6 +231,47 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except IntegrityError:
             document = list(cls._get_collection().find(kwargs))[0]
             return cls.load_object_from_type(document, strict=True)
+
+    def link_to(self, target, attributes, link_type):
+        """Creates a link between two YetiObjects.
+
+        Args:
+          target: The YetiObject to link to.
+          attributes: A dictionary with attributes to add to the link.
+          link_type: The type of link.
+        """
+        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
+        edge_collection = graph.edge_collection(link_type)
+        document = {
+            '_from': self._arango_id,
+            '_to': target._arango_id,  # pylint: disable=protected-access
+            'attributes': attributes,
+        }
+        return edge_collection.insert(document)
+
+    def neighbors(self,
+                  link_type,
+                  direction='any',
+                  include_original=False,
+                  hops=1,
+                  raw=False):
+        """Fetches neighbors of the YetiObject.
+
+        Args:
+          link_type: The type of link.
+          direction: outbound, inbound, or any.
+          hops: The maximum number of nodes to go through (defaults to 1:
+              direct neighbors)
+        """
+        min_depth = 1 if not include_original else None
+        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
+        neighbors = graph.traverse(self._arango_id,
+                                   direction=direction,
+                                   min_depth=min_depth,
+                                   max_depth=hops)['vertices']
+        if raw:
+            return neighbors
+        return [self.load_object_from_type(obj) for obj in neighbors]
 
 
     @classmethod

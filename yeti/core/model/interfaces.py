@@ -68,11 +68,40 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @classmethod
+    @abstractmethod
     def filter(cls, args):
         """Filters objects according to args.
 
         Args:
           args: parameters used to filter the objects.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def link_to(self, target, attributes, link_type):
+        """Creates a link from an existing object to a target object.
+
+        Args:
+          target: The YetiObject to link to.
+          attributes: A dictionary with attributes to add to the link.
+          link_type: The type of link.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def neighbors(self,
+                  link_type,
+                  direction='any',
+                  include_original=False,
+                  hops=1,
+                  raw=False):
+        """Fetches neighbors of the YetiObject.
+
+        Args:
+          link_type: The type of link.
+          direction: outbound, inbound, or any.
+          hops: The maximum number of nodes to go through (defaults to 1:
+              direct neighbors)
         """
         raise NotImplementedError
 
