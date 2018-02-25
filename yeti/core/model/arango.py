@@ -283,8 +283,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
         the regex defined in the 'value' key of the args dict.
 
         Args:
-            args: A key:value dictionary containing a 'value' key defining
-              the regular expression to match against.
+            args: A key:value dictionary containing a 'value' or 'name' key
+              defining the regular expression to match against.
         """
         colname = cls._collection_name
         conditions = []

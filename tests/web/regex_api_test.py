@@ -13,7 +13,7 @@ client = app.test_client()
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
 
-@pytest.mark.usefixtures("clean_db")
+@pytest.mark.usefixtures('clean_db')
 def test_index(populate_regex):
     """Test that fetched regular expressions are well-formed"""
     names = [regex.name for regex in populate_regex]
@@ -25,7 +25,7 @@ def test_index(populate_regex):
             assert isinstance(element['id'], int)
             assert len(element['pattern']) > 1
 
-@pytest.mark.usefixtures("clean_db", "populate_regex")
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_regex_creation():
     pattern = "asd[0-9]"
     query_json = {'name': 'test', 'pattern': pattern, 'type': 'indicator.regex'}
@@ -35,7 +35,7 @@ def test_regex_creation():
     assert response['id'] is not None
     assert response['pattern'] == pattern
 
-@pytest.mark.usefixtures("clean_db", "populate_regex")
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_invalid_regex():
     """Test that regular expressions with invalid patterns cannot be created."""
     query_json = {'name': 'test', 'pattern': 'asd[3-2]', 'type': 'indicator.regex'}
@@ -45,7 +45,7 @@ def test_invalid_regex():
     assert 'ValidationError' in response
     assert 'Could not compile regular expression' in response['ValidationError']
 
-@pytest.mark.usefixtures("clean_db", "populate_regex")
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_no_regex():
     """Test that regular expressions with empty patterns cannot be created."""
     query_json = {'name': 'test', 'type': 'indicator.regex'}
