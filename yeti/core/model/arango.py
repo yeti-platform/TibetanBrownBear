@@ -131,7 +131,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         """
         try:
             if isinstance(args, list):
-                return [cls.load_object_from_type(doc, strict=strict) for doc in args]
+                return [cls.load(doc, strict=strict) for doc in args]
             return cls.load_object_from_type(args, strict=strict)
         except MarshmallowValidationError as e:
             raise ValidationError(e.messages)
@@ -145,13 +145,6 @@ class ArangoYetiConnector(AbstractYetiConnector):
         data = self.schema().dump(self).data
         if '_key' in data:
             data['id'] = data.pop('_key')
-        return data
-
-    @classmethod
-    def dump_many(cls, objects):
-        data = [obj.dump() for obj in objects]
-        for element in data:
-            element['id'] = element.pop('_key')
         return data
 
     def save(self):
@@ -193,10 +186,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
                 'type': cls.__name__.lower()
             })
 
-        yeti_objects = []
-        for obj in objects:
-            yeti_objects.append(cls.load_object_from_type(obj))
-        return yeti_objects
+        return cls.load(list(objects))
 
     @classmethod
     def get(cls, key):
@@ -209,7 +199,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
           A Yeti object."""
         document = cls._get_collection().get(key)
         if document:
-            return cls.load_object_from_type(document)
+            return cls.load(document)
         return None
 
     @classmethod
@@ -272,7 +262,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
                                    max_depth=hops)['vertices']
         if raw:
             return neighbors
-        return [self.load_object_from_type(obj) for obj in neighbors]
+        return self.load(neighbors)
 
 
     @classmethod

@@ -19,12 +19,6 @@ class AbstractYetiConnector(ABC):
         """Dump a YetiObject into its JSON representation."""
         raise NotImplementedError
 
-    @classmethod
-    @abstractmethod
-    def dump_many(cls, objects):
-        """Dump a list of YetiObject into its JSON representation."""
-        raise NotImplementedError
-
     @abstractmethod
     def save(self):
         """Inserts or updates a Yeti object into the database.
