@@ -51,5 +51,8 @@ class Indicator(YetiObject):
 
         Args:
           obj: An object to match the Indicator on
+
+        Returns:
+          A list of dicts representing matches.
         """
         raise NotImplementedError

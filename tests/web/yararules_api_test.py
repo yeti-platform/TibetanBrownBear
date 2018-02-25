@@ -55,3 +55,22 @@ def test_no_yara_rule():
     assert 'ValidationError' in response
     assert 'pattern' in response['ValidationError']
     assert "Missing data for required field." in response['ValidationError']['pattern']
+
+
+MATCHING_TEST = [
+    (b'MZ\x00\x00\x00\x00\x00\x00\x00', [{
+        'name': 'MZ',
+        'details': [{'bytes': {'b64': "b'TVo='"}, 'name': '$MZ', 'offset': 0}],
+    }]),
+    (b'PK\x00\x00\x00\x00\x00\x00\x00', []),
+]
+
+@pytest.mark.usefixtures('clean_db', 'populate_yara_rules')
+def test_match_yara_rules():
+    """Test that Regex can be matched through the API."""
+    for obj, expected in MATCHING_TEST:
+        query_json = {'object': obj}
+        rv = client.post('/api/indicators/match', data=query_json)
+        response = json.loads(rv.data)
+        assert expected == response
+        assert rv.status_code == 200

@@ -60,7 +60,7 @@ class Regex(Indicator):
         """
         match = self.compiled_regex.search(obj)
         if match:
-            return match.group()
+            return {'name': self.name, 'details': match.group()}
         return None
 
 Indicator.datatypes[Regex.type] = Regex

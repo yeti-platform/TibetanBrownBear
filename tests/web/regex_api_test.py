@@ -55,3 +55,19 @@ def test_no_regex():
     assert 'ValidationError' in response
     assert 'pattern' in response['ValidationError']
     assert "Missing data for required field." in response['ValidationError']['pattern']
+
+
+MATCHING_TEST = (
+    ('C\\Users\\tomchop\\AppData\\Roaming\\Google', [{'name': 'AppData', 'details': 'AppData\\Roaming\\Google'}]),
+    ('C\\Users\\tomchop\\AppData\\Local\\Google', []),
+)
+
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
+def test_match_regex():
+    """Test that Regex can be matched through the API."""
+    for obj, expected in MATCHING_TEST:
+        query_json = {'object': obj}
+        rv = client.post('/api/indicators/match', data=query_json)
+        response = json.loads(rv.data)
+        assert expected == response
+        assert rv.status_code == 200

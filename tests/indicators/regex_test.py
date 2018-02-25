@@ -40,7 +40,10 @@ def test_invalid_yara_rule():
         Regex(name="FailRule", pattern='asd[3-2]').save()
 
 MATCHING_TEST = (
-    ('C\\Users\\tomchop\\AppData\\Roaming\\Google', 'AppData\\Roaming\\Google'),
+    ('C\\Users\\tomchop\\AppData\\Roaming\\Google', {
+        'name': 'AppData',
+        'details': 'AppData\\Roaming\\Google'
+    }),
     ('C\\Users\\tomchop\\AppData\\Local\\Google', None),
 )
 

@@ -1,4 +1,5 @@
 """Detail Yeti's Yara rule object structure."""
+import base64
 
 from marshmallow import fields, post_load
 import yara
@@ -59,7 +60,15 @@ class YaraRule(Indicator):
         """
         matches = self.compiled_rule.match(data=obj)
         if matches:
-            return [match.strings for match in matches]
+            result = {'name': self.name, 'details': []}
+            for match in matches:
+                for offset, name, bytes_ in match.strings:
+                    result['details'].append({
+                        'offset': offset,
+                        'name': name,
+                        'bytes': {'b64': str(base64.b64encode(bytes_))},
+                    })
+            return result
         return None
 
 Indicator.datatypes[YaraRule.type] = YaraRule

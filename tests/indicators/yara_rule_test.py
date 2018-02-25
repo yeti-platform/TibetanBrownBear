@@ -36,7 +36,10 @@ def test_invalid_yara_rule(populate_yara_rules):
         YaraRule(name="FailRule", pattern=test_rule[:-1]).save()
 
 MATCHING_TEST = [
-    (b'MZ\x00\x00\x00\x00\x00\x00\x00', [[(0, '$MZ', b'MZ')]]),
+    (b'MZ\x00\x00\x00\x00\x00\x00\x00', {
+        'name': 'MZ',
+        'details': [{'bytes': {'b64': "b'TVo='"}, 'name': '$MZ', 'offset': 0}],
+    }),
     (b'PK\x00\x00\x00\x00\x00\x00\x00', None),
 ]
 
