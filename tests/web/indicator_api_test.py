@@ -1,4 +1,4 @@
-"""Tests for the Entity datatype."""
+"""Tests for the Indicator API."""
 
 import json
 import pytest

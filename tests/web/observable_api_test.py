@@ -1,4 +1,4 @@
-"""Tests for the Observable datatype."""
+"""Tests for the Observable API."""
 
 import json
 import pytest

@@ -1,4 +1,4 @@
-"""Tests for the Indicator datatype."""
+"""Tests for the Indicator object."""
 
 import pytest
 

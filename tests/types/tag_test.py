@@ -1,3 +1,4 @@
+"""Tests for tagging functionality."""
 import pytest
 
 from yeti.core.errors import ValidationError

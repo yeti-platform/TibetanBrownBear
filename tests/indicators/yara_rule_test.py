@@ -1,4 +1,4 @@
-"""Tests for the Yara rule datatype."""
+"""Tests for the Yara rule indicator."""
 
 import pytest
 

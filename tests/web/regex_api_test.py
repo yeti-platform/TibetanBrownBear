@@ -1,4 +1,4 @@
-"""Tests for the Entity datatype."""
+"""Tests for the Regex API."""
 
 import json
 import pytest
@@ -58,7 +58,9 @@ def test_no_regex():
 
 
 MATCHING_TEST = (
-    ('C\\Users\\tomchop\\AppData\\Roaming\\Google', [{'name': 'AppData', 'details': 'AppData\\Roaming\\Google'}]),
+    ('C\\Users\\tomchop\\AppData\\Roaming\\Google', [{
+        'name': 'AppData', 'details': 'AppData\\Roaming\\Google'
+    }]),
     ('C\\Users\\tomchop\\AppData\\Local\\Google', []),
 )
 

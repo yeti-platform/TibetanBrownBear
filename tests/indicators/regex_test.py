@@ -1,4 +1,4 @@
-"""Tests for the regex datatype."""
+"""Tests for the Regex indicator."""
 import re
 
 import pytest

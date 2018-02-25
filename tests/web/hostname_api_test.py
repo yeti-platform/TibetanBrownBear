@@ -1,4 +1,4 @@
-"""Tests for the Hostname datatype."""
+"""Tests for the Hostname API."""
 
 import json
 import re
