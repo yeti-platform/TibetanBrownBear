@@ -1,4 +1,4 @@
-"""Detail the Yeti's Indicator object structure."""
+"""Detail Yeti's Indicator object structure."""
 
 from marshmallow import fields, post_load
 

@@ -1,4 +1,4 @@
-"""Detail the Yeti's Yara rule object structure."""
+"""Detail Yeti's Yara rule object structure."""
 
 from marshmallow import fields, post_load
 import yara
