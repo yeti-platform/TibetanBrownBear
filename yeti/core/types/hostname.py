@@ -9,7 +9,6 @@ from tldextract import extract
 from yeti.core.helpers import refang
 from yeti.core.errors import ValidationError
 from .observable import Observable, ObservableSchema
-from .observable import DATATYPES
 
 MAIN_REGEX = r'[-.\w[\]]+\[?\.\]?[\w]+'
 FULL_REGEX = r'(?P<pre>\W?)(?P<search>' + MAIN_REGEX + r')(?P<post>\W?)'
@@ -29,7 +28,7 @@ class Hostname(Observable):
       tld: The corresponding TLD.
     """
 
-    _schema = HostnameSchema
+    schema = HostnameSchema
     _collection_name = 'observables'
 
     type = 'observable.hostname'
@@ -38,7 +37,7 @@ class Hostname(Observable):
     def is_valid(self):
         match = COMPILED_FULL_REGEX.match(self.value)
         if not match:
-            raise ValidationError("Provided hostname did not match regexp.")
+            raise ValidationError('Provided hostname did not match regexp.')
 
         if match.group('pre') != '/' and match.group('post') != '/':
             value = refang(match.group('search'))
@@ -47,14 +46,14 @@ class Hostname(Observable):
                 if parts.suffix and parts.domain:
                     return True
 
-        raise ValidationError("Invalid hostname.")
+        raise ValidationError('Invalid hostname.')
 
     def normalize(self):
         self.value = refang(self.value.lower())
-        if self.value.endswith("."):
+        if self.value.endswith('.'):
             self.value = self.value[:-1]
 
         self.value = idna.decode(self.value)
         self.idna = idna.encode(self.value)
 
-DATATYPES[Hostname.type] = Hostname
+Observable.datatypes[Hostname.type] = Hostname

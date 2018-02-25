@@ -43,17 +43,13 @@ class Tag(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
-    _schema = TagSchema
+    schema = TagSchema
 
     id = None
     name = None
     # count = None
     created_at = None
     default_expiration = None
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
 
     def __repr__(self):
         return '<Tag({name!r})>'.format(name=self.name)
@@ -101,11 +97,7 @@ class TagReference(YetiObject):
     first_seen = None
     last_seen = None
 
-    _schema = TagReferenceSchema
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    schema = TagReferenceSchema
 
     def __repr__(self):
         return '<TagRef({name!r})>'.format(name=self.name)

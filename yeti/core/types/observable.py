@@ -23,7 +23,7 @@ class ObservableSchema(YetiSchema):
         Returns:
           The Observable object.
         """
-        datatype = DATATYPES[data['type']]
+        datatype = Observable.datatypes.get(data['type'], Observable)
         object_ = datatype(**data)
         object_.normalize()
         return object_
@@ -41,27 +41,17 @@ class Observable(YetiObject):
     _indexes = [
         {'fields': ['value'], 'unique': True},
     ]
-    _schema = ObservableSchema
+    schema = ObservableSchema
 
     id = None
     value = None
     type = 'observable'
     tags = None
 
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.is_valid()
-
-    def __repr__(self):
-        return '<{type:s}(value={value!r})>'.format(
-            type=self.__class__.__name__,
-            value=self.value)
-
     def is_valid(self):
         if self.value is not None:
             return True
-        raise ValidationError("`value` must be provided.")
+        raise ValidationError('`value` must be provided.')
 
     def normalize(self):
         pass
@@ -97,7 +87,3 @@ class Observable(YetiObject):
             tag.save()
 
         self.save()
-
-DATATYPES = {
-    'observable': Observable,
-}

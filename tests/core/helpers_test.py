@@ -1,5 +1,7 @@
-# pylint: disable=unused-argument
+import pytest
+
 from yeti.core import helpers
+
 
 REFANG_TESTS = [
     ('hxxp://yeti.org/', 'http://yeti.org/'),
@@ -10,7 +12,8 @@ REFANG_TESTS = [
     ('127[.]0[.]0[.]1', '127.0.0.1'),
 ]
 
-def test_refang(clean_db):
+@pytest.mark.usefixtures('clean_db')
+def test_refang():
     """Tests refanging URLs, Hostnames, and IPs"""
     for test, expected in REFANG_TESTS:
         assert helpers.refang(test) == expected

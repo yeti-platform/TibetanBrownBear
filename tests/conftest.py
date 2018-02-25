@@ -1,6 +1,7 @@
 import pytest
 
 from yeti.common.config import yeti_config
+# Make sure we are not deleting the user's database when running tests
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 # pylint: disable=wrong-import-position
@@ -12,7 +13,6 @@ from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
 from yeti.core.types.tag import Tag
 
-# Make sure we are not deleting the user's database when running tests
 
 @pytest.fixture
 def clean_db():
@@ -26,14 +26,6 @@ def clean_db():
     YaraRule._get_collection()
     db.clear()
 
-
-@pytest.fixture
-def populate_observables():
-    observables = []
-    for num in range(10):
-        obs = Observable.get_or_create(value='asd{0:d}'.format(num))
-        observables.append(obs)
-    return observables
 
 @pytest.fixture
 def populate_hostnames():
@@ -78,3 +70,10 @@ TEST_RULE = """rule yeti_rule
 def populate_yara_rules():
     y1 = YaraRule(name='MZ', pattern=TEST_RULE).save()
     return [y1]
+
+@pytest.fixture
+def populate_all():
+    clean_db()
+    populate_hostnames()
+    populate_malware()
+    populate_yara_rules()

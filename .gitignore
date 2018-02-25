@@ -102,3 +102,6 @@ ENV/
 
 # Config file
 yeti.conf
+
+# environment
+.tags

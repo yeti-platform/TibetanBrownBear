@@ -1,11 +1,17 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
-from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError
+from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError, GraphCreateError, EdgeDefinitionCreateError  # pylint: disable=line-too-long
 from marshmallow import Schema, fields
+from marshmallow.exceptions import ValidationError as MarshmallowValidationError
+from yeti.core.errors import ValidationError, IntegrityError
 
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
 
+LINK_TYPE_TO_GRAPH = {
+    'tagged': 'tags',
+    'uses': 'entities',
+}
 
 class ArangoDatabase:
     """Class that contains the base class for the database.
@@ -16,6 +22,17 @@ class ArangoDatabase:
     def __init__(self):
         self.db = None
         self.collections = dict()
+        self.graphs = dict()
+        self.create_edge_definition(self.graph('tags'), {
+            'name': 'tagged',
+            'from_collections': ['observables'],
+            'to_collections': ['tags'],
+        })
+        self.create_edge_definition(self.graph('entities'), {
+            'name': 'uses',
+            'from_collections': ['entities'],
+            'to_collections': ['observables', 'entities'],
+        })
 
     def connect(self):
         client = ArangoClient(
@@ -59,6 +76,28 @@ class ArangoDatabase:
 
         return self.collections[name]
 
+    def graph(self, name):
+        if self.db is None:
+            self.connect()
+
+        try:
+            return self.db.create_graph(name)
+        except GraphCreateError as err:
+            if err.error_code in [1207, 1925]:
+                return self.db.graph(name)
+            raise
+
+    def create_edge_definition(self, graph, definition):
+        if self.db is None:
+            self.connect()
+
+        try:
+            return graph.create_edge_definition(**definition)
+        except EdgeDefinitionCreateError as err:
+            if err.error_code in [1920]:
+                return graph.edge_collection(definition['name'])
+            raise
+
     def __getattr__(self, key):
         if self.db is None:
             self.connect()
@@ -76,23 +115,26 @@ class ArangoYetiSchema(Schema):
     """
 
     id = fields.Int(load_from='_key', dump_to='_key')
-    type = fields.List(fields.String())
-
+    _arango_id = fields.Str(load_from='_id', dump_to='_id')
 
 class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
     _db = db
 
     @classmethod
-    def load(cls, args):
+    def load(cls, args, strict=False):
         """Loads data from a dictionary into the corresponding YetiObject.
 
         Args:
           args: key:value dictionary with which to populate fields in the
               YetiObject
         """
-        ismany = isinstance(args, list)
-        return cls._schema(many=ismany).load(args).data
+        try:
+            if isinstance(args, list):
+                return [cls.load_object_from_type(doc, strict=strict) for doc in args]
+            return cls.load_object_from_type(args, strict=strict)
+        except MarshmallowValidationError as e:
+            raise ValidationError(e.messages)
 
     def dump(self):
         """Dumps a Yeti object into a JSON representation.
@@ -100,13 +142,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           A JSON representation of the Yeti object.
         """
-        data = self._schema().dump(self).data
-        data['id'] = data.pop('_key')
+        data = self.schema().dump(self).data
+        if '_key' in data:
+            data['id'] = data.pop('_key')
         return data
 
     @classmethod
     def dump_many(cls, objects):
-        data = cls._schema(many=True).dump(objects).data
+        data = [obj.dump() for obj in objects]
         for element in data:
             element['id'] = element.pop('_key')
         return data
@@ -116,17 +159,25 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Returns:
           The created Yeti object."""
-        document_json = self._schema().dump(self).data
+        document_json = self.schema().dump(self).data
         if not self.id:
             del document_json['_key']
-            result = self._get_collection().insert(
-                document_json, return_new=True)
+            try:
+                result = self._get_collection().insert(
+                    document_json, return_new=True)
+            except DocumentInsertError as err:
+                if not err.error_code == 1210: # Unique constraint violation
+                    raise
+                conflict = 'name' if 'name' in document_json else 'value'
+                error = 'A {0} object with same `{1}` already exists'.format(
+                    self.__class__.__name__, conflict)
+                raise IntegrityError(error)
         else:
             document_json['_key'] = str(document_json['_key'])
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
-        return self._schema(strict=True).load(arangodoc).data
+        return self.schema(strict=True).load(arangodoc).data
 
     @classmethod
     def list(cls):
@@ -141,7 +192,11 @@ class ArangoYetiConnector(AbstractYetiConnector):
             bind_vars={
                 'type': cls.__name__.lower()
             })
-        return cls._schema(many=True).load(objects).data
+
+        yeti_objects = []
+        for obj in objects:
+            yeti_objects.append(cls.load_object_from_type(obj))
+        return yeti_objects
 
     @classmethod
     def get(cls, key):
@@ -154,7 +209,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
           A Yeti object."""
         document = cls._get_collection().get(key)
         if document:
-            return cls._schema().load(document).data
+            return cls.load_object_from_type(document)
         return None
 
     @classmethod
@@ -173,11 +228,51 @@ class ArangoYetiConnector(AbstractYetiConnector):
         obj = cls(**kwargs)
         try:
             return obj.save()
-        except DocumentInsertError as err:
-            if not err.error_code == 1210: # Unique constraint violation
-                raise
+        except IntegrityError:
             document = list(cls._get_collection().find(kwargs))[0]
-            return cls._schema(strict=True).load(document).data
+            return cls.load_object_from_type(document, strict=True)
+
+    def link_to(self, target, attributes, link_type):
+        """Creates a link between two YetiObjects.
+
+        Args:
+          target: The YetiObject to link to.
+          attributes: A dictionary with attributes to add to the link.
+          link_type: The type of link.
+        """
+        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
+        edge_collection = graph.edge_collection(link_type)
+        document = {
+            '_from': self._arango_id,
+            '_to': target._arango_id,  # pylint: disable=protected-access
+            'attributes': attributes,
+        }
+        return edge_collection.insert(document)
+
+    # pylint: disable=too-many-arguments
+    def neighbors(self,
+                  link_type,
+                  direction='any',
+                  include_original=False,
+                  hops=1,
+                  raw=False):
+        """Fetches neighbors of the YetiObject.
+
+        Args:
+          link_type: The type of link.
+          direction: outbound, inbound, or any.
+          hops: The maximum number of nodes to go through (defaults to 1:
+              direct neighbors)
+        """
+        min_depth = 1 if not include_original else None
+        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
+        neighbors = graph.traverse(self._arango_id,
+                                   direction=direction,
+                                   min_depth=min_depth,
+                                   max_depth=hops)['vertices']
+        if raw:
+            return neighbors
+        return [self.load_object_from_type(obj) for obj in neighbors]
 
 
     @classmethod
@@ -198,9 +293,12 @@ class ArangoYetiConnector(AbstractYetiConnector):
                 conditions.append('o.{0:s} =~ @{0:s}'.format(key))
         aql_string = """
         FOR o IN {0:s} FILTER {1:s} RETURN o
-        """.format(colname, " OR ".join(conditions))
-        objects = cls._db.aql.execute(aql_string, bind_vars=args)
-        return cls._schema(many=True).load(objects).data
+        """.format(colname, ' OR '.join(conditions))
+        documents = cls._db.aql.execute(aql_string, bind_vars=args)
+        yeti_objects = []
+        for doc in documents:
+            yeti_objects.append(cls.load_object_from_type(doc))
+        return yeti_objects
 
     @classmethod
     def _get_collection(cls):

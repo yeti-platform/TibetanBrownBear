@@ -1,4 +1,3 @@
-# pylint: disable=unused-argument
 """Tests for the Hostname datatype."""
 
 import pytest
@@ -6,7 +5,9 @@ import pytest
 from yeti.core.types.hostname import Hostname
 from yeti.core.errors import ValidationError
 
-def test_hostname_creation(clean_db):
+
+@pytest.mark.usefixtures('clean_db')
+def test_hostname_creation():
     """Tests the creation of a single hostname."""
     obs = Hostname(value='asd.com')
     assert obs.id is None
@@ -14,25 +15,34 @@ def test_hostname_creation(clean_db):
     assert isinstance(obs, Hostname)
     assert obs.id is not None
 
-def test_hostname_attributes(clean_db, populate_hostnames):
+@pytest.mark.usefixtures('clean_db', 'populate_hostnames')
+def test_hostname_attributes():
     """Tests that a created Hostname has all needed attributes."""
     allitems = Hostname.list()
     for hostname in allitems:
         assert hasattr(hostname, 'idna')
         assert hostname.idna is not None
 
-def test_hostname_fetch(clean_db):
-    """Tests fetching a single hostname by id."""
+@pytest.mark.usefixtures('clean_db')
+def test_hostname_fetch():
+    """Tests that a fetched Hostname is of the correct type."""
     obs = Hostname(value='asd.com').save()
     fetched_obs = Hostname.get(obs.id)
     assert isinstance(fetched_obs, Hostname)
     assert fetched_obs.id == obs.id
 
-def test_hostnames_list(clean_db, populate_hostnames):
-    """Tests fetching all hostnames in the database."""
+@pytest.mark.usefixtures('clean_db', 'populate_hostnames')
+def test_hostnames_list():
+    """Tests fetching all Hostnames in the database."""
     allitems = Hostname.list()
     assert isinstance(allitems[0], Hostname)
     assert len(allitems) == 10
+
+@pytest.mark.usefixtures('clean_db')
+def test_hostname_formatting():
+    """Tests that observables are formatted correctly when printed."""
+    obs = Hostname(value='asd.com').save()
+    assert str(obs) == "<Hostname('asd.com')>"
 
 
 # Normalization and validation tests
@@ -50,7 +60,8 @@ FAILING_TESTS = (
     ('yeti.org/'),
 )
 
-def test_hostname_idna(clean_db):
+@pytest.mark.usefixtures('clean_db')
+def test_hostname_idna():
     """Tests that a Hostname's value and IDNA are correctly normalized."""
     for value, expected, idna_value in NORMALIZATION_TESTS:
         obs = Hostname(value=value)
@@ -58,7 +69,8 @@ def test_hostname_idna(clean_db):
         assert obs.value == expected
         assert obs.idna == idna_value
 
-def test_hostname_fails(clean_db):
+@pytest.mark.usefixtures('clean_db')
+def test_hostname_fails():
     """Test that invalid hostnames cannot be created."""
     for failing_value in FAILING_TESTS:
         with pytest.raises(ValidationError):

@@ -19,7 +19,7 @@ class EntitySchema(YetiSchema):
         Returns:
           The Entity object.
         """
-        datatype = DATATYPES[data['type']]
+        datatype = Entity.datatypes.get(data['type'], Entity)
         object_ = datatype(**data)
         return object_
 
@@ -35,27 +35,13 @@ class Entity(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
-    _schema = EntitySchema
+    schema = EntitySchema
 
     id = None
     name = None
     type = 'entity'
 
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.is_valid()
-
-    def __repr__(self):
-        return '<{type:s}(name={name!r})>'.format(
-            type=self.__class__.__name__,
-            name=self.name)
-
     def is_valid(self):
         if not isinstance(self.name, str):
-            raise ValidationError(".name must be a string.")
+            raise ValidationError('.name must be a string.')
         return True
-
-DATATYPES = {
-    'entity': Entity,
-}
