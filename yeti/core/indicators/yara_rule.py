@@ -48,4 +48,18 @@ class YaraRule(Indicator):
                 'Could not compile yara rule: {0:s}'.format(str(err)))
         return True
 
+    def match(self, obj):
+        """Matches a Yara rule against a binary stream.
+
+        Args:
+          obj: Binary data to match the Yara rule against.
+
+        Returns:
+          The matching strings if found, None otherwise.
+        """
+        matches = self.compiled_rule.match(data=obj)
+        if matches:
+            return [match.strings for match in matches]
+        return None
+
 Indicator.datatypes[YaraRule.type] = YaraRule

@@ -45,3 +45,11 @@ class Indicator(YetiObject):
         if not isinstance(self.name, str):
             raise ValidationError('.name must be a string.')
         return True
+
+    def match(self, obj):
+        """Matches this indicators against an object.
+
+        Args:
+          obj: An object to match the Indicator on
+        """
+        raise NotImplementedError

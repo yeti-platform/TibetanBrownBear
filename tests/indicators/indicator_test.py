@@ -1,4 +1,4 @@
-"""Tests for the Malware datatype."""
+"""Tests for the Indicator datatype."""
 
 import pytest
 
