@@ -1,0 +1,30 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+python-arango = "*"
+marshmallow = "*"
+flask = "*"
+flask-classful = "*"
+webargs = "*"
+tldextract = "*"
+pytz = "*"
+python-dateutil = "*"
+yara-python = "*"
+
+
+[dev-packages]
+
+pytest = "*"
+pytest-cov = "*"
+"e1839a8" = {path = ".", editable = true}
+
+
+[requires]
+
+python_version = "3.6"
