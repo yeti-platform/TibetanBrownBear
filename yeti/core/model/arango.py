@@ -220,7 +220,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             return obj.save()
         except IntegrityError:
             document = list(cls._get_collection().find(kwargs))[0]
-            return cls.load_object_from_type(document, strict=True)
+            return cls.load(document, strict=True)
 
     def link_to(self, target, attributes, link_type):
         """Creates a link between two YetiObjects.
@@ -287,7 +287,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
         for doc in documents:
-            yeti_objects.append(cls.load_object_from_type(doc))
+            yeti_objects.append(cls.load(doc))
         return yeti_objects
 
     @classmethod
