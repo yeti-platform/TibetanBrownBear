@@ -1,4 +1,5 @@
-"""Detail the Yeti's Yara rule object structure."""
+"""Detail Yeti's Yara rule object structure."""
+import base64
 
 from marshmallow import fields, post_load
 import yara
@@ -47,5 +48,27 @@ class YaraRule(Indicator):
             raise ValidationError(
                 'Could not compile yara rule: {0:s}'.format(str(err)))
         return True
+
+    def match(self, obj):
+        """Matches a Yara rule against a binary stream.
+
+        Args:
+          obj: Binary data to match the Yara rule against.
+
+        Returns:
+          The matching strings if found, None otherwise.
+        """
+        matches = self.compiled_rule.match(data=obj)
+        if matches:
+            result = {'name': self.name, 'details': []}
+            for match in matches:
+                for offset, name, bytes_ in match.strings:
+                    result['details'].append({
+                        'offset': offset,
+                        'name': name,
+                        'bytes': {'b64': str(base64.b64encode(bytes_))},
+                    })
+            return result
+        return None
 
 Indicator.datatypes[YaraRule.type] = YaraRule

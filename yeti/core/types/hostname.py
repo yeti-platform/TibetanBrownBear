@@ -1,4 +1,4 @@
-"""Detail the Yeti's Observable object structure."""
+"""Detail Yeti's Observable object structure."""
 
 import re
 

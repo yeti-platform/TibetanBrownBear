@@ -1,4 +1,4 @@
-"""Detail the Yeti's Indicator object structure."""
+"""Detail Yeti's Indicator object structure."""
 
 from marshmallow import fields, post_load
 
@@ -45,3 +45,14 @@ class Indicator(YetiObject):
         if not isinstance(self.name, str):
             raise ValidationError('.name must be a string.')
         return True
+
+    def match(self, obj):
+        """Matches this indicators against an object.
+
+        Args:
+          obj: An object to match the Indicator on
+
+        Returns:
+          A list of dicts representing matches.
+        """
+        raise NotImplementedError

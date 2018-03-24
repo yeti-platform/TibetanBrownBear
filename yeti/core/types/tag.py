@@ -1,4 +1,4 @@
-"""Detail the Yeti's Tag object structure."""
+"""Detail Yeti's Tag object structure."""
 
 import re
 from datetime import datetime

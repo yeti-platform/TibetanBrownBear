@@ -1,5 +1,5 @@
 # pylint: disable=unused-argument
-"""Tests for the Yara rule datatype."""
+"""Tests for Yeti linking features."""
 import pytest
 
 from yeti.core.types.hostname import Hostname
