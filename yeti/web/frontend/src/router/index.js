@@ -1,20 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-const routerOptions = [
-  { path: '/', component: 'Home' },
-  { path: '/observables', component: 'Observables' },
-  { path: '*', component: 'NotFound' }
-]
-const routes = routerOptions.map(route => {
-  return {
-    ...route,
-    component: () => import(`@/components/${route.component}.vue`)
-  }
-})
+import Observables from '@/components/Observables'
+import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
 export default new Router({
-  routes,
+  routes: [
+    { path: '/observables', component: Observables },
+    { path: '*', component: NotFound }
+  ],
   mode: 'history'
 })
