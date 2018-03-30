@@ -105,3 +105,6 @@ yeti.conf
 
 # environment
 .tags
+
+# vue and node things
+node_modules/
