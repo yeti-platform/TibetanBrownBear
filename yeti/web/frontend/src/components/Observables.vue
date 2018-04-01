@@ -13,45 +13,16 @@
         </button>
       </div>
     </div>
-    <div class="table-responsive">
-      <table class="table table-hover table-sm">
-        <thead>
-          <tr><th>Value</th><th>IDNA</th></tr>
-        </thead>
-          <tr v-for="obs in observables" v-bind:key="obs.id">
-            <td>{{obs.value}}</td><td>{{obs.idna}}</td>
-          </tr>
-      </table>
-    </div>
+    <table-filter :searchQuery='searchQuery'></table-filter>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
+import TableFilter from '@/components/helpers/TableFilter'
 export default {
-  data () {
-    return {
-      observables: []
-    }
+  components: {
+    TableFilter
   },
-  methods: {
-    fetchObservables () {
-      const apipath = `http://localhost:5000/api/observables/`
-      axios.get(apipath)
-        .then(response => {
-          this.observables = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    getObservables () {
-      this.fetchObservables()
-    }
-  },
-  created () {
-    this.getObservables()
-  }
+  props: ['searchQuery']
 }
 </script>

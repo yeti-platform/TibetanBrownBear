@@ -7,8 +7,8 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/observables', component: Observables },
-    { path: '*', component: NotFound }
+    { path: '/observables', name: 'Observables', component: Observables, props: true },
+    { path: '*', name: 'NotFound', component: NotFound, props: true }
   ],
   mode: 'history'
 })
