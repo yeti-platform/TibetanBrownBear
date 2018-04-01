@@ -29,9 +29,10 @@
 </template>
 
 <script>
+import Sidebar from '@/components/scaffolding/Sidebar'
+
 require('bootstrap')
 require('bootstrap/dist/css/bootstrap.css')
-import Sidebar from '@/components/scaffolding/Sidebar'
 
 export default {
   components: {
