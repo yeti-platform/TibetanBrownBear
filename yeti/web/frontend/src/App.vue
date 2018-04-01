@@ -20,16 +20,19 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
-                  Observables <span class="sr-only">(current)</span>
-                </a>
+                <router-link class="nav-link" to="/observables">
+                  <span data-feather="home"></span>Observables
+                </router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file"></span>
-                  Indicators
-                </a>
+                <router-link class="nav-link" to="/entities">
+                  <span data-feather="file"></span>Entities
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/indicators">
+                  <span data-feather="file"></span>Indicators
+                </router-link>
               </li>
             </ul>
 
@@ -130,12 +133,12 @@ body {
   color: #999;
 }
 
-.sidebar .nav-link.active {
+.sidebar .nav-link.router-link-active {
   color: #007bff;
 }
 
 .sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
+.sidebar .nav-link.router-link-active .feather {
   color: inherit;
 }
 
