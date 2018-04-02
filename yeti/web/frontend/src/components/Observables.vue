@@ -13,7 +13,7 @@
         </button>
       </div>
     </div>
-    <table-filter></table-filter>
+    <table-filter :fields="fields" :apipath="apipath"></table-filter>
   </div>
 </template>
 
@@ -22,6 +22,12 @@ import TableFilter from '@/components/helpers/TableFilter'
 export default {
   components: {
     TableFilter
+  },
+  data () {
+    return {
+      apipath: `http://localhost:5000/api/observables/filter/`,
+      fields: ['value', 'tags']
+    }
   }
 }
 </script>

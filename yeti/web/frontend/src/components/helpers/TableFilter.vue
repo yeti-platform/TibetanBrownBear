@@ -1,21 +1,15 @@
 <template>
   <div class="">
-    <input @keyup.enter='getObservables()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
+    <input @keyup.enter='getElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
       <table class="table table-hover table-compact table-sm">
         <thead>
-          <tr><th>Value</th><th>Tags</th></tr>
+          <tr><th v-bind:key="field" v-for="field in fields">{{field}}</th></tr>
         </thead>
         <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
-            <td>{{elt.value}}</td>
-            <td>
-              <span v-for="tag in elt.tags"
-                    v-bind:key="tag.name"
-                    class="badge m-1"
-                    v-bind:class="{'badge-secondary': !tag.fresh, 'badge-primary': tag.fresh}">
-                {{tag.name}}
-              </span>
+            <td v-bind:key="field" v-for="field in fields">
+              <fields :field="field" :value="elt[field]"/>
             </td>
           </tr>
         </tbody>
@@ -26,17 +20,24 @@
 
 <script>
 import axios from 'axios'
+import Fields from '@/components/helpers/Fields'
 
 export default {
+  components: {
+    Fields
+  },
+  props: [
+    'apipath',
+    'fields'
+  ],
   data () {
     return {
       elements: [],
-      searchQuery: '',
-      apipath: `http://localhost:5000/api/observables/filter/`
+      searchQuery: ''
     }
   },
   methods: {
-    fetchObservables () {
+    fetchElements () {
       console.log('filtering ' + this.apipath + ' with ' + this.searchQuery)
       var params = {
         value: this.searchQuery
@@ -49,12 +50,12 @@ export default {
           console.log(error)
         })
     },
-    getObservables () {
-      this.fetchObservables()
+    getElements () {
+      this.fetchElements()
     }
   },
   created () {
-    this.getObservables()
+    this.getElements()
   }
 }
 </script>
