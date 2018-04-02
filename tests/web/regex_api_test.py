@@ -19,7 +19,9 @@ def test_index(populate_regex):
     names = [regex.name for regex in populate_regex]
     for name in names:
         query_json = {'name': name}
-        rv = client.post('/api/indicators/filter/', data=query_json)
+        rv = client.post('/api/indicators/filter/',
+                         data=json.dumps(query_json),
+                         content_type='application/json')
         response = json.loads(rv.data)
         for element in response:
             assert isinstance(element['id'], int)
@@ -29,7 +31,9 @@ def test_index(populate_regex):
 def test_regex_creation():
     pattern = "asd[0-9]"
     query_json = {'name': 'test', 'pattern': pattern, 'type': 'indicator.regex'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
     assert response['id'] is not None
@@ -39,7 +43,9 @@ def test_regex_creation():
 def test_invalid_regex():
     """Test that regular expressions with invalid patterns cannot be created."""
     query_json = {'name': 'test', 'pattern': 'asd[3-2]', 'type': 'indicator.regex'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
     assert 'ValidationError' in response
@@ -49,7 +55,9 @@ def test_invalid_regex():
 def test_no_regex():
     """Test that regular expressions with empty patterns cannot be created."""
     query_json = {'name': 'test', 'type': 'indicator.regex'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
     assert 'ValidationError' in response
@@ -69,7 +77,9 @@ def test_match_regex():
     """Test that Regex can be matched through the API."""
     for obj, expected in MATCHING_TEST:
         query_json = {'object': obj}
-        rv = client.post('/api/indicators/match', data=query_json)
+        rv = client.post('/api/indicators/match',
+                         data=json.dumps(query_json),
+                         content_type='application/json')
         response = json.loads(rv.data)
         assert expected == response
         assert rv.status_code == 200

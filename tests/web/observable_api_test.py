@@ -42,7 +42,8 @@ def test_put(populate_hostnames):
     rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
-                    data={'value': 'qwe.com'})
+                    data=json.dumps({'value': 'qwe.com'}),
+                    content_type='application/json')
     response = json.loads(rv.data)
     assert response['id'] == observable_json['id']
     assert response['value'] == 'qwe.com'
@@ -51,14 +52,18 @@ def test_put(populate_hostnames):
 def test_filter():
     """Tests searching for specific Observables based on a value regexp."""
     observable_json = {'value': 'asd[0-4]'}
-    rv = client.post('/api/observables/filter/', data=observable_json)
+    rv = client.post('/api/observables/filter/',
+                     data=json.dumps(observable_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert len(response) == 5
 
 @pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_subclass_serialization():
     observable_json = {'value': 'asd[0-4]'}
-    rv = client.post('/api/observables/filter/', data=observable_json)
+    rv = client.post('/api/observables/filter/',
+                     data=json.dumps(observable_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     for item in response:
         if item['type'] == 'observable.hostname':
@@ -69,7 +74,9 @@ def test_subclass_serialization():
 @pytest.mark.usefixtures("clean_db")
 def test_tag(populate_hostnames):
     uri = '/api/observables/{0:d}/tag'.format(populate_hostnames[0].id)
-    rv = client.post(uri, data={'tags': ['tag1']})
+    rv = client.post(uri,
+                     data=json.dumps({'tags': ['tag1']}),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
     assert response['tags']

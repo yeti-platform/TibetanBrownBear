@@ -65,9 +65,11 @@ class GenericResource(FlaskView):
             status code if the object cannot be found.
         """
         try:
-            args = parser.parse(self.searchargs, request)
             obj = get_object_or_404(self.resource_object, id)
-            return obj.update(args).save()
+            dumped = obj.dump()
+            dumped.update(request.get_json())
+            return self.resource_object.load(dumped).save()
+
         except GenericYetiError as err:
             return err, 400
 

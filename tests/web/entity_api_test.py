@@ -40,7 +40,9 @@ def test_get_notfound():
 def test_post():
     """Tests the creation of a new Entity via POST."""
     entity_json = {'name': 'asd', 'type': 'entity'}
-    rv = client.post('/api/entities/', data=entity_json)
+    rv = client.post('/api/entities/',
+                     data=json.dumps(entity_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
 
@@ -50,7 +52,8 @@ def test_put(populate_entities):
     rv = client.get('/api/entities/{0:d}/'.format(populate_entities[0].id))
     entity_json = json.loads(rv.data)
     rv = client.put('/api/entities/{0:d}/'.format(entity_json['id']),
-                    data={'name': 'NewEntity'})
+                    data=json.dumps({'name': 'NewEntity'}),
+                    content_type='application/json')
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
 
@@ -58,7 +61,9 @@ def test_put(populate_entities):
 def test_filter():
     """Tests searching for specific Entitys based on a name regexp."""
     entity_json = {'name': 'entity[0-4]'}
-    rv = client.post('/api/entities/filter/', data=entity_json)
+    rv = client.post('/api/entities/filter/',
+                     data=json.dumps(entity_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert len(response) == 5
 

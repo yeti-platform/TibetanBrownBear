@@ -19,7 +19,9 @@ def test_index(populate_yara_rules):
     names = [yr.name for yr in populate_yara_rules]
     for name in names:
         query_json = {'name': name}
-        rv = client.post('/api/indicators/filter/', data=query_json)
+        rv = client.post('/api/indicators/filter/',
+                         data=json.dumps(query_json),
+                         content_type='application/json')
         response = json.loads(rv.data)
         for element in response:
             assert isinstance(element['id'], int)
@@ -29,7 +31,9 @@ def test_index(populate_yara_rules):
 def test_yara_rule_creation():
     pattern = "rule yeti_rule { strings: $MZ = { 4D 5A } condition: $MZ}"
     query_json = {'name': 'test', 'pattern': pattern, 'type': 'indicator.yararule'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
     assert response['id'] is not None
@@ -39,7 +43,9 @@ def test_yara_rule_creation():
 def test_invalid_yara_rule():
     """Test that Yara rules with invalid patterns cannot be created."""
     query_json = {'name': 'test', 'pattern': 'lol', 'type': 'indicator.yararule'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
     assert 'ValidationError' in response
@@ -49,7 +55,9 @@ def test_invalid_yara_rule():
 def test_no_yara_rule():
     """Test that Yara rules with empty patterns cannot be created."""
     query_json = {'name': 'test', 'type': 'indicator.yararule'}
-    rv = client.post('/api/indicators/', data=query_json)
+    rv = client.post('/api/indicators/',
+                     data=json.dumps(query_json),
+                     content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
     assert 'ValidationError' in response
