@@ -2,13 +2,15 @@
   <div class="">
     <input @keyup.enter='getObservables()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
-      <table class="table table-hover table-sm">
+      <table class="table table-hover table-compact table-sm">
         <thead>
           <tr><th>Value</th><th>IDNA</th></tr>
         </thead>
+        <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
             <td>{{elt.value}}</td><td>{{elt.idna}}</td>
           </tr>
+        </tbody>
       </table>
     </div>
   </div>
@@ -26,9 +28,12 @@ export default {
   },
   methods: {
     fetchObservables () {
-      const apipath = `http://localhost:5000/api/observables/`
+      const apipath = `http://localhost:5000/api/observables/filter/`
       console.log('filtering ' + apipath + ' with ' + this.searchQuery)
-      axios.get(apipath)
+      var params = {
+        value: this.searchQuery
+      }
+      axios.post(apipath, params)
         .then(response => {
           this.elements = response.data
         })
