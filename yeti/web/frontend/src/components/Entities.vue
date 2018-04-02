@@ -4,26 +4,31 @@
       <h1 class="h2">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button class="btn btn-sm btn-outline-secondary">+ New entity</button>
+          <button class="btn btn-sm btn-outline-secondary">New entity</button>
         </div>
       </div>
     </div>
-    <table-filter :fields="fields" :apipath="apipath" :querykey='querykey'></table-filter>
+    <table-filter :fields="fields" :apipath="apipathFilter" :querykey='querykey'></table-filter>
+    <yeti-form :fields="fields" :apipath="apipathUpdate" :type="type"/>
   </div>
 </template>
 
 <script>
 import TableFilter from '@/components/helpers/TableFilter'
+import YetiForm from '@/components/scaffolding/YetiForm'
 export default {
   data () {
     return {
-      fields: ['name'],
-      apipath: `http://localhost:5000/api/entities/filter/`,
+      fields: ['name', 'family'],
+      type: 'entities.malware',
+      apipathFilter: `http://localhost:5000/api/entities/filter/`,
+      apipathUpdate: `http://localhost:5000/api/entities/`,
       querykey: 'name'
     }
   },
   components: {
-    TableFilter
+    TableFilter,
+    YetiForm
   },
   props: ['searchQuery']
 }

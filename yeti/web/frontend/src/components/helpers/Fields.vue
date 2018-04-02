@@ -9,6 +9,15 @@
     </span>
   </div>
 
+  <!-- display generic arrays as a list of tags -->
+  <div v-else-if="value instanceof Array">
+    <span v-for="v in value"
+          v-bind:key="v"
+          class="badge m-1 badge-primary">
+      {{v}}
+    </span>
+  </div>
+
   <!-- fall back to displaying a normal value -->
   <span v-else>{{value}}</span>
 </template>
