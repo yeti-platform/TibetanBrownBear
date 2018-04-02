@@ -4,11 +4,19 @@
     <div class="table-responsive">
       <table class="table table-hover table-compact table-sm">
         <thead>
-          <tr><th>Value</th><th>IDNA</th></tr>
+          <tr><th>Value</th><th>Tags</th></tr>
         </thead>
         <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
-            <td>{{elt.value}}</td><td>{{elt.idna}}</td>
+            <td>{{elt.value}}</td>
+            <td>
+              <span v-for="tag in elt.tags"
+                    v-bind:key="tag.name"
+                    class="badge m-1"
+                    v-bind:class="{'badge-secondary': !tag.fresh, 'badge-primary': tag.fresh}">
+                {{tag.name}}
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -23,17 +31,17 @@ export default {
   data () {
     return {
       elements: [],
-      searchQuery: ''
+      searchQuery: '',
+      apipath: `http://localhost:5000/api/observables/filter/`
     }
   },
   methods: {
     fetchObservables () {
-      const apipath = `http://localhost:5000/api/observables/filter/`
-      console.log('filtering ' + apipath + ' with ' + this.searchQuery)
+      console.log('filtering ' + this.apipath + ' with ' + this.searchQuery)
       var params = {
         value: this.searchQuery
       }
-      axios.post(apipath, params)
+      axios.post(this.apipath, params)
         .then(response => {
           this.elements = response.data
         })
