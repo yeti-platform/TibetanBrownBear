@@ -13,7 +13,7 @@
         </button>
       </div>
     </div>
-    <table-filter :searchQuery='searchQuery'></table-filter>
+    <table-filter></table-filter>
   </div>
 </template>
 
@@ -22,7 +22,6 @@ import TableFilter from '@/components/helpers/TableFilter'
 export default {
   components: {
     TableFilter
-  },
-  props: ['searchQuery']
+  }
 }
 </script>
