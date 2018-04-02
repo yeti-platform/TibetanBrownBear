@@ -4,22 +4,24 @@
       <h1 class="h2">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button class="btn btn-sm btn-outline-secondary">Share</button>
-          <button class="btn btn-sm btn-outline-secondary">Export</button>
+          <button class="btn btn-sm btn-outline-secondary">+ New entity</button>
         </div>
-        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-          <span data-feather="calendar"></span>
-          This week
-        </button>
       </div>
     </div>
-    Entities coming soon!
+    <table-filter :fields="fields" :apipath="apipath" :querykey='querykey'></table-filter>
   </div>
 </template>
 
 <script>
 import TableFilter from '@/components/helpers/TableFilter'
 export default {
+  data () {
+    return {
+      fields: ['name'],
+      apipath: `http://localhost:5000/api/entities/filter/`,
+      querykey: 'name'
+    }
+  },
   components: {
     TableFilter
   },

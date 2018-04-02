@@ -28,7 +28,8 @@ export default {
   },
   props: [
     'apipath',
-    'fields'
+    'fields',
+    'querykey'
   ],
   data () {
     return {
@@ -39,9 +40,8 @@ export default {
   methods: {
     fetchElements () {
       console.log('filtering ' + this.apipath + ' with ' + this.searchQuery)
-      var params = {
-        value: this.searchQuery
-      }
+      var params = {}
+      params[this.querykey] = this.searchQuery
       axios.post(this.apipath, params)
         .then(response => {
           this.elements = response.data

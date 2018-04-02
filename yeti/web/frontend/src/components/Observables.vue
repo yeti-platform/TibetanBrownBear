@@ -13,7 +13,7 @@
         </button>
       </div>
     </div>
-    <table-filter :fields="fields" :apipath="apipath"></table-filter>
+    <table-filter :fields="fields" :apipath="apipath" :querykey='querykey'></table-filter>
   </div>
 </template>
 
@@ -26,7 +26,8 @@ export default {
   data () {
     return {
       apipath: `http://localhost:5000/api/observables/filter/`,
-      fields: ['value', 'tags']
+      fields: ['value', 'tags'],
+      querykey: 'value'
     }
   }
 }
