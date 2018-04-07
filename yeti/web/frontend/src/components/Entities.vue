@@ -11,7 +11,7 @@
 
     <nav class="nav nav-pills flex-column flex-sm-row">
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/malware">Malware</router-link>
-      <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/actors">Actors</router-link>
+      <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/actor">Actors</router-link>
     </nav>
 
     <router-view/>
@@ -20,53 +20,28 @@
 </template>
 
 <script>
-import TableFilter from '@/components/helpers/TableFilter'
-import YetiForm from '@/components/scaffolding/YetiForm'
+// import TableFilter from '@/components/helpers/TableFilter'
+// import YetiForm from '@/components/scaffolding/YetiForm'
+import { generateRoutes } from '@/router/helpers'
 
-const childrenRoutes = [{
-  path: 'malware',
-  component: TableFilter,
-  props: {
-    apiPath: `http://localhost:5000/api/entities/filter/`,
-    querykey: 'name',
-    fields: ['name', 'family'],
-    typeFilter: 'entity.malware'
-  }
-}, {
-  path: 'malware/new',
-  component: YetiForm,
-  props: {
-    apiPath: `http://localhost:5000/api/entities/`,
-    fields: ['name', 'family'],
-    type: 'entity.malware'
-  }
-}, {
-  path: 'actors',
-  component: TableFilter,
-  props: {
-    apiPath: `http://localhost:5000/api/entities/filter/`,
-    querykey: 'name',
-    fields: ['name'],
-    typeFilter: 'entity.actor'
-  }
-}, {
-  path: 'actors/new',
-  component: YetiForm,
-  props: {
-    apiPath: `http://localhost:5000/api/entities/`,
-    fields: ['name'],
-    type: 'entity.actor'
-  }
-}]
+const subComponents = [
+  { name: 'malware', fields: ['name', 'family'] },
+  { name: 'actor', fields: ['name'] }
+]
 
-console.log(childrenRoutes)
-
+let defaults = {
+  defaultApiPath: `http://localhost:5000/api/entities/filter/`,
+  defaultTypePrefix: 'entity.',
+  defaultQuerykey: 'name'
+}
+let routes = generateRoutes(subComponents, defaults)
+console.log(routes)
 export default {
-  childrenRoutes: childrenRoutes,
-  props: ['searchQuery'],
-  components: {
-    TableFilter,
-    YetiForm
-  }
+  childrenRoutes: routes,
+  props: ['searchQuery']
+  // components: {
+  //   TableFilter,
+  //   YetiForm
+  // }
 }
 </script>
