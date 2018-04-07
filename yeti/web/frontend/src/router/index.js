@@ -9,10 +9,27 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    { path: '/observables', name: 'Observables', component: Observables, props: true },
-    { path: '/entities', name: 'Entities', component: Entities, props: true },
-    { path: '/indicators', name: 'Indicators', component: Indicators, props: true },
-    { path: '*', name: 'NotFound', component: NotFound, props: true }
+    {
+      path: '/observables',
+      name: 'Observables',
+      component: Observables
+    },
+    {
+      path: '/entities',
+      name: 'Entities',
+      component: Entities,
+      children: Entities.childrenRoutes
+    },
+    {
+      path: '/indicators',
+      name: 'Indicators',
+      component: Indicators
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ],
   mode: 'history'
 })

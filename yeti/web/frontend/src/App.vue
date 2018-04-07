@@ -61,4 +61,9 @@ body {
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
 
+.nav-pills .nav-link.router-link-active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #007bff;
+}
+
 </style>

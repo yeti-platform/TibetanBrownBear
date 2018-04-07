@@ -27,9 +27,10 @@ export default {
     Fields
   },
   props: [
-    'apipath',
+    'apiPath',
     'fields',
-    'querykey'
+    'querykey',
+    'typeFilter'
   ],
   data () {
     return {
@@ -37,12 +38,17 @@ export default {
       searchQuery: ''
     }
   },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'getElements'
+  },
   methods: {
     fetchElements () {
-      console.log('filtering ' + this.apipath + ' with ' + this.searchQuery)
+      console.log('filtering ' + this.apiPath + ' with ' + this.querykey + ':' + this.searchQuery)
       var params = {}
       params[this.querykey] = this.searchQuery
-      axios.post(this.apipath, params)
+      params['type'] = this.typeFilter
+      axios.post(this.apiPath, params)
         .then(response => {
           this.elements = response.data
         })
