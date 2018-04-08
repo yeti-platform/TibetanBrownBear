@@ -1,5 +1,5 @@
 // scaffolding
-import TableFilter from '@/components/helpers/TableFilter'
+import TableFilter from '@/components/scaffolding/TableFilter'
 import YetiForm from '@/components/scaffolding/YetiForm'
 
 export function generateRoutes (subComponents, defaults) {

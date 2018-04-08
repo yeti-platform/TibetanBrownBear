@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import TableFilter from '@/components/helpers/TableFilter'
+import TableFilter from '@/components/scaffolding/TableFilter'
 export default {
   components: {
     TableFilter
