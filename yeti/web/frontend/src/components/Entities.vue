@@ -4,7 +4,7 @@
       <h1 class="h2">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <router-link class="btn btn-sm btn-outline-secondary" to="/entities/malware/new">New</router-link>
+          <router-link class="btn btn-sm btn-outline-secondary" :to="'/entities/'+extractedSubtype+'/new'">New {{extractedSubtype}}</router-link>
         </div>
       </div>
     </div>
@@ -20,8 +20,6 @@
 </template>
 
 <script>
-// import TableFilter from '@/components/helpers/TableFilter'
-// import YetiForm from '@/components/scaffolding/YetiForm'
 import { generateRoutes } from '@/router/helpers'
 
 const subComponents = [
@@ -34,14 +32,21 @@ let defaults = {
   defaultTypePrefix: 'entity.',
   defaultQuerykey: 'name'
 }
+
 let routes = generateRoutes(subComponents, defaults)
-console.log(routes)
+
 export default {
   childrenRoutes: routes,
-  props: ['searchQuery']
-  // components: {
-  //   TableFilter,
-  //   YetiForm
-  // }
+  props: ['searchQuery'],
+  data () {
+    return {
+      subType: 'malware'
+    }
+  },
+  computed: {
+    extractedSubtype: function () {
+      return this.$route.path.split('/').slice(-1)[0]
+    }
+  }
 }
 </script>
