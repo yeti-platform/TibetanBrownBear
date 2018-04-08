@@ -28,7 +28,7 @@ const subComponents = [
 ]
 
 let defaults = {
-  defaultApiPath: `http://localhost:5000/api/entities/filter/`,
+  defaultApiPath: `http://localhost:5000/api/entities/`,
   defaultTypePrefix: 'entity.',
   defaultQuerykey: 'name'
 }
@@ -44,7 +44,7 @@ export default {
     }
   },
   computed: {
-    extractedSubtype: function () {
+    extractedSubtype () {
       return this.$route.path.split('/').slice(-1)[0]
     }
   }

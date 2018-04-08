@@ -9,7 +9,8 @@ export function generateRoutes (subComponents, defaults) {
 
   let generatedChildrenRoutes = []
   subComponents.map(subcompDefinition => {
-    let apiPath = subcompDefinition.apiPath ? subcompDefinition.apiPath : defaultApiPath
+    let filterEndpoint = subcompDefinition.apiPath ? subcompDefinition.apiPath : defaultApiPath + 'filter/'
+    let newEndpoint = subcompDefinition.apiPath ? subcompDefinition.apiPath : defaultApiPath
     let queryKey = subcompDefinition.Querykey ? subcompDefinition.Querykey : defaultQuerykey
     let type = subcompDefinition.typePrefix ? subcompDefinition.typePrefix + subcompDefinition.name : defaultTypePrefix + subcompDefinition.name
 
@@ -18,7 +19,7 @@ export function generateRoutes (subComponents, defaults) {
       path: subcompDefinition.name,
       component: TableFilter,
       props: {
-        apiPath: apiPath,
+        apiPath: filterEndpoint,
         querykey: queryKey,
         fields: subcompDefinition.fields,
         typeFilter: type
@@ -30,13 +31,12 @@ export function generateRoutes (subComponents, defaults) {
       path: subcompDefinition.name + '/new',
       component: YetiForm,
       props: {
-        apiPath: apiPath,
+        apiPath: newEndpoint,
         fields: subcompDefinition.fields,
         type: type
       }
     })
   })
-
   // return the final generated route list
   return generatedChildrenRoutes
 }

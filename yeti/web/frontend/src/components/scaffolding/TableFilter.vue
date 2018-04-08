@@ -8,8 +8,11 @@
         </thead>
         <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
-            <td v-bind:key="field" v-for="field in fields">
-              <fields :field="field" :value="elt[field]"/>
+            <td v-bind:key="field" v-for="(field, index) in fields">
+              <router-link v-if="index === 0" :to="{ name: 'EntityDetails', params: {id: elt.id}}">
+                <fields :field="field" :value="elt[field]"/>
+              </router-link>
+              <fields v-if="index !== 0" :field="field" :value="elt[field]"/>
             </td>
           </tr>
         </tbody>

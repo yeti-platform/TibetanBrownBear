@@ -1,5 +1,5 @@
 <template lang="html">
-  <form @submit="checkForm">
+  <form @submit="submitForm">
     <div v-for="field in fields" v-bind:key="field" class="form-group row">
       <label :for="field" class="col-sm-2 col-form-label">{{field}}</label>
       <div class="col-sm-10">
@@ -17,7 +17,7 @@ import axios from 'axios'
 export default {
   props: [
     'fields',
-    'apipath',
+    'apiPath',
     'type'
   ],
   data () {
@@ -26,11 +26,11 @@ export default {
     }
   },
   methods: {
-    checkForm: function (e) {
-      console.log('updating ' + this.apipath + ' with ' + this.object)
-      axios.post(this.apipath, this.object)
+    submitForm: function (e) {
+      console.log('updating ' + this.apiPath + ' with ' + this.object)
+      axios.post(this.apiPath, this.object)
         .then(response => {
-          console.log('all good!')
+          this.$router.push({name: 'EntityDetails', params: {id: response.data.id}})
         })
         .catch(error => {
           console.log(error)
