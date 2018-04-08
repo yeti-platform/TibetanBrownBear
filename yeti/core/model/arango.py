@@ -279,11 +279,11 @@ class ArangoYetiConnector(AbstractYetiConnector):
         colname = cls._collection_name
         conditions = []
         for key in args:
-            if key in ['value', 'name']:
+            if key in ['value', 'name', 'type']:
                 conditions.append('o.{0:s} =~ @{0:s}'.format(key))
         aql_string = """
         FOR o IN {0:s} FILTER {1:s} RETURN o
-        """.format(colname, ' OR '.join(conditions))
+        """.format(colname, ' AND '.join(conditions))
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
         for doc in documents:
