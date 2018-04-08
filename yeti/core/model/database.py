@@ -33,6 +33,11 @@ class YetiObject(ArangoYetiConnector):
 
     @classmethod
     def get_realschema(cls, obj):
+        subtype = obj.get('type')
+        if cls.datatypes and subtype not in cls.datatypes:
+            raise ValidationError('{0:s} is not a valid type for {1:s}'.format(
+                subtype, cls.__name__
+            ))
         return cls.datatypes.get(obj.get('type'), cls).schema
 
     def is_valid(self):

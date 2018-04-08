@@ -39,12 +39,24 @@ def test_get_notfound():
 @pytest.mark.usefixtures("clean_db")
 def test_post():
     """Tests the creation of a new Entity via POST."""
-    entity_json = {'name': 'asd', 'type': 'entity'}
+    entity_json = {'name': 'asd', 'type': 'entity.malware'}
     rv = client.post('/api/entities/',
                      data=json.dumps(entity_json),
                      content_type='application/json')
     response = json.loads(rv.data)
     assert isinstance(response['id'], int)
+
+@pytest.mark.usefixtures("clean_db")
+def test_wrong_type_raises_error():
+    """Tests that an entity with nonexistent type cannot be created."""
+    entity_json = {'name': 'asd', 'type': 'entity.notexist'}
+    rv = client.post('/api/entities/',
+                     data=json.dumps(entity_json),
+                     content_type='application/json')
+    assert rv.status_code == 400
+    response = json.loads(rv.data)
+    assert 'ValidationError' in response
+    assert 'is not a valid type for' in response['ValidationError']
 
 @pytest.mark.usefixtures("clean_db")
 def test_put(populate_entities):
