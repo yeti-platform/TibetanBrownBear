@@ -42,6 +42,8 @@ class Entity(YetiObject):
     type = 'entity'
 
     def is_valid(self):
-        if not isinstance(self.name, str):
-            raise ValidationError('.name must be a string.')
+        if not self.name or not isinstance(self.name, str):
+            msg = 'Invalid \'name\' parameter (provided {0:s})'.format(
+                repr(self.name))
+            raise ValidationError(msg)
         return True

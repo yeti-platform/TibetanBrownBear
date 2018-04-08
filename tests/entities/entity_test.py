@@ -28,6 +28,8 @@ def test_invalid_entity_name():
     """Tests that an entity with an invalid name cannot be created."""
     with pytest.raises(ValidationError):
         Entity(name=123).save()
+    with pytest.raises(ValidationError):
+        Entity(name='').save()
 
 @pytest.mark.usefixtures('clean_db', 'populate_entities')
 def test_entity_get_or_create():
