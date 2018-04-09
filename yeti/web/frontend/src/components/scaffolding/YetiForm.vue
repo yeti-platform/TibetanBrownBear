@@ -6,7 +6,7 @@
         <input class="form-control" :id="field" v-model="object[field]">
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
     <pre>{{object}}</pre>
   </form>
 </template>
@@ -14,26 +14,38 @@
 <script>
 import axios from 'axios'
 
+const methods = {
+  'PUT': axios.put,
+  'POST': axios.post
+}
+
 export default {
-  props: [
-    'fields',
-    'apiPath',
-    'type'
-  ],
+  props: {
+    'fields': { default: [], type: Array },
+    'apiPath': { type: String },
+    'method': { default: 'POST', type: String },
+    'object': Object,
+    'onSaveCallback': Function
+  },
   data () {
     return {
-      object: {'type': this.type}
+      saving: false
     }
   },
   methods: {
     submitForm: function (e) {
       console.log('updating ' + this.apiPath + ' with ' + this.object)
-      axios.post(this.apiPath, this.object)
+      this.saving = true
+      methods[this.method](this.apiPath, this.object)
         .then(response => {
-          this.$router.push({name: 'EntityDetails', params: {id: response.data.id}})
+          this.onSaveCallback(response)
+          // this.$router.push({name: 'EntityDetails', params: {id: response.data.id}})
         })
         .catch(error => {
           console.log(error)
+        })
+        .finally(() => {
+          this.saving = false
         })
       e.preventDefault()
     }

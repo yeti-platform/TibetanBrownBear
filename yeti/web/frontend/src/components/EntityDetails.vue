@@ -1,5 +1,6 @@
 <template>
-  <div id="detail">
+  <!-- Display details nicely -->
+  <div v-if="!edit" id="detail">
     <div v-if="loading">
       Loading info on Entity {{ $route.params.id }}...
     </div>
@@ -7,26 +8,39 @@
       <h3>{{entity.name}} <small>{{entity.type}}</small></h3>
       {{entity.description || 'No description'}}
     </div>
+    <button class="btn btn-sm btn-outline-secondary" @click="toggleEdit">Edit</button>
   </div>
+  <!--  Edit form -->
+  <yeti-form v-bind:object="entity"
+             v-bind:fields="['name', 'family']"
+             v-bind:apiPath="this.defaultApiPath+$route.params.id+'/'"
+             method='PUT'
+             :onSaveCallback='toggleEdit'
+             v-else
+             />
 </template>
 
 <script>
 import axios from 'axios'
-
-let defaultApiPath = `http://localhost:5000/api/entities/`
+import YetiForm from '@/components/scaffolding/YetiForm'
 
 export default {
   data () {
     return {
       loading: true,
       entity: {},
-      error: {}
+      error: {},
+      edit: false,
+      defaultApiPath: `http://localhost:5000/api/entities/`
     }
+  },
+  components: {
+    YetiForm
   },
   methods: {
     fetchInfo () {
       console.log('Fetching info')
-      axios.get(defaultApiPath + this.$route.params.id)
+      axios.get(this.defaultApiPath + this.$route.params.id)
         .then(response => {
           this.entity = response.data
         })
@@ -35,12 +49,15 @@ export default {
           this.error = error
         })
         .finally(() => { this.loading = false })
+    },
+    toggleEdit () {
+      this.edit = !this.edit
+      console.log('EDIT! ' + this.edit)
     }
   },
   mounted () {
     this.fetchInfo()
   }
-
 }
 </script>
 

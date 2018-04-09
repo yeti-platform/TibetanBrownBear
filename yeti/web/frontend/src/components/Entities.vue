@@ -28,9 +28,12 @@ const subComponents = [
 ]
 
 let defaults = {
-  defaultApiPath: `http://localhost:5000/api/entities/`,
-  defaultTypePrefix: 'entity.',
-  defaultQuerykey: 'name'
+  apiPath: `http://localhost:5000/api/entities/`,
+  typePrefix: 'entity.',
+  querykey: 'name',
+  onSaveCallback: function (response) {
+    this.$router.push({name: 'EntityDetails', params: {id: response.data.id}})
+  }
 }
 
 let routes = generateRoutes(subComponents, defaults)

@@ -3,9 +3,9 @@ import TableFilter from '@/components/scaffolding/TableFilter'
 import YetiForm from '@/components/scaffolding/YetiForm'
 
 export function generateRoutes (subComponents, defaults) {
-  let defaultApiPath = defaults.defaultApiPath
-  let defaultTypePrefix = defaults.defaultTypePrefix
-  let defaultQuerykey = defaults.defaultQuerykey
+  let defaultApiPath = defaults.apiPath
+  let defaultTypePrefix = defaults.typePrefix
+  let defaultQuerykey = defaults.querykey
 
   let generatedChildrenRoutes = []
   subComponents.map(subcompDefinition => {
@@ -26,14 +26,15 @@ export function generateRoutes (subComponents, defaults) {
       }
     })
 
-    // push edit / add view for route
+    // push 'new' view for route
     generatedChildrenRoutes.push({
       path: subcompDefinition.name + '/new',
       component: YetiForm,
       props: {
         apiPath: newEndpoint,
         fields: subcompDefinition.fields,
-        type: type
+        object: {'type': type},
+        onSaveCallback: defaults.onSaveCallback
       }
     })
   })
