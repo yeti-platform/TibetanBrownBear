@@ -8,12 +8,20 @@ module.exports = {
     // see nightwatch.conf.js
     const devServer = browser.globals.devServerURL
 
-    const index = devServer + '/'
-
     browser
-      .url(index)
+      .url(devServer + '/')
       .waitForElementVisible('#app', 1000)
       .assert.containsText('span', 'INTELLIGENCE')
+      .end()
+  },
+
+  'browse to entities': function (browser) {
+    const devServer = browser.globals.devServerURL
+
+    browser
+      .url(devServer + '/entities/malware')
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('.nav .router-link-exact-active', 'Malware')
       .end()
   }
 }
