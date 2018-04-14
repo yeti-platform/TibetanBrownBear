@@ -8,12 +8,12 @@ module.exports = {
     // see nightwatch.conf.js
     const devServer = browser.globals.devServerURL
 
+    const index = devServer + '/'
+
     browser
-      .url(devServer)
-      .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.hello')
-      .assert.containsText('h1', 'Welcome to Your Vue.js App')
-      .assert.elementCount('img', 1)
+      .url(index)
+      .waitForElementVisible('#app', 1000)
+      .assert.containsText('span', 'INTELLIGENCE')
       .end()
   }
 }
