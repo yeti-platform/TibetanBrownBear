@@ -39,7 +39,6 @@ export default {
       methods[this.method](this.apiPath, this.object)
         .then(response => {
           this.onSaveCallback(response)
-          // this.$router.push({name: 'EntityDetails', params: {id: response.data.id}})
         })
         .catch(error => {
           console.log(error)

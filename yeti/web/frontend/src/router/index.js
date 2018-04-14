@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Observables from '@/components/Observables'
-import Entities from '@/components/Entities'
-import EntityDetails from '@/components/EntityDetails'
+import EntityList from '@/components/Entities/EntityList'
+import EntityDetails from '@/components/Entities/EntityDetails'
 import Indicators from '@/components/Indicators'
 import NotFound from '@/components/NotFound'
 
@@ -16,13 +16,12 @@ export default new Router({
       component: Observables
     },
     {
-      path: '/entities',
-      name: 'Entities',
-      component: Entities,
-      children: Entities.childrenRoutes
+      path: '/entities/:type([a-z]+)',
+      name: 'EntityList',
+      component: EntityList
     },
     {
-      path: '/entities/:id',
+      path: '/entities/:id(\\d+)',
       name: 'EntityDetails',
       component: EntityDetails
     },

@@ -2,13 +2,16 @@
   <div class="">
     <input @keyup.enter='getElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
-      <table class="table table-hover table-compact table-sm">
+      <div v-if="loading">
+        Loading...
+      </div>
+      <table v-else class="table table-hover table-compact table-sm">
         <thead>
-          <tr><th v-bind:key="field" v-for="field in fields">{{field}}</th></tr>
+          <tr><th v-bind:key="field" v-for="field in filterParams.fields">{{field}}</th></tr>
         </thead>
         <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
-            <td v-bind:key="field" v-for="(field, index) in fields">
+            <td v-bind:key="field" v-for="(field, index) in filterParams.fields">
               <router-link v-if="index === 0" :to="{ name: 'EntityDetails', params: {id: elt.id}}">
                 <fields :field="field" :value="elt[field]"/>
               </router-link>
@@ -29,16 +32,12 @@ export default {
   components: {
     Fields
   },
-  props: [
-    'apiPath',
-    'fields',
-    'querykey',
-    'typeFilter'
-  ],
+  props: ['filterParams'],
   data () {
     return {
       elements: [],
-      searchQuery: ''
+      searchQuery: '',
+      loading: true
     }
   },
   watch: {
@@ -47,13 +46,14 @@ export default {
   },
   methods: {
     fetchElements () {
-      console.log('filtering ' + this.apiPath + ' with ' + this.querykey + ':' + this.searchQuery)
+      console.log('filtering ' + this.filterParams.apiPath + ' with ' + this.filterParams.querykey + ':' + this.searchQuery)
       var params = {}
-      params[this.querykey] = this.searchQuery
-      params['type'] = this.typeFilter
-      axios.post(this.apiPath, params)
+      params[this.filterParams.querykey] = this.searchQuery
+      params['type'] = this.filterParams.typeFilter
+      axios.post(this.filterParams.apiPath, params)
         .then(response => {
           this.elements = response.data
+          this.loading = false
         })
         .catch(error => {
           console.log(error)
