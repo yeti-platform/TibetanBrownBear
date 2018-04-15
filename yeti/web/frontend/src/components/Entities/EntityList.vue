@@ -26,16 +26,6 @@ const typeFields = {
   'actor': ['name']
 }
 
-const defaultObjects = {
-  'malware': {
-    type: 'entity.malware',
-    family: []
-  },
-  'actor': {
-    type: 'entity.actor'
-  }
-}
-
 export default {
   components: {
     TableFilter,
@@ -43,7 +33,15 @@ export default {
   },
   data () {
     return {
-      defaultObjects: defaultObjects
+      defaultObjects: {
+        'malware': {
+          type: 'entity.malware',
+          family: []
+        },
+        'actor': {
+          type: 'entity.actor'
+        }
+      }
     }
   },
   computed: {
