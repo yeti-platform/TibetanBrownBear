@@ -2,10 +2,11 @@
   <!-- Display details nicely -->
   <div v-if="!edit" id="detail">
     <div v-if="loading">
-      Loading info on Entity {{ $route.params.id }}...
+      Loading...
     </div>
     <div v-else>
       <h3>{{entity.name}} <small>{{entity.type}}</small></h3>
+      <fields v-if="entity.family" :value="entity.family"/>
       {{entity.description || 'No description'}}
     </div>
     <button class="btn btn-sm btn-outline-secondary" @click="toggleEdit">Edit</button>
@@ -23,6 +24,7 @@
 <script>
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
+import Fields from '@/components/helpers/Fields'
 
 export default {
   data () {
@@ -35,7 +37,8 @@ export default {
     }
   },
   components: {
-    YetiForm
+    YetiForm,
+    Fields
   },
   methods: {
     fetchInfo () {
