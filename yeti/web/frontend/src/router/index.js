@@ -16,7 +16,7 @@ export default new Router({
       component: Observables
     },
     {
-      path: '/entities/:type([a-z]+)',
+      path: '/entities/:type([a-z]+)?',
       name: 'EntityList',
       component: EntityList
     },
