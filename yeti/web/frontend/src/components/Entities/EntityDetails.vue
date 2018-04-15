@@ -42,7 +42,11 @@ export default {
       console.log('Fetching info')
       axios.get(this.defaultApiPath + this.$route.params.id)
         .then(response => {
-          this.entity = response.data
+          if (response.status !== 200) {
+            this.error = response.data
+          } else {
+            this.entity = response.data
+          }
         })
         .catch(error => {
           console.log(error)
