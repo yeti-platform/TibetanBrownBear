@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import Observables from '@/components/Observables'
 import EntityList from '@/components/Entities/EntityList'
 import EntityDetails from '@/components/Entities/EntityDetails'
-import Indicators from '@/components/Indicators'
+import IndicatorList from '@/components/Indicators/IndicatorList'
+import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
@@ -26,9 +27,14 @@ export default new Router({
       component: EntityDetails
     },
     {
-      path: '/indicators',
-      name: 'Indicators',
-      component: Indicators
+      path: '/indicators/:type([a-z]+)?',
+      name: 'IndicatorList',
+      component: IndicatorList
+    },
+    {
+      path: '/indicators/:id(\\d+)',
+      name: 'IndicatorDetails',
+      component: IndicatorDetails
     },
     {
       path: '*',

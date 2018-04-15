@@ -36,10 +36,10 @@ export default {
     YetiTaggedInput
   },
   props: {
-    'fields': { default: [], type: Array },
+    'fields': { default: () => [], type: Array },
     'apiPath': { type: String },
     'method': { default: 'POST', type: String },
-    'object': Object,
+    'object': { default: () => {}, type: Object },
     'onSaveCallback': Function
   },
   data () {

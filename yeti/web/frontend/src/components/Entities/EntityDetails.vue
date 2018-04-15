@@ -59,7 +59,6 @@ export default {
     },
     toggleEdit () {
       this.edit = !this.edit
-      console.log('EDIT! ' + this.edit)
     }
   },
   mounted () {
