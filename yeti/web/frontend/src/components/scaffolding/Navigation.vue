@@ -4,7 +4,7 @@
     <div class="navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav px-3 ml-auto">
       <li class="nav-item">
-          <a class="nav-link active" href="#">Settings</a>
+          <router-link class="nav-link active" :to="{name: 'AdminMain'}">Admin</router-link>
       </li>
     </ul>
   </div>

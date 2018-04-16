@@ -18,16 +18,35 @@
     </span>
   </div>
 
+  <div v-else-if="checkValidDate(value)">
+    <span>{{ formatDateString(value) }}</span>
+  </div>
+
   <!-- fall back to displaying a normal value -->
   <span v-else>{{value}}</span>
 </template>
 
 <script>
+import moment from 'moment'
+
+// Expected input format: 2018-04-16T16:18:25.179482+00:00
+const inputDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSSSSZZ'
+// Wanted output format: 2018-04-16 16:18:25 +02:00 (to localtime)
+const outputDateTimeFormat = 'YYYY-MM-DD HH:mm:ss ZZ'
+
 export default {
   props: [
     'field',
     'value'
-  ]
+  ],
+  methods: {
+    checkValidDate (string) {
+      return moment(string, inputDateTimeFormat, true).isValid()
+    },
+    formatDateString (string) {
+      return moment(string, inputDateTimeFormat).format(outputDateTimeFormat)
+    }
+  }
 }
 </script>
 
