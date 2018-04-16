@@ -12,7 +12,7 @@
         <tbody>
           <tr v-for="elt in elements" v-bind:key="elt.id">
             <td v-bind:key="field" v-for="(field, index) in filterParams.fields">
-              <router-link v-if="index === 0" :to="{ name: 'EntityDetails', params: {id: elt.id}}">
+              <router-link v-if="index === 0" :to="{ name: detailComponent, params: {id: elt.id}}">
                 <fields :field="field" :value="elt[field]"/>
               </router-link>
               <fields v-if="index !== 0" :field="field" :value="elt[field]"/>
@@ -32,7 +32,7 @@ export default {
   components: {
     Fields
   },
-  props: ['filterParams'],
+  props: ['filterParams', 'detailComponent'],
   data () {
     return {
       elements: [],
