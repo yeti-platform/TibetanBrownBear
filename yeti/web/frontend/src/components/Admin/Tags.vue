@@ -16,7 +16,7 @@ export default {
     return {
       filterParams: {
         apiPath: `http://localhost:5000/api/tags/filter/`,
-        fields: ['name', 'count', 'created_at'],
+        fields: ['name', 'count', 'created_at', 'default_expiration'],
         querykey: 'name'
       }
     }
