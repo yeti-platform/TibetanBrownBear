@@ -1,6 +1,6 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!edit" id="detail">
+  <div v-if="!isEdit" id="detail">
     <div v-if="loading">
       Loading...
     </div>
@@ -9,12 +9,12 @@
       <fields v-if="entity.family" :value="entity.family"/>
       {{entity.description || 'No description'}}
     </div>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleEdit">Edit</button>
+    <router-link class="btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit'}">Edit</router-link>
   </div>
   <!--  Edit form -->
-  <yeti-form v-bind:object="entity"
-             v-bind:fields="['name', 'family']"
-             v-bind:apiPath="this.defaultApiPath+$route.params.id+'/'"
+  <yeti-form :object="entity"
+             :fields="['name', 'family']"
+             :apiPath="this.defaultApiPath+$route.params.id+'/'"
              method='PUT'
              :onSaveCallback='toggleEdit'
              v-else
@@ -32,13 +32,17 @@ export default {
       loading: true,
       entity: {},
       error: {},
-      edit: false,
       defaultApiPath: `http://localhost:5000/api/entities/`
     }
   },
   components: {
     YetiForm,
     Fields
+  },
+  computed: {
+    isEdit () {
+      return this.$route.path.endsWith('edit')
+    }
   },
   methods: {
     fetchInfo () {
@@ -58,7 +62,7 @@ export default {
         .finally(() => { this.loading = false })
     },
     toggleEdit () {
-      this.edit = !this.edit
+      this.$router.go(-1)
     }
   },
   mounted () {

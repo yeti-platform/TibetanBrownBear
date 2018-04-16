@@ -30,7 +30,14 @@ export default new Router({
     {
       path: '/entities/:id(\\d+)',
       name: 'EntityDetails',
-      component: EntityDetails
+      component: EntityDetails,
+      children: [
+        {
+          name: 'EntityEdit',
+          path: 'edit',
+          component: EntityDetails
+        }
+      ]
     },
     // Indicators
     {
@@ -41,7 +48,14 @@ export default new Router({
     {
       path: '/indicators/:id(\\d+)',
       name: 'IndicatorDetails',
-      component: IndicatorDetails
+      component: IndicatorDetails,
+      children: [
+        {
+          name: 'IndicatorEdit',
+          path: 'edit',
+          component: IndicatorDetails
+        }
+      ]
     },
     // Settings
     {

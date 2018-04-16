@@ -1,6 +1,6 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!edit" id="detail">
+  <div v-if="!isEdit" id="detail">
     <div v-if="loading">
       Loading...
     </div>
@@ -9,12 +9,12 @@
       {{indicator.description || 'No description'}}
       <pre>{{indicator.pattern}}</pre>
     </div>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleEdit">Edit</button>
+    <router-link class="btn btn-sm btn-outline-secondary" :to="{name: 'IndicatorEdit'}">Edit</router-link>
   </div>
   <!--  Edit form -->
-  <yeti-form v-bind:object="indicator"
-             v-bind:fields="['name', 'pattern']"
-             v-bind:apiPath="this.defaultApiPath+$route.params.id+'/'"
+  <yeti-form :object="indicator"
+             :fields="['name', 'pattern']"
+             :apiPath="this.defaultApiPath+$route.params.id+'/'"
              method='PUT'
              :onSaveCallback='toggleEdit'
              v-else
@@ -32,13 +32,17 @@ export default {
       loading: true,
       indicator: {},
       error: {},
-      edit: false,
       defaultApiPath: `http://localhost:5000/api/indicators/`
     }
   },
   components: {
     YetiForm,
     Fields
+  },
+  computed: {
+    isEdit () {
+      return this.$route.path.endsWith('edit')
+    }
   },
   methods: {
     fetchInfo () {
@@ -58,7 +62,7 @@ export default {
         .finally(() => { this.loading = false })
     },
     toggleEdit () {
-      this.edit = !this.edit
+      this.$router.go(-1)
     }
   },
   mounted () {
