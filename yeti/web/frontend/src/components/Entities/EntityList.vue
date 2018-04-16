@@ -4,7 +4,9 @@
       <h1 class="h1">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <router-link class="btn btn-sm btn-outline-secondary" :to="'/entities/'+subType+'/new'">New {{subType}}</router-link>
+          <button v-if="subType" class="btn btn-sm btn-outline-secondary" @click="() => {newEntity = !newEntity}">
+            {{newEntity ? "Cancel" : "New " + subType}}
+          </button>
         </div>
       </div>
     </div>
@@ -12,8 +14,12 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/malware">Malware</router-link>
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/actor">Actors</router-link>
     </nav>
-    <table-filter :filter-params="filterParams"/>
-    <yeti-form apiPath="http://localhost:5000/api/entities/" :object="defaultObject" :fields="subTypeFields" :onSaveCallback='navigateToNew'/>
+    <table-filter v-if="!newEntity && subType" :filter-params="filterParams"/>
+    <yeti-form v-if="newEntity"
+               apiPath="http://localhost:5000/api/entities/"
+               :object="defaultObject"
+               :fields="subTypeFields"
+               :onSaveCallback='navigateToNew'/>
   </div>
 </template>
 
@@ -33,6 +39,7 @@ export default {
   },
   data () {
     return {
+      newEntity: false,
       defaultObjects: {
         'malware': {
           type: 'entity.malware',
