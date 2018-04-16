@@ -33,6 +33,9 @@ class ArangoDatabase:
             'from_collections': ['entities'],
             'to_collections': ['observables', 'entities'],
         })
+        # entities, observables, and tags are already created
+        self.collection('indicators')
+
 
     def connect(self):
         client = ArangoClient(
@@ -59,6 +62,7 @@ class ArangoDatabase:
             self.collections[name].truncate()
 
     def collection(self, name):
+        print ("I was called!", name)
         if self.db is None:
             self.connect()
 
