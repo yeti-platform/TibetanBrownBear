@@ -36,7 +36,7 @@ export default {
   components: {
     Fields
   },
-  props: ['input', 'filterParams', 'detailComponent'],
+  props: ['value', 'filterParams', 'detailComponent'],
   data () {
     return {
       elements: [],
@@ -80,6 +80,10 @@ export default {
         this.selectedElements.splice(this.selectedElements.indexOf(elt.id), 1)
       }
       this.$emit('input', this.elements.filter(elt => this.selectedElements.includes(elt.id)))
+    },
+    clearSelection () {
+      console.log('clearing selection')
+      this.selectedElements = []
     }
   },
   created () {
