@@ -1,11 +1,21 @@
 """Main Yeti web module."""
 
-from flask import Flask, url_for
+from flask import Flask, url_for, render_template
+import requests
 from .web.api.api import blueprint
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder='web/frontend/dist/static',
+            template_folder='web/frontend/dist')
 app.register_blueprint(blueprint, url_prefix='/api')
 
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    # if path:
+    return requests.get('http://localhost:8080/{}'.format(path)).text
+    return render_template("index.html")
 
 @app.route('/list_routes')
 def list_routes():
