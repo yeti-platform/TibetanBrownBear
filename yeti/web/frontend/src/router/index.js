@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Observables from '@/components/Observables'
+import ObservableList from '@/components/Observables/ObservableList'
 
 import EntityList from '@/components/Entities/EntityList'
 import EntityDetails from '@/components/Entities/EntityDetails'
@@ -18,8 +18,8 @@ export default new Router({
   routes: [
     {
       path: '/observables',
-      name: 'Observables',
-      component: Observables
+      name: 'ObservableList',
+      component: ObservableList
     },
     // Entities
     {
