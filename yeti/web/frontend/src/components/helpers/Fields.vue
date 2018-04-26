@@ -1,7 +1,7 @@
 <template lang="html">
   <!-- display tags -->
-  <div v-if="field === 'tags'">
-    <span v-for="tag in value"
+  <div v-if="field.type === 'tags'">
+    <span v-for="tag in getFieldValue"
           v-bind:key="tag.name"
           class="badge m-1"
           v-bind:class="{'badge-secondary': !tag.fresh, 'badge-primary': tag.fresh}">
@@ -10,20 +10,27 @@
   </div>
 
   <!-- display generic arrays as a list of tags -->
-  <div v-else-if="value instanceof Array">
-    <span v-for="v in value"
+  <div v-else-if="field.type === 'list'">
+    <span v-for="v in getFieldValue"
           v-bind:key="v"
           class="badge m-1 badge-primary">
       {{v}}
     </span>
   </div>
 
-  <div v-else-if="checkValidDate(value)">
-    <span>{{ formatDateString(value) }}</span>
+  <div v-else-if="field.type === 'datetime'">
+    <span>{{ formatDateString(field.name) }}</span>
   </div>
 
-  <!-- fall back to displaying a normal value -->
-  <span v-else>{{value}}</span>
+  <div v-else-if="field.type === 'code'">
+    <pre>{{getFieldValue}}</pre>
+  </div>
+
+  <!-- fall back to displaying a normal field.name -->
+  <span v-else>
+    {{getFieldValue}}
+  </span>
+
 </template>
 
 <script>
@@ -35,16 +42,19 @@ const inputDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSSSSZZ'
 const outputDateTimeFormat = 'YYYY-MM-DD HH:mm:ss ZZ'
 
 export default {
-  props: [
-    'field',
-    'value'
-  ],
+  props: {
+    'field': {type: Object, default: () => {}},
+    'elt': Object
+  },
   methods: {
-    checkValidDate (string) {
-      return moment(string, inputDateTimeFormat, true).isValid()
-    },
     formatDateString (string) {
       return moment(string, inputDateTimeFormat).format(outputDateTimeFormat)
+    }
+  },
+  computed: {
+    getFieldValue (string) {
+      console.log(this.elt[this.field.name])
+      return this.elt[this.field.name]
     }
   }
 }

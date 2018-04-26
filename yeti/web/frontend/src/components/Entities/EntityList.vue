@@ -28,8 +28,13 @@ import TableFilter from '@/components/scaffolding/TableFilter'
 import YetiForm from '@/components/scaffolding/YetiForm'
 
 const typeFields = {
-  'malware': ['name', 'family'],
-  'actor': ['name']
+  'malware': [
+    {name: 'name', type: 'text'},
+    {name: 'family', type: 'list'}
+  ],
+  'actor': [
+    {name: 'name', type: 'text'}
+  ]
 }
 
 export default {

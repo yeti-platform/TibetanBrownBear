@@ -1,11 +1,14 @@
 <template lang="html">
   <div>
     <form @submit="submitForm">
-      <div v-for="field in fields" v-bind:key="field" class="form-group row">
-        <label :for="field" class="col-sm-2 col-form-label">{{field}}</label>
+      <div v-for="field in fields" v-bind:key="field.name" class="form-group row">
+        <label :for="field" class="col-sm-2 col-form-label">{{field.name}}</label>
         <div class="col-sm-10">
-          <yeti-tagged-input v-if="field in taggedInputs" v-model="object[field]" :autocompleteValues="taggedInputs[field]"/>
-          <input v-else class="form-control" :id="field" v-model="object[field]">
+          <yeti-tagged-input v-if="field.type === 'tags' || field.type ==='list'"
+                             v-model="object[field['name']]"
+                             :autocompleteValues="field['autocompleteValues']" />
+          <input v-if="field.type === 'text'" class="form-control" :id="field['name']" v-model="object[field['name']]">
+          <textarea v-if="field.type === 'code'" name="name" rows="8" cols="80" v-model="object[field['name']]"></textarea>
         </div>
       </div>
       <button type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
@@ -26,11 +29,6 @@ const methods = {
   'POST': axios.post
 }
 
-const taggedInputs = {
-  family: ['trojan', 'etc'],
-  tags: []
-}
-
 export default {
   components: {
     YetiTaggedInput
@@ -46,8 +44,7 @@ export default {
     return {
       saving: false,
       errors: '',
-      tagForm: {},
-      taggedInputs: taggedInputs
+      tagForm: {}
     }
   },
   methods: {

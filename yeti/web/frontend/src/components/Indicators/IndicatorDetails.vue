@@ -13,7 +13,7 @@
   </div>
   <!--  Edit form -->
   <yeti-form :object="indicator"
-             :fields="['name', 'pattern']"
+             :fields="indicatorFields"
              :apiPath="this.defaultApiPath+$route.params.id+'/'"
              method='PUT'
              :onSaveCallback='toggleEdit'
@@ -25,6 +25,16 @@
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
 import Fields from '@/components/helpers/Fields'
+
+const typeFields = {
+  'regex': [
+    {name: 'name', type: 'text'},
+    {name: 'pattern', type: 'code'}
+  ],
+  'yara': [
+    {name: 'name', type: 'text'}
+  ]
+}
 
 export default {
   data () {
@@ -42,6 +52,13 @@ export default {
   computed: {
     isEdit () {
       return this.$route.path.endsWith('edit')
+    },
+    indicatorType () {
+      let arr = this.indicator.type.split('.')
+      return arr[arr.length - 1]
+    },
+    indicatorFields () {
+      return typeFields[this.indicatorType]
     }
   },
   methods: {

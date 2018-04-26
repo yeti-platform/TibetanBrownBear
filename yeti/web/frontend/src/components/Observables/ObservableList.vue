@@ -19,6 +19,7 @@
 
 <script>
 import TableFilter from '@/components/scaffolding/TableFilter'
+
 export default {
   components: {
     TableFilter
@@ -27,7 +28,10 @@ export default {
     return {
       filterParams: {
         apiPath: `http://localhost:5000/api/observables/filter/`,
-        fields: ['value', 'tags'],
+        fields: [
+          {name: 'value', type: 'text'},
+          {name: 'tags', type: 'tags'}
+        ],
         querykey: 'value'
       }
     }

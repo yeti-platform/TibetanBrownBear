@@ -28,8 +28,13 @@ import TableFilter from '@/components/scaffolding/TableFilter'
 import YetiForm from '@/components/scaffolding/YetiForm'
 
 const typeFields = {
-  'regex': ['name', 'pattern'],
-  'yara': ['name']
+  'regex': [
+    {name: 'name', type: 'text'},
+    {name: 'pattern', type: 'code'}
+  ],
+  'yara': [
+    {name: 'name', type: 'text'}
+  ]
 }
 
 export default {
