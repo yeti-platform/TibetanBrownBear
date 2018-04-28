@@ -6,7 +6,7 @@
         <div class="col-sm-10">
           <yeti-tagged-input v-if="field.type === 'tags' || field.type ==='list'"
                              v-model="object[field['name']]"
-                             :autocompleteValues="field['autocompleteValues']" />
+                             :autocompleteValues="field['autocompleteValues'] || []" />
           <input v-if="field.type === 'text'" class="form-control" :id="field['name']" v-model="object[field['name']]">
           <textarea v-if="field.type === 'code'" name="name" rows="8" cols="80" v-model="object[field['name']]"></textarea>
         </div>
