@@ -25,17 +25,19 @@ export default new Router({
     {
       path: '/entities/:type([a-z]+)?',
       name: 'EntityList',
-      component: EntityList
-    },
-    {
-      path: '/entities/:id(\\d+)',
-      name: 'EntityDetails',
-      component: EntityDetails,
+      component: EntityList,
       children: [
         {
-          name: 'EntityEdit',
-          path: 'edit',
-          component: EntityDetails
+          path: '/entities/:id(\\d+)',
+          name: 'EntityDetails',
+          component: EntityDetails,
+          children: [
+            {
+              name: 'EntityEdit',
+              path: 'edit',
+              component: EntityDetails
+            }
+          ]
         }
       ]
     },
@@ -43,17 +45,19 @@ export default new Router({
     {
       path: '/indicators/:type([a-z]+)?',
       name: 'IndicatorList',
-      component: IndicatorList
-    },
-    {
-      path: '/indicators/:id(\\d+)',
-      name: 'IndicatorDetails',
-      component: IndicatorDetails,
+      component: IndicatorList,
       children: [
         {
-          name: 'IndicatorEdit',
-          path: 'edit',
-          component: IndicatorDetails
+          path: '/indicators/:id(\\d+)',
+          name: 'IndicatorDetails',
+          component: IndicatorDetails,
+          children: [
+            {
+              name: 'IndicatorEdit',
+              path: 'edit',
+              component: IndicatorDetails
+            }
+          ]
         }
       ]
     },

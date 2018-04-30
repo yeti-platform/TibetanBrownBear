@@ -14,6 +14,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/indicators/regex">Regular expressions</router-link>
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/indicators/yara">Yara rules</router-link>
     </nav>
+    <router-view />
     <table-filter v-if="!newIndicator && subType" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
     <yeti-form v-if="newIndicator"
                apiPath="http://localhost:5000/api/indicators/"

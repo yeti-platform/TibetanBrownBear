@@ -14,6 +14,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/malware">Malware</router-link>
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/entities/actor">Actors</router-link>
     </nav>
+    <router-view />
     <table-filter v-if="!newEntity && subType" :filter-params="filterParams" detailComponent="EntityDetails"/>
     <yeti-form v-if="newEntity"
                apiPath="http://localhost:5000/api/entities/"
