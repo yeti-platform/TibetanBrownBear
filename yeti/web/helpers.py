@@ -10,9 +10,7 @@ def _as_json(result):
     if isinstance(result, tuple):
         response, code = result
         if isinstance(response, GenericYetiError):
-            # necessary since jsonify seems to be broken when sorting
-            error_msg = json.dumps({response.type: response.message})
-            return jsonify(error_msg), code
+            return jsonify({response.type: response.message}), code
         return jsonify(response), code
     if isinstance(result, list):
         return jsonify([item.dump() for item in result])
