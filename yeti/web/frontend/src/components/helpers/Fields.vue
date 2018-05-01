@@ -53,7 +53,6 @@ export default {
   },
   computed: {
     getFieldValue (string) {
-      console.log(this.elt[this.field.name])
       return this.elt[this.field.name]
     }
   }

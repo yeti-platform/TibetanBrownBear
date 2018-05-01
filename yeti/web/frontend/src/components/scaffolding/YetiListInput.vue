@@ -33,7 +33,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.key)
     this.tags = this.value.map(tag => Object({text: tag[this.displayKey]}))
     this.formattedAutoCompleteValues = this.autocompleteValues.map(value => Object({text: value}))
   }
