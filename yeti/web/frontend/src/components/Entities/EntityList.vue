@@ -4,8 +4,8 @@
       <h1 class="h1">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button v-if="subType" class="btn btn-sm btn-outline-secondary" @click="() => {newEntity = !newEntity}">
-            {{newEntity ? "Cancel" : "New " + subType}}
+          <button v-if="type" class="btn btn-sm btn-outline-secondary" @click="() => {newEntity = !newEntity}">
+            {{newEntity ? "Cancel" : "New " + type}}
           </button>
         </div>
       </div>
@@ -15,7 +15,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'actor'}}">Actors</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!id && subType" :filter-params="filterParams" detailComponent="EntityDetails"/>
+    <table-filter v-if="!id && type" :filter-params="filterParams" detailComponent="EntityDetails"/>
     <yeti-form v-if="newEntity"
                apiPath="http://localhost:5000/api/entities/"
                :object="defaultObject"
@@ -57,25 +57,21 @@ export default {
       }
     }
   },
-  props: ['id'],
+  props: ['id', 'type'],
   computed: {
-    subType () {
-      return this.$route.params.type
-    },
     subTypeFields () {
-      return typeFields[this.subType]
+      return typeFields[this.type]
     },
     filterParams () {
-      let type = this.$route.params.type
       return {
         apiPath: `http://localhost:5000/api/entities/filter/`,
-        fields: typeFields[type],
+        fields: typeFields[this.type],
         querykey: 'name',
-        typeFilter: type
+        typeFilter: this.type
       }
     },
     defaultObject () {
-      return this.defaultObjects[this.subType]
+      return this.defaultObjects[this.type]
     }
   },
   methods: {

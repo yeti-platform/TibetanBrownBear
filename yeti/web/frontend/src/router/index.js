@@ -44,11 +44,13 @@ export default new Router({
       path: '/entities/:type([a-z]+)?',
       name: 'EntityList',
       component: EntityList,
+      props: true,
       children: [
         {
           path: '/entities/:id(\\d+)',
           name: 'EntityDetails',
           component: EntityDetails,
+          props: true,
           children: [
             {
               name: 'EntityEdit',
@@ -64,11 +66,13 @@ export default new Router({
       path: '/indicators/:type([a-z]+)?',
       name: 'IndicatorList',
       component: IndicatorList,
+      props: true,
       children: [
         {
           path: '/indicators/:id(\\d+)',
           name: 'IndicatorDetails',
           component: IndicatorDetails,
+          props: true,
           children: [
             {
               name: 'IndicatorEdit',

@@ -4,8 +4,8 @@
       <h1 class="h1">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button v-if="subType" class="btn btn-sm btn-outline-secondary" @click="() => {newIndicator = !newIndicator}">
-            {{newIndicator ? "Cancel" : "New " + subType}}
+          <button v-if="type" class="btn btn-sm btn-outline-secondary" @click="() => {newIndicator = !newIndicator}">
+            {{newIndicator ? "Cancel" : "New " + type}}
           </button>
         </div>
       </div>
@@ -15,7 +15,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/indicators/yara">Yara rules</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!id && subType" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
+    <table-filter v-if="!id && type" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
     <yeti-form v-if="newIndicator"
                apiPath="http://localhost:5000/api/indicators/"
                :object="defaultObject"
@@ -57,13 +57,10 @@ export default {
       }
     }
   },
-  props: ['id'],
+  props: ['id', 'type'],
   computed: {
-    subType () {
-      return this.$route.params.type
-    },
     subTypeFields () {
-      return typeFields[this.subType]
+      return typeFields[this.type]
     },
     filterParams () {
       let type = this.$route.params.type
@@ -75,7 +72,7 @@ export default {
       }
     },
     defaultObject () {
-      return this.defaultObjects[this.subType]
+      return this.defaultObjects[this.type]
     }
   },
   methods: {
