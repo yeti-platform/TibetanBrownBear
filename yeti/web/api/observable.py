@@ -5,7 +5,7 @@ from flask_classful import route
 from webargs.flaskparser import parser
 
 from yeti.core.types.observable import Observable
-from yeti.core.errors import ValidationError
+from yeti.core.errors import GenericYetiError, ValidationError
 from .generic import GenericResource
 from ..helpers import as_json, get_object_or_404
 
@@ -45,3 +45,35 @@ class ObservableResource(GenericResource):
         for tag in args['tags']:
             obj.tag(tag)
         return obj
+
+    @as_json
+    @route('/<id>/', methods=['PUT'])
+    def put(self, id):  # pylint: disable=redefined-builtin
+        """Updates an Observable.
+
+        If tags are provided in the request, they will individually be applied
+        to the observable in question.
+
+        Args:
+            id: The Observable's primary ID.
+
+        Returns:
+            A JSON representation of the Observable, a 404 HTTP status code if
+            the Observable cannot be found, or a 400 HTTP status code if the
+            request could not be parsed.
+        """
+        try:
+            obj = get_object_or_404(self.resource_object, id)
+            dumped = obj.dump()
+            request_json = request.get_json()
+            tags = request_json.pop('tags')
+            dumped.update(request_json)
+            saved_object = self.resource_object.load(dumped).save()
+            for tag in tags:
+                saved_object.tag(tag)
+            return saved_object
+
+        except GenericYetiError as err:
+            import traceback
+            traceback.print_exc()
+            return err, 400
