@@ -83,7 +83,5 @@ class Observable(YetiObject):
                 first_seen=now,
                 last_seen=now)
             self.tags.append(tagref)
-            tag.count += 1
-            tag.save()
 
         self.save()

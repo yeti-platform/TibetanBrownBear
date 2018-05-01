@@ -32,7 +32,7 @@ export default {
     return {
       filterParams: {
         apiPath: apiRoot + 'filter/',
-        fields: ['name', 'count', 'created_at', 'default_expiration'],
+        fields: ['name', 'created_at', 'default_expiration'],
         querykey: 'name'
       },
       defaultApiPath: apiRoot,

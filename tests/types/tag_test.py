@@ -30,13 +30,6 @@ def test_tag_creation_on_tag():
     assert len(Tag.filter({'name': tag_name})) == 1
 
 @pytest.mark.usefixtures('clean_db')
-def test_tag_count_update():
-    """Tests that tagging an observable increases the global tag number."""
-    obs = Observable(value='asd').save()
-    obs.tag('yeti')
-    assert Tag.get_or_create(name='yeti').count == 1
-
-@pytest.mark.usefixtures('clean_db')
 def test_invalid_tag_name():
     """Tests that tags with invalid names can't be created."""
     with pytest.raises(ValidationError):

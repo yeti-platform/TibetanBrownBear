@@ -13,7 +13,6 @@ from ..model.database import YetiObject, YetiSchema
 class TagSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Tag objects."""
     name = fields.String(required=True)
-    count = fields.Integer(required=True, default=0)
     created_at = RealDateTime()
     default_expiration = RealTimeDelta()
 
@@ -34,7 +33,6 @@ class Tag(YetiObject):
 
     Attributes:
       name: Name of the tag.
-      count: Count of tags in the database.
       created_at: timestamp when the Tag object was first created.
       default_expiration: Time after which the tag should expire on an Observable.
     """
@@ -47,7 +45,6 @@ class Tag(YetiObject):
 
     id = None
     name = None
-    # count = None
     created_at = None
     default_expiration = None
 
