@@ -65,7 +65,9 @@ class ObservableResource(GenericResource):
             obj = get_object_or_404(self.resource_object, id)
             dumped = obj.dump()
             request_json = request.get_json()
-            tags = request_json.pop('tags', [])
+            tags = []
+            for tag in request_json.pop('tags', []):
+                tags.append(tag['name'] if isinstance(tag, dict) else tag)
             dumped.update(request_json)
             saved_object = self.resource_object.load(dumped).save()
             saved_object.tag(tags, strict=True)
