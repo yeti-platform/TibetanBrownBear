@@ -65,3 +65,12 @@ def test_tagref_formatting():
     obs = Observable(value='asd').save()
     obs.tag(['yeti'])
     assert str(obs.tags[0]) == "<TagRef('yeti')>"
+
+@pytest.mark.usefixtures('clean_db')
+def test_strict_tagging():
+    """Tests that tags are formatted correctly when printed."""
+    obs = Observable(value='asd').save()
+    obs.tag(['yeti'])
+    obs.tag(['yeti2'], strict=True)
+    assert len(obs.tags) == 1
+    assert obs.tags[0].name == 'yeti2'
