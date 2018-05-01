@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import ObservableList from '@/components/Observables/ObservableList'
+import ObservableDetails from '@/components/Observables/ObservableDetails'
 
 import EntityList from '@/components/Entities/EntityList'
 import EntityDetails from '@/components/Entities/EntityDetails'
@@ -19,7 +21,23 @@ export default new Router({
     {
       path: '/observables',
       name: 'ObservableList',
-      component: ObservableList
+      component: ObservableList,
+      props: true,
+      children: [
+        {
+          path: '/observables/:id(\\d+)',
+          name: 'ObservableDetails',
+          component: ObservableDetails,
+          props: true,
+          children: [
+            {
+              name: 'ObservableEdit',
+              path: 'edit',
+              component: ObservableDetails
+            }
+          ]
+        }
+      ]
     },
     // Entities
     {

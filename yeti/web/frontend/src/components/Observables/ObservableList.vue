@@ -13,7 +13,8 @@
         </button>
       </div>
     </div>
-    <table-filter :filter-params="filterParams"></table-filter>
+    <router-view />
+    <table-filter v-if="!id" :filter-params="filterParams" detailComponent="ObservableDetails"></table-filter>
   </div>
 </template>
 
@@ -24,6 +25,9 @@ export default {
   components: {
     TableFilter
   },
+  props: [
+    'id'
+  ],
   data () {
     return {
       filterParams: {
