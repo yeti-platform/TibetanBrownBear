@@ -1,6 +1,7 @@
 import functools
 
 from flask import jsonify
+import json
 
 from yeti.core.errors import GenericYetiError
 from yeti.core.model.database import YetiObject
@@ -9,7 +10,9 @@ def _as_json(result):
     if isinstance(result, tuple):
         response, code = result
         if isinstance(response, GenericYetiError):
-            return jsonify({response.type: response.message}), code
+            # necessary since jsonify seems to be broken when sorting
+            error_msg = json.dumps({response.type: response.message})
+            return jsonify(error_msg), code
         return jsonify(response), code
     if isinstance(result, list):
         return jsonify([item.dump() for item in result])
