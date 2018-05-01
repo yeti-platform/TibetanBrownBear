@@ -1,7 +1,6 @@
 import functools
 
 from flask import jsonify
-import json
 
 from yeti.core.errors import GenericYetiError
 from yeti.core.model.database import YetiObject
