@@ -15,7 +15,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'actor'}}">Actors</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!newEntity && subType" :filter-params="filterParams" detailComponent="EntityDetails"/>
+    <table-filter v-if="!id && subType" :filter-params="filterParams" detailComponent="EntityDetails"/>
     <yeti-form v-if="newEntity"
                apiPath="http://localhost:5000/api/entities/"
                :object="defaultObject"
@@ -57,6 +57,7 @@ export default {
       }
     }
   },
+  props: ['id'],
   computed: {
     subType () {
       return this.$route.params.type

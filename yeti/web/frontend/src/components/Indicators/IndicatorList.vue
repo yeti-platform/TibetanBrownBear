@@ -15,7 +15,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/indicators/yara">Yara rules</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!newIndicator && subType" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
+    <table-filter v-if="!id && subType" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
     <yeti-form v-if="newIndicator"
                apiPath="http://localhost:5000/api/indicators/"
                :object="defaultObject"
@@ -57,6 +57,7 @@ export default {
       }
     }
   },
+  props: ['id'],
   computed: {
     subType () {
       return this.$route.params.type
