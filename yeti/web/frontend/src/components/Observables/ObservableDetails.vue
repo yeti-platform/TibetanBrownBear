@@ -51,8 +51,10 @@ export default {
       return this.$route.path.endsWith('edit')
     },
     observableType () {
-      let arr = this.observable.type.split('.')
-      return arr[arr.length - 1]
+      if (this.observable.type) {
+        let arr = this.observable.type.split('.')
+        return arr[arr.length - 1]
+      }
     },
     observableFields () {
       return typeFields[this.observableType]
