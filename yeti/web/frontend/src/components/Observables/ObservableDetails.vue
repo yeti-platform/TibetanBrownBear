@@ -46,6 +46,10 @@ export default {
     YetiForm,
     Fields
   },
+  beforeRouteUpdate (to, from, next) {
+    this.fetchInfo()
+    next()
+  },
   computed: {
     isEdit () {
       return this.$route.path.endsWith('edit')
