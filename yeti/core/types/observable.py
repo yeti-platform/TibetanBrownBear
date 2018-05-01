@@ -56,7 +56,15 @@ class Observable(YetiObject):
     def normalize(self):
         pass
 
-    def tag(self, tag):
+    def tag(self, tags, strict=False):
+        """Tags an Observable.
+
+        Args:
+          tags: A list of strings to tag the Observable with.
+          strict: boolean, if True will remove tags that exist in the observable
+              but are not provided in "tag"
+
+        """
         if self.tags is None:
             self.tags = []
         now = datetime.utcnow()
@@ -66,22 +74,27 @@ class Observable(YetiObject):
         # See https://github.com/marshmallow-code/marshmallow/issues/432
         # for possible solution.
 
-        for tagref_ in self.tags:
-            if tagref_.name == tag:
+        newtags = list(set(tags))  # dedup tags
+        tagref_names = {tagref.name: tagref for tagref in self.tags}
+
+        if strict:  # Remove all tags that are not included in `newtags`
+            self.tags = [tag for tag in self.tags if tag.name in newtags]
+
+        for tag in newtags:
+            if tag in tagref_names:
                 # Tag is found, update .last_seen and .fresh
-                tagref = tagref_
-                tagref.last_seen = now
-                tagref.fresh = True
+                tagref_names[tag].last_seen = now
+                tagref_names[tag].fresh = True
                 break
-        else:
-            tag = Tag.get_or_create(name=tag)
-            # Tag was not found, create new TagReference, update tag count
-            tagref = TagReference(
-                name=tag.name,
-                expiration=now + tag.default_expiration,
-                fresh=True,
-                first_seen=now,
-                last_seen=now)
-            self.tags.append(tagref)
+            else:
+                tag = Tag.get_or_create(name=tag)
+                # Tag was not found, create new TagReference
+                tagref = TagReference(
+                    name=tag.name,
+                    expiration=now + tag.default_expiration,
+                    fresh=True,
+                    first_seen=now,
+                    last_seen=now)
+                self.tags.append(tagref)
 
         self.save()

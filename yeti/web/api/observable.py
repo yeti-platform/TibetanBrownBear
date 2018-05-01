@@ -42,8 +42,7 @@ class ObservableResource(GenericResource):
         """
         args = parser.parse(self.tagargs, request)
         obj = get_object_or_404(self.resource_object, id)
-        for tag in args['tags']:
-            obj.tag(tag)
+        obj.tag(args['tags'])
         return obj
 
     @as_json
@@ -66,11 +65,10 @@ class ObservableResource(GenericResource):
             obj = get_object_or_404(self.resource_object, id)
             dumped = obj.dump()
             request_json = request.get_json()
-            tags = request_json.pop('tags')
+            tags = request_json.pop('tags', [])
             dumped.update(request_json)
             saved_object = self.resource_object.load(dumped).save()
-            for tag in tags:
-                saved_object.tag(tag)
+            saved_object.tag(tags, strict=True)
             return saved_object
 
         except GenericYetiError as err:

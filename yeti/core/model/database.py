@@ -49,8 +49,9 @@ class YetiSchema(ArangoYetiSchema):
 
     def handle_error(self, exc, data):
         """Log and raise our custom exception when (de)serialization fails."""
-        print ("ERROR HANDLER", exc.messages, exc.field_names, exc.fields, data)
-        error_dict = {}
-        for idx, error in enumerate(exc.messages['_schema']):
-            error_dict[error] = data[idx]
-        raise ValidationError(error_dict)
+        error_dict = exc.messages
+        if '_schema' in error_dict:
+            error_dict = {}
+            for idx, error in enumerate(exc.messages['_schema']):
+                error_dict[error] = data[idx]
+        raise ValidationError(exc.messages)

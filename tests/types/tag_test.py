@@ -9,7 +9,7 @@ from yeti.core.types.tag import Tag
 def test_tagref_creation():
     """Tests that tagging is committed to the database."""
     obs = Observable.get_or_create(value='asd')
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     obs = Observable.get_or_create(value='asd')
     assert obs.tags[0].name == 'yeti'
 
@@ -23,9 +23,9 @@ def test_tag_creation():
 def test_tag_creation_on_tag():
     """Tests that tagging an observable creates a unique Tag object."""
     obs = Observable(value='asd').save()
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     obs = Observable(value='dsa').save()
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     tag_name = obs.tags[0].name
     assert len(Tag.filter({'name': tag_name})) == 1
 
@@ -39,9 +39,9 @@ def test_invalid_tag_name():
 def test_last_seen():
     """Tests that last_seen timestmaps are updated."""
     obs = Observable(value='asd').save()
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     obs = Observable.get_or_create(value='asd')
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     obs = Observable.get_or_create(value='asd')
     assert obs.tags[0].first_seen < obs.tags[0].last_seen
 
@@ -49,8 +49,8 @@ def test_last_seen():
 def test_unique_tagref():
     """Tests that tagrefs are unique per observable."""
     obs = Observable(value='asd').save()
-    obs.tag('yeti')
-    obs.tag('yeti')
+    obs.tag(['yeti'])
+    obs.tag(['yeti'])
     assert len(obs.tags) == 1
 
 @pytest.mark.usefixtures('clean_db')
@@ -63,5 +63,5 @@ def test_tag_formatting():
 def test_tagref_formatting():
     """Tests that tags are formatted correctly when printed."""
     obs = Observable(value='asd').save()
-    obs.tag('yeti')
+    obs.tag(['yeti'])
     assert str(obs.tags[0]) == "<TagRef('yeti')>"
