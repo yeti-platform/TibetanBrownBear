@@ -85,16 +85,15 @@ class Observable(YetiObject):
                 # Tag is found, update .last_seen and .fresh
                 tagref_names[tag].last_seen = now
                 tagref_names[tag].fresh = True
-                break
-            else:
-                tag = Tag.get_or_create(name=tag)
-                # Tag was not found, create new TagReference
-                tagref = TagReference(
-                    name=tag.name,
-                    expiration=now + tag.default_expiration,
-                    fresh=True,
-                    first_seen=now,
-                    last_seen=now)
-                self.tags.append(tagref)
+                continue
+            newtag = Tag.get_or_create(name=tag)
+            # Tag was not found, create new TagReference
+            tagref = TagReference(
+                name=newtag.name,
+                expiration=now + newtag.default_expiration,
+                fresh=True,
+                first_seen=now,
+                last_seen=now)
+            self.tags.append(tagref)
 
         self.save()
