@@ -12,7 +12,7 @@ export default {
   components: {
     VueTagsInput
   },
-  props: ['value', 'autocompleteValues'],
+  props: ['value', 'autocompleteValues', 'displayKey'],
   data () {
     return {
       tags: [],
@@ -33,7 +33,8 @@ export default {
     }
   },
   mounted () {
-    this.tags = this.value.map(tag => Object({text: tag}))
+    console.log(this.key)
+    this.tags = this.value.map(tag => Object({text: tag[this.displayKey]}))
     this.formattedAutoCompleteValues = this.autocompleteValues.map(value => Object({text: value}))
   }
 }
