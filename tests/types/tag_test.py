@@ -54,6 +54,14 @@ def test_unique_tagref():
     assert len(obs.tags) == 1
 
 @pytest.mark.usefixtures('clean_db')
+def test_multiple_tags():
+    """Tests that tagrefs are unique per observable."""
+    obs = Observable(value='asd').save()
+    test_tags = ['asd', 'dsa', 'zxc', 'cxz']
+    obs.tag(test_tags)
+    assert len(obs.tags) == 4
+
+@pytest.mark.usefixtures('clean_db')
 def test_tag_formatting():
     """Tests that tags are formatted correctly when printed."""
     tag = Tag(name='yeti').save()
