@@ -1,11 +1,13 @@
-import Vue from 'vue'
+import { mount } from '@vue/test-utils'
+
 import NotFound from '@/components/NotFound'
 
 describe('NotFound.vue', () => {
+
+  let wrapper = mount(NotFound)
+
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(NotFound)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('p').textContent)
+    expect(wrapper.vm.$el.querySelector('p').textContent)
       .toEqual('404 - Not Found')
   })
 })

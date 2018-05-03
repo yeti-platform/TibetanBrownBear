@@ -1,11 +1,11 @@
-import Vue from 'vue'
+import { mount } from '@vue/test-utils'
 import Sidebar from '@/components/scaffolding/Sidebar'
 
 describe('Sidebar.vue', () => {
+  let wrapper = mount(Sidebar)
+
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(Sidebar)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('span').textContent)
+    expect(wrapper.vm.$el.querySelector('span').textContent)
       .toEqual('Intelligence')
   })
 })
