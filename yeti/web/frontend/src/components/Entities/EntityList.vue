@@ -11,8 +11,8 @@
       </div>
     </div>
     <nav class="nav nav-pills flex-column flex-sm-row">
-      <router-link class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'malware'}}">Malware</router-link>
-      <router-link class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'actor'}}">Actors</router-link>
+      <router-link id="malware" class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'malware'}}">Malware</router-link>
+      <router-link id="actor" class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'actor'}}">Actors</router-link>
     </nav>
     <router-view />
     <table-filter v-if="!id && type" :filter-params="filterParams" detailComponent="EntityDetails"/>
