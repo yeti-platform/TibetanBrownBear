@@ -42,10 +42,7 @@ const inputDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSSSSZZ'
 const outputDateTimeFormat = 'YYYY-MM-DD HH:mm:ss ZZ'
 
 export default {
-  props: {
-    'field': {type: Object, default: () => {}},
-    'elt': Object
-  },
+  props: ['field', 'elt'],
   methods: {
     formatDateString (string) {
       return moment(string, inputDateTimeFormat).format(outputDateTimeFormat)
