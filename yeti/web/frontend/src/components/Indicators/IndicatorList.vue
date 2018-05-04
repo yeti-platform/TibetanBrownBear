@@ -63,7 +63,7 @@ export default {
       return typeFields[this.type]
     },
     filterParams () {
-      let type = this.$route.params.type
+      let type = this.type
       return {
         apiPath: `http://localhost:5000/api/indicators/filter/`,
         fields: typeFields[type],
