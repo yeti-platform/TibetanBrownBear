@@ -1,7 +1,7 @@
 <template>
   <!-- Display details nicely -->
-    <div v-if="loading">
   <div v-if="!isEdit" class="entity-details">
+    <div class="loading" v-if="loading">
       Loading...
     </div>
     <div v-else>
