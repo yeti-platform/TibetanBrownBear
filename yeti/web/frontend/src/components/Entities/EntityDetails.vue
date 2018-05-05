@@ -1,7 +1,7 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!isEdit" id="detail">
     <div v-if="loading">
+  <div v-if="!isEdit" class="entity-details">
       Loading...
     </div>
     <div v-else>
@@ -15,7 +15,7 @@
 
   <yeti-form :object="entity"
              :fields="entityFields"
-             :apiPath="this.defaultApiPath+$route.params.id+'/'"
+             :apiPath="defaultApiPath+id+'/'"
              method='PUT'
              :onSaveCallback='toggleEdit'
              v-else
@@ -46,6 +46,7 @@ export default {
       defaultApiPath: `http://localhost:5000/api/entities/`
     }
   },
+  props: ['id'],
   components: {
     YetiForm,
     Fields
@@ -69,7 +70,7 @@ export default {
   methods: {
     fetchInfo () {
       console.log('Fetching info')
-      axios.get(this.defaultApiPath + this.$route.params.id)
+      axios.get(this.defaultApiPath + this.id)
         .then(response => {
           if (response.status !== 200) {
             this.error = response.data
