@@ -5,7 +5,7 @@ import EntityDetails from '@/components/Entities/EntityDetails'
 
 import Router from 'vue-router'
 
-const entityRoutes = {
+const entityRoutes = [{
   path: '/entities/:type([a-z]+)?',
   name: 'EntityList',
   component: EntityList,
@@ -15,10 +15,17 @@ const entityRoutes = {
       path: '/entities/:id(\\d+)',
       name: 'EntityDetails',
       component: EntityDetails,
-      props: true
+      props: true,
+      children: [
+        {
+          name: 'EntityEdit',
+          path: 'edit',
+          component: EntityDetails
+        }
+      ]
     }
   ]
-}
+}]
 
 const malwareObjectResponse = {
   data: {
@@ -60,7 +67,7 @@ describe('EntityList.vue', () => {
   it('the new object is correctly navigated to', () => {
     let localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({entityRoutes})
+    let router = new Router({routes: entityRoutes, mode: 'history'})
     const wrp = mount(EntityList, {
       localVue,
       router
@@ -69,9 +76,8 @@ describe('EntityList.vue', () => {
     wrp.vm.navigateToNew(malwareObjectResponse)
     expect(wrp.vm.$router.push).toHaveBeenCalledWith({
       name: 'EntityDetails',
-      params: {
-        id: 510808
-      }
+      params: {'id': 510808},
+      path: '/entities/510808'
     })
   })
 })

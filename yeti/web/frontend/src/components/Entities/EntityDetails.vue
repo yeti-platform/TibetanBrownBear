@@ -9,7 +9,7 @@
       <fields :field="{'type': 'list', 'name': 'family'}"  :elt="entity" />
       {{entity.description || 'No description'}}
     </div>
-    <router-link class="btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit'}">Edit</router-link>
+    <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
   </div>
   <!--  Edit form -->
 

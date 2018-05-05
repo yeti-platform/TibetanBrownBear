@@ -5,7 +5,7 @@ import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 
 import Router from 'vue-router'
 
-const indicatorRoutes = {
+const indicatorRoutes = [{
   path: '/indicators/:type([a-z]+)?',
   name: 'IndicatorList',
   component: IndicatorList,
@@ -18,7 +18,7 @@ const indicatorRoutes = {
       props: true
     }
   ]
-}
+}]
 
 const regexObjectResponse = {
   data: {
@@ -57,7 +57,7 @@ describe('IndicatorList.vue', () => {
   it('the new object is correctly navigated to', () => {
     let localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({indicatorRoutes})
+    let router = new Router({routes: indicatorRoutes, mode: 'history'})
     const wrp = mount(IndicatorList, {
       localVue,
       router
@@ -66,9 +66,8 @@ describe('IndicatorList.vue', () => {
     wrp.vm.navigateToNew(regexObjectResponse)
     expect(wrp.vm.$router.push).toHaveBeenCalledWith({
       name: 'IndicatorDetails',
-      params: {
-        id: 477775
-      }
+      params: {id: 477775},
+      path: '/indicators/477775'
     })
   })
 })
