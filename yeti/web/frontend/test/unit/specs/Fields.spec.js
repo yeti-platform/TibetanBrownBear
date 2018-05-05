@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 // import TableFilter from '@/components/scaffolding/TableFilter'
 import Fields from '@/components/helpers/Fields'
 
-const fakeElement = {
+const mockElement = {
   _id: 'entities/510808',
   family: [
     'trojan',
@@ -36,7 +36,7 @@ describe('TableFilter.vue', () => {
   it('should correctly render generic text fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'name', type: 'text'}, elt: fakeElement
+        field: {name: 'name', type: 'text'}, elt: mockElement
       }
     })
     expect(wrapper.text()).toBe('MyMalware')
@@ -45,7 +45,7 @@ describe('TableFilter.vue', () => {
   it('should correctly render list fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'family', type: 'list'}, elt: fakeElement
+        field: {name: 'family', type: 'list'}, elt: mockElement
       }
     })
     expect(wrapper.findAll('.family span.badge').length).toBe(2)
@@ -56,7 +56,7 @@ describe('TableFilter.vue', () => {
   it('should correctly render datetime fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'created_at', type: 'datetime'}, elt: fakeElement
+        field: {name: 'created_at', type: 'datetime'}, elt: mockElement
       }
     })
     expect(wrapper.find('.created_at').text()).toBe('2018-04-16 18:18:25 +0200')
@@ -65,7 +65,7 @@ describe('TableFilter.vue', () => {
   it('should correctly render code fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'randomcode', type: 'code'}, elt: fakeElement
+        field: {name: 'randomcode', type: 'code'}, elt: mockElement
       }
     })
     expect(wrapper.find('pre').text()).toBe(`This is code`)
@@ -74,7 +74,7 @@ describe('TableFilter.vue', () => {
   it('should correctly handle tag fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'tags', type: 'tags'}, elt: fakeElement
+        field: {name: 'tags', type: 'tags'}, elt: mockElement
       }
     })
     expect(wrapper.findAll('.tags span.badge').length).toBe(2)
