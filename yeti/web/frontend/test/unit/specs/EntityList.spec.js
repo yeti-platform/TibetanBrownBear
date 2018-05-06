@@ -2,8 +2,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import EntityList from '@/components/Entities/EntityList'
 import EntityDetails from '@/components/Entities/EntityDetails'
-
 import Router from 'vue-router'
+
+import mockObjects from '../__mocks__/mock_objects'
+
+const malwareObjectResponse = { data: mockObjects.mockMalware }
 
 const entityRoutes = [{
   path: '/entities/:type([a-z]+)?',
@@ -27,18 +30,6 @@ const entityRoutes = [{
   ]
 }]
 
-const malwareObjectResponse = {
-  data: {
-    _id: 'entities/510808',
-    family: [
-      'trojan',
-      'asd'
-    ],
-    id: 510808,
-    name: 'dsa',
-    type: 'entity.malware'
-  }
-}
 
 describe('EntityList.vue', () => {
   let wrapper = mount(EntityList, {propsData: {type: 'malware'}})

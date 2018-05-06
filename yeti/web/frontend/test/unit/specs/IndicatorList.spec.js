@@ -2,8 +2,9 @@ import { createLocalVue, mount } from '@vue/test-utils'
 
 import IndicatorList from '@/components/Indicators/IndicatorList'
 import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
-
 import Router from 'vue-router'
+
+import mockObjects from '../__mocks__/mock_objects'
 
 const indicatorRoutes = [{
   path: '/indicators/:type([a-z]+)?',
@@ -20,15 +21,7 @@ const indicatorRoutes = [{
   ]
 }]
 
-const regexObjectResponse = {
-  data: {
-    _id: 'indicators/477775',
-    id: 477775,
-    name: 'asdasd',
-    pattern: '[a-z]{1a,2}',
-    type: 'indicator.regex'
-  }
-}
+const regexObjectResponse = {data: mockObjects.mockIndicator}
 
 describe('IndicatorList.vue', () => {
   let wrapper = mount(IndicatorList, {propsData: {type: 'regex'}})

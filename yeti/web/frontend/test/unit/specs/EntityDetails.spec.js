@@ -1,10 +1,11 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-
 import EntityDetails from '@/components/Entities/EntityDetails'
-
 import Router from 'vue-router'
-
 import axios from 'axios'
+
+import mockObjects from '../__mocks__/mock_objects'
+
+const mockMalwareObject = mockObjects.mockMalware
 
 const entityRoutes = [{
   path: '/entities/:id(\\d+)',
@@ -20,16 +21,6 @@ const entityRoutes = [{
   ]
 }]
 
-const mockMalwareObject = {
-  _id: 'entities/510808',
-  family: [
-    'trojan',
-    'asd'
-  ],
-  id: 510808,
-  name: 'dsa',
-  type: 'entity.malware'
-}
 
 jest.mock('axios', () => ({
   get: jest.fn(() => Promise.resolve({ data: mockMalwareObject, status: 200 }))
