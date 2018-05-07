@@ -30,7 +30,6 @@ const entityRoutes = [{
   ]
 }]
 
-
 describe('EntityList.vue', () => {
   let wrapper = mount(EntityList, {propsData: {type: 'malware'}})
 

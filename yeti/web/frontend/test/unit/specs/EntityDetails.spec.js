@@ -4,6 +4,9 @@ import Router from 'vue-router'
 import axios from 'axios'
 
 import mockObjects from '../__mocks__/mock_objects'
+jest.mock('axios', () => ({
+  get: jest.fn(() => Promise.resolve({ data: mockMalwareObject, status: 200 }))
+}))
 
 const mockMalwareObject = mockObjects.mockMalware
 
@@ -20,11 +23,6 @@ const entityRoutes = [{
     }
   ]
 }]
-
-
-jest.mock('axios', () => ({
-  get: jest.fn(() => Promise.resolve({ data: mockMalwareObject, status: 200 }))
-}))
 
 describe('EntityDetails.vue', () => {
   let localVue
@@ -87,5 +85,4 @@ describe('EntityDetails.vue', () => {
       {name: 'family', type: 'list', autocompleteValues: ['trojan', 'banker']}
     ])
   })
-
 })

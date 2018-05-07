@@ -53,5 +53,4 @@ describe('Fields.vue', () => {
     expect(wrapper.findAll('.tags span.badge').at(1).text()).toBe('zxc')
     expect(wrapper.findAll('.tags span.badge').at(2).text()).toBe('qwe')
   })
-
 })
