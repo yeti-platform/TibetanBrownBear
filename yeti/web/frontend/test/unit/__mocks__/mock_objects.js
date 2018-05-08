@@ -9,11 +9,11 @@ const mockMalware = {
   type: 'entity.malware'
 }
 
-const mockIndicator = {
+const mockRegex = {
   _id: 'indicators/477775',
   id: 477775,
   name: 'MyIndicator',
-  pattern: '[a-z]{1a,2}',
+  pattern: '[a-z]{1,2}',
   type: 'indicator.regex'
 }
 
@@ -49,5 +49,5 @@ const mockObservable = {
 }
 
 module.exports.mockMalware = mockMalware
-module.exports.mockIndicator = mockIndicator
+module.exports.mockRegex = mockRegex
 module.exports.mockObservable = mockObservable
