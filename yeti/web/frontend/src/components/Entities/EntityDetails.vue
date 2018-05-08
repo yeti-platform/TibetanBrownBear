@@ -88,7 +88,7 @@ export default {
       this.$router.go(-1)
     }
   },
-  mounted () { // how to we test for mounted?
+  mounted () {
     this.fetchInfo()
   }
 }

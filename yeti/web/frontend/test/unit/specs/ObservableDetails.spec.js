@@ -31,18 +31,20 @@ const observableRoutes = [
 describe('ObservableDetails.vue', () => {
   let localVue
   let localWrp
+  let fetchInfoSpy
 
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: observableRoutes, mode: 'history'})
+    jest.resetModules()
+    jest.clearAllMocks()
+    fetchInfoSpy = jest.spyOn(ObservableDetails.methods, 'fetchInfo')
     localWrp = mount(ObservableDetails, {
       localVue,
       router,
       propsData: { id: 483373 }
     })
-    jest.resetModules()
-    jest.clearAllMocks()
   })
 
   // let wrapper = mount(ObservableDetails)
@@ -82,9 +84,7 @@ describe('ObservableDetails.vue', () => {
   })
 
   it('calls fetchInfo when mounted', () => {
-    const spy = jest.spyOn(localWrp.vm, 'fetchInfo')
-    localWrp.update()
-    expect(spy).toHaveBeenCalled()
+    expect(fetchInfoSpy).toHaveBeenCalled()
   })
 
   // tests involving API interaction

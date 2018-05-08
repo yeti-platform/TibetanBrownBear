@@ -29,18 +29,20 @@ const indicatorRoutes = [{
 describe('IndicatorDetails.vue', () => {
   let localVue
   let localWrp
+  let fetchInfoSpy
 
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: indicatorRoutes, mode: 'history'})
+    jest.resetModules()
+    jest.clearAllMocks()
+    fetchInfoSpy = jest.spyOn(IndicatorDetails.methods, 'fetchInfo')
     localWrp = mount(IndicatorDetails, {
       localVue,
       router,
       propsData: { id: 477775 }
     })
-    jest.resetModules()
-    jest.clearAllMocks()
   })
 
   // let wrapper = mount(IndicatorDetails)
@@ -80,9 +82,7 @@ describe('IndicatorDetails.vue', () => {
   })
 
   it('calls fetchInfo when mounted', () => {
-    const spy = jest.spyOn(localWrp.vm, 'fetchInfo')
-    localWrp.update()
-    expect(spy).toHaveBeenCalled()
+    expect(fetchInfoSpy).toHaveBeenCalled()
   })
 
   // tests involving API interaction

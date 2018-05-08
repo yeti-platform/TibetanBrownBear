@@ -29,18 +29,20 @@ const entityRoutes = [{
 describe('EntityDetails.vue', () => {
   let localVue
   let localWrp
+  let fetchInfoSpy
 
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: entityRoutes, mode: 'history'})
+    fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
+    jest.resetModules()
+    jest.clearAllMocks()
     localWrp = mount(EntityDetails, {
       localVue,
       router,
       propsData: { id: 510808 }
     })
-    jest.resetModules()
-    jest.clearAllMocks()
   })
 
   // let wrapper = mount(EntityDetails)
@@ -80,9 +82,7 @@ describe('EntityDetails.vue', () => {
   })
 
   it('calls fetchInfo when mounted', () => {
-    const spy = jest.spyOn(localWrp.vm, 'fetchInfo')
-    localWrp.update()
-    expect(spy).toHaveBeenCalled()
+    expect(fetchInfoSpy).toHaveBeenCalled()
   })
 
   // tests involving API interaction
