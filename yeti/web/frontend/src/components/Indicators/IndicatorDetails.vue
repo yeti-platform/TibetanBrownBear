@@ -61,8 +61,10 @@ export default {
       return this.$route.path.endsWith('edit')
     },
     indicatorType () {
-      let arr = this.indicator.type.split('.')
-      return arr[arr.length - 1]
+      if (this.indicator.type) {
+        let arr = this.indicator.type.split('.')
+        return arr[arr.length - 1]
+      }
     },
     indicatorFields () {
       return typeFields[this.indicatorType]

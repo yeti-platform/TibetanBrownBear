@@ -61,8 +61,10 @@ export default {
       return this.$route.path.endsWith('edit')
     },
     entityType () {
-      let arr = this.entity.type.split('.')
-      return arr[arr.length - 1]
+      if (this.entity.type) {
+        let arr = this.entity.type.split('.')
+        return arr[arr.length - 1]
+      }
     },
     entityFields () {
       return typeFields[this.entityType]
