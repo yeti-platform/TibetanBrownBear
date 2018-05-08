@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     fetchElements () {
-      console.log('filtering ' + this.filterParams.apiPath + ' with ' + this.filterParams.querykey + ':' + this.searchQuery)
       var params = {}
       params[this.filterParams.querykey] = this.searchQuery
       params['type'] = this.filterParams.typeFilter

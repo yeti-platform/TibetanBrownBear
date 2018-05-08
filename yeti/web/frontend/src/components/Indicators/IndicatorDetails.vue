@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     fetchInfo () {
-      console.log('Fetching info')
       axios.get(this.defaultApiPath + this.id)
         .then(response => {
           if (response.status !== 200) {
