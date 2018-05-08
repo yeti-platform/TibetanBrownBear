@@ -45,6 +45,11 @@ describe('IndicatorList.vue', () => {
     })
   })
 
+  afterEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
+
   it('the New button should match the type', () => {
     expect(wrapper.vm.$el.querySelector('.btn-toolbar .btn-outline-secondary').textContent)
       .toContain('New regex')

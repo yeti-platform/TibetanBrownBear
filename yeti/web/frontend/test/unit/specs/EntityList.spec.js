@@ -32,6 +32,10 @@ const entityRoutes = [{
 
 describe('EntityList.vue', () => {
   let wrapper = mount(EntityList, {propsData: {type: 'malware'}})
+  afterEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
 
   it('the New button should match the type', () => {
     expect(wrapper.vm.$el.querySelector('.btn-toolbar .btn-outline-secondary').textContent)

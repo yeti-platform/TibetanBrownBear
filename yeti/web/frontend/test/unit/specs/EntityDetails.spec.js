@@ -36,8 +36,6 @@ describe('EntityDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: entityRoutes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
-    jest.resetModules()
-    jest.clearAllMocks()
     localWrp = mount(EntityDetails, {
       localVue,
       router,
@@ -45,7 +43,10 @@ describe('EntityDetails.vue', () => {
     })
   })
 
-  // let wrapper = mount(EntityDetails)
+  afterEach(() => {
+    jest.resetModules()
+    jest.clearAllMocks()
+  })
 
   it('the ID value is correctly assigned as a prop', () => {
     expect(localWrp.vm.id).toBe(510808)
