@@ -31,7 +31,20 @@ const entityRoutes = [{
 }]
 
 describe('EntityList.vue', () => {
-  let wrapper = mount(EntityList, {propsData: {type: 'malware'}})
+  let localVue
+  let wrapper
+
+  beforeEach(() => {
+    localVue = createLocalVue()
+    localVue.use(Router)
+    let router = new Router({routes: entityRoutes, mode: 'history'})
+    wrapper = mount(EntityList, {
+      localVue,
+      router,
+      propsData: {type: 'malware'}
+    })
+  })
+
   afterEach(() => {
     jest.resetModules()
     jest.clearAllMocks()
@@ -59,16 +72,9 @@ describe('EntityList.vue', () => {
   })
 
   it('the new object is correctly navigated to', () => {
-    let localVue = createLocalVue()
-    localVue.use(Router)
-    let router = new Router({routes: entityRoutes, mode: 'history'})
-    const wrp = mount(EntityList, {
-      localVue,
-      router
-    })
-    jest.spyOn(wrp.vm.$router, 'push')
-    wrp.vm.navigateToNew(malwareObjectResponse)
-    expect(wrp.vm.$router.push).toHaveBeenCalledWith({
+    jest.spyOn(wrapper.vm.$router, 'push')
+    wrapper.vm.navigateToNew(malwareObjectResponse)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: 'EntityDetails',
       params: {'id': 510808},
       path: '/entities/510808'
