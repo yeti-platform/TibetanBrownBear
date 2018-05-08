@@ -27,7 +27,7 @@ describe('Fields.vue', () => {
   it('should correctly render datetime fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'first_seen', type: 'datetime'}, elt: mockObjects.mockObservable.tags[0]
+        field: {name: 'first_seen', type: 'datetime'}, elt: mockObjects.mockHostname.tags[0]
       }
     })
     expect(wrapper.find('.first_seen').text()).toBe('2018-05-01 17:39:06 +0200')
@@ -36,16 +36,16 @@ describe('Fields.vue', () => {
   it('should correctly render code fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'pattern', type: 'code'}, elt: mockObjects.mockIndicator
+        field: {name: 'pattern', type: 'code'}, elt: mockObjects.mockRegex
       }
     })
-    expect(wrapper.find('pre').text()).toBe('[a-z]{1a,2}')
+    expect(wrapper.find('pre').text()).toBe('[a-z]{1,2}')
   })
 
   it('should correctly handle tag fields', () => {
     let wrapper = mount(Fields, {
       propsData: {
-        field: {name: 'tags', type: 'tags'}, elt: mockObjects.mockObservable
+        field: {name: 'tags', type: 'tags'}, elt: mockObjects.mockHostname
       }
     })
     expect(wrapper.findAll('.tags span.badge').length).toBe(3)
