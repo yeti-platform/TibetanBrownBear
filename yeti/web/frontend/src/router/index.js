@@ -18,6 +18,7 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    // Observables
     {
       path: '/observables',
       name: 'ObservableList',
