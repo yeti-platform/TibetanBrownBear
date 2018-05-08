@@ -2,6 +2,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
 import Router from 'vue-router'
 import axios from 'axios'
+import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 jest.mock('axios', () => ({
@@ -12,22 +13,6 @@ jest.mock('axios', () => ({
 
 const mockObservableObject = mockObjects.mockHostname
 
-const observableRoutes = [
-  {
-    path: '/observables/:id(\\d+)',
-    name: 'ObservableDetails',
-    component: ObservableDetails,
-    props: true,
-    children: [
-      {
-        name: 'ObservableEdit',
-        path: 'edit',
-        component: ObservableDetails
-      }
-    ]
-  }
-]
-
 describe('ObservableDetails.vue', () => {
   let localVue
   let localWrp
@@ -36,7 +21,7 @@ describe('ObservableDetails.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: observableRoutes, mode: 'history'})
+    let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(ObservableDetails.methods, 'fetchInfo')
     localWrp = mount(ObservableDetails, {
       localVue,

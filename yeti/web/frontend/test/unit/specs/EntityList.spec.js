@@ -3,32 +3,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import EntityList from '@/components/Entities/EntityList'
 import EntityDetails from '@/components/Entities/EntityDetails'
 import Router from 'vue-router'
+import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 
 const malwareObjectResponse = { data: mockObjects.mockMalware }
-
-const entityRoutes = [{
-  path: '/entities/:type([a-z]+)?',
-  name: 'EntityList',
-  component: EntityList,
-  props: true,
-  children: [
-    {
-      path: '/entities/:id(\\d+)',
-      name: 'EntityDetails',
-      component: EntityDetails,
-      props: true,
-      children: [
-        {
-          name: 'EntityEdit',
-          path: 'edit',
-          component: EntityDetails
-        }
-      ]
-    }
-  ]
-}]
 
 describe('EntityList.vue', () => {
   let localVue
@@ -37,7 +16,7 @@ describe('EntityList.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: entityRoutes, mode: 'history'})
+    let router = new Router({routes: routes, mode: 'history'})
     wrapper = mount(EntityList, {
       localVue,
       router,

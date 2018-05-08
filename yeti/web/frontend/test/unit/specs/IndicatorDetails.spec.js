@@ -2,6 +2,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import Router from 'vue-router'
 import axios from 'axios'
+import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 jest.mock('axios', () => ({
@@ -12,20 +13,6 @@ jest.mock('axios', () => ({
 
 const mockIndicatorObject = mockObjects.mockRegex
 
-const indicatorRoutes = [{
-  path: '/indicators/:id(\\d+)',
-  name: 'IndicatorDetails',
-  component: IndicatorDetails,
-  props: true,
-  children: [
-    {
-      name: 'IndicatorEdit',
-      path: 'edit',
-      component: IndicatorDetails
-    }
-  ]
-}]
-
 describe('IndicatorDetails.vue', () => {
   let localVue
   let localWrp
@@ -34,7 +21,7 @@ describe('IndicatorDetails.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: indicatorRoutes, mode: 'history'})
+    let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(IndicatorDetails.methods, 'fetchInfo')
     localWrp = mount(IndicatorDetails, {
       localVue,

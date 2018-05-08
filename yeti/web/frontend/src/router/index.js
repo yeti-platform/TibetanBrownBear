@@ -16,92 +16,105 @@ import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    // Observables
+export const entityRoutes = {
+  path: '/entities/:type([a-z]+)?',
+  name: 'EntityList',
+  component: EntityList,
+  props: true,
+  children: [
     {
-      path: '/observables',
-      name: 'ObservableList',
-      component: ObservableList,
+      path: '/entities/:id(\\d+)',
+      name: 'EntityDetails',
+      component: EntityDetails,
       props: true,
       children: [
         {
-          path: '/observables/:id(\\d+)',
-          name: 'ObservableDetails',
-          component: ObservableDetails,
-          props: true,
-          children: [
-            {
-              name: 'ObservableEdit',
-              path: 'edit',
-              component: ObservableDetails
-            }
-          ]
-        }
-      ]
-    },
-    // Entities
-    {
-      path: '/entities/:type([a-z]+)?',
-      name: 'EntityList',
-      component: EntityList,
-      props: true,
-      children: [
-        {
-          path: '/entities/:id(\\d+)',
-          name: 'EntityDetails',
+          name: 'EntityEdit',
+          path: 'edit',
           component: EntityDetails,
-          props: true,
-          children: [
-            {
-              name: 'EntityEdit',
-              path: 'edit',
-              component: EntityDetails
-            }
-          ]
+          props: true
         }
       ]
-    },
-    // Indicators
+    }
+  ]
+}
+
+export const indicatorRoutes = {
+  path: '/indicators/:type([a-z]+)?',
+  name: 'IndicatorList',
+  component: IndicatorList,
+  props: true,
+  children: [
     {
-      path: '/indicators/:type([a-z]+)?',
-      name: 'IndicatorList',
-      component: IndicatorList,
+      path: '/indicators/:id(\\d+)',
+      name: 'IndicatorDetails',
+      component: IndicatorDetails,
       props: true,
       children: [
         {
-          path: '/indicators/:id(\\d+)',
-          name: 'IndicatorDetails',
+          name: 'IndicatorEdit',
+          path: 'edit',
           component: IndicatorDetails,
-          props: true,
-          children: [
-            {
-              name: 'IndicatorEdit',
-              path: 'edit',
-              component: IndicatorDetails
-            }
-          ]
+          props: true
         }
       ]
-    },
-    // Settings
+    }
+  ]
+}
+
+export const observableRoutes = {
+  path: '/observables',
+  name: 'ObservableList',
+  component: ObservableList,
+  props: true,
+  children: [
     {
-      path: '/admin',
-      name: 'AdminMain',
-      component: AdminMain,
+      path: '/observables/:id(\\d+)',
+      name: 'ObservableDetails',
+      component: ObservableDetails,
+      props: true,
       children: [
         {
-          name: 'Tags',
-          path: 'tags',
-          component: Tags
+          name: 'ObservableEdit',
+          path: 'edit',
+          component: ObservableDetails,
+          props: true
         }
       ]
-    },
-    {
-      path: '*',
-      name: 'NotFound',
-      component: NotFound
     }
-  ],
+  ]
+}
+
+export const settingsRoutes = {
+  path: '/admin',
+  name: 'AdminMain',
+  component: AdminMain,
+  children: [
+    {
+      name: 'Tags',
+      path: 'tags',
+      component: Tags
+    }
+  ]
+}
+
+export const routes = [
+  // Observables
+  observableRoutes,
+  // Entities
+  entityRoutes,
+  // Indicators
+  indicatorRoutes,
+  // Settings
+  settingsRoutes,
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
+  }
+]
+
+export default new Router({
+  routes: routes,
   mode: 'history'
 })

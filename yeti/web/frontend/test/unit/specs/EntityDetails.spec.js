@@ -2,6 +2,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import EntityDetails from '@/components/Entities/EntityDetails'
 import Router from 'vue-router'
 import axios from 'axios'
+import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 jest.mock('axios', () => ({
@@ -12,20 +13,6 @@ jest.mock('axios', () => ({
 
 const mockMalwareObject = mockObjects.mockMalware
 
-const entityRoutes = [{
-  path: '/entities/:id(\\d+)',
-  name: 'EntityDetails',
-  component: EntityDetails,
-  props: true,
-  children: [
-    {
-      name: 'EntityEdit',
-      path: 'edit',
-      component: EntityDetails
-    }
-  ]
-}]
-
 describe('EntityDetails.vue', () => {
   let localVue
   let localWrp
@@ -34,7 +21,7 @@ describe('EntityDetails.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: entityRoutes, mode: 'history'})
+    let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
     localWrp = mount(EntityDetails, {
       localVue,

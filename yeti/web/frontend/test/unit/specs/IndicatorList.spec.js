@@ -3,32 +3,12 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import IndicatorList from '@/components/Indicators/IndicatorList'
 import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import Router from 'vue-router'
+import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 
 const regexObjectResponse = {data: mockObjects.mockRegex}
 
-const indicatorRoutes = [{
-  path: '/indicators/:type([a-z]+)?',
-  name: 'IndicatorList',
-  component: IndicatorList,
-  props: true,
-  children: [
-    {
-      path: '/indicators/:id(\\d+)',
-      name: 'IndicatorDetails',
-      component: IndicatorDetails,
-      props: true,
-      children: [
-        {
-          name: 'IndicatorEdit',
-          path: 'edit',
-          component: IndicatorDetails
-        }
-      ]
-    }
-  ]
-}]
 
 describe('IndicatorList.vue', () => {
   let localVue
@@ -37,7 +17,7 @@ describe('IndicatorList.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: indicatorRoutes, mode: 'history'})
+    let router = new Router({routes: routes, mode: 'history'})
     wrapper = mount(IndicatorList, {
       localVue,
       router,
