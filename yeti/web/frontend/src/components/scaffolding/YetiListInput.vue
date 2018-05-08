@@ -33,7 +33,11 @@ export default {
     }
   },
   mounted () {
-    this.tags = this.value.map(tag => Object({text: tag[this.displayKey]}))
+    if (this.displayKey) {
+      this.tags = this.value.map(tag => Object({text: tag[this.displayKey]}))
+    } else {
+      this.tags = this.value.map(tag => Object({text: tag}))
+    }
     this.formattedAutoCompleteValues = this.autocompleteValues.map(value => Object({text: value}))
   }
 }
