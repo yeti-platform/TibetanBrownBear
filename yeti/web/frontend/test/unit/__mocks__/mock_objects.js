@@ -17,7 +17,7 @@ const mockRegex = {
   type: 'indicator.regex'
 }
 
-const mockObservable = {
+const mockHostname = {
   _id: 'observables/483373',
   id: 483373,
   idna: 'toto512.com',
@@ -50,4 +50,4 @@ const mockObservable = {
 
 module.exports.mockMalware = mockMalware
 module.exports.mockRegex = mockRegex
-module.exports.mockObservable = mockObservable
+module.exports.mockHostname = mockHostname
