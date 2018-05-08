@@ -11,8 +11,9 @@
     </div>
     <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
   </div>
-  <!--  Edit form -->
 
+  <!--  Edit form -->
+  <!-- yeti-form should use emit instead of an onSaveCallback -->
   <yeti-form :object="entity"
              :fields="entityFields"
              :apiPath="defaultApiPath+id+'/'"
@@ -51,7 +52,7 @@ export default {
     YetiForm,
     Fields
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate (to, from, next) { // how do we test this?
     this.fetchInfo()
     next()
   },
@@ -78,8 +79,7 @@ export default {
             this.entity = response.data
           }
         })
-        .catch(error => {
-          console.log(error)
+        .catch(error => { // how do we catch 404 errors?
           this.error = error
         })
         .finally(() => { this.loading = false })
@@ -88,7 +88,7 @@ export default {
       this.$router.go(-1)
     }
   },
-  mounted () {
+  mounted () { // how to we test for mounted?
     this.fetchInfo()
   }
 }
