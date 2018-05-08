@@ -5,7 +5,9 @@ import axios from 'axios'
 
 import mockObjects from '../__mocks__/mock_objects'
 jest.mock('axios', () => ({
-  get: jest.fn(() => Promise.resolve({ data: mockMalwareObject, status: 200 }))
+  get: jest.fn((url) => {
+    return Promise.resolve({ data: mockMalwareObject, status: 200 })
+  })
 }))
 
 const mockMalwareObject = mockObjects.mockMalware
@@ -52,15 +54,6 @@ describe('EntityDetails.vue', () => {
     expect(localWrp.find('div.loading').text()).toBe('Loading...')
   })
 
-  it('object is correctly fetched', (done) => {
-    localWrp.vm.fetchInfo()
-    localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/510808')
-      expect(localWrp.vm.entity).toBe(mockMalwareObject)
-      done()
-    })
-  })
-
   it('correctly navigates to the edit component when button is clicked', (done) => {
     jest.spyOn(localWrp.vm.$router, 'push')
     localWrp.find('a.edit').trigger('click')
@@ -85,4 +78,32 @@ describe('EntityDetails.vue', () => {
       {name: 'family', type: 'list', autocompleteValues: ['trojan', 'banker']}
     ])
   })
+
+  it('calls fetchInfo when mounted', () => {
+    const spy = jest.spyOn(localWrp.vm, 'fetchInfo')
+    localWrp.update()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  // tests involving API interaction
+
+  it('object is correctly fetched', (done) => {
+    localWrp.vm.fetchInfo()
+    localWrp.vm.$nextTick(() => {
+      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/510808')
+      expect(localWrp.vm.entity).toBe(mockMalwareObject)
+      done()
+    })
+  })
+
+  it('not found responses are assigned to the error attribute', (done) => {
+    localWrp.vm.id = 12345
+    localWrp.vm.fetchInfo()
+    localWrp.vm.$nextTick(() => {
+      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/12345')
+      done()
+    })
+  })
+
+
 })
