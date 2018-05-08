@@ -9,12 +9,14 @@
       {{indicator.description || 'No description'}}
       <pre>{{indicator.pattern}}</pre>
     </div>
-    <router-link class="btn btn-sm btn-outline-secondary" :to="{name: 'IndicatorEdit'}">Edit</router-link>
+    <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'IndicatorEdit', params: {id: id}}">Edit</router-link>
   </div>
+
   <!--  Edit form -->
+  <!-- yeti-form should use emit instead of an onSaveCallback -->
   <yeti-form :object="indicator"
              :fields="indicatorFields"
-             :apiPath="this.defaultApiPath+$route.params.id+'/'"
+             :apiPath="defaultApiPath+id+'/'"
              method='PUT'
              :onSaveCallback='toggleEdit'
              v-else
@@ -45,6 +47,7 @@ export default {
       defaultApiPath: `http://localhost:5000/api/indicators/`
     }
   },
+  props: ['id'],
   components: {
     YetiForm,
     Fields
@@ -68,7 +71,7 @@ export default {
   methods: {
     fetchInfo () {
       console.log('Fetching info')
-      axios.get(this.defaultApiPath + this.$route.params.id)
+      axios.get(this.defaultApiPath + this.id)
         .then(response => {
           if (response.status !== 200) {
             this.error = response.data
@@ -77,7 +80,6 @@ export default {
           }
         })
         .catch(error => {
-          console.log(error)
           this.error = error
         })
         .finally(() => { this.loading = false })
