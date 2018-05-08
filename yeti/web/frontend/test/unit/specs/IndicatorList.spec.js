@@ -18,14 +18,32 @@ const indicatorRoutes = [{
       path: '/indicators/:id(\\d+)',
       name: 'IndicatorDetails',
       component: IndicatorDetails,
-      props: true
+      props: true,
+      children: [
+        {
+          name: 'IndicatorEdit',
+          path: 'edit',
+          component: IndicatorDetails
+        }
+      ]
     }
   ]
 }]
 
-
 describe('IndicatorList.vue', () => {
-  let wrapper = mount(IndicatorList, {propsData: {type: 'regex'}})
+  let localVue
+  let wrapper
+
+  beforeEach(() => {
+    localVue = createLocalVue()
+    localVue.use(Router)
+    let router = new Router({routes: indicatorRoutes, mode: 'history'})
+    wrapper = mount(IndicatorList, {
+      localVue,
+      router,
+      propsData: {type: 'regex'}
+    })
+  })
 
   it('the New button should match the type', () => {
     expect(wrapper.vm.$el.querySelector('.btn-toolbar .btn-outline-secondary').textContent)
@@ -49,16 +67,9 @@ describe('IndicatorList.vue', () => {
   })
 
   it('the new object is correctly navigated to', () => {
-    let localVue = createLocalVue()
-    localVue.use(Router)
-    let router = new Router({routes: indicatorRoutes, mode: 'history'})
-    const wrp = mount(IndicatorList, {
-      localVue,
-      router
-    })
-    jest.spyOn(wrp.vm.$router, 'push')
-    wrp.vm.navigateToNew(regexObjectResponse)
-    expect(wrp.vm.$router.push).toHaveBeenCalledWith({
+    jest.spyOn(wrapper.vm.$router, 'push')
+    wrapper.vm.navigateToNew(regexObjectResponse)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: 'IndicatorDetails',
       params: {id: 477775},
       path: '/indicators/477775'
