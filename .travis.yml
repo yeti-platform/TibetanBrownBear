@@ -20,4 +20,4 @@ install:
 
 script:
   - pytest
-  - cd yeti/web/frontend && npm run unit 
+  - cd yeti/web/frontend && npm install && npm run unit 
