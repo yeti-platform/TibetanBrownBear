@@ -51,3 +51,31 @@ const mockHostname = {
 module.exports.mockMalware = mockMalware
 module.exports.mockRegex = mockRegex
 module.exports.mockHostname = mockHostname
+module.exports.mockMalwareList = [
+  {
+    _id: 'entities/1',
+    family: [
+      'trojan',
+      'banker'
+    ],
+    id: 1,
+    name: 'FirstMalware',
+    type: 'entity.malware'
+  },
+  {
+    _id: 'entities/2',
+    family: [
+      'keylogger'
+    ],
+    id: 2,
+    name: 'SecondMalware',
+    type: 'entity.malware'
+  },
+  {
+    _id: 'entities/3',
+    family: [],
+    id: 3,
+    name: 'ThirdMalware',
+    type: 'entity.malware'
+  }
+]

@@ -1,11 +1,11 @@
 <template>
   <div class="">
-    <input @keyup.enter='getElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
+    <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
       <div v-if="loading">
         Loading...
       </div>
-      <table v-else class="table table-hover table-compact table-sm table-yeti">
+      <table id="table-filter" v-else class="table table-hover table-compact table-sm table-yeti">
         <thead>
           <tr><th v-bind:key="field['name']" v-for="field in filterParams.fields">{{field['name']}}</th></tr>
         </thead>
@@ -36,7 +36,7 @@ export default {
   components: {
     Fields
   },
-  props: ['value', 'filterParams', 'detailComponent'],
+  props: ['value', 'filterParams', 'detailComponent'], // value is specified to be able to use v-bind directive on selected items
   data () {
     return {
       elements: [],
@@ -47,12 +47,12 @@ export default {
   },
   watch: {
     // call again the method if the route changes
-    '$route': 'getElements'
+    '$route': 'fetchElements'
   },
   methods: {
     fetchElements () {
-      var params = {}
-      params[this.filterParams.querykey] = this.searchQuery
+      let params = {}
+      params[this.filterParams.queryKey] = this.searchQuery
       params['type'] = this.filterParams.typeFilter
       axios.post(this.filterParams.apiPath, params)
         .then(response => {
@@ -64,9 +64,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-    getElements () {
-      this.fetchElements()
     },
     select (elt) {
       this.selectedElements = [elt.id]
@@ -81,12 +78,12 @@ export default {
       this.$emit('input', this.elements.filter(elt => this.selectedElements.includes(elt.id)))
     },
     clearSelection () {
-      console.log('clearing selection')
       this.selectedElements = []
+      this.$emit('input', [])
     }
   },
   created () {
-    this.getElements()
+    this.fetchElements()
   }
 }
 </script>
