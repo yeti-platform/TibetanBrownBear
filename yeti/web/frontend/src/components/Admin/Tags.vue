@@ -33,7 +33,7 @@ export default {
       filterParams: {
         apiPath: apiRoot + 'filter/',
         fields: ['name', 'created_at', 'default_expiration'],
-        querykey: 'name'
+        queryKey: 'name'
       },
       defaultApiPath: apiRoot,
       selectedTags: []
