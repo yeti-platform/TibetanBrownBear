@@ -67,7 +67,7 @@ export default {
       return {
         apiPath: `http://localhost:5000/api/indicators/filter/`,
         fields: typeFields[type],
-        querykey: 'name',
+        queryKey: 'name',
         typeFilter: type
       }
     },

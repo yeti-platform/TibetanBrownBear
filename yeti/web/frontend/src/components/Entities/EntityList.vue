@@ -66,7 +66,7 @@ export default {
       return {
         apiPath: `http://localhost:5000/api/entities/filter/`,
         fields: typeFields[this.type],
-        querykey: 'name',
+        queryKey: 'name',
         typeFilter: this.type
       }
     },

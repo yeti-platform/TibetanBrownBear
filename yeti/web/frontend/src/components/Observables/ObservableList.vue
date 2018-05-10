@@ -26,7 +26,7 @@ export default {
           {name: 'value', type: 'text'},
           {name: 'tags', type: 'tags'}
         ],
-        querykey: 'value'
+        queryKey: 'value'
       }
     }
   }
