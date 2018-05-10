@@ -2,8 +2,8 @@
 sudo: required
 
 language: python
-python:
-  - "3.6"
+python: "3.6"
+node_js: "8"
 
 services:
    - docker
@@ -20,3 +20,4 @@ install:
 
 script:
   - pytest
+  - cd yeti/web/frontend && npm run unit 
