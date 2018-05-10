@@ -23,4 +23,4 @@ install:
 script:
   - pytest
   - cd yeti/web/frontend && npm install && npm run unit
-  - cd yeti/web/frontend && npm ls && npm outdated
+  - npm ls && npm outdated
