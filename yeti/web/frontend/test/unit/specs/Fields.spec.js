@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 
 import Fields from '@/components/helpers/Fields'
 import mockObjects from '../__mocks__/mock_objects'
+import moment from 'moment-timezone'
 
 describe('Fields.vue', () => {
   it('should correctly render generic text fields', () => {
@@ -30,7 +31,8 @@ describe('Fields.vue', () => {
         field: {name: 'first_seen', type: 'datetime'}, elt: mockObjects.mockHostname.tags[0]
       }
     })
-    expect(wrapper.find('.first_seen').text()).toBe('2018-05-01 17:39:06 +0200')
+    let dateRegexp = /[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \+[0-9]{4}/
+    expect(wrapper.find('.first_seen').text()).toMatch(dateRegexp)
   })
 
   it('should correctly render code fields', () => {
