@@ -1,7 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import EntityList from '@/components/Entities/EntityList'
-import EntityDetails from '@/components/Entities/EntityDetails'
 import Router from 'vue-router'
 import { routes } from '@/router'
 

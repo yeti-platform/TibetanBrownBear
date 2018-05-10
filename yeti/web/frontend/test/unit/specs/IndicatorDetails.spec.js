@@ -92,6 +92,4 @@ describe('IndicatorDetails.vue', () => {
       done()
     })
   })
-
-
 })

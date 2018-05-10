@@ -92,6 +92,4 @@ describe('EntityDetails.vue', () => {
       done()
     })
   })
-
-
 })

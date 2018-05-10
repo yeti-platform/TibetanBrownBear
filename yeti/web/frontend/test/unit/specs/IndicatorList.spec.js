@@ -1,14 +1,12 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 
 import IndicatorList from '@/components/Indicators/IndicatorList'
-import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import Router from 'vue-router'
 import { routes } from '@/router'
 
 import mockObjects from '../__mocks__/mock_objects'
 
 const regexObjectResponse = {data: mockObjects.mockRegex}
-
 
 describe('IndicatorList.vue', () => {
   let localVue

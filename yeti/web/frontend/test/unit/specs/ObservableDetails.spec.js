@@ -92,6 +92,4 @@ describe('ObservableDetails.vue', () => {
       done()
     })
   })
-
-
 })
