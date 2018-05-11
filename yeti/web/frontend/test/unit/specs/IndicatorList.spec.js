@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 
 import IndicatorList from '@/components/Indicators/IndicatorList'
 import Router from 'vue-router'
@@ -16,7 +16,7 @@ describe('IndicatorList.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = mount(IndicatorList, {
+    wrapper = shallow(IndicatorList, {
       localVue,
       router,
       propsData: {type: 'regex'}

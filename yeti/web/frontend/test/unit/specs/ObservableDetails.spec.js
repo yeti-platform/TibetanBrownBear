@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -23,7 +23,7 @@ describe('ObservableDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(ObservableDetails.methods, 'fetchInfo')
-    localWrp = mount(ObservableDetails, {
+    localWrp = shallow(ObservableDetails, {
       localVue,
       router,
       propsData: { id: 483373 }
@@ -42,20 +42,6 @@ describe('ObservableDetails.vue', () => {
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
     expect(localWrp.find('div.loading').text()).toBe('Loading...')
-  })
-
-  it('correctly navigates to the edit component when button is clicked', (done) => {
-    jest.spyOn(localWrp.vm.$router, 'push')
-    localWrp.find('a.edit').trigger('click')
-    localWrp.vm.$nextTick(() => {
-      expect(localWrp.vm.$router.push).toHaveBeenCalledWith({
-        name: 'ObservableEdit',
-        params: {'id': 483373},
-        path: '/observables/483373/edit'
-      })
-      expect(localWrp.vm.isEdit).toBe(true)
-      done()
-    })
   })
 
   it('correctly parses the observable type', () => {

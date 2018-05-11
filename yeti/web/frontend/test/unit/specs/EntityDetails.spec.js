@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 import EntityDetails from '@/components/Entities/EntityDetails'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -23,7 +23,7 @@ describe('EntityDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
-    localWrp = mount(EntityDetails, {
+    localWrp = shallow(EntityDetails, {
       localVue,
       router,
       propsData: { id: 510808 }
@@ -42,20 +42,6 @@ describe('EntityDetails.vue', () => {
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
     expect(localWrp.find('div.loading').text()).toBe('Loading...')
-  })
-
-  it('correctly navigates to the edit component when button is clicked', (done) => {
-    jest.spyOn(localWrp.vm.$router, 'push')
-    localWrp.find('a.edit').trigger('click')
-    localWrp.vm.$nextTick(() => {
-      expect(localWrp.vm.$router.push).toHaveBeenCalledWith({
-        name: 'EntityEdit',
-        params: {'id': 510808},
-        path: '/entities/510808/edit'
-      })
-      expect(localWrp.vm.isEdit).toBe(true)
-      done()
-    })
   })
 
   it('correctly parses the entity type', () => {

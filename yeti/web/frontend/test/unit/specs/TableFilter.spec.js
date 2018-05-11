@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 import Router from 'vue-router'
 import { routes } from '@/router'
 import axios from 'axios'
@@ -30,7 +30,7 @@ describe('TableFilter.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = mount(TableFilter, {
+    wrapper = shallow(TableFilter, {
       localVue,
       router,
       propsData: {

@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 import Sidebar from '@/components/scaffolding/Sidebar'
 import Router from 'vue-router'
 import { routes } from '@/router'
@@ -11,7 +11,7 @@ describe('Sidebar.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = mount(Sidebar, {
+    wrapper = shallow(Sidebar, {
       localVue,
       router,
       propsData: { id: 510808 }
