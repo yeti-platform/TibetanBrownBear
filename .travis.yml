@@ -15,7 +15,6 @@ before_install:
   - docker run --link db:db waisbrot/wait
   - npm i -g npm@latest
 
-
 install:
   - pip install pipenv
   - pipenv install --dev --system --deploy
