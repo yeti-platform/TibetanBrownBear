@@ -2,8 +2,8 @@
 sudo: required
 
 language: python
-python:
-  - "3.6"
+python: "3.6"
+node_js: "10"
 
 services:
    - docker
@@ -13,6 +13,7 @@ before_install:
   - docker pull waisbrot/wait:latest
   - docker run -e ARANGO_ROOT_PASSWORD='' -d -p 8529:8529 --name db arangodb/arangodb:latest
   - docker run --link db:db waisbrot/wait
+  - npm i -g npm@latest
 
 install:
   - pip install pipenv
@@ -20,3 +21,4 @@ install:
 
 script:
   - pytest
+  - cd yeti/web/frontend && npm install && npm run unit

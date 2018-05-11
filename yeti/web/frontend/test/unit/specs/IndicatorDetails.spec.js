@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -23,7 +23,7 @@ describe('IndicatorDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(IndicatorDetails.methods, 'fetchInfo')
-    localWrp = mount(IndicatorDetails, {
+    localWrp = shallow(IndicatorDetails, {
       localVue,
       router,
       propsData: { id: 477775 }
@@ -42,20 +42,6 @@ describe('IndicatorDetails.vue', () => {
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
     expect(localWrp.find('div.loading').text()).toBe('Loading...')
-  })
-
-  it('correctly navigates to the edit component when button is clicked', (done) => {
-    jest.spyOn(localWrp.vm.$router, 'push')
-    localWrp.find('a.edit').trigger('click')
-    localWrp.vm.$nextTick(() => {
-      expect(localWrp.vm.$router.push).toHaveBeenCalledWith({
-        name: 'IndicatorEdit',
-        params: {'id': 477775},
-        path: '/indicators/477775/edit'
-      })
-      expect(localWrp.vm.isEdit).toBe(true)
-      done()
-    })
   })
 
   it('correctly parses the indicator type', () => {

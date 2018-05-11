@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 
 import YetiForm from '@/components/scaffolding/YetiForm'
 import mockObjects from '../__mocks__/mock_objects'
@@ -17,7 +17,7 @@ describe('YetiForm.vue', () => {
   })
 
   it('should correctly render generic text fields', () => {
-    let wrapper = mount(YetiForm, {
+    let wrapper = shallow(YetiForm, {
       propsData: {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '',
@@ -29,7 +29,7 @@ describe('YetiForm.vue', () => {
   })
 
   it('should correctly render code fields', () => {
-    let wrapper = mount(YetiForm, {
+    let wrapper = shallow(YetiForm, {
       propsData: {
         fields: [{name: 'pattern', type: 'code'}],
         apiPath: '',
@@ -41,7 +41,7 @@ describe('YetiForm.vue', () => {
   })
 
   it('should correctly submit object information', (done) => {
-    let wrapper = mount(YetiForm, {
+    let wrapper = shallow(YetiForm, {
       propsData: {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '/fake/api/path',
@@ -62,7 +62,7 @@ describe('YetiForm.vue', () => {
   })
 
   it('correctly calls the onsavecallback function', (done) => {
-    let wrapper = mount(YetiForm, {
+    let wrapper = shallow(YetiForm, {
       propsData: {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '/fake/api/path',

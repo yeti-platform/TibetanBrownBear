@@ -1,11 +1,11 @@
-import { mount } from '@vue/test-utils'
+import { shallow } from '@vue/test-utils'
 
 import Fields from '@/components/helpers/Fields'
 import mockObjects from '../__mocks__/mock_objects'
 
 describe('Fields.vue', () => {
   it('should correctly render generic text fields', () => {
-    let wrapper = mount(Fields, {
+    let wrapper = shallow(Fields, {
       propsData: {
         field: {name: 'name', type: 'text'}, elt: mockObjects.mockMalware
       }
@@ -14,7 +14,7 @@ describe('Fields.vue', () => {
   })
 
   it('should correctly render list fields', () => {
-    let wrapper = mount(Fields, {
+    let wrapper = shallow(Fields, {
       propsData: {
         field: {name: 'family', type: 'list'}, elt: mockObjects.mockMalware
       }
@@ -25,16 +25,17 @@ describe('Fields.vue', () => {
   })
 
   it('should correctly render datetime fields', () => {
-    let wrapper = mount(Fields, {
+    let wrapper = shallow(Fields, {
       propsData: {
         field: {name: 'first_seen', type: 'datetime'}, elt: mockObjects.mockHostname.tags[0]
       }
     })
-    expect(wrapper.find('.first_seen').text()).toBe('2018-05-01 17:39:06 +0200')
+    let dateRegexp = /[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} \+[0-9]{4}/
+    expect(wrapper.find('.first_seen').text()).toMatch(dateRegexp)
   })
 
   it('should correctly render code fields', () => {
-    let wrapper = mount(Fields, {
+    let wrapper = shallow(Fields, {
       propsData: {
         field: {name: 'pattern', type: 'code'}, elt: mockObjects.mockRegex
       }
@@ -43,7 +44,7 @@ describe('Fields.vue', () => {
   })
 
   it('should correctly handle tag fields', () => {
-    let wrapper = mount(Fields, {
+    let wrapper = shallow(Fields, {
       propsData: {
         field: {name: 'tags', type: 'tags'}, elt: mockObjects.mockHostname
       }

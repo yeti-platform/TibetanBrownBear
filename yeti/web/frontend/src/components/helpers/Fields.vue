@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 // Expected input format: 2018-04-16T16:18:25.179482+00:00
 const inputDateTimeFormat = 'YYYY-MM-DDTHH:mm:ss.SSSSSSZZ'

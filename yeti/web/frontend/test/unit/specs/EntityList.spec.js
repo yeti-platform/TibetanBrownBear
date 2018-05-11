@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallow } from '@vue/test-utils'
 
 import EntityList from '@/components/Entities/EntityList'
 import Router from 'vue-router'
@@ -16,7 +16,7 @@ describe('EntityList.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = mount(EntityList, {
+    wrapper = shallow(EntityList, {
       localVue,
       router,
       propsData: {type: 'malware'}
