@@ -20,7 +20,7 @@ install:
   - pipenv install --dev --system --deploy
 
 script:
-  - pytest
+  - pytest tests
   - cd yeti/web/frontend && npm install && npm run unit
 
 notifications:
