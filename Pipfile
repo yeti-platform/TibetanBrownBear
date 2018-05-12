@@ -20,7 +20,6 @@ pytest = "*"
 pytest-cov = "*"
 "e1839a8" = {path = ".", editable = true}
 pylint = "*"
-coverage = "*"
 
 [requires]
 python_version = "3.6"

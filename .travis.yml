@@ -18,6 +18,7 @@ before_install:
 install:
   - pip install pipenv
   - pipenv install --dev --system --deploy
+  - pipenv install codecov
 
 script:
   - pytest tests
