@@ -17,22 +17,7 @@
 </template>
 
 <script>
-import TableFilter from '@/components/scaffolding/TableFilter'
-import YetiForm from '@/components/scaffolding/YetiForm'
-
 export default {
-  components: {
-    TableFilter,
-    YetiForm
-  },
-  data () {
-    return {}
-  },
-  props: ['type'],
-  computed: {
-  },
-  methods: {
-    // catch emitted event from new or save form
-  }
+  props: ['type']
 }
 </script>

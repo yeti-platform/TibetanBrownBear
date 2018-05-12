@@ -4,7 +4,6 @@
 
 <script>
 import TableFilter from '@/components/scaffolding/TableFilter'
-import YetiForm from '@/components/scaffolding/YetiForm'
 
 const typeFields = {
   'malware': [
@@ -18,12 +17,10 @@ const typeFields = {
 
 export default {
   components: {
-    TableFilter,
-    YetiForm
+    TableFilter
   },
   data () {
     return {
-      newEntity: false,
       defaultObjects: {
         'malware': {
           type: 'entity.malware',
@@ -51,7 +48,6 @@ export default {
   },
   methods: {
     navigateToNew (object) {
-      this.newEntity = false
       this.$router.push({name: 'EntityDetails', params: {id: object.data.id}})
     }
   }
