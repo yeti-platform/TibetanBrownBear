@@ -1,6 +1,6 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 from arango import ArangoClient
-from arango.exceptions import DatabaseCreateError, CollectionCreateError, DocumentInsertError, GraphCreateError, EdgeDefinitionCreateError  # pylint: disable=line-too-long
+from arango.exceptions import DocumentInsertError, GraphCreateError
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 from yeti.core.errors import ValidationError, IntegrityError
