@@ -2,6 +2,7 @@
 
 import pytest
 
+from yeti.core.errors import ValidationError
 from yeti.core.types.ip import IP
 
 @pytest.mark.usefixtures('clean_db')
@@ -69,5 +70,5 @@ def test_normalization():
 def test_ip_fails():
     """Test that invalid ips cannot be created."""
     for failing_value in FAILING_TESTS:
-        with pytest.raises(ValueError):
+        with pytest.raises(ValidationError):
             IP(value=failing_value)
