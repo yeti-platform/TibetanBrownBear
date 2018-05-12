@@ -87,7 +87,6 @@ export const indicatorRoutes = {
 
 export const observableRoutes = {
   path: '/observables',
-  name: 'ObservableList',
   component: Observables,
   props: true,
   children: [
