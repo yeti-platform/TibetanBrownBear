@@ -25,7 +25,7 @@ script:
   - cd yeti/web/frontend && npm install && npm run unit
 
 after_success:
-  - codecov
+  - cd ../../../ && codecov
 
 notifications:
   slack:
