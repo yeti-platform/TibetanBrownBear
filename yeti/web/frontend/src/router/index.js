@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Observables from '@/components/Observables/Observables'
 import ObservableList from '@/components/Observables/ObservableList'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
 
@@ -87,22 +88,26 @@ export const indicatorRoutes = {
 export const observableRoutes = {
   path: '/observables',
   name: 'ObservableList',
-  component: ObservableList,
+  component: Observables,
   props: true,
   children: [
+    {
+      path: '',
+      name: 'ObservableList',
+      component: ObservableList,
+      props: true
+    },
     {
       path: '/observables/:id(\\d+)',
       name: 'ObservableDetails',
       component: ObservableDetails,
-      props: true,
-      children: [
-        {
-          name: 'ObservableEdit',
-          path: 'edit',
-          component: ObservableDetails,
-          props: true
-        }
-      ]
+      props: true
+    },
+    {
+      name: 'ObservableEdit',
+      path: '/observables/:id(\\d+)/edit',
+      component: ObservableDetails,
+      props: (route) => { return {id: route.params.id, edit: true} }
     }
   ]
 }

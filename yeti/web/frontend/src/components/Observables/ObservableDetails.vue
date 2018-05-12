@@ -16,7 +16,7 @@
              :fields="observableFields"
              :apiPath="defaultApiPath+id+'/'"
              method='PUT'
-             :onSaveCallback='toggleEdit'
+             v-on:form-submit='toggleEdit'
              v-else
              />
 </template>
