@@ -24,14 +24,14 @@ class ArangoDatabase:
         self.collections = dict()
         self.graphs = dict()
         self.create_edge_definition(self.graph('tags'), {
-            'name': 'tagged',
-            'from_collections': ['observables'],
-            'to_collections': ['tags'],
+            'edge_collection': 'tagged',
+            'from_vertex_collections': ['observables'],
+            'to_vertex_collections': ['tags'],
         })
         self.create_edge_definition(self.graph('entities'), {
-            'name': 'uses',
-            'from_collections': ['entities'],
-            'to_collections': ['observables', 'entities'],
+            'edge_collection': 'uses',
+            'from_vertex_collections': ['entities'],
+            'to_vertex_collections': ['observables', 'entities'],
         })
         # entities, observables, and tags are already created
         self.collection('indicators')
@@ -41,21 +41,15 @@ class ArangoDatabase:
         client = ArangoClient(
             protocol='http',
             host=yeti_config.arangodb.host,
-            port=yeti_config.arangodb.port,
-            username=yeti_config.arangodb.username,
-            password=yeti_config.arangodb.password,
-            enable_logging=True)
+            port=yeti_config.arangodb.port)
 
-        # Create database if it does not exist
-        try:
-            client.create_database(yeti_config.arangodb.database)
-        except DatabaseCreateError as err:
-            # 12707 - ERROR_ARANGO_DUPLICATE_NAME
-            # https://docs.arangodb.com/3.0/Manual/Appendix/ErrorCodes.html
-            if not err.error_code == 1207:
-                raise
+        sys_db = client.db('_system')
+        if not sys_db.has_database(yeti_config.arangodb.database):
+            sys_db.create_database(yeti_config.arangodb.database)
 
-        self.db = client.database(yeti_config.arangodb.database)
+        self.db = client.db(yeti_config.arangodb.database,
+                            username=yeti_config.arangodb.username,
+                            password=yeti_config.arangodb.password)
 
     def clear(self):
         for name in self.collections:
@@ -66,16 +60,10 @@ class ArangoDatabase:
             self.connect()
 
         if name not in self.collections:
-            # Create collection if it does not exist
-            try:
-                self.db.create_collection(name)
-            except CollectionCreateError as err:
-                # 12707 - ERROR_ARANGO_DUPLICATE_NAME
-                # https://docs.arangodb.com/3.0/Manual/Appendix/ErrorCodes.html
-                if not err.error_code == 1207:
-                    raise
-
-            self.collections[name] = self.db.collection(name)
+            if self.db.has_collection(name):
+                self.collections[name] = self.db.collection(name)
+            else:
+                self.collections[name] = self.db.create_collection(name)
 
         return self.collections[name]
 
@@ -94,12 +82,9 @@ class ArangoDatabase:
         if self.db is None:
             self.connect()
 
-        try:
-            return graph.create_edge_definition(**definition)
-        except EdgeDefinitionCreateError as err:
-            if err.error_code in [1920]:
-                return graph.edge_collection(definition['name'])
-            raise
+        if graph.has_edge_definition(definition['edge_collection']):
+            return graph.edge_collection(definition['edge_collection'])
+        return graph.create_edge_definition(**definition)
 
     def __getattr__(self, key):
         if self.db is None:
@@ -200,7 +185,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Returns:
           A Yeti object."""
-        document = cls._get_collection().get(key)
+        document = cls._get_collection().get(str(key))
         if document:
             return cls.load(document)
         return None
