@@ -1,6 +1,6 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!isEdit" class="entity-details">
+  <div v-if="!edit" class="entity-details">
     <div class="loading" v-if="loading">
       Loading...
     </div>
@@ -18,7 +18,7 @@
              :fields="entityFields"
              :apiPath="defaultApiPath+id+'/'"
              method='PUT'
-             :onSaveCallback='toggleEdit'
+             v-on:form-submit='toggleEdit'
              v-else
              />
 </template>
@@ -47,7 +47,7 @@ export default {
       defaultApiPath: `http://localhost:5000/api/entities/`
     }
   },
-  props: ['id'],
+  props: { id: String, edit: Boolean },
   components: {
     YetiForm,
     Fields
@@ -57,9 +57,6 @@ export default {
     next()
   },
   computed: {
-    isEdit () {
-      return this.$route.path.endsWith('edit')
-    },
     entityType () {
       if (this.entity.type) {
         let arr = this.entity.type.split('.')

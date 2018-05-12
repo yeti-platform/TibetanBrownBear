@@ -4,7 +4,9 @@ import Router from 'vue-router'
 import ObservableList from '@/components/Observables/ObservableList'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
 
+import Entities from '@/components/Entities/Entities'
 import EntityList from '@/components/Entities/EntityList'
+import NewEntity from '@/components/Entities/NewEntity'
 import EntityDetails from '@/components/Entities/EntityDetails'
 
 import IndicatorList from '@/components/Indicators/IndicatorList'
@@ -18,23 +20,32 @@ Vue.use(Router)
 
 export const entityRoutes = {
   path: '/entities/:type([a-z]+)?',
-  name: 'EntityList',
-  component: EntityList,
+  component: Entities,
   props: true,
   children: [
+    {
+      path: '',
+      name: 'EntityList',
+      component: EntityList,
+      props: true
+    },
+    {
+      path: 'new',
+      name: 'NewEntity',
+      component: NewEntity,
+      props: true
+    },
     {
       path: '/entities/:id(\\d+)',
       name: 'EntityDetails',
       component: EntityDetails,
-      props: true,
-      children: [
-        {
-          name: 'EntityEdit',
-          path: 'edit',
-          component: EntityDetails,
-          props: true
-        }
-      ]
+      props: true
+    },
+    {
+      name: 'EntityEdit',
+      path: '/entities/:id(\\d+)/edit',
+      component: EntityDetails,
+      props: (route) => { return {id: route.params.id, edit: true} }
     }
   ]
 }

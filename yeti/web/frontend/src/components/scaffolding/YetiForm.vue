@@ -60,7 +60,7 @@ export default {
       this.saving = true
       methods[this.method](this.apiPath, this.object)
         .then(response => {
-          this.onSaveCallback(response)
+          this.$emit('form-submit', response.data)
         })
         .catch(error => {
           this.errors = error.response.data
