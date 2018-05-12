@@ -15,7 +15,7 @@
       <router-link class="flex-sm-fill text-sm-center nav-link" to="/indicators/yara">Yara rules</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!id && type" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
+    <table-filter v-if="!id && type && !newIndicator" :filter-params="filterParams" detailComponent="IndicatorDetails"/>
     <yeti-form v-if="newIndicator"
                apiPath="http://localhost:5000/api/indicators/"
                :object="defaultObject"
@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     navigateToNew (object) {
+      this.newIndicator = false
       this.$router.push({name: 'IndicatorDetails', params: {id: object.data.id}})
     }
   }

@@ -15,7 +15,7 @@
       <router-link id="actor" class="flex-sm-fill text-sm-center nav-link" :to="{name: 'EntityList', params: {type: 'actor'}}">Actors</router-link>
     </nav>
     <router-view />
-    <table-filter v-if="!id && type" :filter-params="filterParams" detailComponent="EntityDetails"/>
+    <table-filter v-if="!id && type && !newEntity" :filter-params="filterParams" detailComponent="EntityDetails"/>
     <yeti-form v-if="newEntity"
                apiPath="http://localhost:5000/api/entities/"
                :object="defaultObject"
@@ -76,6 +76,7 @@ export default {
   },
   methods: {
     navigateToNew (object) {
+      this.newEntity = false
       this.$router.push({name: 'EntityDetails', params: {id: object.data.id}})
     }
   }
