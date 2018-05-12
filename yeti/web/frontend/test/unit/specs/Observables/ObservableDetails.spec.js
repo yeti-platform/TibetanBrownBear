@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import axios from 'axios'
 import { routes } from '@/router'
 
-import mockObjects from '../__mocks__/mock_objects'
+import mockObjects from '../../__mocks__/mock_objects'
 jest.mock('axios', () => ({
   get: jest.fn((url) => {
     return Promise.resolve({ data: mockObservableObject, status: 200 })
