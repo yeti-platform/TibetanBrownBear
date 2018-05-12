@@ -7,10 +7,10 @@
       </div>
       <div class="col-4" v-if="selectedTags.length > 0">
         <yeti-form :object="selectedTags[0]"
-                   :fields="['name', 'default_expiration']"
+                   :fields="filterParams.fields"
                    :apiPath="defaultApiPath+selectedTags[0].id+'/'"
                    method='PUT'
-                   :onSaveCallback='clearSelection'
+                   v-on:form-submit='clearSelection'
                    />
       </div>
     </div>
@@ -32,7 +32,11 @@ export default {
     return {
       filterParams: {
         apiPath: apiRoot + 'filter/',
-        fields: ['name', 'created_at', 'default_expiration'],
+        fields: [
+          {name: 'name', type: 'text'},
+          {name: 'created_at', type: 'datetime'},
+          {name: 'default_expiration', type: 'text'}
+        ],
         queryKey: 'name'
       },
       defaultApiPath: apiRoot,
