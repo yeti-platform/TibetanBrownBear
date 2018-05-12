@@ -25,7 +25,6 @@ class ObservableSchema(YetiSchema):
         """
         datatype = Observable.datatypes.get(data['type'], Observable)
         object_ = datatype(**data)
-        object_.normalize()
         return object_
 
 
@@ -48,10 +47,21 @@ class Observable(YetiObject):
     type = 'observable'
     tags = None
 
-    def is_valid(self):
-        if self.value is not None:
+    @classmethod
+    def validate_string(cls, string):
+        if string:
             return True
-        raise ValidationError('`value` must be provided.')
+        return False
+
+    def is_valid(self):
+        try:
+            self.normalize()
+        except Exception as e:  # pylint: disable=broad-except
+            ValidationError('Invalid {0:s} value: {1!r} ({2!r})'.format(
+                self.__class__.__name__, self.value, e))
+        if not self.validate_string(self.value):
+            raise ValidationError('Invalid {0:s} value: {1!r}'.format(
+                self.__class__.__name__, self.value))
 
     def normalize(self):
         pass
