@@ -12,6 +12,7 @@ from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
 from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
+from yeti.core.types.url import URL
 from yeti.core.types.ip import IP
 from yeti.core.types.tag import Tag
 
@@ -37,6 +38,13 @@ def populate_hostnames():
         hostnames.append(hostname)
     return hostnames
 
+@pytest.fixture
+def populate_urls():
+    urls = []
+    for num in range(10):
+        url = URL.get_or_create(value='http://asd{0:d}.com'.format(num))
+        urls.append(url)
+    return urls
 
 @pytest.fixture
 def populate_ips():

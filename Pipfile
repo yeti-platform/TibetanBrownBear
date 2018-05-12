@@ -13,6 +13,7 @@ tldextract = "*"
 pytz = "*"
 python-dateutil = "*"
 yara-python = "*"
+url-normalize = "*"
 
 [dev-packages]
 pytest = "*"
