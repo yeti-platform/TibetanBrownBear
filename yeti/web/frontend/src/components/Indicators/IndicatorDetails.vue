@@ -47,7 +47,7 @@ export default {
       defaultApiPath: `http://localhost:5000/api/indicators/`
     }
   },
-  props: { id: String, edit: Boolean },
+  props: { id: [Number, String], edit: Boolean },
   components: {
     YetiForm,
     Fields

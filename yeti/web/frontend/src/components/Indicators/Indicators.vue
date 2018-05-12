@@ -4,7 +4,7 @@
       <h1 class="h1">Indicators</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <router-link v-if="type" id="new-entity" class="btn btn-sm btn-outline-secondary" :to="{name: 'NewIndicator', params: {type}}">{{"New " + type}}</router-link>
+          <router-link v-if="type" id="new-indicator" class="btn btn-sm btn-outline-secondary" :to="{name: 'NewIndicator', params: {type}}">{{"New " + type}}</router-link>
         </div>
       </div>
     </div>

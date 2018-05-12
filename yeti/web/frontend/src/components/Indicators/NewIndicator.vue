@@ -1,23 +1,12 @@
 <template lang="html">
   <yeti-form apiPath="http://localhost:5000/api/indicators/"
-             :object="defaultObject"
-             :fields="defaultFields"
+             :object="defaultObjects[type]"
+             :fields="defaultFields[type]"
              v-on:form-submit="navigateToNew"/>
 </template>
 
 <script>
-
 import YetiForm from '@/components/scaffolding/YetiForm'
-
-const defaultFields = {
-  'regex': [
-    {name: 'name', type: 'text'},
-    {name: 'pattern', type: 'code'}
-  ],
-  'yara': [
-    {name: 'name', type: 'text'}
-  ]
-}
 
 export default {
   components: {
@@ -33,18 +22,19 @@ export default {
         'yara': {
           type: 'indicator.yara'
         }
+      },
+      defaultFields: {
+        'regex': [
+          {name: 'name', type: 'text'},
+          {name: 'pattern', type: 'code'}
+        ],
+        'yara': [
+          {name: 'name', type: 'text'}
+        ]
       }
     }
   },
   props: ['type'],
-  computed: {
-    defaultFields () {
-      return defaultFields[this.type]
-    },
-    defaultObject () {
-      return this.defaultObjects[this.type]
-    }
-  },
   methods: {
     navigateToNew: function (data) {
       this.$router.push({name: 'IndicatorDetails', params: {id: data.id}})
