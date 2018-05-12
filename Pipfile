@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 python-arango = "*"
 marshmallow = "*"
 flask = "*"
@@ -17,14 +14,11 @@ pytz = "*"
 python-dateutil = "*"
 yara-python = "*"
 
-
 [dev-packages]
-
 pytest = "*"
 pytest-cov = "*"
 "e1839a8" = {path = ".", editable = true}
-
+pylint = "*"
 
 [requires]
-
 python_version = "3.6"
