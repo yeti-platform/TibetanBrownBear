@@ -45,8 +45,7 @@ export default {
     'fields': { default: () => [], type: Array },
     'apiPath': { type: String },
     'method': { default: 'POST', type: String },
-    'object': { default: () => {}, type: Object },
-    'onSaveCallback': Function
+    'object': { default: () => {}, type: Object }
   },
   data () {
     return {

@@ -21,8 +21,7 @@ describe('YetiForm.vue', () => {
       propsData: {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '',
-        object: mockObjects.mockMalware,
-        onSaveCallback: () => {}
+        object: mockObjects.mockMalware
       }
     })
     expect(wrapper.find('#name').element.value).toBe(mockObjects.mockMalware.name)
@@ -33,8 +32,7 @@ describe('YetiForm.vue', () => {
       propsData: {
         fields: [{name: 'pattern', type: 'code'}],
         apiPath: '',
-        object: mockObjects.mockRegex,
-        onSaveCallback: () => {}
+        object: mockObjects.mockRegex
       }
     })
     expect(wrapper.find('#pattern').element.value).toBe(mockObjects.mockRegex.pattern)
@@ -46,8 +44,7 @@ describe('YetiForm.vue', () => {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '/fake/api/path',
         method: 'PUT',
-        object: mockObjects.mockMalware,
-        onSaveCallback: () => {}
+        object: mockObjects.mockMalware
       }
     })
     mockObjects.mockMalware.name = 'NastyMalware'
@@ -61,21 +58,19 @@ describe('YetiForm.vue', () => {
     })
   })
 
-  it('correctly calls the onsavecallback function', (done) => {
+  it('correctly calls the onsavecallback function', () => {
     let wrapper = shallow(YetiForm, {
       propsData: {
         fields: [{name: 'name', type: 'text'}],
         apiPath: '/fake/api/path',
         method: 'PUT',
-        object: mockObjects.mockMalware,
-        onSaveCallback: () => {}
+        object: mockObjects.mockMalware
       }
     })
-    jest.spyOn(wrapper.vm, 'onSaveCallback')
     wrapper.find('form').trigger('submit')
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.onSaveCallback).toHaveBeenCalled()
-      done()
+      console.log(wrapper.emitted())
+      expect(wrapper.emitted()['form-submit'][0][0]).toEqual(mockObjects.mockMalware)
     })
   })
 })
