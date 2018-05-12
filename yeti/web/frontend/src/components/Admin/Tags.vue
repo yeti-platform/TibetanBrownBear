@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <div v-bind:class="[hasTagSelection ? 'col-8' : 'col-12' ]">
+      <div id="tag-list" v-bind:class="[hasTagSelection ? 'col-8' : 'col-12' ]">
         <p>Click on a line in the table to edit tags.</p>
         <table-filter ref="tagList" :filter-params="filterParams" v-model="selectedTags" :multiSelect="false"/>
       </div>
