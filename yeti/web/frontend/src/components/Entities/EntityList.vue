@@ -19,24 +19,8 @@ export default {
   components: {
     TableFilter
   },
-  data () {
-    return {
-      defaultObjects: {
-        'malware': {
-          type: 'entity.malware',
-          family: []
-        },
-        'actor': {
-          type: 'entity.actor'
-        }
-      }
-    }
-  },
-  props: ['id', 'type'],
+  props: ['type'],
   computed: {
-    subTypeFields () {
-      return typeFields[this.type]
-    },
     filterParams () {
       return {
         apiPath: `http://localhost:5000/api/entities/filter/`,
@@ -44,11 +28,6 @@ export default {
         queryKey: 'name',
         typeFilter: this.type
       }
-    }
-  },
-  methods: {
-    navigateToNew (object) {
-      this.$router.push({name: 'EntityDetails', params: {id: object.data.id}})
     }
   }
 }

@@ -19,24 +19,8 @@ export default {
   components: {
     TableFilter
   },
-  data () {
-    return {
-      defaultObjects: {
-        'regex': {
-          type: 'indicator.regex',
-          pattern: ''
-        },
-        'yara': {
-          type: 'indicator.yara'
-        }
-      }
-    }
-  },
-  props: ['id', 'type'],
+  props: ['type'],
   computed: {
-    subTypeFields () {
-      return typeFields[this.type]
-    },
     filterParams () {
       return {
         apiPath: `http://localhost:5000/api/indicators/filter/`,
@@ -44,11 +28,6 @@ export default {
         queryKey: 'name',
         typeFilter: this.type
       }
-    }
-  },
-  methods: {
-    navigateToNew (object) {
-      this.$router.push({name: 'IndicatorDetails', params: {id: object.data.id}})
     }
   }
 }
