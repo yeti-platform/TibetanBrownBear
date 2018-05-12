@@ -49,6 +49,7 @@ def test_hostname_formatting():
 
 NORMALIZATION_TESTS = (
     ('yeti.org.', 'yeti.org', b'yeti.org'),
+    ('yeti[.]org', 'yeti.org', b'yeti.org'),
     ('YETI.CO.UK', 'yeti.co.uk', b'yeti.co.uk'),
     ('YeTi.OrG.', 'yeti.org', b'yeti.org'),
     ('Yéti.ORG.', 'yéti.org', b'xn--yti-bma.org'),
@@ -58,6 +59,8 @@ NORMALIZATION_TESTS = (
 FAILING_TESTS = (
     ('http://yeti.org/'),
     ('yeti.org/'),
+    ('asd yeti.org'),
+    ('---.org'),
 )
 
 @pytest.mark.usefixtures('clean_db')

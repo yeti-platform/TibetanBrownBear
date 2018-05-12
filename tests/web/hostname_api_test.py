@@ -54,4 +54,4 @@ def test_put(populate_hostnames):
     assert rv.status_code == 400
     response = json.loads(rv.data)
     assert 'ValidationError' in response
-    assert 'match regexp.' in response['ValidationError']
+    assert 'Invalid Hostname' in response['ValidationError']

@@ -1,4 +1,4 @@
-"""Detail Yeti's Observable object structure."""
+"""Detail Yeti's Hostname object structure."""
 
 import re
 
@@ -7,13 +7,12 @@ from marshmallow import fields
 from tldextract import extract
 
 from yeti.core.helpers import refang
-from yeti.core.errors import ValidationError
 from .observable import Observable, ObservableSchema
 
-MAIN_REGEX = r'[-.\w[\]]+\[?\.\]?[\w]+'
+MAIN_REGEX = r'([-.\w]+)?[^-]\[?\.\]?[a-z]+'
 FULL_REGEX = r'(?P<pre>\W?)(?P<search>' + MAIN_REGEX + r')(?P<post>\W?)'
-COMPILED_MAIN = re.compile(MAIN_REGEX)
-COMPILED_FULL_REGEX = re.compile(FULL_REGEX)
+COMPILED_MAIN = re.compile(MAIN_REGEX, flags=re.IGNORECASE)
+COMPILED_FULL_REGEX = re.compile(FULL_REGEX, flags=re.IGNORECASE)
 
 class HostnameSchema(ObservableSchema):
     """(De)serialization marshmallow.Schema for Hostname objects."""
@@ -34,19 +33,16 @@ class Hostname(Observable):
     type = 'observable.hostname'
     idna = None
 
-    def is_valid(self):
-        match = COMPILED_FULL_REGEX.match(self.value)
-        if not match:
-            raise ValidationError('Provided hostname did not match regexp.')
-
-        if match.group('pre') != '/' and match.group('post') != '/':
+    @classmethod
+    def validate_string(cls, string):
+        match = COMPILED_FULL_REGEX.match(string)
+        if match and match.group('pre') != '/' and match.group('post') != '/':
             value = refang(match.group('search'))
-            if len(value) <= 255:
+            if len(value) <= 255 and '_' not in value:
                 parts = extract(value)
                 if parts.suffix and parts.domain:
                     return True
-
-        raise ValidationError('Invalid hostname.')
+        return False
 
     def normalize(self):
         self.value = refang(self.value.lower())
