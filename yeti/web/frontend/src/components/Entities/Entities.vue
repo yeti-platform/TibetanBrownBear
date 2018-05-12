@@ -4,7 +4,7 @@
       <h1 class="h1">Entities</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <router-link id="new-entity" class="btn btn-sm btn-outline-secondary" :to="{name: 'NewEntity', params: {type}}">{{"New " + type}}</router-link>
+          <router-link v-if="type" id="new-entity" class="btn btn-sm btn-outline-secondary" :to="{name: 'NewEntity', params: {type}}">{{"New " + type}}</router-link>
         </div>
       </div>
     </div>
