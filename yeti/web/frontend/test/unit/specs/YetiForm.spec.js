@@ -69,7 +69,6 @@ describe('YetiForm.vue', () => {
     })
     wrapper.find('form').trigger('submit')
     wrapper.vm.$nextTick(() => {
-      console.log(wrapper.emitted())
       expect(wrapper.emitted()['form-submit'][0][0]).toEqual(mockObjects.mockMalware)
     })
   })
