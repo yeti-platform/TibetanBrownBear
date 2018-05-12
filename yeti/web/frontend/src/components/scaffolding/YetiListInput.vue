@@ -1,7 +1,7 @@
 <template>
-  <vue-tags-input :tags="tags"
-                  v-model="tag"
-                  @tags-changed="processTags"
+  <vue-tags-input :tags="listItems"
+                  v-model="item"
+                  @tags-changed="processItems"
                   :autocomplete-items="filteredItems"/>
 </template>
 
@@ -15,30 +15,37 @@ export default {
   props: ['value', 'autocompleteValues', 'displayKey'],
   data () {
     return {
-      tags: [],
-      tag: '',
+      listItems: [],
+      item: '',
       formattedAutoCompleteValues: []
     }
   },
   methods: {
-    processTags: function (tags) {
-      this.$emit('input', tags.map(tag => tag.text))
-      this.tags = tags
+    processItems: function (listItems) {
+      this.$emit('input', listItems.map(item => item.text))
+      this.listItems = listItems
+    },
+    formatAutocompleteValues: function () {
+      this.formattedAutoCompleteValues = this.autocompleteValues.map(value => Object({text: value}))
+    },
+    formatListItems: function () {
+      if (this.displayKey) {
+        this.listItems = this.value.map(item => Object({text: item[this.displayKey]}))
+      } else {
+        this.listItems = this.value.map(item => Object({text: item}))
+      }
     }
   },
   computed: {
     filteredItems () {
-      return this.formattedAutoCompleteValues
-        .filter(validTag => new RegExp(this.tag, 'i').test(validTag.text))
+      return this.formattedAutoCompleteValues.filter(validTag => new RegExp(this.item, 'i').test(validTag.text))
     }
   },
   mounted () {
-    if (this.displayKey) {
-      this.tags = this.value.map(tag => Object({text: tag[this.displayKey]}))
-    } else {
-      this.tags = this.value.map(tag => Object({text: tag}))
+    this.formatListItems()
+    if (this.autocompleteValues) {
+      this.formatAutocompleteValues()
     }
-    this.formattedAutoCompleteValues = this.autocompleteValues.map(value => Object({text: value}))
   }
 }
 </script>
