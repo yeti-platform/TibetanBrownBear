@@ -9,7 +9,9 @@ import EntityList from '@/components/Entities/EntityList'
 import NewEntity from '@/components/Entities/NewEntity'
 import EntityDetails from '@/components/Entities/EntityDetails'
 
+import Indicators from '@/components/Indicators/Indicators'
 import IndicatorList from '@/components/Indicators/IndicatorList'
+import NewIndicator from '@/components/Indicators/NewIndicator'
 import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 
 import AdminMain from '@/components/Admin/AdminMain'
@@ -52,23 +54,32 @@ export const entityRoutes = {
 
 export const indicatorRoutes = {
   path: '/indicators/:type([a-z]+)?',
-  name: 'IndicatorList',
-  component: IndicatorList,
+  component: Indicators,
   props: true,
   children: [
+    {
+      path: '',
+      name: 'IndicatorList',
+      component: IndicatorList,
+      props: true
+    },
+    {
+      path: 'new',
+      name: 'NewIndicator',
+      component: NewIndicator,
+      props: true
+    },
     {
       path: '/indicators/:id(\\d+)',
       name: 'IndicatorDetails',
       component: IndicatorDetails,
-      props: true,
-      children: [
-        {
-          name: 'IndicatorEdit',
-          path: 'edit',
-          component: IndicatorDetails,
-          props: true
-        }
-      ]
+      props: true
+    },
+    {
+      name: 'IndicatorEdit',
+      path: '/indicators/:id(\\d+)/edit',
+      component: IndicatorDetails,
+      props: (route) => { return {id: route.params.id, edit: true} }
     }
   ]
 }

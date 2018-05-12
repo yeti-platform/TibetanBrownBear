@@ -1,6 +1,6 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!isEdit" class="indicator-details">
+  <div v-if="!edit" class="indicator-details">
     <div class="loading" v-if="loading">
       Loading...
     </div>
@@ -18,7 +18,7 @@
              :fields="indicatorFields"
              :apiPath="defaultApiPath+id+'/'"
              method='PUT'
-             :onSaveCallback='toggleEdit'
+             v-on:form-submit='toggleEdit'
              v-else
              />
 </template>
@@ -47,19 +47,16 @@ export default {
       defaultApiPath: `http://localhost:5000/api/indicators/`
     }
   },
-  props: ['id'],
+  props: { id: String, edit: Boolean },
   components: {
     YetiForm,
     Fields
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteUpdate (to, from, next) { // how do we test this?
     this.fetchInfo()
     next()
   },
   computed: {
-    isEdit () {
-      return this.$route.path.endsWith('edit')
-    },
     indicatorType () {
       if (this.indicator.type) {
         let arr = this.indicator.type.split('.')
@@ -80,7 +77,7 @@ export default {
             this.indicator = response.data
           }
         })
-        .catch(error => {
+        .catch(error => { // how do we catch 404 errors?
           this.error = error
         })
         .finally(() => { this.loading = false })
