@@ -6,6 +6,8 @@ import pytest
 from yeti.core.errors import ValidationError
 from yeti.core.types.observable import Observable
 from yeti.core.types.hostname import Hostname
+from yeti.core.types.url import URL
+from yeti.core.types.ip import IP
 
 
 @pytest.mark.usefixtures('clean_db')
@@ -48,3 +50,19 @@ def test_empty_value():
     """Tests that an observable with an empty value can't be created."""
     with pytest.raises(ValidationError):
         Observable(value=None)
+
+
+GUESS_RESULTS = [
+    ('http://yeti.com/', URL),
+    ('yeti.com', Hostname),
+    ('127.0.0.1', IP),
+    ('http://127.0.0.1/', URL),
+    ('http://127.0.0.1.something.com/', URL),
+    ('127.0.0.1.something.com', Hostname),
+]
+
+
+def test_guess_observable():
+    """Tests that we correctly guess observable types."""
+    for value, expected in GUESS_RESULTS:
+        assert Observable.guess_type(value) == expected

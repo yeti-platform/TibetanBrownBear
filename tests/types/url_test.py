@@ -51,6 +51,7 @@ NORMALIZATION_TESTS = (
     ('http://yeti.org', 'http://yeti.org/', 'yeti.org'),
     ('http://www[.]yeti[.]org', 'http://www.yeti.org/', 'yeti.org'),
     ('http://YETI.CO.UK', 'http://yeti.co.uk/', 'yeti.co.uk'),
+    ('http://127.0.0.1/', 'http://127.0.0.1/', '127.0.0.1'),
     ('http://YeTi.OrG', 'http://yeti.org/', 'yeti.org'),
     ('http://Yéti.ORG', 'http://xn--yti-bma.org/', 'xn--yti-bma.org'),
     ('http://xn--yti-bma.org', 'http://xn--yti-bma.org/', 'xn--yti-bma.org'),

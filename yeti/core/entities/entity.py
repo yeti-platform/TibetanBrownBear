@@ -40,6 +40,7 @@ class Entity(YetiObject):
     id = None
     name = None
     type = 'entity'
+    datatypes = {}
 
     def is_valid(self):
         if not self.name or not isinstance(self.name, str):

@@ -40,6 +40,7 @@ class Indicator(YetiObject):
     id = None
     name = None
     type = 'indicator'
+    datatypes = {}
 
     def is_valid(self):
         if not isinstance(self.name, str):
