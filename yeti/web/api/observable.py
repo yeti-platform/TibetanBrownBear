@@ -4,10 +4,11 @@ from marshmallow import fields
 from flask_classful import route
 from webargs.flaskparser import parser
 
+from yeti.core import analysis
 from yeti.core.types.observable import Observable
+from yeti.web.helpers import as_json, get_object_or_404
 from yeti.core.errors import GenericYetiError, ValidationError
 from .generic import GenericResource
-from ..helpers import as_json, get_object_or_404
 
 @parser.error_handler
 def handle_args(err):
@@ -26,6 +27,10 @@ class ObservableResource(GenericResource):
 
     tagargs = {
         'tags': fields.List(fields.String(), required=True),
+    }
+
+    matchargs = {
+        'observables': fields.List(fields.String(), required=True)
     }
 
     @as_json
@@ -51,7 +56,8 @@ class ObservableResource(GenericResource):
         """Updates an Observable.
 
         If tags are provided in the request, they will individually be applied
-        to the observable in question.
+        to the observable in question. Fields not part of the observable schema
+        will be ignored.
 
         Args:
             id: The Observable's primary ID.
@@ -77,3 +83,9 @@ class ObservableResource(GenericResource):
             import traceback
             traceback.print_exc()
             return err, 400
+
+    @as_json
+    @route('/match', methods=['POST'])
+    def match(self):
+        query = parser.parse(self.matchargs, request)
+        return analysis.match_observables(query['observables'])

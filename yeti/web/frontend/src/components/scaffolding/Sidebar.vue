@@ -31,12 +31,14 @@
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <router-link class="nav-link" to="/observables">
+          <router-link class="nav-link" :to="{name: 'ObservableList'}">
             <span data-feather="home"></span>Browse observables
           </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Bulk observable match</a>
+          <router-link class="nav-link" :to="{name: 'ObservablesBulk'}">
+            <span data-feather="home"></span>Bulk observable match
+          </router-link>
         </li>
       </ul>
     </div>

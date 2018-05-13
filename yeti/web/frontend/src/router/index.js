@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Observables from '@/components/Observables/Observables'
 import ObservableList from '@/components/Observables/ObservableList'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
+import BulkMatch from '@/components/Observables/BulkMatch'
 
 import Entities from '@/components/Entities/Entities'
 import EntityList from '@/components/Entities/EntityList'
@@ -91,7 +92,7 @@ export const observableRoutes = {
   props: true,
   children: [
     {
-      path: '',
+      path: 'browse',
       name: 'ObservableList',
       component: ObservableList,
       props: true
@@ -107,6 +108,11 @@ export const observableRoutes = {
       path: '/observables/:id(\\d+)/edit',
       component: ObservableDetails,
       props: (route) => { return {id: route.params.id, edit: true} }
+    },
+    {
+      name: 'ObservablesBulk',
+      path: '/observables/bulk',
+      component: BulkMatch
     }
   ]
 }

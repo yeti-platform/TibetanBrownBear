@@ -5,14 +5,19 @@ from flask import jsonify
 from yeti.core.errors import GenericYetiError
 from yeti.core.model.database import YetiObject
 
-def _as_json(result):
+def _as_json(result): # pylint: disable=too-many-return-statements
     if isinstance(result, tuple):
         response, code = result
         if isinstance(response, GenericYetiError):
             return jsonify({response.type: response.message}), code
         return jsonify(response), code
     if isinstance(result, list):
-        return jsonify([item.dump() for item in result])
+        if not result:
+            return jsonify([])
+        if isinstance(result[0], YetiObject):
+            return jsonify([item.dump() for item in result])
+        if isinstance(result[0], dict):
+            return jsonify(result)
     if isinstance(result, YetiObject):
         return jsonify(result.dump())
     return jsonify(result)

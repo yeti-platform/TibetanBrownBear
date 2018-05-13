@@ -48,6 +48,18 @@ def test_put(populate_hostnames):
     assert response['id'] == observable_json['id']
     assert response['value'] == 'qwe.com'
 
+@pytest.mark.usefixtures("clean_db")
+def test_put_ignore_invalid_fields(populate_hostnames):
+    """Tests updating a new object via PUT."""
+    rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
+    observable_json = json.loads(rv.data)
+    rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
+                    data=json.dumps({'asd': 'qwe.com'}),
+                    content_type='application/json')
+    response = json.loads(rv.data)
+    assert rv.status_code == 200
+    assert 'asd' not in response
+
 @pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_filter():
     """Tests searching for specific Observables based on a value regexp."""
@@ -81,3 +93,31 @@ def test_tag(populate_hostnames):
     assert isinstance(response['id'], int)
     assert response['tags']
     assert 'tag1' in [tag['name'] for tag in response['tags']]
+
+@pytest.mark.usefixtures("clean_db", 'populate_hostnames', 'populate_urls')
+def test_match(populate_hostnames, populate_urls):
+    uri = '/api/observables/match'
+    payload = {
+        'observables': [
+            'http://nonEXISTtent.com/',
+            populate_hostnames[0].value,
+            populate_urls[1].value,
+            'asd'
+        ]
+    }
+    rv = client.post(uri, data=json.dumps(payload), content_type='application/json')
+    response = json.loads(rv.data)
+    assert isinstance(response, list)
+    assert len(response) == 4
+    print(response)
+    for item in response:
+        if item['query'] == 'http://nonEXISTtent.com/':
+            assert not item['found']
+            assert item['error'] is None
+        if item['query'] == populate_hostnames[0].value:
+            assert populate_hostnames[0].dump() in item['found']
+        if item['query'] == populate_urls[0].value:
+            assert populate_urls[0].dump() in item['found']
+        if item['query'] == 'asd':
+            assert item['error'] is not None
+            assert not item['found']
