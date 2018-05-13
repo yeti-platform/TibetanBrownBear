@@ -46,7 +46,6 @@ class Observable(YetiObject):
     value = None
     type = 'observable'
     tags = None
-    datatypes = {}
 
     @classmethod
     def validate_string(cls, string):
@@ -71,9 +70,10 @@ class Observable(YetiObject):
     def guess_type(cls, string):
         """Guesses an observable's type given a string."""
         if string.strip():
-            for _, datatype in cls.datatypes.items():
-                if datatype.validate_string(string):
-                    return datatype
+            for name, datatype in cls.datatypes.items():
+                if name.startswith('observable'):
+                    if datatype.validate_string(string):
+                        return datatype
         return False
 
     def tag(self, tags, strict=False):
