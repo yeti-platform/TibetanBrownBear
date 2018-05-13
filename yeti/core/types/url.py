@@ -12,8 +12,8 @@ from . import hostname
 from . import ip
 
 # pylint: disable=line-too-long
-MAIN_REGEX = r'(?P<search>((?P<scheme>[\w]{2,9}):\/\/)?([\S]*\:[\S]*\@)?(?P<hostname>'+hostname.MAIN_REGEX+r')(\:[\d]{1,5})?(?P<path>(\/[\S]*)?(\?[\S]*)?(\#[\S]*)?))'
-FULL_REGEX = r'(?P<search>((?P<scheme>[\w]{2,9}):\/\/)?([\S]*\:[\S]*\@)?(?P<hostname>'+hostname.MAIN_REGEX+r')(\:[\d]{1,5})?(?P<path>((\/[\S]*)?(\?[\S]*)?(\#[\S]*)?)[\w/])?)'
+MAIN_REGEX = r'(?P<search>((?P<scheme>[\w]{2,9}):\/\/)?([\S]*\:[\S]*\@)?(?P<host>[-.\w]+)(\:[\d]{1,5})?(?P<path>(\/[\S]*)?(\?[\S]*)?(\#[\S]*)?))'
+FULL_REGEX = r'(?P<search>((?P<scheme>[\w]{2,9}):\/\/)?([\S]*\:[\S]*\@)?(?P<host>[-.\w]+)(\:[\d]{1,5})?(?P<path>((\/[\S]*)?(\?[\S]*)?(\#[\S]*)?)[\w/])?)'
 PREFIX_REGEX = r'[^:]+://'
 
 COMPILED_MAIN = re.compile(MAIN_REGEX)
@@ -38,11 +38,12 @@ class URL(Observable):
     type = 'observable.url'
     parsed = {}
 
-    def validate_string(self, string):
+    @classmethod
+    def validate_string(cls, string):
         match = COMPILED_FULL_REGEX.match(refang(string))
         if match and ((match.group('search').find('/') != -1) and (
-                hostname.Hostname.validate_string(match.group('hostname')) or
-                ip.IP.validate_string(match.group('hostname')))):
+                hostname.Hostname.validate_string(match.group('host')) or
+                ip.IP.validate_string(match.group('host')))):
             return True
         return False
 
