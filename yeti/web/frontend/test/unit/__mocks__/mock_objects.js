@@ -48,9 +48,37 @@ const mockHostname = {
   value: 'toto512.com'
 }
 
+const mockObservableMatchresult = [
+  {
+    error: null,
+    found: false,
+    query: 'tota.com'
+  },
+  {
+    error: null,
+    found: [
+      {
+        _id: 'observables/1279581',
+        id: 1279581,
+        idna: 'toto.com',
+        tags: null,
+        type: 'observable.hostname',
+        value: 'toto.com'
+      }
+    ],
+    query: 'toto.com'
+  },
+  {
+    error: 'Invalid observable type',
+    found: false,
+    query: 'asd'
+  }
+]
+
 module.exports.mockMalware = mockMalware
 module.exports.mockRegex = mockRegex
 module.exports.mockHostname = mockHostname
+module.exports.mockObservableMatchresult = mockObservableMatchresult
 module.exports.mockMalwareList = [
   {
     _id: 'entities/1',

@@ -42,7 +42,6 @@ export default {
           } else {
             this.observables = response.data
           }
-          console.log(response.data)
         })
     }
   }
