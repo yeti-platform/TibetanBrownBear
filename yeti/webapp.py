@@ -11,7 +11,7 @@ app.register_blueprint(blueprint, url_prefix='/api')
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def index(unused_path):
+def index(path): # pylint: disable=unused-argument
     return render_template("index.html")
 
 @app.route('/list_routes')

@@ -3,4 +3,6 @@ from yeti import webapp
 
 if __name__ == '__main__':
     webapp.app.debug = True
-    webapp.app.run()
+    # TODO: use different settings when debugging / developping. Maybe use an
+    # environment variable to set DEBUG to true?
+    webapp.app.run(host='0.0.0.0')
