@@ -50,8 +50,13 @@ class Config:
 
 
 yeti_config = Config()
-yeti_config.set_default_value('arangodb', 'host', '127.0.0.1')
-yeti_config.set_default_value('arangodb', 'port', 8529)
-yeti_config.set_default_value('arangodb', 'database', 'yeti')
-yeti_config.set_default_value('arangodb', 'username', 'root')
-yeti_config.set_default_value('arangodb', 'password', '')
+yeti_config.set_default_value(
+    'arangodb', 'host', os.environ.get('YETI_ARANGO_HOST') or '127.0.0.1')
+yeti_config.set_default_value(
+    'arangodb', 'port', int(os.environ.get('YETI_ARANGO_PORT', 0)) or 8529)
+yeti_config.set_default_value(
+    'arangodb', 'database', os.environ.get('YETI_ARANGO_DATABASE') or 'yeti')
+yeti_config.set_default_value(
+    'arangodb', 'username', os.environ.get('YETI_ARANGO_USERNAME') or 'root')
+yeti_config.set_default_value(
+    'arangodb', 'password', os.environ.get('YETI_ARANGO_PASSWORD') or '')
