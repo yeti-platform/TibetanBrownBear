@@ -1,8 +1,24 @@
 #!/usr/bin/env python3
-from yeti import webapp
+"""Main entry point for Yeti commands."""
+import click
+from yeti.common.config import yeti_config
+
+@click.group()
+def cli():
+    pass
+
+# pylint: disable=line-too-long
+@click.command()
+@click.option('--debug', help='launch server in debug mode', default=yeti_config.webserver.debug, type=click.BOOL)
+@click.option('--interface', help='interface to listen on', default=yeti_config.webserver.interface, type=click.STRING)
+@click.option('--port', help='port to listen on', default=yeti_config.webserver.port, type=click.INT)
+def webserver(debug, interface, port):
+    from yeti import webapp
+    webapp.app.debug = debug
+    webapp.app.run(host=interface, port=port)
+
+cli.add_command(webserver)
+
 
 if __name__ == '__main__':
-    webapp.app.debug = True
-    # TODO: use different settings when debugging / developping. Maybe use an
-    # environment variable to set DEBUG to true?
-    webapp.app.run(host='0.0.0.0')
+    cli()

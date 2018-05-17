@@ -76,5 +76,4 @@ def test_url_fails():
     """Test that invalid urls cannot be created."""
     for failing_value in FAILING_TESTS:
         with pytest.raises(ValidationError):
-            print(failing_value)
             URL(value=failing_value)

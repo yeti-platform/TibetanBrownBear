@@ -1,10 +1,14 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
+import time
+import sys
+
 from arango import ArangoClient
 from arango.exceptions import DocumentInsertError, GraphCreateError
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
-from yeti.core.errors import ValidationError, IntegrityError
+import requests
 
+from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
 
@@ -44,7 +48,19 @@ class ArangoDatabase:
             port=yeti_config.arangodb.port)
 
         sys_db = client.db('_system')
-        if not sys_db.has_database(yeti_config.arangodb.database):
+        for _ in range(0, 4):
+            try:
+                yeti_db = sys_db.has_database(yeti_config.arangodb.database)
+                break
+            except requests.exceptions.ConnectionError as e:
+                print('Connection error: {0:s}'.format(str(e)))
+                print('Retrying in 5 seconds...')
+                time.sleep(5)
+        else:
+            print("Could not connect, bailing.")
+            sys.exit(1)
+
+        if not yeti_db:
             sys_db.create_database(yeti_config.arangodb.database)
 
         self.db = client.db(yeti_config.arangodb.database,

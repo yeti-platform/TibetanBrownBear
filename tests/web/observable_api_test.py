@@ -109,7 +109,6 @@ def test_match(populate_hostnames, populate_urls):
     response = json.loads(rv.data)
     assert isinstance(response, list)
     assert len(response) == 4
-    print(response)
     for item in response:
         if item['query'] == 'http://nonEXISTtent.com/':
             assert not item['found']

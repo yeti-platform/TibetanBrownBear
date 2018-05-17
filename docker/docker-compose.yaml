@@ -19,6 +19,9 @@ services:
       - arangodb
     environment:
       - YETI_ARANGO_HOST=arangodb
+      - YETI_WEB_DEBUG=true
+      - YETI_WEB_LISTEN_INTERFACE=0.0.0.0
+      - YETI_WEB_LISTEN_PORT=5000
     restart: always
     depends_on:
       - arangodb

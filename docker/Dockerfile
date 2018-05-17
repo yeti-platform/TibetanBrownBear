@@ -2,6 +2,7 @@ FROM ubuntu:17.10
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
+ENV YETI_WEB_LISTEN_INTERFACE 0.0.0.0
 
 RUN apt-get update && apt-get install -y \
     npm \
