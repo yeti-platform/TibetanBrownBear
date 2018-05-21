@@ -10,9 +10,7 @@ services:
       - ARANGO_ROOT_PASSWORD=
 
   yeti:
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile
+    image: yetiplatform/tibetanbrownbear
     ports:
       - 5000:5000
     links:
