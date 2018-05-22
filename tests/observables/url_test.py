@@ -2,7 +2,7 @@
 
 import pytest
 
-from yeti.core.types.url import URL
+from yeti.core.observables.url import URL
 from yeti.core.errors import ValidationError
 
 

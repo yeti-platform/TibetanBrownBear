@@ -5,7 +5,7 @@ from flask_classful import route
 from webargs.flaskparser import parser
 
 from yeti.core import analysis
-from yeti.core.types.observable import Observable
+from yeti.core.observables.observable import Observable
 from yeti.web.helpers import as_json, get_object_or_404
 from yeti.core.errors import GenericYetiError, ValidationError
 from .generic import GenericResource

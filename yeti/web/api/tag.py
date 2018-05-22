@@ -1,7 +1,7 @@
 """API resources for interacting with Tags."""
 from marshmallow import fields
 
-from yeti.core.types.tag import Tag
+from yeti.core.observables.tag import Tag
 from .generic import GenericResource
 
 

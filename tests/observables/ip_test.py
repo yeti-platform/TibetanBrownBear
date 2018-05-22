@@ -3,7 +3,7 @@
 import pytest
 
 from yeti.core.errors import ValidationError
-from yeti.core.types.ip import IP
+from yeti.core.observables.ip import IP
 
 @pytest.mark.usefixtures('clean_db')
 def test_ip_creation():

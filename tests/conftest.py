@@ -10,11 +10,11 @@ from yeti.core.indicators.yara_rule import YaraRule
 from yeti.core.indicators.regex import Regex
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
-from yeti.core.types.observable import Observable
-from yeti.core.types.hostname import Hostname
-from yeti.core.types.url import URL
-from yeti.core.types.ip import IP
-from yeti.core.types.tag import Tag
+from yeti.core.observables.observable import Observable
+from yeti.core.observables.hostname import Hostname
+from yeti.core.observables.url import URL
+from yeti.core.observables.ip import IP
+from yeti.core.observables.tag import Tag
 
 
 @pytest.fixture

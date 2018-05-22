@@ -2,8 +2,8 @@
 import pytest
 
 from yeti.core.errors import ValidationError
-from yeti.core.types.observable import Observable
-from yeti.core.types.tag import Tag
+from yeti.core.observables.observable import Observable
+from yeti.core.observables.tag import Tag
 
 @pytest.mark.usefixtures('clean_db')
 def test_tagref_creation():

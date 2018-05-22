@@ -2,7 +2,7 @@
 
 import pytest
 
-from yeti.core.types.hostname import Hostname
+from yeti.core.observables.hostname import Hostname
 from yeti.core.errors import ValidationError
 
 

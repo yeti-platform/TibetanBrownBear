@@ -4,10 +4,10 @@
 import pytest
 
 from yeti.core.errors import ValidationError
-from yeti.core.types.observable import Observable
-from yeti.core.types.hostname import Hostname
-from yeti.core.types.url import URL
-from yeti.core.types.ip import IP
+from yeti.core.observables.observable import Observable
+from yeti.core.observables.hostname import Hostname
+from yeti.core.observables.url import URL
+from yeti.core.observables.ip import IP
 
 
 @pytest.mark.usefixtures('clean_db')

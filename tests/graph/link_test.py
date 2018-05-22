@@ -2,7 +2,7 @@
 """Tests for Yeti linking features."""
 import pytest
 
-from yeti.core.types.hostname import Hostname
+from yeti.core.observables.hostname import Hostname
 
 @pytest.mark.usefixtures("clean_db")
 def test_link(populate_hostnames, populate_malware):

@@ -1,4 +1,4 @@
-from .types.observable import Observable
+from .observables.observable import Observable
 
 def match_observables(observables):
     """Matches a list of observables against the Yeti database."""
