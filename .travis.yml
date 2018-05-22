@@ -7,14 +7,12 @@ node_js: "10"
 dist: xenial
 group: edge
 
-services:
-   - docker
-
 before_install:
-  - docker pull arangodb/arangodb:latest
-  - docker pull waisbrot/wait:latest
-  - docker run -e ARANGO_ROOT_PASSWORD='' -d -p 8529:8529 --name db arangodb/arangodb:latest
-  - docker run --link db:db waisbrot/wait
+  - wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+  - sudo apt-key add Release.key
+  - sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
+  - sudo apt-get update -y
+  - sudo apt-get install arangodb3 --allow-unauthenticated
   - npm i -g npm@latest
 
 install:
