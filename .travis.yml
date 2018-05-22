@@ -8,7 +8,8 @@ dist: xenial
 group: edge
 
 before_install:
-  - wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key && sudo apt-key add Release.key
+  - wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+  - apt-key add Release.key
   - sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
   - sudo apt-get update -y
   - sudo apt-get install arangodb3
