@@ -14,6 +14,8 @@ pytz = "*"
 python-dateutil = "*"
 yara-python = "*"
 url-normalize = "*"
+redis = "*"
+rq = "*"
 
 [dev-packages]
 pytest = "*"
