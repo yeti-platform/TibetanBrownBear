@@ -12,7 +12,7 @@ before_install:
   - apt-key add Release.key
   - sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
   - sudo apt-get update -y
-  - sudo apt-get install arangodb3
+  - sudo apt-get install arangodb3 --allow-unauthenticated
   - npm i -g npm@latest
 
 install:
