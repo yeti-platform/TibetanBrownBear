@@ -21,13 +21,15 @@ install:
   - pip install pipenv
   - pipenv install --dev --system --deploy
   - pipenv install codecov
+  - cd yeti/web/frontend && npm install
+  - cd ../../../
 
 script:
-  - pytest tests
-  - cd yeti/web/frontend && npm install && npm run unit
+  - pytest tests --verbose
+  - cd yeti/web/frontend && npm run unit
 
 after_success:
-  - cd ../../../ && codecov
+  - codecov
 
 notifications:
   slack:
