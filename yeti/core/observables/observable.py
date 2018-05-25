@@ -18,7 +18,7 @@ class ObservableSchema(YetiSchema):
     def load_observable(self, data):
         """Load an Observable object from its JSON representation.
 
-        @post_load means this will be called after eath marshmallow.load call.
+        @post_load means this will be called after each marshmallow.load call.
 
         Returns:
           The Observable object.

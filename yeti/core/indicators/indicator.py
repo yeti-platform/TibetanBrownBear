@@ -14,7 +14,7 @@ class IndicatorSchema(YetiSchema):
     def load_indicator(self, data):
         """Load an Indicator object from its JSON representation.
 
-        @post_load means this will be called after eath marshmallow.load call.
+        @post_load means this will be called after each marshmallow.load call.
 
         Returns:
           The Indicator object.
