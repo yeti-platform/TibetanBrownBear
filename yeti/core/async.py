@@ -34,7 +34,7 @@ class AsyncJobSettings(YetiObject):
     ]
 
     id = None
-    settings = {}
+    settings = None
     enabled = False
     period = None
     last_executed = None
@@ -46,19 +46,28 @@ class AsyncJob(ABC):
 
     @abstractmethod
     def execute(self):
+        """Executes an AsyncJob.
+
+        This contains the actual functionality of the AsyncJob.
+        It should be defined in all classes extending AsyncJob
+        """
         raise NotImplementedError
 
     @classmethod
     def create(cls, *args, **kwargs):
+        """Creates and executes a given AsyncJob."""
         job = cls(*args, **kwargs)
         return job.execute()
 
     def save_settings(self):
+        """Saves setting information to the database."""
         self.settings.save()
 
     def reload_settings(self):
+        """Fetches setting information from the database."""
         self.settings = AsyncJobSettings.get_or_create(name=self.name)
 
     @property
     def name(self):
+        """Returns the name of the class."""
         return self.__class__.__name__
