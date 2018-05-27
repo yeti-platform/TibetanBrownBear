@@ -10,3 +10,20 @@
 # database = yeti
 # username = root
 # password = ''
+
+[webserver]
+
+## These settings configure the webserver's behavior when running directly with
+## Flask. For production environments, it's recommended to go through UWSGI.
+
+# debug = False
+# interface = 127.0.0.1
+# port = 5000
+
+[async]
+
+## Configuration settings for Yeti's asynchronous functionality.
+
+# enabled = False
+# redis_server = 127.0.0.1
+# redis_port = 6379

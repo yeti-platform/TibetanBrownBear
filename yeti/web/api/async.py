@@ -1,11 +1,13 @@
-from rq import Queue
-from redis import Redis
+
 from flask_classful import FlaskView, route
 from flask import request
 from marshmallow import fields
+from rq import Queue
+import redis
 from webargs.flaskparser import parser
 
 from yeti.core.async import functions
+from yeti.common.config import yeti_config
 from ..helpers import as_json
 
 # We need to import modules without referencing them so that any async jobs they
@@ -13,9 +15,15 @@ from ..helpers import as_json
 # pylint: disable=unused-import,wrong-import-order
 from yeti import feeds
 
-# TODO(tomchop): Handle connection failures
-# TODO(tomchop): This should be optional depending on Yeti configuration
-q = Queue(connection=Redis())
+try:
+    redis_connection = redis.Redis(host=yeti_config.async.redis_server,
+                                   port=yeti_config.async.redis_port)
+    # Set a dummy key to actually trigger the connction.
+    redis_connection.set('yeti', 'redis_init')
+    q = Queue(connection=redis_connection)
+except redis.exceptions.ConnectionError as err:
+    raise RuntimeError('Could not establish connection '
+                       'to Redis server: ' + str(err))
 
 class AsyncResource(FlaskView):
 
