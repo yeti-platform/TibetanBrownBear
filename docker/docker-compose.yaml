@@ -9,6 +9,12 @@ services:
     environment:
       - ARANGO_ROOT_PASSWORD=
 
+  redis:
+    image: redis
+    ports:
+      - 6379
+    restart: always
+
   yeti:
     image: yetiplatform/tibetanbrownbear
     ports:
@@ -20,6 +26,8 @@ services:
       - YETI_WEB_DEBUG=true
       - YETI_WEB_LISTEN_INTERFACE=0.0.0.0
       - YETI_WEB_LISTEN_PORT=5000
+      - YETI_ASYNC_ENABLED=True
+      - YETI_REDIS_SERVER=redis
     restart: always
     depends_on:
       - arangodb
