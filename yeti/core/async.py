@@ -71,3 +71,7 @@ class AsyncJob(ABC):
     def name(self):
         """Returns the name of the class."""
         return self.__class__.__name__
+
+    def dump(self):
+        """Returns a JSON dump of the Async job's settings."""
+        return self.settings.dump()

@@ -18,6 +18,7 @@ import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 
 import AdminMain from '@/components/Admin/AdminMain'
 import Tags from '@/components/Admin/Tags'
+import Async from '@/components/Admin/Async'
 import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
@@ -126,6 +127,11 @@ export const settingsRoutes = {
       name: 'Tags',
       path: 'tags',
       component: Tags
+    },
+    {
+      name: 'Async',
+      path: 'async',
+      component: Async
     }
   ]
 }
