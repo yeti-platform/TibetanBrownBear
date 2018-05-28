@@ -47,6 +47,22 @@ class AsyncResource(FlaskView):
         return function_list
 
 
+    # Async-specific endpoints
+
+    @as_json
+    @route('/<name>/toggle', methods=['POST'])
+    def toggle(self, name):
+        """Toggles the enabled state of a registered AsyncJob."""
+        if name not in functions:
+            return {
+                'error': '{0:s} not a registered AsyncJob'.format(name)
+            }, 404
+        job = functions[name]()
+        job.toggle()
+        return {
+            'result': '{0:s} enabled: {1:s}'.format(name, job.seetings.enabled)
+        }
+
     @as_json
     @route('/<name>/execute', methods=['POST'])
     def execute(self, name):

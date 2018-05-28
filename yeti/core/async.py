@@ -67,6 +67,11 @@ class AsyncJob(ABC):
         """Fetches setting information from the database."""
         self.settings = AsyncJobSettings.get_or_create(name=self.name)
 
+    def toggle(self):
+        """Toggles the enabled setting in an AsyncJob."""
+        self.settings['enabled'] = not self.settings['enabled']
+        self.save_settings()
+
     @property
     def name(self):
         """Returns the name of the class."""
