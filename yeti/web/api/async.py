@@ -56,6 +56,10 @@ class AsyncResource(FlaskView):
             Dictionary containing a message and the Job ID of the
             created job.
         """
+        if name not in functions:
+            return {
+                'error': '{0:s} not a registered AsyncJob'.format(name)
+            }, 404
         job = q.enqueue(functions[name].create)
         job.meta['name'] = name
         job.save_meta()
@@ -76,6 +80,10 @@ class AsyncResource(FlaskView):
             A dictionary containing job information.
         """
         job = q.fetch_job(job_id)
+        if not job:
+            return {
+                'error': 'Job ID {0:s} is not an active job'.format(job_id)
+            }, 404
         return {
             'result': job.result,
             'status': job.get_status(),
