@@ -34,6 +34,18 @@ class AsyncResource(FlaskView):
         'type': fields.Str(),
     }
 
+    @as_json
+    @route('/filter', methods=['POST'])
+    def filter(self):
+        """Filters and returns a list of all declared AsyncJobs."""
+        args = parser.parse(self.searchargs, request)
+        function_list = []
+        for name, cls in functions.items():
+            if args['name'] in name:
+                obj = cls()
+                function_list.append(obj.dump())
+        return function_list
+
 
     @as_json
     @route('/<name>/execute', methods=['POST'])
@@ -75,16 +87,3 @@ class AsyncResource(FlaskView):
     def active(self):
         """Returns a list of all active jobs in queue."""
         return [{'id': j.id, 'meta': j.meta} for j in q.jobs]
-
-
-    @as_json
-    @route('/filter', methods=['POST'])
-    def filter(self):
-        """Filters and returns a list of all declared AsyncJobs."""
-        args = parser.parse(self.searchargs, request)
-        function_list = []
-        for name, cls in functions.items():
-            if args['name'] in name:
-                obj = cls()
-                function_list.append(obj.dump())
-        return function_list
