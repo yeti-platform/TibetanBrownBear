@@ -34,18 +34,27 @@ class AsyncResource(FlaskView):
         'type': fields.Str(),
     }
 
+    def get_registered_asyncjobs(self, name_filter=None):
+        function_list = []
+        for name, cls in functions.items():
+            if name_filter in name:
+                obj = cls()
+                function_list.append(obj.dump())
+        return function_list
+
+    def get_active_asyncjobs(self, name_filter=None):
+        job_list = []
+        for job in q.jobs:
+            if name_filter in j.meta['name']:
+                job_list.append({'id': job.id, 'meta': j.meta})
+        return job_list
+
     @as_json
     @route('/filter', methods=['POST'])
     def filter(self):
         """Filters and returns a list of all declared AsyncJobs."""
         args = parser.parse(self.searchargs, request)
-        function_list = []
-        for name, cls in functions.items():
-            if args['name'] in name:
-                obj = cls()
-                function_list.append(obj.dump())
-        return function_list
-
+        return self.get_registered_asyncjobs(args.name)
 
     # Async-specific endpoints
 
@@ -55,12 +64,13 @@ class AsyncResource(FlaskView):
         """Toggles the enabled state of a registered AsyncJob."""
         if name not in functions:
             return {
-                'error': '{0:s} not a registered AsyncJob'.format(name)
+                'error': '{0:s} is not a registered AsyncJob'.format(name)
             }, 404
         job = functions[name]()
         job.toggle()
         return {
-            'result': '{0:s} enabled: {1:s}'.format(name, job.seetings.enabled)
+            'msg': '{0:s} enabled: {1:s}'.format(name, job.settings.enabled),
+            'enabled': job.settings.enabled
         }
 
     @as_json
@@ -69,19 +79,27 @@ class AsyncResource(FlaskView):
         """Executes a declared AsyncJob by name.
 
         Returns:
-            Dictionary containing a message and the Job ID of the
-            created job.
+            Dictionary containing a message, the Job ID of the
+            created job and its current status.
         """
         if name not in functions:
             return {
                 'error': '{0:s} not a registered AsyncJob'.format(name)
             }, 404
+        jobs = self.get_active_asyncjobs(name_filter=name)
+        if jobs:
+            return {
+                'error': 'Jobs ~ {0:s} are already running'.format(name),
+                'job_details': jobs,
+            }, 409
+
         job = q.enqueue(functions[name].create)
         job.meta['name'] = name
         job.save_meta()
         return {
-            'result': "Job '{0:s}' enqueued succesfully".format(name),
-            'job_id': job.get_id()
+            'msg': "Job '{0:s}' enqueued succesfully".format(name),
+            'job_id': job.get_id(),
+            'status': job.get_status(),
             }
 
     @as_json
@@ -110,4 +128,4 @@ class AsyncResource(FlaskView):
     @route('/active', methods=['GET'])
     def active(self):
         """Returns a list of all active jobs in queue."""
-        return [{'id': j.id, 'meta': j.meta} for j in q.jobs]
+        return self.get_active_asyncjobs()

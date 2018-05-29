@@ -26,6 +26,14 @@
     <pre>{{getFieldValue}}</pre>
   </div>
 
+  <div v-else-if="field.type === 'boolean'" :class="field.name">
+    <input type="checkbox" name=""> <!-- implement me! -->
+  </div>
+
+  <div v-else-if="field.type === 'action'" :class="field.name">
+    <button @click="$emit(field.emits, elt)"> {{field.label}}</button>
+  </div>
+
   <!-- fall back to displaying a normal field.name -->
   <span v-else>
     {{getFieldValue}}

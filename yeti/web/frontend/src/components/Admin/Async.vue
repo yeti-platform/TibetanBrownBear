@@ -3,7 +3,7 @@
     <div class="row">
       <div id="tag-list" class="col-12">
         <p>Click on a line in the table to manipulate Async Jobs.</p>
-        <table-filter ref="tagList" :filter-params="filterParams" :multiSelect="false"/>
+        <table-filter ref="asyncList" :filter-params="filterParams" :multiSelect="false" v-on:toggle="toggle" v-on:execute="execute" />
       </div>
     </div>
   </div>
@@ -27,11 +27,32 @@ export default {
           {name: 'name', type: 'text'},
           {name: 'last_executed', type: 'datetime'},
           {name: 'period', type: 'text'},
-          {name: 'enabled', type: 'text'}
+          {name: 'enabled', type: 'text'},
+          {name: 'status', type: 'text'},
+          {emits: 'toggle', type: 'action', label: 'Toggle'},
+          {emits: 'execute', type: 'action', label: 'Execute'}
         ],
         queryKey: 'name'
       },
       defaultApiPath: apiRoot,
+    }
+  },
+  methods: {
+    toggle: function (data) {
+      uri = apiRoot + '/' + data.name + '/toggle'
+      axios.post(uri).then(response => {
+        if (response.status === 200) {
+          data.enabled = response.enabled
+        }
+      })
+    },
+    execute: function (data) {
+      uri = apiRoot + '/' + data.name + '/execute'
+      axios.post(uri).then(response => {
+        if (response.status === 200) {
+          data.status = response.status
+        }
+      })
     }
   }
 }
