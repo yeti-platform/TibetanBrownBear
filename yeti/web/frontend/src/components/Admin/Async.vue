@@ -3,15 +3,19 @@
     <div class="row">
       <div id="tag-list" class="col-12">
         <p>Click on a line in the table to manipulate Async Jobs.</p>
-        <table-filter ref="asyncList" :filter-params="filterParams" :multiSelect="false" v-on:toggle="toggle" v-on:execute="execute" />
+        <table-filter ref="asyncList"
+                      :filter-params="filterParams"
+                      :multiSelect="false"
+                      v-on:toggle="toggle"
+                      v-on:execute="execute" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import TableFilter from '@/components/scaffolding/TableFilter'
-import YetiForm from '@/components/scaffolding/YetiForm'
 
 const apiRoot = `http://localhost:5000/api/async/`
 
@@ -29,28 +33,32 @@ export default {
           {name: 'period', type: 'text'},
           {name: 'enabled', type: 'text'},
           {name: 'status', type: 'text'},
-          {emits: 'toggle', type: 'action', label: 'Toggle'},
-          {emits: 'execute', type: 'action', label: 'Execute'}
+          {calls: this.toggle, type: 'action', label: 'Toggle'},
+          {calls: this.execute, type: 'action', label: 'Execute'}
         ],
         queryKey: 'name'
       },
-      defaultApiPath: apiRoot,
+      defaultApiPath: apiRoot
     }
   },
   methods: {
-    toggle: function (data) {
-      uri = apiRoot + '/' + data.name + '/toggle'
+    toggle (data) {
+      console.log('caught toggle')
+      let uri = apiRoot + data.name + '/toggle'
       axios.post(uri).then(response => {
         if (response.status === 200) {
-          data.enabled = response.enabled
+          data.enabled = response.data.enabled
         }
       })
     },
-    execute: function (data) {
-      uri = apiRoot + '/' + data.name + '/execute'
+    execute (data) {
+      console.log('caught execute')
+      let uri = apiRoot + data.name + '/execute'
       axios.post(uri).then(response => {
         if (response.status === 200) {
-          data.status = response.status
+          console.log(response.data.status)
+          console.log(data)
+          data.status = response.data.status
         }
       })
     }

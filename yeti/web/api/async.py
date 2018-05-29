@@ -46,7 +46,7 @@ class AsyncResource(FlaskView):
         job_list = []
         for job in q.jobs:
             if name_filter in job.meta['name']:
-                job_list.append({'id': job.id, 'meta': job.meta})
+                job_list.append({'id': job.id, 'meta': job.meta, 'status': job.get_status()})
         return job_list
 
     @as_json
@@ -54,7 +54,13 @@ class AsyncResource(FlaskView):
     def filter(self):
         """Filters and returns a list of all declared AsyncJobs."""
         args = parser.parse(self.searchargs, request)
-        return self.get_registered_asyncjobs(args.name)
+        jobs_with_status = []
+        for job in self.get_registered_asyncjobs(args['name']):
+            running_job = self.get_active_asyncjobs(name_filter=args['name'])
+            status = running_job[0]['status'] if running_job else 'idle'
+            job['status'] = status
+            jobs_with_status.append(job)
+        return jobs_with_status
 
     # Async-specific endpoints
 
@@ -69,7 +75,7 @@ class AsyncResource(FlaskView):
         job = functions[name]()
         job.toggle()
         return {
-            'msg': '{0:s} enabled: {1:s}'.format(name, job.settings.enabled),
+            'msg': '{0:s} enabled: {1!r}'.format(name, job.settings.enabled),
             'enabled': job.settings.enabled
         }
 

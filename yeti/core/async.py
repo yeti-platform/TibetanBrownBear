@@ -69,7 +69,7 @@ class AsyncJob(ABC):
 
     def toggle(self):
         """Toggles the enabled setting in an AsyncJob."""
-        self.settings['enabled'] = not self.settings['enabled']
+        self.settings.enabled = not self.settings.enabled
         self.save_settings()
 
     @property
