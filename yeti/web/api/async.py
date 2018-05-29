@@ -45,8 +45,8 @@ class AsyncResource(FlaskView):
     def get_active_asyncjobs(self, name_filter=None):
         job_list = []
         for job in q.jobs:
-            if name_filter in j.meta['name']:
-                job_list.append({'id': job.id, 'meta': j.meta})
+            if name_filter in job.meta['name']:
+                job_list.append({'id': job.id, 'meta': job.meta})
         return job_list
 
     @as_json
