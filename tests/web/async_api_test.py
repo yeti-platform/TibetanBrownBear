@@ -2,7 +2,6 @@
 
 import json
 import re
-import time
 
 import pytest
 
@@ -64,6 +63,7 @@ def test_info():
     """Test that we can get information on a job."""
     rv = client.post('/api/async/DummyFeed1/execute')
     response = json.loads(rv.data)
+    assert 'job_id' in response
     jobid = response['job_id']
     rv = client.get('/api/async/info/' + jobid)
     response = json.loads(rv.data)
