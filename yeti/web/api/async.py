@@ -99,7 +99,7 @@ class AsyncResource(FlaskView):
             created job and its current status.
         """
         if name not in functions:
-            return GenericYetiError(message='{0:s} not a registered AsyncJob'.format(name)), 404
+            return GenericYetiError(message='{0:s} is not a registered AsyncJob'.format(name)), 404
 
         jobs = self.get_active_asyncjobs(name_filter=name)
         if jobs:

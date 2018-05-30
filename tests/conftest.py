@@ -1,5 +1,4 @@
 import pytest
-import time
 
 from yeti.common.config import yeti_config
 # Make sure we are not deleting the user's database when running tests
@@ -21,7 +20,6 @@ from yeti.core import async
 
 class DummyFeed1(async.AsyncJob):
     def execute(self):
-        time.sleep(1)
         return 5
 
 class DummyFeed2(async.AsyncJob):
