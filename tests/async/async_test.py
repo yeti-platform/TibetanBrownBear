@@ -1,4 +1,4 @@
-"""Tests for the Entity object."""
+"""Tests for the AsyncJob object."""
 from datetime import timedelta
 
 import pytest

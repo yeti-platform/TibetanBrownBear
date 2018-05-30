@@ -7,6 +7,7 @@ import redis
 from webargs.flaskparser import parser
 
 from yeti.core.async import functions
+from yeti.core.errors import ValidationError, GenericYetiError
 from yeti.common.config import yeti_config
 from ..helpers import as_json
 
@@ -24,6 +25,10 @@ try:
 except redis.exceptions.ConnectionError as err:
     raise RuntimeError('Could not establish connection '
                        'to Redis server: ' + str(err))
+
+@parser.error_handler
+def handle_args(err, unused_response):
+    raise ValidationError(err.messages)
 
 class AsyncResource(FlaskView):
 
@@ -43,17 +48,24 @@ class AsyncResource(FlaskView):
         return function_list
 
     def get_active_asyncjobs(self, name_filter=None):
-        job_list = []
-        for job in q.jobs:
-            if name_filter in job.meta['name']:
-                job_list.append({'id': job.id, 'meta': job.meta, 'status': job.get_status()})
+        job_list = [{
+            'id': job.id,
+            'meta': job.meta,
+            'status': job.get_status()
+            } for job in q.jobs]
+        if name_filter:
+            return list(filter(lambda x: name_filter in x['meta']['name'], job_list))
         return job_list
 
     @as_json
     @route('/filter', methods=['POST'])
     def filter(self):
         """Filters and returns a list of all declared AsyncJobs."""
-        args = parser.parse(self.searchargs, request)
+        try:
+            args = parser.parse(self.searchargs, request)
+        except GenericYetiError as err:
+            return err, 400
+        
         jobs_with_status = []
         for job in self.get_registered_asyncjobs(args['name']):
             running_job = self.get_active_asyncjobs(name_filter=args['name'])
@@ -69,9 +81,7 @@ class AsyncResource(FlaskView):
     def toggle(self, name):
         """Toggles the enabled state of a registered AsyncJob."""
         if name not in functions:
-            return {
-                'error': '{0:s} is not a registered AsyncJob'.format(name)
-            }, 404
+            return GenericYetiError(message='{0:s} is not a registered AsyncJob'.format(name)), 404
         job = functions[name]()
         job.toggle()
         return {
@@ -89,15 +99,12 @@ class AsyncResource(FlaskView):
             created job and its current status.
         """
         if name not in functions:
-            return {
-                'error': '{0:s} not a registered AsyncJob'.format(name)
-            }, 404
+            return GenericYetiError(message='{0:s} not a registered AsyncJob'.format(name)), 404
+
         jobs = self.get_active_asyncjobs(name_filter=name)
         if jobs:
-            return {
-                'error': 'Jobs ~ {0:s} are already running'.format(name),
-                'job_details': jobs,
-            }, 409
+            return GenericYetiError(message='Jobs ~ {0:s} are already running'.format(name), info={'job_details': jobs}), 409
+
 
         job = q.enqueue(functions[name].create)
         job.meta['name'] = name
@@ -121,9 +128,7 @@ class AsyncResource(FlaskView):
         """
         job = q.fetch_job(job_id)
         if not job:
-            return {
-                'error': 'Job ID {0:s} is not an active job'.format(job_id)
-            }, 404
+            return GenericYetiError(message='Job ID {0:s} is not an active job'.format(job_id)), 404
         return {
             'result': job.result,
             'status': job.get_status(),
