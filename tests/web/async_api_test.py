@@ -75,6 +75,7 @@ def test_info_nonexistent():
     """Test that getting information on a nonexistent job generates an error."""
     rv = client.get('/api/async/info/d18e0132-0000-0000-0000-8a2624f4059e')
     response = json.loads(rv.data)
+    assert 'GenericYetiError' in response
     assert response['GenericYetiError'] == \
         'Job ID d18e0132-0000-0000-0000-8a2624f4059e is not an active job'
     assert rv.status_code == 404
