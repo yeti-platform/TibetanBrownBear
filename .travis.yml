@@ -25,6 +25,9 @@ install:
   - cd yeti/web/frontend && npm install
   - cd ../../../
 
+before_script:
+  - PYTHONPATH=tests/ rq worker &
+
 script:
   - pytest tests --verbose
   - cd yeti/web/frontend && npm run unit
