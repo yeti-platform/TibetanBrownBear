@@ -31,7 +31,7 @@
   </div>
 
   <div v-else-if="field.type === 'action'" :class="field.name">
-    <button @click="field.calls(elt)"> {{field.label}}</button>
+    <button type="button" class="btn btn-outline-primary btn-sm" @click="field.calls(elt)"> {{field.label}}</button>
   </div>
 
   <!-- fall back to displaying a normal field.name -->
