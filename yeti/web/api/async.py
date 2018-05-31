@@ -39,6 +39,21 @@ class AsyncResource(FlaskView):
                 function_list.append(obj.dump())
         return function_list
 
+    def get_queued_asyncjobs(self, name_filter=None):
+        """Gets currently running jobs, filetered by name.
+
+        Args:
+            name_filter: String to filter the running jobs' names on.
+        """
+        job_list = [{
+            'id': job.id,
+            'meta': job.meta,
+            'status': job.get_status()
+            } for job in q.jobs]
+        if name_filter:
+            return [j for j in job_list if name_filter in j['meta']['name']]
+        return job_list
+
     def get_active_asyncjobs(self, name_filter=None):
         """Gets currently running jobs, filetered by name.
 
@@ -100,7 +115,9 @@ class AsyncResource(FlaskView):
             msg = '{0:s} is not a registered AsyncJob'.format(name)
             return GenericYetiError(message=msg), 404
 
-        jobs = self.get_active_asyncjobs(name_filter=name)
+        active_jobs = self.get_active_asyncjobs(name_filter=name)
+        queued_jobs = self.get_queued_asyncjobs(name_filter=name)
+        jobs = active_jobs + queued_jobs
         if jobs:
             msg = 'Jobs with name ~"{0:s}" are already running'.format(name)
             info = {'job_details': jobs}
