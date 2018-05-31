@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 
 from marshmallow import fields, post_load
-from rq import Queue
+from rq import Queue, Worker
 import redis
 
 from yeti.common.config import yeti_config
@@ -10,6 +10,15 @@ from yeti.core.model.database import YetiSchema, YetiObject
 
 functions = {}
 q = None
+
+def get_active_jobs():
+    """Gets the current job for all active rq workers."""
+    jobs = []
+    for worker in Worker.all(queue=q):
+        current_job = worker.get_current_job()
+        if current_job:
+            jobs.append(current_job)
+    return jobs
 
 try:
     redis_connection = redis.Redis(host=yeti_config.async.redis_server,

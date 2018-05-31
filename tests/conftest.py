@@ -18,22 +18,24 @@ from yeti.core.observables.tag import Tag
 
 from yeti.core import async
 
-class DummyFeed1(async.AsyncJob):
+class FastDummyFeed(async.AsyncJob):
     def execute(self):
         return 5
 
-class DummyFeed2(async.AsyncJob):
+class SlowDummyFeed(async.AsyncJob):
     def execute(self):
+        import time
+        time.sleep(3)
         return 10
 
-async.functions['DummyFeed1'] = DummyFeed1
-async.functions['DummyFeed2'] = DummyFeed2
+async.functions['FastDummyFeed'] = FastDummyFeed
+async.functions['SlowDummyFeed'] = SlowDummyFeed
 
 @pytest.fixture
 def populate_feeds():
     return [
-        DummyFeed1(),
-        DummyFeed2()
+        FastDummyFeed(),
+        SlowDummyFeed()
     ]
 
 @pytest.fixture
