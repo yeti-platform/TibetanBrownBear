@@ -6,6 +6,7 @@
         <table-filter ref="asyncList"
                       :filter-params="filterParams"
                       :multiSelect="false"
+                      :autoRefresh=0.5
                       v-on:toggle="toggle"
                       v-on:execute="execute" />
       </div>
@@ -43,7 +44,6 @@ export default {
   },
   methods: {
     toggle (data) {
-      console.log('caught toggle')
       let uri = apiRoot + data.name + '/toggle'
       axios.post(uri).then(response => {
         if (response.status === 200) {
@@ -52,12 +52,9 @@ export default {
       })
     },
     execute (data) {
-      console.log('caught execute')
       let uri = apiRoot + data.name + '/execute'
       axios.post(uri).then(response => {
         if (response.status === 200) {
-          console.log(response.data.status)
-          console.log(data)
           data.status = response.data.status
         }
       })
