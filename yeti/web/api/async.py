@@ -2,29 +2,16 @@
 from flask_classful import FlaskView, route
 from flask import request
 from marshmallow import fields
-from rq import Queue
-import redis
 from webargs.flaskparser import parser
 
-from yeti.core.async import functions
+from yeti.core.async import functions, q
 from yeti.core.errors import ValidationError, GenericYetiError
-from yeti.common.config import yeti_config
 from ..helpers import as_json
 
 # We need to import modules without referencing them so that any async jobs they
 # register is actually registered
 # pylint: disable=unused-import,wrong-import-order
 from yeti import feeds
-
-try:
-    redis_connection = redis.Redis(host=yeti_config.async.redis_server,
-                                   port=yeti_config.async.redis_port)
-    # Set a dummy key to actually trigger the connction.
-    redis_connection.set('yeti', 'redis_init')
-    q = Queue(connection=redis_connection)
-except redis.exceptions.ConnectionError as err:
-    raise RuntimeError('Could not establish connection '
-                       'to Redis server: ' + str(err))
 
 @parser.error_handler
 def handle_args(err, unused_response):
@@ -65,7 +52,7 @@ class AsyncResource(FlaskView):
             args = parser.parse(self.searchargs, request)
         except GenericYetiError as err:
             return err, 400
-        
+
         jobs_with_status = []
         for job in self.get_registered_asyncjobs(args['name']):
             running_job = self.get_active_asyncjobs(name_filter=args['name'])

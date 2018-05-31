@@ -1,11 +1,25 @@
 from abc import abstractmethod, ABC
 
 from marshmallow import fields, post_load
+from rq import Queue
+import redis
 
+from yeti.common.config import yeti_config
 from yeti.core.model.fields import RealTimeDelta, RealDateTime
 from yeti.core.model.database import YetiSchema, YetiObject
 
 functions = {}
+q = None
+
+try:
+    redis_connection = redis.Redis(host=yeti_config.async.redis_server,
+                                   port=yeti_config.async.redis_port)
+    # Set a dummy key to actually trigger the connction.
+    redis_connection.set('yeti', 'redis_init')
+    q = Queue(connection=redis_connection)
+except redis.exceptions.ConnectionError as err:
+    raise RuntimeError('Could not establish connection '
+                       'to Redis server: ' + str(err))
 
 class AsyncJobSettingsSchema(YetiSchema):
     name = fields.String()
