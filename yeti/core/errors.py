@@ -5,7 +5,7 @@ class GenericYetiError(Exception):
         Exception.__init__(self)
         self.message = message
         if info:
-        	self.info = info
+            self.info = info
 
 class ValidationError(GenericYetiError):
     type = 'ValidationError'

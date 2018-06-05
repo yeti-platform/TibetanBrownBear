@@ -77,19 +77,19 @@ class Observable(YetiObject):
         return False
 
     @classmethod
-    def get_or_create(cls, **kwargs):
-        """Fetches an object matching dict_ or creates it.
+    def get_or_create(cls, value=''):
+        """Fetches an observable matching the provided kwargs and returns it.
 
-        If an object matching kwargs is found, return the existing object. If
-        not, create it and return the newly created object.
+        If an Observable matching kwargs is found, return it. If not, create it
+        and return the newly created Observable.
 
         Args:
-          **kwargs: Dictionary used to create the object.
+          **kwargs: {'value': 'something'} dictionary.
 
         Returns:
-          A Yeti object.
+          A Yeti Observable
         """
-        obj = cls(**kwargs)
+        obj = cls(value=value)
         obj.normalize()
         try:
             return obj.save()
