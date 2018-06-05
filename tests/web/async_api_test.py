@@ -31,8 +31,8 @@ def test_execute():
 @pytest.mark.usefixtures('clean_db', 'populate_feeds')
 def test_execute_duplicate():
     """Test that a feed cannot be run in parallel"""
-    rv = client.post('/api/async/FastDummyFeed/execute')
-    rv = client.post('/api/async/FastDummyFeed/execute')
+    rv = client.post('/api/async/SlowDummyFeed/execute')
+    rv = client.post('/api/async/SlowDummyFeed/execute')
     response = json.loads(rv.data)
     assert 'GenericYetiError' in response
     assert rv.status_code == 409
