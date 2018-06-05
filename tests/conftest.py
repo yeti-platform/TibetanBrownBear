@@ -16,6 +16,27 @@ from yeti.core.observables.url import URL
 from yeti.core.observables.ip import IP
 from yeti.core.observables.tag import Tag
 
+from yeti.core import async
+
+class FastDummyFeed(async.AsyncJob):
+    def execute(self):
+        return 5
+
+class SlowDummyFeed(async.AsyncJob):
+    def execute(self):
+        import time
+        time.sleep(3)
+        return 10
+
+async.functions['FastDummyFeed'] = FastDummyFeed
+async.functions['SlowDummyFeed'] = SlowDummyFeed
+
+@pytest.fixture
+def populate_feeds():
+    return [
+        FastDummyFeed(),
+        SlowDummyFeed()
+    ]
 
 @pytest.fixture
 def clean_db():

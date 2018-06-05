@@ -15,7 +15,7 @@
               @click.exact="select(elt)"
               @click.shift.exact="selectMultiple(elt)"
               v-bind:class="{'selected': selectedElements.includes(elt.id)}">
-            <td v-bind:key="field['name']" v-for="(field, index) in filterParams.fields">
+            <td class="align-middle" v-bind:key="field['name']" v-for="(field, index) in filterParams.fields">
               <router-link v-if="index === 0" :to="{ name: detailComponent, params: {id: elt.id}}">
                 <fields :field="field" :elt="elt"/>
               </router-link>
@@ -36,13 +36,19 @@ export default {
   components: {
     Fields
   },
-  props: ['value', 'filterParams', 'detailComponent'], // value is specified to be able to use v-bind directive on selected items
+  props: [
+    'value', // value is specified to be able to use v-bind directive on selected items
+    'filterParams',
+    'detailComponent',
+    'autoRefresh'
+  ],
   data () {
     return {
       elements: [],
       searchQuery: '',
       loading: true,
-      selectedElements: []
+      selectedElements: [],
+      timer: false
     }
   },
   watch: {
@@ -51,6 +57,7 @@ export default {
   },
   methods: {
     fetchElements () {
+      console.log('fetching elements')
       let params = {}
       params[this.filterParams.queryKey] = this.searchQuery
       params['type'] = this.filterParams.typeFilter
@@ -84,6 +91,14 @@ export default {
   },
   created () {
     this.fetchElements()
+    if (this.autoRefresh) {
+      this.timer = setInterval(this.fetchElements, this.autoRefresh * 1000)
+    }
+  },
+  beforeDestroy () {
+    if (this.timer) {
+      clearInterval(this.timer)
+    }
   }
 }
 </script>

@@ -55,7 +55,9 @@ def test_empty_value():
 GUESS_RESULTS = [
     ('http://yeti.com/', URL),
     ('yeti.com', Hostname),
+    ('YETI.com', Hostname),
     ('127.0.0.1', IP),
+    ('127.0.000.1', IP),
     ('http://127.0.0.1/', URL),
     ('http://127.0.0.1.something.com/', URL),
     ('127.0.0.1.something.com', Hostname),

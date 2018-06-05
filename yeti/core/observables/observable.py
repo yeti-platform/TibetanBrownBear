@@ -4,7 +4,7 @@ from datetime import datetime
 
 from marshmallow import fields, post_load
 
-from yeti.core.errors import ValidationError
+from yeti.core.errors import ValidationError, IntegrityError
 from ..model.database import YetiObject, YetiSchema
 from .tag import Tag, TagReference, TagReferenceSchema
 
@@ -18,7 +18,7 @@ class ObservableSchema(YetiSchema):
     def load_observable(self, data):
         """Load an Observable object from its JSON representation.
 
-        @post_load means this will be called after eath marshmallow.load call.
+        @post_load means this will be called after each marshmallow.load call.
 
         Returns:
           The Observable object.
@@ -75,6 +75,26 @@ class Observable(YetiObject):
                     if datatype.validate_string(string):
                         return datatype
         return False
+
+    @classmethod
+    def get_or_create(cls, **kwargs):
+        """Fetches an observable matching the provided kwargs and returns it.
+
+        If an Observable matching kwargs is found, return it. If not, create it
+        and return the newly created Observable.
+
+        Args:
+          **kwargs: {'value': 'something'} dictionary.
+
+        Returns:
+          A Yeti Observable
+        """
+        obj = cls(value=kwargs['value'])
+        obj.normalize()
+        try:
+            return obj.save()
+        except IntegrityError:
+            return cls.find(value=obj.value)
 
     def tag(self, tags, strict=False):
         """Tags an Observable.

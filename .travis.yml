@@ -4,8 +4,11 @@ sudo: required
 language: python
 python: "3.6"
 node_js: "10"
-dist: xenial
-group: edge
+env:
+  - YETI_ASYNC_ENABLED=True
+
+services:
+  - redis-server
 
 before_install:
   - wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
@@ -21,6 +24,9 @@ install:
   - pipenv install codecov
   - cd yeti/web/frontend && npm install
   - cd ../../../
+
+before_script:
+  - PYTHONPATH=tests/ rq worker &
 
 script:
   - pytest tests --verbose

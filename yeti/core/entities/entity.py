@@ -14,7 +14,7 @@ class EntitySchema(YetiSchema):
     def load_entity(self, data):
         """Load an Entity object from its JSON representation.
 
-        @post_load means this will be called after eath marshmallow.load call.
+        @post_load means this will be called after each marshmallow.load call.
 
         Returns:
           The Entity object.
