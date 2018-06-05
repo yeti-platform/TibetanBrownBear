@@ -4,7 +4,7 @@ from datetime import datetime
 
 from marshmallow import fields, post_load
 
-from yeti.core.errors import ValidationError
+from yeti.core.errors import ValidationError, IntegrityError
 from ..model.database import YetiObject, YetiSchema
 from .tag import Tag, TagReference, TagReferenceSchema
 
@@ -75,6 +75,26 @@ class Observable(YetiObject):
                     if datatype.validate_string(string):
                         return datatype
         return False
+
+    @classmethod
+    def get_or_create(cls, **kwargs):
+        """Fetches an object matching dict_ or creates it.
+
+        If an object matching kwargs is found, return the existing object. If
+        not, create it and return the newly created object.
+
+        Args:
+          **kwargs: Dictionary used to create the object.
+
+        Returns:
+          A Yeti object.
+        """
+        obj = cls(**kwargs)
+        obj.normalize()
+        try:
+            return obj.save()
+        except IntegrityError:
+            return cls.find(value=obj.value)
 
     def tag(self, tags, strict=False):
         """Tags an Observable.

@@ -207,6 +207,19 @@ class ArangoYetiConnector(AbstractYetiConnector):
         return None
 
     @classmethod
+    def find(cls, **kwargs):
+        """Finds a single object ky kwargs.
+
+        Args:
+          **kwargs: Dictionary used to run the query.
+
+        Returns:
+          A Yeti object.
+        """
+        document = list(cls._get_collection().find(kwargs))[0]
+        return cls.load(document, strict=True)
+
+    @classmethod
     def get_or_create(cls, **kwargs):
         """Fetches an object matching dict_ or creates it.
 
@@ -223,8 +236,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         try:
             return obj.save()
         except IntegrityError:
-            document = list(cls._get_collection().find(kwargs))[0]
-            return cls.load(document, strict=True)
+            return cls.find(**kwargs)
 
     def link_to(self, target, attributes, link_type):
         """Creates a link between two YetiObjects.

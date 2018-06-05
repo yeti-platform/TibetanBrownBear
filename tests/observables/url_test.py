@@ -64,6 +64,13 @@ FAILING_TESTS = (
 )
 
 @pytest.mark.usefixtures('clean_db')
+def test_url_getorcreate():
+    """Tests that URLs are correctly normalized when calling get_or_create."""
+    for value, expected, _ in NORMALIZATION_TESTS:
+        obs = URL.get_or_create(value=value)
+        assert obs.value == expected
+
+@pytest.mark.usefixtures('clean_db')
 def test_url_idna():
     """Tests that a URL's value and IDNA are correctly normalized."""
     for value, expected, _ in NORMALIZATION_TESTS:
