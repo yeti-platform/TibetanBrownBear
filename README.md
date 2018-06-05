@@ -1,4 +1,4 @@
-# TibetanBrownBear
+# Yeti
 
 [![Build Status](https://travis-ci.org/yeti-platform/TibetanBrownBear.svg?branch=api)](https://travis-ci.org/yeti-platform/TibetanBrownBear)
 
