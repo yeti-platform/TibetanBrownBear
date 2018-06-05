@@ -75,10 +75,36 @@ const mockObservableMatchresult = [
   }
 ]
 
+const mockTagList = [
+  {
+    _id: 'tags/2047185',
+    created_at: '2018-06-05T20:06:35.945646+00:00',
+    default_expiration: '6400',
+    id: '2047185',
+    name: 'mytag',
+    selected: false
+  }, {
+    _id: 'tags/2047186',
+    created_at: '2018-06-05T20:06:35.945646+00:00',
+    default_expiration: '6400',
+    id: '2047186',
+    name: 'mytag2',
+    selected: false
+  }, {
+    _id: 'tags/2047187',
+    created_at: '2018-06-05T20:06:35.945646+00:00',
+    default_expiration: '6400',
+    id: '2047187',
+    name: 'mytag3',
+    selected: false
+  }
+]
+
 module.exports.mockMalware = mockMalware
 module.exports.mockRegex = mockRegex
 module.exports.mockHostname = mockHostname
 module.exports.mockObservableMatchresult = mockObservableMatchresult
+module.exports.mockTagList = mockTagList
 module.exports.mockMalwareList = [
   {
     _id: 'entities/1',

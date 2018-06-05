@@ -4,6 +4,7 @@ import Tags from '@/components/Admin/Tags'
 import TableFilter from '@/components/scaffolding/TableFilter'
 import Router from 'vue-router'
 import { routes } from '@/router'
+import mockObjects from '../__mocks__/mock_objects'
 
 const tagListSpy = jest.spyOn(TableFilter.methods, 'clearSelection')
 
@@ -32,12 +33,12 @@ describe('Tags.vue', () => {
   })
 
   it('If one or more tags are selected, filter table has reduced with', () => {
-    wrapper.vm.selectedTags = ['asd', 'dsa', 'wasa']
+    wrapper.vm.selectedTags = mockObjects.mockTagList
     expect(wrapper.find('#tag-list').classes()).toContain('col-8')
   })
 
   it('when selection is cleared, table widths comes back to normal', () => {
-    wrapper.vm.selectedTags = ['asd', 'dsa', 'wasa']
+    wrapper.vm.selectedTags = mockObjects.mockTagList
     expect(wrapper.find('#tag-list').classes()).toContain('col-8')
     wrapper.vm.clearSelection()
     expect(wrapper.vm.selectedTags).toEqual([])
