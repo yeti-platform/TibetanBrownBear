@@ -36,7 +36,7 @@ def test_execute_duplicate():
     response = json.loads(rv.data)
     assert 'GenericYetiError' in response
     assert rv.status_code == 409
-    assert '~"FastDummyFeed"' in response['GenericYetiError']
+    assert '~"SlowDummyFeed"' in response['GenericYetiError']
 
 @pytest.mark.usefixtures('clean_db', 'populate_feeds')
 def test_execute_nonexistent():
