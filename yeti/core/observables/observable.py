@@ -77,7 +77,7 @@ class Observable(YetiObject):
         return False
 
     @classmethod
-    def get_or_create(cls, value=''):
+    def get_or_create(cls, **kwargs):
         """Fetches an observable matching the provided kwargs and returns it.
 
         If an Observable matching kwargs is found, return it. If not, create it
@@ -89,7 +89,7 @@ class Observable(YetiObject):
         Returns:
           A Yeti Observable
         """
-        obj = cls(value=value)
+        obj = cls(value=kwargs['value'])
         obj.normalize()
         try:
             return obj.save()
