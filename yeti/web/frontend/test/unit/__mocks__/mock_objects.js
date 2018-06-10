@@ -100,11 +100,40 @@ const mockTagList = [
   }
 ]
 
+const mockAsyncJobList = [
+  {
+    _id: 'asyncjobsettings/1400943',
+    enabled: true,
+    id: 1400943,
+    last_executed: '2018-05-27T11:10:31.803160+00:00',
+    name: 'FakeFeed1',
+    period: 86400.0,
+    status: 'idle'
+  }, {
+    _id: 'asyncjobsettings/1400944',
+    enabled: true,
+    id: 1400944,
+    last_executed: '2018-05-27T11:10:31.803160+00:00',
+    name: 'FakeFeed2',
+    period: 86400.0,
+    status: 'idle'
+  }, {
+    _id: 'asyncjobsettings/1400945',
+    enabled: true,
+    id: 1400945,
+    last_executed: '2018-05-27T11:10:31.803160+00:00',
+    name: 'FakeFeed3',
+    period: 86400.0,
+    status: 'idle'
+  }
+]
+
 module.exports.mockMalware = mockMalware
 module.exports.mockRegex = mockRegex
 module.exports.mockHostname = mockHostname
 module.exports.mockObservableMatchresult = mockObservableMatchresult
 module.exports.mockTagList = mockTagList
+module.exports.mockAsyncJobList = mockAsyncJobList
 module.exports.mockMalwareList = [
   {
     _id: 'entities/1',
