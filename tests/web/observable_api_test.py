@@ -70,6 +70,16 @@ def test_filter():
     response = json.loads(rv.data)
     assert len(response) == 5
 
+@pytest.mark.usefixtures("clean_db")
+def test_filter_fulltext(populate_hostnames):
+    """Tests searching for specific Observables using fulltext"""
+    keywords = {'keywords': 'com,-asd1,-asd2'}
+    rv = client.post('/api/observables/filter/fulltext/',
+                     data=json.dumps(keywords),
+                     content_type='application/json')
+    response = json.loads(rv.data)
+    assert len(response) == len(populate_hostnames) - 2
+
 @pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_subclass_serialization():
     observable_json = {'value': 'asd[0-4]'}

@@ -9,7 +9,7 @@ from ..helpers import as_json, get_object_or_404
 
 
 @parser.error_handler
-def handle_args(err):
+def handle_args(err, unused_response):
     raise ValidationError(err.messages)
 
 class GenericResource(FlaskView):
@@ -18,6 +18,7 @@ class GenericResource(FlaskView):
     route_base = None
     resource_object = None
     searchargs = None
+    fulltext_searchargs = None
 
     @as_json
     def index(self):
@@ -73,10 +74,22 @@ class GenericResource(FlaskView):
         except GenericYetiError as err:
             return err, 400
 
-
     @route('/filter/', methods=['POST'])
     @as_json
     def filter(self):
         """Search the database for object with specific fields."""
-        args = parser.parse(self.searchargs, request)
-        return self.resource_object.filter(args)
+        try:
+            args = parser.parse(self.searchargs, request)
+            return self.resource_object.filter(args)
+        except ValidationError as err:
+            return err, 400
+
+    @route('/filter/fulltext/', methods=['POST'])
+    @as_json
+    def filter_fulltext(self):
+        """Fulltext search on the database."""
+        try:
+            args = parser.parse(self.fulltext_searchargs, request)
+            return self.resource_object.fulltext_filter(args['keywords'])
+        except ValidationError as err:
+            return err, 400

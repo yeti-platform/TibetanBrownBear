@@ -35,6 +35,9 @@ class Indicator(YetiObject):
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]
+    _text_indexes = [
+        {'fields': ['name']}
+    ]
     schema = IndicatorSchema
 
     id = None

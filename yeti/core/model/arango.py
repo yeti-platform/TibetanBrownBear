@@ -208,7 +208,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     @classmethod
     def find(cls, **kwargs):
-        """Finds a single object ky kwargs.
+        """Finds a single object by kwargs.
 
         Args:
           **kwargs: Dictionary used to run the query.
@@ -291,6 +291,9 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Args:
             args: A key:value dictionary containing a 'value' or 'name' key
               defining the regular expression to match against.
+
+        Returns:
+          A List of Yeti objects.
         """
         colname = cls._collection_name
         conditions = []
@@ -306,6 +309,25 @@ class ArangoYetiConnector(AbstractYetiConnector):
             yeti_objects.append(cls.load(doc))
         return yeti_objects
 
+
+    @classmethod
+    def fulltext_filter(cls, keywords):
+        """Search in an ArangoDB collection using full-text search.
+
+        Args:
+          query: Keywords to use in the full-text query.
+
+        Returns:
+          A List of Yeti objects.
+        """
+        collection = cls._get_collection()
+        query = ','.join(keywords)
+        yeti_objects = []
+        key = cls._text_indexes[0]['fields'][0]
+        for document in collection.find_by_text(key, query):
+            yeti_objects.append(cls.load(document, strict=True))
+        return yeti_objects
+
     @classmethod
     def _get_collection(cls):
         """Get the collection corresponding to this Yeti object class.
@@ -318,4 +340,6 @@ class ArangoYetiConnector(AbstractYetiConnector):
         collection = cls._db.collection(cls._collection_name)
         for index in cls._indexes:
             collection.add_hash_index(**index)
+        for text_index in cls._text_indexes:
+            collection.add_fulltext_index(**text_index)
         return collection

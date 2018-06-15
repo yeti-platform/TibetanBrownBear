@@ -14,6 +14,7 @@ class YetiObject(ArangoYetiConnector):
 
     schema = None
     _indexes = []
+    _text_indexes = []
     datatypes = {}
 
     def __init__(self, **kwargs):

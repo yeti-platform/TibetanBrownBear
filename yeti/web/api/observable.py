@@ -7,12 +7,9 @@ from webargs.flaskparser import parser
 from yeti.core import analysis
 from yeti.core.observables.observable import Observable
 from yeti.web.helpers import as_json, get_object_or_404
-from yeti.core.errors import GenericYetiError, ValidationError
+from yeti.core.errors import GenericYetiError
 from .generic import GenericResource
 
-@parser.error_handler
-def handle_args(err):
-    raise ValidationError(err.messages)
 
 class ObservableResource(GenericResource):
     """Class describing resources to manipulate Observable objects."""
@@ -23,6 +20,10 @@ class ObservableResource(GenericResource):
     searchargs = {
         'value': fields.Str(required=True),
         'type': fields.Str(),
+    }
+
+    fulltext_searchargs = {
+        'keywords': fields.List(fields.String(), required=True),
     }
 
     tagargs = {
