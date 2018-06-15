@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Yeti'
-copyright = '2018, Thomas Chopitea'
+copyright = '2018, Thomas Chopitea'  # pylint: disable=redefined-builtin
 author = 'Thomas Chopitea'
 
 # The short X.Y version
