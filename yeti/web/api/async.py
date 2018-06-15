@@ -5,7 +5,7 @@ from marshmallow import fields
 from webargs.flaskparser import parser
 
 from yeti.core.async import functions, q, get_active_jobs
-from yeti.core.errors import ValidationError, GenericYetiError
+from yeti.core.errors import GenericYetiError
 from ..helpers import as_json
 
 # We need to import modules without referencing them so that any async jobs
@@ -13,9 +13,6 @@ from ..helpers import as_json
 # pylint: disable=unused-import,wrong-import-order
 from yeti import feeds
 
-@parser.error_handler
-def handle_args(err, unused_response):
-    raise ValidationError(err.messages)
 
 class AsyncResource(FlaskView):
 

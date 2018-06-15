@@ -5,13 +5,8 @@ from flask_classful import route
 from webargs.flaskparser import parser
 
 from yeti.core.indicators.indicator import Indicator
-from yeti.core.errors import ValidationError
 from .generic import GenericResource
 from ..helpers import as_json
-
-@parser.error_handler
-def handle_args(err):
-    raise ValidationError(err.messages)
 
 
 class IndicatorResource(GenericResource):

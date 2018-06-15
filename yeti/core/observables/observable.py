@@ -40,6 +40,9 @@ class Observable(YetiObject):
     _indexes = [
         {'fields': ['value'], 'unique': True},
     ]
+    _text_indexes = [
+        {'fields': ['value']},
+    ]
     schema = ObservableSchema
 
     id = None
