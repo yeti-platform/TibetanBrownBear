@@ -23,6 +23,9 @@ pytest-cov = "*"
 "e1839a8" = {path = ".", editable = true}
 pylint = "*"
 codecov = "*"
+sphinx = "*"
+sphinx-autobuild = "*"
+sphinx-rtd-theme = "*"
 
 [requires]
 python_version = "3.6"
