@@ -4,7 +4,7 @@ import Tags from '@/components/Admin/Tags'
 import TableFilter from '@/components/scaffolding/TableFilter'
 import Router from 'vue-router'
 import { routes } from '@/router'
-import mockObjects from '../__mocks__/mock_objects'
+import mockObjects from '../../__mocks__/mock_objects'
 
 const tagListSpy = jest.spyOn(TableFilter.methods, 'clearSelection')
 
