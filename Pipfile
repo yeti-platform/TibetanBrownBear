@@ -26,6 +26,7 @@ codecov = "*"
 sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
+recommonmark = "*"
 
 [requires]
 python_version = "3.6"

@@ -46,11 +46,17 @@ extensions = [
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+from recommonmark.parser import CommonMarkParser
+
+source_parsers = {
+    '.md': CommonMarkParser,
+}
+
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
+# source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
@@ -158,3 +164,50 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+
+from docutils import nodes, transforms
+import re
+
+anchor_re = r'(?P<uri>[a-zA-Z0-9-./]+?).md#(?P<anchor>[a-zA-Z0-9-]+)'
+compiled_anchor_re = re.compile(anchor_re)
+
+class ProcessLink(transforms.Transform):
+
+    default_priority = 1000
+
+    def find_replace(self, node):
+        if isinstance(node, nodes.reference) and "refuri" in node:
+            r = node["refuri"]
+            if r.endswith(".md"):
+                r = r[:-3] + ".html"
+                node["refuri"] = r
+            else:
+                match = compiled_anchor_re.match(r)
+                if match:
+                    uri = match.group('uri')
+                    anchor = match.group('anchor')
+                    node["refuri"] = '{0:s}.html#{1:s}'.format(uri, anchor)
+        return node
+
+    def traverse(self, node):
+        """Traverse the document tree rooted at node.
+        node : docutil node
+                current root node to traverse
+        """
+        self.find_replace(node)
+
+        for c in node.children:
+            self.traverse(c)
+
+    def apply(self):
+        self.current_level = 0
+        self.traverse(self.document)
+
+from recommonmark.transform import AutoStructify
+
+def setup(app):
+    app.add_config_value('recommonmark_config', {
+        'enable_auto_doc_ref': False,
+        }, True)
+    app.add_transform(AutoStructify)
+    app.add_transform(ProcessLink)
