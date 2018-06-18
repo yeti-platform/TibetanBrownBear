@@ -1,5 +1,4 @@
 # Welcome to Yeti's documentation!
-================================
 
 Welcome to Yeti's documentation.
 
