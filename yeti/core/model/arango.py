@@ -119,7 +119,7 @@ class ArangoYetiSchema(Schema):
     """
 
     id = fields.Int(load_from='_key', dump_to='_key')
-    _arango_id = fields.Str(load_from='_id', dump_to='_id')
+    _arango_id = fields.Str(load_from='_id', load_only=True)
 
 class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
