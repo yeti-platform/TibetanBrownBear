@@ -147,8 +147,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
           A JSON representation of the Yeti object.
         """
         data = self.schema().dump(self).data
-        if '_key' in data:
-            data['id'] = data.pop('_key')
+        data['id'] = data.pop('_key')
         return data
 
     def save(self):
@@ -156,9 +155,9 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Returns:
           The created Yeti object."""
-        document_json = self.schema().dump(self).data
-        if not self.id:
-            del document_json['_key']
+        document_json = self.dump()
+        if not document_json['id']:
+            del document_json['id']
             try:
                 result = self._get_collection().insert(
                     document_json, return_new=True)
@@ -170,7 +169,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
                     self.__class__.__name__, conflict)
                 raise IntegrityError(error)
         else:
-            document_json['_key'] = str(document_json['_key'])
+            document_json['_key'] = str(document_json['id'])
             result = self._get_collection().update(
                 document_json, return_new=True)
         arangodoc = result['new']
