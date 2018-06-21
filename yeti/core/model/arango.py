@@ -3,7 +3,7 @@ import time
 import sys
 
 from arango import ArangoClient
-from arango.exceptions import DocumentInsertError, GraphCreateError
+from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpdateError
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
@@ -150,30 +150,39 @@ class ArangoYetiConnector(AbstractYetiConnector):
         data['id'] = data.pop('_key')
         return data
 
+    def _insert(self, document_json):
+        try:
+            return self._get_collection().insert(
+                document_json, return_new=True)
+        except DocumentInsertError as err:
+            if not err.error_code == 1210: # Unique constraint violation
+                raise
+            conflict = 'name' if 'name' in document_json else 'value'
+            error = 'A {0} object with same `{1}` already exists'.format(
+                self.__class__.__name__, conflict)
+            raise IntegrityError(error)
+
+    def _update(self, document_json):
+        document_json['_key'] = str(document_json['id'])
+        return self._get_collection().update(
+            document_json, return_new=True)
+
     def save(self):
-        """Inserts a Yeti object into the database.
+        """Inserts or updates a Yeti object into the database.
 
         Returns:
           The created Yeti object."""
         document_json = self.dump()
         if not document_json['id']:
             del document_json['id']
-            try:
-                result = self._get_collection().insert(
-                    document_json, return_new=True)
-            except DocumentInsertError as err:
-                if not err.error_code == 1210: # Unique constraint violation
-                    raise
-                conflict = 'name' if 'name' in document_json else 'value'
-                error = 'A {0} object with same `{1}` already exists'.format(
-                    self.__class__.__name__, conflict)
-                raise IntegrityError(error)
+            result = self._insert(document_json)
         else:
-            document_json['_key'] = str(document_json['id'])
-            result = self._get_collection().update(
-                document_json, return_new=True)
+            try:
+                result = self._update(document_json)
+            except DocumentUpdateError:
+                result = self._insert(document_json)
         arangodoc = result['new']
-        return self.schema(strict=True).load(arangodoc).data
+        return self.load(arangodoc, strict=True)
 
     @classmethod
     def list(cls):
@@ -297,7 +306,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         colname = cls._collection_name
         conditions = []
         for key in args:
-            if key in ['value', 'name', 'type']:
+            if key in ['value', 'name', 'type', 'stix_id']:
                 conditions.append('o.{0:s} =~ @{0:s}'.format(key))
         aql_string = """
         FOR o IN {0:s} FILTER {1:s} RETURN o

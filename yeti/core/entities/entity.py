@@ -33,7 +33,7 @@ class Entity(YetiObject):
 
     _collection_name = 'entities'
     _indexes = [
-        {'fields': ['name'], 'unique': True},
+        {'fields': ['name'], 'unique': False},
     ]
     _text_indexes = [
         {'fields': ['name']},

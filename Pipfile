@@ -16,6 +16,7 @@ yara-python = "*"
 url-normalize = "*"
 redis = "*"
 rq = "*"
+"stix2" = "*"
 
 [dev-packages]
 pytest = "*"
