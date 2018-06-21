@@ -76,20 +76,10 @@ def populate_ips():
     return ips
 
 @pytest.fixture
-def populate_entities():
-    entities = []
-    for num in range(10):
-        entity = Entity.get_or_create(name='entity{0:d}'.format(num))
-        entities.append(entity)
-    return entities
-
-@pytest.fixture
 def populate_malware():
-    m1 = Malware(name='Gootkit').save()
-    m1.family = ['banker', 'trojan']
+    m1 = Malware(name='Gootkit', labels=['banker']).save()
     m1.save()
-    m2 = Malware(name='Sofacy').save()
-    m2.family = ['trojan']
+    m2 = Malware(name='Sofacy', labels=['apt']).save()
     m2.save()
     return [m1, m2]
 

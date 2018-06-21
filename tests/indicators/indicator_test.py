@@ -11,7 +11,7 @@ def test_invalid_indicator_name():
     with pytest.raises(ValidationError):
         Indicator(name=123).save()
 
-@pytest.mark.usefixtures('clean_db', 'populate_entities')
+@pytest.mark.usefixtures('clean_db')
 def test_indicator_formatting():
     """Tests correct indicator formatting to string."""
     ent = Indicator(name='asd').save()
