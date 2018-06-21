@@ -5,9 +5,9 @@ from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError
 
 from yeti.core.errors import ValidationError, IntegrityError
-from ..model.database import YetiObject
+from yeti.core.model.database import YetiObject
 
-class Entity(YetiObject):
+class StixSDO(YetiObject):
     """Entity Yeti object.
 
     Attributes:
@@ -52,17 +52,15 @@ class Entity(YetiObject):
         self._stix_object = None
         self._stix_parse(stix_dict)
 
-    # We want to call this argument stix_dict instead of the generic "args" in
-    # YetiObject.
-    # pylint: disable=arguments-differ
     @classmethod
-    def load(cls, stix_dict):
+    def load(cls, args, strict=True):
         """Translate information from the backend into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.
 
         Args:
-          stix_dict: The dictionary to use to create the STIX object.
+          args: The dictionary to use to create the STIX object.
+          strict: Unused, kept to be consistent with overriden method
 
         Returns:
           The corresponding STIX objet.
@@ -71,12 +69,12 @@ class Entity(YetiObject):
           IntegrityError: If a STIX object could not be instantiated from the
               data in the database.
         """
-        stix_dict.pop('_key')
-        stix_dict.pop('_id')
-        stix_dict.pop('_rev')
-        stix_dict['id'] = stix_dict.pop('stix_id')
+        args.pop('_key')
+        args.pop('_id')
+        args.pop('_rev')
+        args['id'] = args.pop('stix_id')
         try:
-            return cls(**stix_dict)
+            return cls(**args)
         except Exception as err:
             raise IntegrityError(err)
 
@@ -131,6 +129,11 @@ class Entity(YetiObject):
 
     def __repr__(self):
         return str(self._stix_object)
+
+    # ===================================
+    # These properties are common to all SDOs
+    # Reference: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714302 # pylint: disable=line-too-long
+    # ===================================
 
     @property
     def type(self):
