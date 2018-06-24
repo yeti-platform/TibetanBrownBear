@@ -107,6 +107,8 @@ class StixSDO(YetiObject):
           A STIX object.
         """
         all_versions = cls.filter({'stix_id': key})
+        if not all_versions:
+            return None
         modified = all_versions[0].modified
         winner = all_versions[0]
         for version in all_versions:
