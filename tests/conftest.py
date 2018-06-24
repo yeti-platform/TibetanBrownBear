@@ -77,11 +77,12 @@ def populate_ips():
 
 @pytest.fixture
 def populate_malware():
+    malware = []
     m1 = Malware(name='Gootkit', labels=['banker']).save()
-    m1.save()
+    malware.append(m1)
     m2 = Malware(name='Sofacy', labels=['apt']).save()
-    m2.save()
-    return [m1, m2]
+    malware.append(m2)
+    return malware
 
 TEST_RULE = """rule yeti_rule
 {

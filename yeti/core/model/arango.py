@@ -191,12 +191,16 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           An arango.cursor.Cursor object.
         """
-        colname = cls._collection_name
-        objects = cls._db.aql.execute(
-            'FOR o IN {0:s} FILTER o.type =~ @type RETURN o'.format(colname),
-            bind_vars={
-                'type': cls.__name__.lower()
-            })
+        coll = cls._collection_name
+        type_filter = cls._type_filter
+
+        if type_filter is not None:
+            objects = cls._db.aql.execute(
+                'FOR o IN {0:s} FILTER o.type =~ @type RETURN o'.format(coll),
+                bind_vars={'type': type_filter})
+        else:
+            objects = cls._db.aql.execute(
+                'FOR o IN {0:s} RETURN o'.format(coll))
 
         return cls.load(list(objects))
 

@@ -15,14 +15,6 @@ class StixSDO(YetiObject):
       name: Entity name
     """
 
-    _collection_name = 'entities'
-    _indexes = [
-        {'fields': ['name'], 'unique': False},
-    ]
-    _text_indexes = [
-        {'fields': ['name']},
-    ]
-
     def _stix_parse(self, stix_dict):
         """Parses a dictionary into an actual STIX2 object.
 
@@ -33,7 +25,8 @@ class StixSDO(YetiObject):
           ValidationError: If the dictionary does not comply with the STIX2
               standard.
         """
-        stix_dict['type'] = self.stix_type
+        if 'type' not in stix_dict:
+            stix_dict['type'] = self.type
         try:
             self._stix_object = parse(stix_dict)
         except (MissingPropertiesError, ParseError) as err:
@@ -69,12 +62,15 @@ class StixSDO(YetiObject):
           IntegrityError: If a STIX object could not be instantiated from the
               data in the database.
         """
+        subclass = cls.get_final_datatype(args)
+        if isinstance(args, list):
+            return [subclass.load(item) for item in args]
         args.pop('_key')
         args.pop('_id')
         args.pop('_rev')
         args['id'] = args.pop('stix_id')
         try:
-            return cls(**args)
+            return subclass(**args)
         except Exception as err:
             raise IntegrityError(err)
 
@@ -113,6 +109,17 @@ class StixSDO(YetiObject):
                 modified = parsed_timestamp
                 winner = version
         return winner
+
+    @classmethod
+    def list(cls):
+        """Lists all STIX 2 objects.
+
+        By default, the latest version of all STIX SDOs is returned.
+
+        Returns:
+          An arango.cursor.Cursor object.
+        """
+        return super().list()
 
     def update(self, args):
         """Updates a STIX object, creating a new version.
