@@ -47,9 +47,7 @@ class GenericResource(FlaskView):
             A JSON representation of the saved object.
         """
         try:
-            args = parser.parse(self.searchargs, request)
-            schema = self.resource_object.get_realschema(args)(strict=True)
-            return parser.parse(schema, request).save()
+            return self.resource_object.load(request.json).save()
         except GenericYetiError as err:
             return err, 400
 
