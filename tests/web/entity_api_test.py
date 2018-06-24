@@ -23,12 +23,12 @@ def test_index(populate_malware):
         assert element['id'].startswith('malware--')
 
 @pytest.mark.usefixtures("clean_db")
-def test_get(populate_entities):
+def test_get(populate_malware):
     """Test fetching single Entity by ID."""
-    rv = client.get('/api/entities/{0:d}/'.format(populate_entities[0].id))
+    rv = client.get('/api/entities/{0:s}/'.format(populate_malware[0].id))
     response = json.loads(rv.data)
     assert isinstance(response, dict)
-    assert response['id'] == populate_entities[0].id
+    assert response['id'] == populate_malware[0].id
 
 @pytest.mark.usefixtures("clean_db")
 def test_get_notfound():
@@ -39,12 +39,12 @@ def test_get_notfound():
 @pytest.mark.usefixtures("clean_db")
 def test_post():
     """Tests the creation of a new Entity via POST."""
-    entity_json = {'name': 'asd', 'type': 'entity.malware'}
+    entity_json = {'name': 'Zeus', 'type': 'malware', 'labels': ['banker']}
     rv = client.post('/api/entities/',
                      data=json.dumps(entity_json),
                      content_type='application/json')
     response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
+    assert response['id'].startswith('malware--')
 
 @pytest.mark.usefixtures("clean_db")
 def test_wrong_type_raises_error():
