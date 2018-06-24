@@ -79,13 +79,3 @@ def test_filter(populate_malware):
                      content_type='application/json')
     response = json.loads(rv.data)
     assert len(response) == 1
-
-@pytest.mark.usefixtures("clean_db", "populate_entities", "populate_malware")
-def test_subclass_serialization():
-    rv = client.get('/api/entities/')
-    response = json.loads(rv.data)
-    for item in response:
-        if item['type'] == 'entity.malware':
-            assert item.get('family', None) is not None
-        else:
-            assert item.get('family', None) is None
