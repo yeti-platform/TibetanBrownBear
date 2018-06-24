@@ -164,7 +164,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             conflict = 'name' if 'name' in document_json else 'value'
             error = 'A {0} object with same `{1}` already exists'.format(
                 self.__class__.__name__, conflict)
-            raise IntegrityError(error)
+            raise IntegrityError(str(error))
 
     def _update(self, document_json):
         document_json['_key'] = str(document_json['id'])

@@ -30,7 +30,7 @@ class StixSDO(YetiObject):
         try:
             self._stix_object = parse(stix_dict)
         except (MissingPropertiesError, ParseError) as err:
-            raise ValidationError(err)
+            raise ValidationError(str(err))
 
     # We don't want to call YetiObject's init method since this would set all
     # attributes in stix_dict in the Entity object; we want them in
@@ -65,14 +65,14 @@ class StixSDO(YetiObject):
         subclass = cls.get_final_datatype(args)
         if isinstance(args, list):
             return [subclass.load(item) for item in args]
-        args.pop('_key')
-        args.pop('_id')
-        args.pop('_rev')
-        args['id'] = args.pop('stix_id')
+        args.pop('_key', None)
+        args.pop('_id', None)
+        args.pop('_rev', None)
+        args['id'] = args.pop('stix_id', None)
         try:
             return subclass(**args)
         except Exception as err:
-            raise IntegrityError(err)
+            raise IntegrityError(str(err))
 
     def dump(self, destination='db'):
         """Dumps an Entity object into it's STIX JSON representation.
