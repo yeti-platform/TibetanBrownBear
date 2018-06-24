@@ -1,6 +1,6 @@
 """Detail Yeti's Entity object structure."""
 
-from yeti.core.stix_sdo import StixSDO
+from yeti.core.model.stix import StixSDO
 from yeti.core.errors import ValidationError
 
 class Entity(StixSDO):

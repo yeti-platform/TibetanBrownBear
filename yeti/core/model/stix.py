@@ -7,7 +7,7 @@ from stix2.exceptions import MissingPropertiesError, ParseError
 from yeti.core.errors import ValidationError, IntegrityError
 from yeti.core.model.database import YetiObject
 
-class StixSDO(YetiObject):
+class StixObject(YetiObject):
     """Entity Yeti object.
 
     Attributes:
@@ -145,6 +145,9 @@ class StixSDO(YetiObject):
     def __repr__(self):
         return str(self._stix_object)
 
+
+class StixSDO(StixObject):
+
     # ===================================
     # These properties are common to all SDOs
     # Reference: http://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714302 # pylint: disable=line-too-long
@@ -189,3 +192,6 @@ class StixSDO(YetiObject):
     @property
     def granular_markings(self):
         return self._stix_object.granular_markings
+
+class StixCYBOX(StixObject):
+    pass
