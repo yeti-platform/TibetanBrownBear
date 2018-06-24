@@ -56,7 +56,8 @@ def test_wrong_type_raises_error():
     assert rv.status_code == 400
     response = json.loads(rv.data)
     assert 'ValidationError' in response
-    assert 'is not a valid type for' in response['ValidationError']
+    error_message = response['ValidationError']
+    assert '"entity.notexist" not in acceptable datatypes' in error_message
 
 @pytest.mark.usefixtures("clean_db")
 def test_put(populate_entities):
