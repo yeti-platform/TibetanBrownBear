@@ -13,14 +13,14 @@ client = app.test_client()
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
 
-@pytest.mark.usefixtures("clean_db", "populate_entities")
-def test_index():
+@pytest.mark.usefixtures("clean_db")
+def test_index(populate_malware):
     """Test that a GET request fetches all Entities."""
     rv = client.get('/api/entities/')
     response = json.loads(rv.data)
-    assert len(response) == 10
+    assert len(response) == len(populate_malware)
     for element in response:
-        assert isinstance(element['id'], int)
+        assert element['id'].startswith('malware--')
 
 @pytest.mark.usefixtures("clean_db")
 def test_get(populate_entities):

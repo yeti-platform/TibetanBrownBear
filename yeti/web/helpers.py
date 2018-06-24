@@ -15,11 +15,11 @@ def _as_json(result): # pylint: disable=too-many-return-statements
         if not result:
             return jsonify([])
         if isinstance(result[0], YetiObject):
-            return jsonify([item.dump() for item in result])
+            return jsonify([item.dump(destination='web') for item in result])
         if isinstance(result[0], dict):
             return jsonify(result)
     if isinstance(result, YetiObject):
-        return jsonify(result.dump())
+        return jsonify(result.dump(destination='web'))
     return jsonify(result)
 
 def as_json(func):

@@ -140,8 +140,12 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except MarshmallowValidationError as e:
             raise ValidationError(e.messages)
 
-    def dump(self):
+    def dump(self, destination='db'):
         """Dumps a Yeti object into a JSON representation.
+
+        Args:
+          destination: The destination the serialized data is going to. One of
+              {web,db}. Unused here since this logic is dealt with elsewhere.
 
         Returns:
           A JSON representation of the Yeti object.
@@ -189,7 +193,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         """Lists all objects.
 
         Returns:
-          An arango.cursor.Cursor object.
+          A list of YetiObjects.
         """
         coll = cls._collection_name
         type_filter = cls._type_filter

@@ -74,15 +74,21 @@ class StixSDO(YetiObject):
         except Exception as err:
             raise IntegrityError(err)
 
-    def dump(self):
+    def dump(self, destination='db'):
         """Dumps an Entity object into it's STIX JSON representation.
+
+        Args:
+          destination: Since STIX2 uses IDs as means to identify a single object
+              we need to transform the object depending on whether it is being
+              sent to the database or to a web client.
 
         Returns:
           The Entity's JSON representation in dictionary form.
         """
         serialized = json.loads(self._stix_object.serialize())
-        serialized['stix_id'] = serialized['id']
-        serialized['id'] = None
+        if destination == 'db':
+            serialized['stix_id'] = serialized['id']
+            serialized['id'] = None
         return serialized
 
     def all_versions(self):

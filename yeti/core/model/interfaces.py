@@ -15,8 +15,13 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def dump(self):
-        """Dump a YetiObject into its JSON representation."""
+    def dump(self, destination='db'):
+        """Dump a YetiObject into its JSON representation.
+
+        Args:
+           destination: The destination the serialized data is going to. One of
+               {web,db}
+        """
         raise NotImplementedError
 
     @abstractmethod
