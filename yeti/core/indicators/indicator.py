@@ -32,6 +32,8 @@ class Indicator(YetiObject):
     """
 
     _collection_name = 'indicators'
+    _type_filter = None
+    
     _indexes = [
         {'fields': ['name'], 'unique': True},
     ]

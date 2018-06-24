@@ -37,6 +37,8 @@ class Observable(YetiObject):
     """
 
     _collection_name = 'observables'
+    _type_filter = None
+    
     _indexes = [
         {'fields': ['value'], 'unique': True},
     ]
