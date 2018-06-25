@@ -14,7 +14,7 @@ class StixCYBOX(StixObject):
         if not self.validate_string(kwargs['value']):
             raise ValidationError(
                 '{0:s} is not a valid string for {1:s}'.format(
-                    kwargs['value'], kwargs['type']
+                    kwargs['value'], self.type
                 ))
         super().__init__(**kwargs)
         self.normalize()
@@ -105,3 +105,12 @@ class StixCYBOX(StixObject):
             return observable
         except Exception as err:
             raise IntegrityError(str(err))
+
+
+    @property
+    def type(self):
+        return self._stix_object.type
+
+    @property
+    def value(self):
+        return self._stix_object.value

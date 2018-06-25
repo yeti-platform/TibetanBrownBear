@@ -29,7 +29,7 @@ class YetiObject(ArangoYetiConnector):
 
     @classmethod
     def load_object_from_type(cls, obj, strict=False):
-        objtype = cls.datatypes.get(obj.get('type'), cls)
+        objtype = cls.get_final_datatype(obj)
         return objtype.schema(strict=strict).load(obj).data
 
     @classmethod

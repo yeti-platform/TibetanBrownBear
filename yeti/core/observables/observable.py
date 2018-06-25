@@ -1,56 +1,19 @@
 """Detail Yeti's Observable object structure."""
 
-from datetime import datetime
-
-from marshmallow import fields, post_load
-
+from yeti.core.model.stix import StixCYBOX
 from yeti.core.errors import ValidationError, IntegrityError
-from ..model.database import YetiObject, YetiSchema
-from .tag import Tag, TagReference, TagReferenceSchema
 
-class ObservableSchema(YetiSchema):
-    """(De)serialization marshmallow.Schema for Observable objects."""
-    value = fields.String(required=True)
-    type = fields.String()
-    tags = fields.Nested(TagReferenceSchema, many=True, allow_none=True)
-
-    @post_load
-    def load_observable(self, data):
-        """Load an Observable object from its JSON representation.
-
-        @post_load means this will be called after each marshmallow.load call.
-
-        Returns:
-          The Observable object.
-        """
-        datatype = Observable.datatypes.get(data['type'], Observable)
-        object_ = datatype(**data)
-        return object_
-
-
-class Observable(YetiObject):
-    """Observable Yeti object.
-
-    Attributes:
-      key: Database primary key
-      value: Observable value
-    """
+class Observable(StixCYBOX):
 
     _collection_name = 'observables'
+    type = None
     _type_filter = None
-    
     _indexes = [
-        {'fields': ['value'], 'unique': True},
+        {'fields': ['value'], 'unique': False},
     ]
     _text_indexes = [
         {'fields': ['value']},
     ]
-    schema = ObservableSchema
-
-    id = None
-    value = None
-    type = 'observable'
-    tags = None
 
     @classmethod
     def validate_string(cls, string):
@@ -75,10 +38,9 @@ class Observable(YetiObject):
     def guess_type(cls, string):
         """Guesses an observable's type given a string."""
         if string.strip():
-            for name, datatype in cls.datatypes.items():
-                if name.startswith('observable'):
-                    if datatype.validate_string(string):
-                        return datatype
+            for datatype in cls.datatypes.values():
+                if datatype.validate_string(string):
+                    return datatype
         return False
 
     @classmethod
