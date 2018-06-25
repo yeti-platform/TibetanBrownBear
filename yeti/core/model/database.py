@@ -32,6 +32,17 @@ class YetiObject(ArangoYetiConnector):
         objtype = cls.datatypes.get(obj.get('type'), cls)
         return objtype.schema(strict=strict).load(obj).data
 
+    @classmethod
+    def get_final_datatype(cls, args):
+        subclass = cls
+        if 'type' in args:
+            if args['type'] not in cls.datatypes:
+                raise ValidationError(
+                    '"{0:s}" not in acceptable datatypes ({1!r})'.format(
+                        args['type'], cls.datatypes))
+            subclass = cls.datatypes[args['type']]
+        return subclass
+
     def is_valid(self):
         return True
 

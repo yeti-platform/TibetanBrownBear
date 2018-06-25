@@ -63,6 +63,13 @@ class StixSDO(StixObject):
                 winner = version
         return winner
 
+    def all_versions(self):
+        """Returns all versions of a STIX object given its key.
+        Returns:
+          A list of STIX objects.
+        """
+        return self.filter({'stix_id': self.id})
+
     def dump(self, destination='db'):
         """Dumps an Entity object into its STIX JSON representation.
 

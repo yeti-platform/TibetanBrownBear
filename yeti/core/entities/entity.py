@@ -14,14 +14,3 @@ class Entity(StixSDO):
     _text_indexes = [
         {'fields': ['name']},
     ]
-
-    @classmethod
-    def get_final_datatype(cls, args):
-        subclass = cls
-        if 'type' in args:
-            if args['type'] not in cls.datatypes:
-                raise ValidationError(
-                    '"{0:s}" not in acceptable datatypes ({1!r})'.format(
-                        args['type'], cls.datatypes))
-            subclass = cls.datatypes[args['type']]
-        return subclass
