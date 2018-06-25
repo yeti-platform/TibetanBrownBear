@@ -101,8 +101,8 @@ class StixSDO(StixObject):
           The corresponding STIX objet.
 
         Raises:
-          IntegrityError: If a STIX object could not be instantiated from the
-              data in the database.
+          ValidationError: If a STIX object could not be instantiated from the
+              serialized data.
         """
         subclass = cls.get_final_datatype(args)
         if isinstance(args, list):
@@ -114,7 +114,7 @@ class StixSDO(StixObject):
         try:
             return subclass(**args)
         except Exception as err:
-            raise IntegrityError(str(err))
+            raise ValidationError(str(err))
 
     @property
     def type(self):

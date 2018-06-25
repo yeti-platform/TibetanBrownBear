@@ -22,12 +22,12 @@ def test_filter_on_subtype():
     response = json.loads(rv.data)
     for item in response:
         assert re.match(r'asd[0-4]\.com', item['value'])
-        assert 'hostname' in item['type']
+        assert item['type'] == 'domain-name'
 
 @pytest.mark.usefixtures('clean_db')
 def test_post():
     """Tests the creation of a new Hostname via POST."""
-    observable_json = {'value': 'asd.com', 'type': 'observable.hostname'}
+    observable_json = {'value': 'asd.com', 'type': 'domain-name'}
     rv = client.post('/api/observables/',
                      data=json.dumps(observable_json),
                      content_type='application/json')
@@ -54,4 +54,4 @@ def test_put(populate_hostnames):
     assert rv.status_code == 400
     response = json.loads(rv.data)
     assert 'ValidationError' in response
-    assert 'Invalid Hostname' in response['ValidationError']
+    assert 'not a valid string for domain-name' in response['ValidationError']

@@ -81,20 +81,21 @@ class StixCYBOX(StixObject):
           The corresponding STIX objet.
 
         Raises:
-          IntegrityError: If a STIX object could not be instantiated from the
-              data in the database.
+          ValidationError: If a STIX object could not be instantiated from the
+              serialized data.
         """
         subclass = cls.get_final_datatype(args)
         if isinstance(args, list):
             return [subclass.load(item) for item in args]
-        args['id'] = int(args.pop('_key', None))
+        if '_key' in args:
+            args['id'] = int(args.pop('_key'))
         args.pop('_id', None)
         args.pop('_rev', None)
         try:
             observable = subclass(**args)
             return observable
         except Exception as err:
-            raise IntegrityError(str(err))
+            raise ValidationError(str(err))
 
 
     @property
