@@ -6,8 +6,6 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 # pylint: disable=wrong-import-position
 from yeti.core.model.arango import db
-from yeti.core.indicators.yara_rule import YaraRule
-from yeti.core.indicators.regex import Regex
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
 from yeti.core.observables.observable import Observable
@@ -47,7 +45,6 @@ def clean_db():
     Observable._get_collection()
     Hostname._get_collection()
     Tag._get_collection()
-    YaraRule._get_collection()
     db.clear()
 
 
@@ -84,31 +81,8 @@ def populate_malware():
     malware.append(m2)
     return malware
 
-TEST_RULE = """rule yeti_rule
-{
-    meta:
-        description = "Test rule"
-
-    strings:
-        $MZ = { 4D 5A }
-
-    condition:
-        $MZ
-}"""
-
-@pytest.fixture
-def populate_yara_rules():
-    y1 = YaraRule(name='MZ', pattern=TEST_RULE).save()
-    return [y1]
-
-@pytest.fixture
-def populate_regex():
-    r = Regex(name='AppData', pattern=r'AppData\\Roaming\\\w+').save()
-    return [r]
-
 @pytest.fixture
 def populate_all():
     clean_db()
     populate_hostnames()
     populate_malware()
-    populate_yara_rules()
