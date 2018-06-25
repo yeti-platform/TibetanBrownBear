@@ -3,7 +3,6 @@
 
 import pytest
 
-from yeti.core.errors import ValidationError
 from yeti.core.observables.observable import Observable
 from yeti.core.observables.hostname import Hostname
 from yeti.core.observables.url import URL
