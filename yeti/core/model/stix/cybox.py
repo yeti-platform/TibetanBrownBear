@@ -56,10 +56,7 @@ class StixCYBOX(StixObject):
         Returns:
           A STIX object.
         """
-        observables = cls.filter({'value': value})
-        if not observables:
-            return None
-        return observables[0]
+        return cls.find(value=value)
 
     def dump(self, destination='db'):
         """Dumps an Observable object into it's STIX JSON representation.

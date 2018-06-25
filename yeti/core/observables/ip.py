@@ -7,7 +7,7 @@ from stix2 import IPv4Address as STIXIPv4Address
 from yeti.core.helpers import refang
 from .observable import Observable
 
-class IP(Observable):
+class IP(Observable):  # pylint: disable=too-many-ancestors
     """IP Yeti object.
 
     Attributes:
@@ -27,9 +27,7 @@ class IP(Observable):
             return False
 
     def normalize(self):
-        value = refang(self._stix_object.value)
-        ipaddr_object = ipaddress.ip_address(value)
-        value = str(ipaddr_object)
+        value = str(ipaddress.ip_address(refang(self.value)))
         self._stix_object = STIXIPv4Address(value=value)
 
 Observable.datatypes[IP.type] = IP
