@@ -1,13 +1,14 @@
 """Detail Yeti's URL object structure."""
 
+import json
 import re
 from urllib.parse import urlparse
 
-from marshmallow import fields
 from url_normalize import url_normalize
+from stix2 import URL as StixURL
 
 from yeti.core.helpers import refang
-from .observable import Observable, ObservableSchema
+from .observable import Observable
 from . import hostname
 from . import ip
 
@@ -20,10 +21,6 @@ COMPILED_MAIN = re.compile(MAIN_REGEX)
 COMPILED_FULL_REGEX = re.compile(FULL_REGEX)
 COMPILED_PREFIX_REGEX = re.compile(PREFIX_REGEX)
 
-class URLSchema(ObservableSchema):
-    """(De)serialization marshmallow.Schema for Url objects."""
-    parsed = fields.Dict()
-    type = fields.String()
 
 class URL(Observable):
     """URL Yeti object.
@@ -32,10 +29,7 @@ class URL(Observable):
       tld: The corresponding TLD.
     """
 
-    schema = URLSchema
-    _collection_name = 'observables'
-
-    type = 'observable.url'
+    type = 'url'
     parsed = {}
 
     @classmethod
@@ -48,18 +42,20 @@ class URL(Observable):
         return False
 
     def normalize(self):
-        self.value = refang(self.value).lower()
+        serialized = json.loads(self._stix_object.serialize())
+        value = refang(serialized['value']).lower()
 
-        if COMPILED_PREFIX_REGEX.match(self.value) is None:
+        if COMPILED_PREFIX_REGEX.match(value) is None:
             # if no schema is specified, assume http://
-            self.value = 'http://' + self.value
+            value = 'http://' + value
 
         # NOTE: url_normalize converts the URL to IDNA, it would be nice to also
         # keep the encoded URL
-        self.value = url_normalize(self.value)
-        self.parse()
+        serialized['value'] = url_normalize(value)
+        self._stix_object = StixURL(**serialized)
 
     def parse(self):
+        # TODO: Implement this as a STIX extension? Or just store it separately?
         parsed = urlparse(self.value)
 
         self.parsed = {

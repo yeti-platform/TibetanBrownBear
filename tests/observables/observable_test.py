@@ -10,20 +10,11 @@ from yeti.core.observables.url import URL
 from yeti.core.observables.ip import IP
 
 
-@pytest.mark.usefixtures('clean_db')
-def test_observable_creation():
-    """Tests the creation of a single observable."""
-    obs = Observable(value='asd.com')
-    assert obs.id is None
-    obs = obs.save()
-    assert isinstance(obs, Observable)
-    assert obs.id is not None
-
-@pytest.mark.usefixtures('clean_db')
+@pytest.mark.usefixtures('clean_db', 'populate_hostnames')
 def test_observable_get():
     """Tests fetching a single observable by id."""
     obs = Hostname(value='asd.com').save()
-    fetched_obs = Observable.get(obs.id)
+    fetched_obs = Observable.get(obs.value)
     assert isinstance(fetched_obs, Observable)
     assert fetched_obs.id == obs.id
 
@@ -44,12 +35,6 @@ def test_observables_list(populate_hostnames):
     allitems = Observable.list()
     assert isinstance(allitems[0], Observable)
     assert len(allitems) == len(populate_hostnames)
-
-@pytest.mark.usefixtures('clean_db')
-def test_empty_value():
-    """Tests that an observable with an empty value can't be created."""
-    with pytest.raises(ValidationError):
-        Observable(value=None)
 
 
 GUESS_RESULTS = [

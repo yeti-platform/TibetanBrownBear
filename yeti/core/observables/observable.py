@@ -38,9 +38,10 @@ class Observable(StixCYBOX):
     def guess_type(cls, string):
         """Guesses an observable's type given a string."""
         if string.strip():
-            for datatype in cls.datatypes.values():
-                if datatype.validate_string(string):
-                    return datatype
+            for key, datatype in cls.datatypes.items():
+                if key in ['ipv4-addr', 'url', 'domain-name']:
+                    if datatype.validate_string(string):
+                        return datatype
         return False
 
     @classmethod

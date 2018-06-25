@@ -10,7 +10,6 @@ from yeti.core.errors import ValidationError
 def test_url_creation():
     """Tests the creation of a single url."""
     obs = URL(value='http://asd.com')
-    assert obs.id is None
     obs = obs.save()
     assert isinstance(obs, URL)
     assert obs.id is not None
@@ -20,14 +19,13 @@ def test_url_attributes():
     """Tests that a created URL has all needed attributes."""
     allitems = URL.list()
     for url in allitems:
-        assert hasattr(url, 'parsed')
-        assert url.parsed is not None
+        assert isinstance(url.value, str)
 
 @pytest.mark.usefixtures('clean_db')
 def test_url_fetch():
     """Tests that a fetched URL is of the correct type."""
     obs = URL(value='http://asd.com').save()
-    fetched_obs = URL.get(obs.id)
+    fetched_obs = URL.get(obs.value)
     assert isinstance(fetched_obs, URL)
     assert fetched_obs.id == obs.id
 
@@ -37,13 +35,6 @@ def test_urls_list():
     allitems = URL.list()
     assert isinstance(allitems[0], URL)
     assert len(allitems) == 10
-
-@pytest.mark.usefixtures('clean_db')
-def test_url_formatting():
-    """Tests that observables are formatted correctly when printed."""
-    obs = URL(value='http://asd.com/').save()
-    assert str(obs) == "<URL('http://asd.com/')>"
-
 
 # Normalization and validation tests
 
