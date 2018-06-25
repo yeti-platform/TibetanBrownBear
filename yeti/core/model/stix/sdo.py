@@ -108,11 +108,14 @@ class StixSDO(StixObject):
         if isinstance(args, list):
             return [subclass.load(item) for item in args]
         args.pop('_key', None)
-        args.pop('_id', None)
+        db_id = args.pop('_id', None)
         args.pop('_rev', None)
         args['id'] = args.pop('stix_id', None)
         try:
-            return subclass(**args)
+            obj = subclass(**args)
+            if db_id:
+                obj._arango_id = db_id
+            return obj
         except Exception as err:
             raise ValidationError(str(err))
 

@@ -69,7 +69,7 @@ class StixCYBOX(StixObject):
 
     @classmethod
     def load(cls, args, strict=True):
-        """Translate information from the backend into a valid STIX definition.
+        """Translate serialized information into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.
 
@@ -89,10 +89,12 @@ class StixCYBOX(StixObject):
             return [subclass.load(item) for item in args]
         if '_key' in args:
             args['id'] = int(args.pop('_key'))
-        args.pop('_id', None)
+        db_id = args.pop('_id', None)
         args.pop('_rev', None)
         try:
             observable = subclass(**args)
+            if db_id:
+                observable._arango_id = db_id
             return observable
         except Exception as err:
             raise ValidationError(str(err))

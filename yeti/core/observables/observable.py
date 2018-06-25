@@ -9,7 +9,7 @@ class Observable(StixCYBOX):
     type = None
     _type_filter = None
     _indexes = [
-        {'fields': ['value'], 'unique': False},
+        {'fields': ['value'], 'unique': True},
     ]
     _text_indexes = [
         {'fields': ['value']},

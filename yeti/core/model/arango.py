@@ -7,14 +7,16 @@ from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpd
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
+from stix2 import Relationship
 
 from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
 from .interfaces import AbstractYetiConnector
 
+
 LINK_TYPE_TO_GRAPH = {
     'tagged': 'tags',
-    'uses': 'entities',
+    'stix': 'stix',
 }
 
 class ArangoDatabase:
@@ -32,10 +34,10 @@ class ArangoDatabase:
             'from_vertex_collections': ['observables'],
             'to_vertex_collections': ['tags'],
         })
-        self.create_edge_definition(self.graph('entities'), {
-            'edge_collection': 'uses',
+        self.create_edge_definition(self.graph('stix'), {
+            'edge_collection': 'relationships',
             'from_vertex_collections': ['entities'],
-            'to_vertex_collections': ['observables', 'entities'],
+            'to_vertex_collections': ['entities'],
         })
         # entities, observables, and tags are already created
         self.collection('indicators')
@@ -256,20 +258,24 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except IntegrityError:
             return cls.find(**kwargs)
 
-    def link_to(self, target, attributes, link_type):
+    def link_to(self, link_type, target, attributes=None):
         """Creates a link between two YetiObjects.
 
         Args:
+          link_type: The type of link.
           target: The YetiObject to link to.
           attributes: A dictionary with attributes to add to the link.
-          link_type: The type of link.
         """
-        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
-        edge_collection = graph.edge_collection(link_type)
+        stix_rel = Relationship(relationship_type=link_type,
+                                source_ref=self.id,
+                                target_ref=target.id)
+
+        graph = self._db.graph('stix')
+        edge_collection = graph.edge_collection('relationships')
         document = {
             '_from': self._arango_id,
             '_to': target._arango_id,  # pylint: disable=protected-access
-            'attributes': attributes,
+            'attributes': stix_rel.serialize(),
         }
         return edge_collection.insert(document)
 
@@ -289,7 +295,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
               direct neighbors)
         """
         min_depth = 1 if not include_original else None
-        graph = self._db.graph(LINK_TYPE_TO_GRAPH[link_type])
+        graph = self._db.graph('stix')
         neighbors = graph.traverse(self._arango_id,
                                    direction=direction,
                                    min_depth=min_depth,
