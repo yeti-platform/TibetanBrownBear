@@ -15,12 +15,6 @@ class Observable(StixCYBOX):
         {'fields': ['value']},
     ]
 
-    @classmethod
-    def validate_string(cls, string):
-        if string:
-            return True
-        return False
-
     def is_valid(self):
         try:
             self.normalize()
@@ -30,9 +24,6 @@ class Observable(StixCYBOX):
         if not self.validate_string(self.value):
             raise ValidationError('Invalid {0:s} value: {1!r}'.format(
                 self.__class__.__name__, self.value))
-
-    def normalize(self):
-        pass
 
     @classmethod
     def guess_type(cls, string):
@@ -63,45 +54,3 @@ class Observable(StixCYBOX):
             return obj.save()
         except IntegrityError:
             return cls.find(value=obj.value)
-
-    def tag(self, tags, strict=False):
-        """Tags an Observable.
-
-        Args:
-          tags: A list of strings to tag the Observable with.
-          strict: boolean, if True will remove tags that exist in the observable
-              but are not provided in "tag"
-
-        """
-        if self.tags is None:
-            self.tags = []
-        now = datetime.utcnow()
-
-        # NOTE: This may be a bit complex for large amounts of tagrefs in a
-        # single observable. Maybe use custom DictFields for TagRefs or similar?
-        # See https://github.com/marshmallow-code/marshmallow/issues/432
-        # for possible solution.
-
-        newtags = list(set(tags))  # dedup tags
-        tagref_names = {tagref.name: tagref for tagref in self.tags}
-
-        if strict:  # Remove all tags that are not included in `newtags`
-            self.tags = [tag for tag in self.tags if tag.name in newtags]
-
-        for tag in newtags:
-            if tag in tagref_names:
-                # Tag is found, update .last_seen and .fresh
-                tagref_names[tag].last_seen = now
-                tagref_names[tag].fresh = True
-                continue
-            newtag = Tag.get_or_create(name=tag)
-            # Tag was not found, create new TagReference
-            tagref = TagReference(
-                name=newtag.name,
-                expiration=now + newtag.default_expiration,
-                fresh=True,
-                first_seen=now,
-                last_seen=now)
-            self.tags.append(tagref)
-
-        self.save()
