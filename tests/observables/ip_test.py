@@ -24,7 +24,7 @@ def test_ip_attributes():
 def test_ip_fetch():
     """Tests that a fetched IP is of the correct type."""
     obs = IP(value='127.0.0.1').save()
-    fetched_obs = IP.get(obs.value)
+    fetched_obs = IP.get(obs.id)
     assert isinstance(fetched_obs, IP)
     assert fetched_obs.id == obs.id
 

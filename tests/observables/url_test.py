@@ -25,7 +25,7 @@ def test_url_attributes():
 def test_url_fetch():
     """Tests that a fetched URL is of the correct type."""
     obs = URL(value='http://asd.com').save()
-    fetched_obs = URL.get(obs.value)
+    fetched_obs = URL.get(obs.id)
     assert isinstance(fetched_obs, URL)
     assert fetched_obs.id == obs.id
 

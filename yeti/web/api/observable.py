@@ -70,19 +70,8 @@ class ObservableResource(GenericResource):
         """
         try:
             obj = get_object_or_404(self.resource_object, id)
-            dumped = obj.dump()
-            request_json = request.get_json()
-            tags = []
-            for tag in request_json.pop('tags', []):
-                tags.append(tag['name'] if isinstance(tag, dict) else tag)
-            dumped.update(request_json)
-            saved_object = self.resource_object.load(dumped).save()
-            saved_object.tag(tags, strict=True)
-            return saved_object
-
+            return obj.update(request.json)
         except GenericYetiError as err:
-            import traceback
-            traceback.print_exc()
             return err, 400
 
     @as_json

@@ -2,7 +2,7 @@
 import json
 
 from stix2 import parse_observable
-from stix2.exceptions import MissingPropertiesError, ParseError
+from stix2 import exceptions
 
 from yeti.core.errors import ValidationError, IntegrityError
 from .base import StixObject
@@ -33,7 +33,9 @@ class StixCYBOX(StixObject):
             stix_dict['type'] = self.type
         try:
             self._stix_object = parse_observable(stix_dict)
-        except (MissingPropertiesError, ParseError) as err:
+        except (exceptions.MissingPropertiesError,
+                exceptions.ParseError,
+                exceptions.ExtraPropertiesError) as err:
             raise ValidationError(str(err))
 
     def update(self, args):
@@ -46,17 +48,8 @@ class StixCYBOX(StixObject):
           The new version of the STIX object.
         """
         args['type'] = self.type
-        self._stix_object = self._stix_parse(args)
+        self._stix_parse(args)
         return self.save()
-
-    @classmethod
-    def get(cls, value):
-        """Fetches a STIX observable from the database given its value.
-
-        Returns:
-          A STIX object.
-        """
-        return cls.find(value=value)
 
     def dump(self, destination='db'):
         """Dumps an Observable object into it's STIX JSON representation.
@@ -70,7 +63,7 @@ class StixCYBOX(StixObject):
           The Observable's JSON representation in dictionary form.
         """
         serialized = json.loads(self._stix_object.serialize())
-        if destination == 'db':
+        if destination in ['db', 'web']:
             serialized['id'] = getattr(self, 'id', None)
         return serialized
 
@@ -94,7 +87,7 @@ class StixCYBOX(StixObject):
         subclass = cls.get_final_datatype(args)
         if isinstance(args, list):
             return [subclass.load(item) for item in args]
-        args['id'] = args.pop('_key', None)
+        args['id'] = int(args.pop('_key', None))
         args.pop('_id', None)
         args.pop('_rev', None)
         try:

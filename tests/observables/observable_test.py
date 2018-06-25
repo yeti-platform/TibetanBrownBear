@@ -14,7 +14,7 @@ from yeti.core.observables.ip import IP
 def test_observable_get():
     """Tests fetching a single observable by id."""
     obs = Hostname(value='asd.com').save()
-    fetched_obs = Observable.get(obs.value)
+    fetched_obs = Observable.get(obs.id)
     assert isinstance(fetched_obs, Observable)
     assert fetched_obs.id == obs.id
 

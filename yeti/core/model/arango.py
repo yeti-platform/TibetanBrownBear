@@ -232,8 +232,10 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
           A Yeti object.
         """
-        document = list(cls._get_collection().find(kwargs))[0]
-        return cls.load(document, strict=True)
+        document = list(cls._get_collection().find(kwargs))
+        if not document:
+            return None
+        return cls.load(document[0], strict=True)
 
     @classmethod
     def get_or_create(cls, **kwargs):

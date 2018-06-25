@@ -26,7 +26,7 @@ def test_hostname_attributes():
 def test_hostname_fetch():
     """Tests that a fetched Hostname is of the correct type."""
     obs = Hostname(value='asd.com').save()
-    fetched_obs = Hostname.get(obs.value)
+    fetched_obs = Hostname.get(obs.id)
     assert isinstance(fetched_obs, Hostname)
     assert fetched_obs.id == obs.id
 
