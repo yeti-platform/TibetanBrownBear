@@ -1,4 +1,4 @@
-import { createLocalVue, shallow } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import NewEntity from '@/components/Entities/NewEntity'
 import Router from 'vue-router'
 import { routes } from '@/router'
@@ -12,7 +12,7 @@ describe('NewEntity.vue', () => {
     let localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = shallow(NewEntity, {
+    wrapper = shallowMount(NewEntity, {
       localVue,
       router,
       propsData: {type: 'malware'}

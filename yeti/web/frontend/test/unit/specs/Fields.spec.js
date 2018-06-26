@@ -1,11 +1,11 @@
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 import Fields from '@/components/helpers/Fields'
 import mockObjects from '../__mocks__/mock_objects'
 
 describe('Fields.vue', () => {
   it('should correctly render generic text fields', () => {
-    let wrapper = shallow(Fields, {
+    let wrapper = shallowMount(Fields, {
       propsData: {
         field: {name: 'name', type: 'text'}, elt: mockObjects.mockMalware
       }
@@ -14,7 +14,7 @@ describe('Fields.vue', () => {
   })
 
   it('should correctly render list fields', () => {
-    let wrapper = shallow(Fields, {
+    let wrapper = shallowMount(Fields, {
       propsData: {
         field: {name: 'labels', type: 'list'}, elt: mockObjects.mockMalware
       }
@@ -25,7 +25,7 @@ describe('Fields.vue', () => {
   })
 
   // it('should correctly render datetime fields', () => {
-  //   let wrapper = shallow(Fields, {
+  //   let wrapper = shallowMount(Fields, {
   //     propsData: {
   //       field: {name: 'first_seen', type: 'datetime'}, elt: mockObjects.mockHostname.tags[0]
   //     }
@@ -35,7 +35,7 @@ describe('Fields.vue', () => {
   // })
 
   // it('should correctly render code fields', () => {
-  //   let wrapper = shallow(Fields, {
+  //   let wrapper = shallowMount(Fields, {
   //     propsData: {
   //       field: {name: 'pattern', type: 'code'}, elt: mockObjects.mockRegex
   //     }
@@ -44,7 +44,7 @@ describe('Fields.vue', () => {
   // })
 
   // it('should correctly handle tag fields', () => {
-  //   let wrapper = shallow(Fields, {
+  //   let wrapper = shallowMount(Fields, {
   //     propsData: {
   //       field: {name: 'tags', type: 'tags'}, elt: mockObjects.mockHostname
   //     }

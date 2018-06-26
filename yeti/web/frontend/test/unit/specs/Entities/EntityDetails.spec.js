@@ -1,4 +1,4 @@
-import { createLocalVue, shallow } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import EntityDetails from '@/components/Entities/EntityDetails'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -23,7 +23,7 @@ describe('EntityDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
-    localWrp = shallow(EntityDetails, {
+    localWrp = shallowMount(EntityDetails, {
       localVue,
       router,
       propsData: { id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b' }
