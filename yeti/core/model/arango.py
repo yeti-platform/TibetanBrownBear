@@ -327,9 +327,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
         for key in args:
             if key in ['value', 'name', 'type', 'stix_id']:
                 conditions.append('o.{0:s} =~ @{0:s}'.format(key))
-        aql_string = """
-        FOR o IN {0:s} FILTER {1:s} RETURN o
-        """.format(colname, ' AND '.join(conditions))
+        aql_string = "FOR o IN {0:s} FILTER {1:s} RETURN o".format(
+            colname, ' AND '.join(conditions))
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
         for doc in documents:
