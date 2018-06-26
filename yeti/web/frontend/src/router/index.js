@@ -11,11 +11,6 @@ import EntityList from '@/components/Entities/EntityList'
 import NewEntity from '@/components/Entities/NewEntity'
 import EntityDetails from '@/components/Entities/EntityDetails'
 
-import Indicators from '@/components/Indicators/Indicators'
-import IndicatorList from '@/components/Indicators/IndicatorList'
-import NewIndicator from '@/components/Indicators/NewIndicator'
-import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
-
 import AdminMain from '@/components/Admin/AdminMain'
 import Tags from '@/components/Admin/Tags'
 import Async from '@/components/Admin/Async'
@@ -23,8 +18,10 @@ import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
+const uuidRegex = '([a-z-]+--[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'
+
 export const entityRoutes = {
-  path: '/entities/:type([a-z]+)?',
+  path: '/entities/:type([a-z-]+)?',
   component: Entities,
   props: true,
   children: [
@@ -41,47 +38,15 @@ export const entityRoutes = {
       props: true
     },
     {
-      path: '/entities/:id(\\d+)',
+      path: '/entities/:id' + uuidRegex,
       name: 'EntityDetails',
       component: EntityDetails,
       props: true
     },
     {
       name: 'EntityEdit',
-      path: '/entities/:id(\\d+)/edit',
+      path: '/entities/:id' + uuidRegex + '/edit',
       component: EntityDetails,
-      props: (route) => { return {id: route.params.id, edit: true} }
-    }
-  ]
-}
-
-export const indicatorRoutes = {
-  path: '/indicators/:type([a-z]+)?',
-  component: Indicators,
-  props: true,
-  children: [
-    {
-      path: '',
-      name: 'IndicatorList',
-      component: IndicatorList,
-      props: true
-    },
-    {
-      path: 'new',
-      name: 'NewIndicator',
-      component: NewIndicator,
-      props: true
-    },
-    {
-      path: '/indicators/:id(\\d+)',
-      name: 'IndicatorDetails',
-      component: IndicatorDetails,
-      props: true
-    },
-    {
-      name: 'IndicatorEdit',
-      path: '/indicators/:id(\\d+)/edit',
-      component: IndicatorDetails,
       props: (route) => { return {id: route.params.id, edit: true} }
     }
   ]
@@ -141,8 +106,6 @@ export const routes = [
   observableRoutes,
   // Entities
   entityRoutes,
-  // Indicators
-  indicatorRoutes,
   // Settings
   settingsRoutes,
   {

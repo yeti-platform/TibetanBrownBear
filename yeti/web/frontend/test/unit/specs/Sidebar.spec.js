@@ -14,7 +14,7 @@ describe('Sidebar.vue', () => {
     wrapper = shallow(Sidebar, {
       localVue,
       router,
-      propsData: { id: 510808 }
+      propsData: { id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b' }
     })
   })
 

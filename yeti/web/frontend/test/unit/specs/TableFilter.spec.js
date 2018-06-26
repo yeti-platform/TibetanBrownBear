@@ -16,7 +16,7 @@ const mockFilterParams = {
   apiPath: '/fake/api/path',
   fields: [
     {name: 'name', type: 'text'},
-    {name: 'family', type: 'list'}
+    {name: 'labels', type: 'list'}
   ],
   queryKey: 'name',
   typeFilter: 'malware'

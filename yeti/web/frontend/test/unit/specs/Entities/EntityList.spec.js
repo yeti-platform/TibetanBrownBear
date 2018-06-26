@@ -8,7 +8,7 @@ describe('EntityList.vue', () => {
   it('Fields are correctly determined with type', () => {
     expect(wrapper.vm.filterParams.fields).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'family', type: 'list'}
+      {name: 'labels', type: 'list'}
     ])
   })
 })

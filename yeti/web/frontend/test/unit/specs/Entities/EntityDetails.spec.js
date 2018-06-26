@@ -26,7 +26,7 @@ describe('EntityDetails.vue', () => {
     localWrp = shallow(EntityDetails, {
       localVue,
       router,
-      propsData: { id: 510808 }
+      propsData: { id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b' }
     })
   })
 
@@ -36,7 +36,7 @@ describe('EntityDetails.vue', () => {
   })
 
   it('the ID value is correctly assigned as a prop', () => {
-    expect(localWrp.vm.id).toBe(510808)
+    expect(localWrp.vm.id).toBe('malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
   })
 
   it('the loading text is correctly displayed', () => {
@@ -51,7 +51,7 @@ describe('EntityDetails.vue', () => {
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.entityFields).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'family', type: 'list', autocompleteValues: ['trojan', 'banker']}
+      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
     ])
   })
 
@@ -64,17 +64,17 @@ describe('EntityDetails.vue', () => {
   it('object is correctly fetched', (done) => {
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/510808')
+      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
       expect(localWrp.vm.entity).toBe(mockMalwareObject)
       done()
     })
   })
 
   it('not found responses are assigned to the error attribute', (done) => {
-    localWrp.vm.id = 12345
+    localWrp.vm.id = 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b'
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/12345')
+      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
       done()
     })
   })

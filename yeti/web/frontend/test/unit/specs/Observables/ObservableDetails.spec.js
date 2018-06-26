@@ -45,7 +45,7 @@ describe('ObservableDetails.vue', () => {
   })
 
   it('correctly parses the observable type', () => {
-    expect(localWrp.vm.observableType).toBe('hostname')
+    expect(localWrp.vm.observableType).toBe('domain-name')
   })
 
   it('correctly determines the fields depending on the type', () => {

@@ -27,14 +27,14 @@ describe('NewEntity.vue', () => {
   it('Fields default fields are correct', () => {
     expect(wrapper.vm.defaultFields[wrapper.vm.type]).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'family', type: 'list'}
+      {name: 'labels', type: 'list'}
     ])
   })
 
   it('Fields default objects are correct given the type', () => {
     expect(wrapper.vm.defaultObjects[wrapper.vm.type]).toEqual({
-      type: 'entity.malware',
-      family: []
+      type: 'malware',
+      labels: []
     })
   })
 
@@ -43,8 +43,8 @@ describe('NewEntity.vue', () => {
     wrapper.vm.navigateToNew(mockObjects.mockMalware)
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: 'EntityDetails',
-      params: {id: 510808},
-      path: '/entities/510808'
+      params: {id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b'},
+      path: '/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b'
     })
   })
 })
