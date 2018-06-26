@@ -127,6 +127,9 @@ class ArangoYetiConnector(AbstractYetiConnector):
     """Yeti connector for an ArangoDB backend."""
     _db = db
 
+    def __init__(self):
+        self._arango_id = None
+
     @classmethod
     def load(cls, args, strict=False):
         """Loads data from a dictionary into the corresponding YetiObject.

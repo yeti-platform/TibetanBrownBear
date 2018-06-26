@@ -4,7 +4,7 @@ import json
 from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError
 
-from yeti.core.errors import ValidationError, IntegrityError
+from yeti.core.errors import ValidationError
 from .base import StixObject
 
 class StixSDO(StixObject):

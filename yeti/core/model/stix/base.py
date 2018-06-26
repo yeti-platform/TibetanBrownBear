@@ -11,6 +11,16 @@ class StixObject(YetiObject):
       name: Entity name
     """
 
+    def __init__(self, **stix_dict):
+        """Initializes an Entity's STIX object.
+
+        Args:
+          stix_dict: The dictionary to use to create the STIX object.
+        """
+        self._stix_object = None
+        self._stix_parse(stix_dict)
+        super().__init__()
+
     @abstractmethod
     def _stix_parse(self, stix_dict):
         """Parses a dictionary into an actual STIX2 SDO or Observable.
@@ -23,19 +33,6 @@ class StixObject(YetiObject):
               standard.
         """
         raise NotImplementedError
-
-    # We don't want to call YetiObject's init method since this would set all
-    # attributes in stix_dict in the Entity object; we want them in
-    # _stix_object.
-    # pylint: disable=super-init-not-called
-    def __init__(self, **stix_dict):
-        """Initializes an Entity's STIX object.
-
-        Args:
-          stix_dict: The dictionary to use to create the STIX object.
-        """
-        self._stix_object = None
-        self._stix_parse(stix_dict)
 
     @classmethod
     def list(cls):
