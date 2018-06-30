@@ -114,30 +114,13 @@ class StixSDO(StixObject):
         Will instantiate a STIX object from that definition.
 
         Args:
-          args: The dictionary to use to create the STIX object.
-          strict: Unused, kept to be consistent with overriden method
+          args: The dictionary to use to create the STIX objectself.
+          strict: Unused, kept to be consistent wih overridden method.
 
         Returns:
-          The corresponding STIX objet.
-
-        Raises:
-          ValidationError: If a STIX object could not be instantiated from the
-              serialized data.
+          The corresponding STIX objects.
         """
-        subclass = cls.get_final_datatype(args)
-        if isinstance(args, list):
-            return [subclass.load(item) for item in args]
-        args.pop('_key', None)
-        db_id = args.pop('_id', None)
-        args.pop('_rev', None)
-        args['id'] = args.pop('stix_id', None)
-        try:
-            obj = subclass(**args)
-            if db_id:
-                obj._arango_id = db_id
-            return obj
-        except Exception as err:
-            raise ValidationError(str(err))
+        return cls.load_stix(args)
 
     @property
     def type(self):

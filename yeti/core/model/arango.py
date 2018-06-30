@@ -145,6 +145,38 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except MarshmallowValidationError as e:
             raise ValidationError(e.messages)
 
+    @classmethod
+    def load_stix(cls, args):
+        """Translate information from the backend into a valid STIX definition.
+
+        Will instantiate a STIX object from that definition.
+
+        Args:
+          args: The dictionary to use to create the STIX object.
+          strict: Unused, kept to be consistent with overriden method
+
+        Returns:
+          The corresponding STIX objet.
+
+        Raises:
+          ValidationError: If a STIX object could not be instantiated from the
+              serialized data.
+        """
+        subclass = cls.get_final_datatype(args)
+        if isinstance(args, list):
+            return [subclass.load(item) for item in args]
+        db_id = args.pop('_id', None)
+        args.pop('_key', None)
+        args.pop('_rev', None)
+        args['id'] = args.pop('stix_id', None)
+        try:
+            obj = subclass(**args)
+            if db_id:
+                obj._arango_id = db_id
+            return obj
+        except Exception as err:
+            raise ValidationError(str(err))
+
     def dump(self, destination='db'):
         """Dumps a Yeti object into a JSON representation.
 
