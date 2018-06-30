@@ -62,10 +62,11 @@ class StixSDO(StixObject):
 
     def all_versions(self):
         """Returns all versions of a STIX object given its key.
+
         Returns:
           A list of STIX objects.
         """
-        return self.filter({'stix_id': self.id})
+        return super().filter({'stix_id': self.id})
 
     @classmethod
     def filter(cls, args):
