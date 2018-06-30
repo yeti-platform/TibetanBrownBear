@@ -54,12 +54,9 @@ class StixSDO(StixObject):
         all_versions = cls.filter({'stix_id': key})
         if not all_versions:
             return None
-        modified = all_versions[0].modified
         winner = all_versions[0]
         for version in all_versions:
-            parsed_timestamp = version.modified
-            if parsed_timestamp > modified:
-                modified = parsed_timestamp
+            if version.modified > winner.modified:
                 winner = version
         return winner
 
@@ -69,6 +66,28 @@ class StixSDO(StixObject):
           A list of STIX objects.
         """
         return self.filter({'stix_id': self.id})
+
+    @classmethod
+    def filter(cls, args):
+        """Return the latest versions of matching STIX SDOs.
+
+        Args:
+            args: A key:value dictionary containing a 'value' or 'name' key
+              defining the regular expression to match against.
+
+        Returns:
+          A List of Yeti objects.
+        """
+        all_versions = super().filter(args)
+        latest_versions = {}
+        for version in all_versions:
+            stored = latest_versions.get(version.id)
+            if not stored:
+                latest_versions[version.id] = version
+                continue
+            if version.modified > stored.modified:
+                latest_versions[version.id] = version
+        return list(latest_versions.values())
 
     def dump(self, destination='db'):
         """Dumps an Entity object into its STIX JSON representation.
