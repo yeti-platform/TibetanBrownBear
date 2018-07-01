@@ -172,7 +172,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         try:
             obj = subclass(**args)
             if db_id:
-                obj._arango_id = db_id
+                obj._arango_id = db_id  # pylint: ignore=protected-access
             return obj
         except Exception as err:
             raise ValidationError(str(err))
