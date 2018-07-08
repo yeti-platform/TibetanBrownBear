@@ -1,10 +1,11 @@
+# pylint: disable=wrong-import-position
+
 import pytest
 
 from yeti.common.config import yeti_config
 # Make sure we are not deleting the user's database when running tests
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
-# pylint: disable=wrong-import-position
 from yeti.core.model.arango import db
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
@@ -14,7 +15,12 @@ from yeti.core.observables.url import URL
 from yeti.core.observables.ip import IP
 from yeti.core.observables.tag import Tag
 
+# Async jobs
 from yeti.core import async
+
+# Settings
+from yeti.core.model.settings.vocabs import Vocabs
+
 
 class FastDummyFeed(async.AsyncJob):
     def execute(self):
@@ -45,8 +51,14 @@ def clean_db():
     Observable._get_collection()
     Hostname._get_collection()
     Tag._get_collection()
+    Vocabs._get_collection()
     db.clear()
 
+@pytest.fixture
+def populate_settings():
+    vocabs = Vocabs().save()
+    vocabs.set_vocab_for_field('Malware.type', sorted(['trojan', 'banker']))
+    return [vocabs]
 
 @pytest.fixture
 def populate_hostnames():

@@ -13,3 +13,7 @@ class ValidationError(GenericYetiError):
 
 class IntegrityError(GenericYetiError):
     type = 'IntegrityError'
+
+
+class RuntimeException(GenericYetiError):
+    type = 'RuntimeError'
