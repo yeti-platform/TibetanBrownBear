@@ -6,10 +6,13 @@ from yeti.core.entities.malware import Malware
 
 @pytest.mark.usefixtures("clean_db")
 def test_link(populate_malware):
-    mal = populate_malware[0]
-    mal2 = populate_malware[1]
-    mal.link_to('uses', mal2)
-    neighbors = mal.neighbors('uses')
-    assert len(neighbors) == 1
-    assert isinstance(neighbors[0], Malware)
-    assert neighbors[0].name == 'Sofacy'
+    """Tests that neighbors are consistent with links in the database."""
+    mal1, mal2, mal3 = populate_malware
+    mal1.link_to('uses', mal2)
+    mal1.link_to('uses', mal3)
+    neighbors = mal1.neighbors('uses')
+    assert len(neighbors) == 2
+    assert isinstance(neighbors['vertices'][0], Malware)
+    names = [n.name for n in neighbors['vertices']]
+    assert 'Sofacy' in names
+    assert 'Zeus' in names

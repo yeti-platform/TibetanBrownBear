@@ -38,6 +38,24 @@ class GenericResource(FlaskView):
         """
         return get_object_or_404(self.resource_object, id)
 
+    @as_json
+    @route('/<id>/neighbors/', methods=['GET'])
+    def neighbors(self, id):  # pylint: disable=redefined-builtin
+        """Fetch objects an object is related to.
+
+        A (relationships_list, objects_list) tuple is built, the first list
+        representing all the relationship data for a given object, the second
+        list is all the objects referenced by those relationships.
+
+        Args:
+            id: The object's primary ID.
+
+        Returns:
+            A JSON representation of the object's relationships.
+        """
+        obj = get_object_or_404(self.resource_object, id)
+        return obj.neighbors()
+
     @route('/', methods=['POST'])
     @as_json
     def post(self):

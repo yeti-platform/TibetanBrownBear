@@ -91,6 +91,8 @@ def populate_malware():
     malware.append(m1)
     m2 = Malware(name='Sofacy', labels=['apt']).save()
     malware.append(m2)
+    m3 = Malware(name='Zeus', labels=['trojan']).save()
+    malware.append(m3)
     return malware
 
 @pytest.fixture

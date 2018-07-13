@@ -172,7 +172,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         try:
             obj = subclass(**args)
             if db_id:
-                obj._arango_id = db_id  # pylint: ignore=protected-access
+                obj._arango_id = db_id  # pylint: disable=protected-access
             return obj
         except Exception as err:
             raise ValidationError(str(err))
@@ -316,7 +316,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     # pylint: disable=too-many-arguments
     def neighbors(self,
-                  link_type,
+                  link_type=None,
                   direction='any',
                   include_original=False,
                   hops=1,
@@ -334,10 +334,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
         neighbors = graph.traverse(self._arango_id,
                                    direction=direction,
                                    min_depth=min_depth,
-                                   max_depth=hops)['vertices']
+                                   max_depth=hops)
+        edges = []
+        for path in neighbors['paths']:
+            for edge in path['edges']:
+                edges.append(edge)
         if raw:
-            return neighbors
-        return self.load(neighbors)
+            return {'edges': edges, 'vertices': neighbors['vertices']}
+        return {'edges': edges, 'vertices': self.load(neighbors['vertices'])}
 
 
     @classmethod
