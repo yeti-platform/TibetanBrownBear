@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3249eee14ac5a3209e7fbbadaba5d2a5b70dda4ca2dee83333efbfd197297035"
+            "sha256": "a0b6aba85b4b314f700acd20975333aa1ade593ad9357d791c1bd5f752c275f7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -770,6 +770,10 @@
             ],
             "index": "pypi",
             "version": "==3.8.1"
+        },
+        "yeti": {
+            "editable": true,
+            "path": "."
         }
     }
 }
