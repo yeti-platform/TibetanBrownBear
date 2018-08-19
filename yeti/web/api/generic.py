@@ -9,7 +9,7 @@ from ..helpers import as_json, get_object_or_404
 
 
 @parser.error_handler
-def handle_args(err, unused_response):
+def handle_args(err, unused_response, unused_schema):
     raise ValidationError(err.messages)
 
 class GenericResource(FlaskView):
