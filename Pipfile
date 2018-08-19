@@ -19,7 +19,7 @@ rq = "*"
 "stix2" = "*"
 
 [dev-packages]
-pytest = "*"
+pytest = "==3.6.2"
 pytest-cov = "*"
 "e1839a8" = {path = ".", editable = true}
 pylint = "*"
