@@ -34,7 +34,6 @@ script:
 
 after_success:
   - codecov
-  - cd ../../../ && codecov
 
 notifications:
   slack:
