@@ -21,7 +21,6 @@ before_install:
 install:
   - pip install pipenv
   - pipenv install --dev --system --deploy
-  - pipenv install codecov
   - cd yeti/web/frontend && npm install
   - cd ../../../
 
