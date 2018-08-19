@@ -3,9 +3,9 @@
     Graph
     <table class='table'>
       <tr><th>Link name</th><th>Object</th></tr>
-      <tr v-for="edge in graph['edges']"
+      <tr v-for="edge in graph.edges"
           v-bind:key='edge._id'>
-        <td>{{edge['relationship_type']}}</td><td>{{graph['vertices'][edge['source_ref']]['name']}}</td>
+        <td>{{edge.relationship_type}}</td><td>{{getVerticeForEdge(graph, edge)}}</td>
       </tr>
     </table>
   </div>
@@ -38,6 +38,12 @@ export default {
           console.log('Got ' + response.data.edges.length + ' edges')
           this.graph = response.data
         })
+    },
+    getVerticeForEdge (graph, edge) {
+      if (edge.source_ref === this.object.id) {
+        return graph.vertices[edge.target_ref].name
+      }
+      return graph.vertices[edge.source_ref].name
     }
   },
   watch: {
