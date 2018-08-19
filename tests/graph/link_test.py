@@ -12,7 +12,7 @@ def test_link(populate_malware):
     mal1.link_to('uses', mal3)
     neighbors = mal1.neighbors('uses')
     assert len(neighbors) == 2
-    assert isinstance(neighbors['vertices'][0], Malware)
-    names = [n.name for n in neighbors['vertices']]
+    assert isinstance(neighbors['vertices'][mal2.id], Malware)
+    names = [n.name for n in neighbors['vertices'].values()]
     assert 'Sofacy' in names
     assert 'Zeus' in names

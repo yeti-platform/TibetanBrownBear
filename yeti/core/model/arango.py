@@ -338,7 +338,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
                                    max_depth=hops)
         edges = []
         for path in neighbors['paths']:
-            edges = self._build_edges(path['edges'])
+            edges.extend(self._build_edges(path['edges']))
 
         if raw:
             vertices = self._build_vertices(neighbors['vertices'].items())
