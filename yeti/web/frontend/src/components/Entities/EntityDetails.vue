@@ -10,6 +10,7 @@
       {{entity.description || 'No description'}}
     </div>
     <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
+    <links :object="entity"/>
   </div>
 
   <!--  Edit form -->
@@ -26,6 +27,7 @@
 <script>
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
+import Links from '@/components/Graph/Links'
 import Fields from '@/components/helpers/Fields'
 
 const typeFields = {
@@ -50,7 +52,8 @@ export default {
   props: { id: [Number, String], edit: Boolean },
   components: {
     YetiForm,
-    Fields
+    Fields,
+    Links
   },
   beforeRouteUpdate (to, from, next) { // how do we test this?
     this.fetchInfo()

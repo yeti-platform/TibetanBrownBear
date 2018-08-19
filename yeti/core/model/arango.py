@@ -1,6 +1,7 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
 import time
 import sys
+import json
 
 from arango import ArangoClient
 from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpdateError
@@ -337,12 +338,20 @@ class ArangoYetiConnector(AbstractYetiConnector):
                                    max_depth=hops)
         edges = []
         for path in neighbors['paths']:
-            for edge in path['edges']:
-                edges.append(edge)
-        if raw:
-            return {'edges': edges, 'vertices': neighbors['vertices']}
-        return {'edges': edges, 'vertices': self.load(neighbors['vertices'])}
+            edges = self._build_edges(path['edges'])
 
+        if raw:
+            vertices = self._build_vertices(neighbors['vertices'].items())
+        else:
+            vertices = {n.id: n for n in self.load(neighbors['vertices'])}
+
+        return {'edges': edges, 'vertices': vertices}
+
+    def _build_edges(self, arango_edges):
+        return [json.loads(edge['attributes']) for edge in arango_edges]
+
+    def _build_vertices(self, arango_vertices):
+        return {vert['id']: vert for vert in arango_vertices}
 
     @classmethod
     def filter(cls, args):
