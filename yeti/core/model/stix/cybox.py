@@ -4,7 +4,7 @@ import json
 from stix2 import parse_observable
 from stix2 import exceptions
 
-from yeti.core.errors import ValidationError, IntegrityError
+from yeti.core.errors import ValidationError
 from .base import StixObject
 
 class StixCYBOX(StixObject):
@@ -68,7 +68,7 @@ class StixCYBOX(StixObject):
         return serialized
 
     @classmethod
-    def load(cls, args, strict=True):
+    def load(cls, args, strict=True):  # pylint: disable=unused-argument
         """Translate serialized information into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.

@@ -5,10 +5,10 @@ import json
 
 import idna
 from tldextract import extract
+from stix2 import DomainName
 
 from yeti.core.helpers import refang
 from .observable import Observable
-from stix2 import DomainName
 
 MAIN_REGEX = r'([-.\w]+)?[^-]\[?\.\]?[a-z]+'
 FULL_REGEX = r'(?P<pre>\W?)(?P<search>' + MAIN_REGEX + r')(?P<post>\W?)'

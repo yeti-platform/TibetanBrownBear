@@ -57,7 +57,6 @@ def test_put_fail_on_invalid_fields(populate_hostnames):
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
                     data=json.dumps({'asd': 'qwe.com'}),
                     content_type='application/json')
-    response = json.loads(rv.data)
     assert rv.status_code == 400
 
 @pytest.mark.usefixtures("clean_db", "populate_hostnames")

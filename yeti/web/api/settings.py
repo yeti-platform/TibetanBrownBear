@@ -1,10 +1,9 @@
 from flask_classful import FlaskView, route
-from flask import request, abort
+from flask import request
 
 from yeti.core.model.settings.setting import Setting
-from yeti.core.model.settings.vocabs import Vocabs
 from yeti.core.errors import RuntimeException
-from ..helpers import as_json, get_object_or_404
+from ..helpers import as_json
 
 class SettingsResource(FlaskView):
     """Class describing resources to manipulate Yeti settings."""

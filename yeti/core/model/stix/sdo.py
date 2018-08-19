@@ -108,7 +108,7 @@ class StixSDO(StixObject):
         return serialized
 
     @classmethod
-    def load(cls, args, strict=True):
+    def load(cls, args, strict=True):  # pylint: disable=unused-argument
         """Translate information from the backend into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.
