@@ -4,4 +4,4 @@ extension-pkg-whitelist=yara
 
 [MESSAGES CONTROL]
 
-disable=import-error,missing-docstring,no-member,invalid-name,too-few-public-methods,no-name-in-module,no-self-use
+disable=import-error,missing-docstring,no-member,invalid-name,too-few-public-methods,no-name-in-module,no-self-use,too-many-ancestors
