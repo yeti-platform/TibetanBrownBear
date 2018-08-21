@@ -120,7 +120,7 @@ class StixSDO(StixObject):
         Returns:
           The corresponding STIX objects.
         """
-        return cls.load_stix(args)
+        return cls._load_stix(args)
 
     @property
     def type(self):

@@ -147,7 +147,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             raise ValidationError(e.messages)
 
     @classmethod
-    def load_stix(cls, args):
+    def _load_stix(cls, args):
         """Translate information from the backend into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.
@@ -163,13 +163,16 @@ class ArangoYetiConnector(AbstractYetiConnector):
           ValidationError: If a STIX object could not be instantiated from the
               serialized data.
         """
-        subclass = cls.get_final_datatype(args)
         if isinstance(args, list):
-            return [subclass.load(item) for item in args]
+            return [cls._load_stix(item) for item in args]
+        subclass = cls.get_final_datatype(args)
         db_id = args.pop('_id', None)
-        args.pop('_key', None)
         args.pop('_rev', None)
-        args['id'] = args.pop('stix_id', None)
+        if 'stix_id' in args:
+            args['id'] = args.pop('stix_id')
+        elif '_key' in args:
+            args['id'] = int(args.pop('_key'))
+        args.pop('_key', None)
         try:
             obj = subclass(**args)
             if db_id:

@@ -84,20 +84,7 @@ class StixCYBOX(StixObject):
           ValidationError: If a STIX object could not be instantiated from the
               serialized data.
         """
-        subclass = cls.get_final_datatype(args)
-        if isinstance(args, list):
-            return [subclass.load(item) for item in args]
-        if '_key' in args:
-            args['id'] = int(args.pop('_key'))
-        db_id = args.pop('_id', None)
-        args.pop('_rev', None)
-        try:
-            observable = subclass(**args)
-            if db_id:
-                observable._arango_id = db_id
-            return observable
-        except Exception as err:
-            raise ValidationError(str(err))
+        return cls._load_stix(args)
 
 
     @property
