@@ -15,8 +15,13 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def dump(self):
-        """Dump a YetiObject into its JSON representation."""
+    def dump(self, destination='db'):
+        """Dump a YetiObject into its JSON representation.
+
+        Args:
+           destination: The destination the serialized data is going to. One of
+               {web,db}
+        """
         raise NotImplementedError
 
     @abstractmethod
@@ -72,31 +77,30 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def link_to(self, target, attributes, link_type):
+    def link_to(self, link_type, target, attributes=None):
         """Creates a link from an existing object to a target object.
 
         Args:
+          link_type: The type of link.
           target: The YetiObject to link to.
           attributes: A dictionary with attributes to add to the link.
-          link_type: The type of link.
         """
         raise NotImplementedError
 
     @abstractmethod
     # pylint: disable=too-many-arguments
-    def neighbors(self,
-                  link_type,
-                  direction='any',
-                  include_original=False,
-                  hops=1,
-                  raw=False):
+    def neighbors(self, link_type, direction='any', include_original=False,
+                  hops=1, raw=False):
         """Fetches neighbors of the YetiObject.
 
         Args:
           link_type: The type of link.
           direction: outbound, inbound, or any.
+          include_original: Whether the original object is to be included in the
+              result or not.
           hops: The maximum number of nodes to go through (defaults to 1:
               direct neighbors)
+          raw: Whether to return a raw dictionary or a Yeti object.
         """
         raise NotImplementedError
 

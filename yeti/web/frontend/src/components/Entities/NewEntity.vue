@@ -17,20 +17,22 @@ export default {
     return {
       defaultObjects: {
         malware: {
-          type: 'entity.malware',
-          family: []
+          type: 'malware',
+          labels: []
         },
-        actor: {
-          type: 'entity.actor'
+        'threat-actor': {
+          type: 'threat-actor',
+          labels: []
         }
       },
       defaultFields: {
         'malware': [
           {name: 'name', type: 'text'},
-          {name: 'family', type: 'list'}
+          {name: 'labels', type: 'list'}
         ],
-        'actor': [
-          {name: 'name', type: 'text'}
+        'threat-actor': [
+          {name: 'name', type: 'text'},
+          {name: 'labels', type: 'list'}
         ]
       }
     }

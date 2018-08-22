@@ -1,4 +1,4 @@
-import { createLocalVue, shallow } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Router from 'vue-router'
 import { routes } from '@/router'
 import axios from 'axios'
@@ -16,7 +16,7 @@ const mockFilterParams = {
   apiPath: '/fake/api/path',
   fields: [
     {name: 'name', type: 'text'},
-    {name: 'family', type: 'list'}
+    {name: 'labels', type: 'list'}
   ],
   queryKey: 'name',
   typeFilter: 'malware'
@@ -30,7 +30,7 @@ describe('TableFilter.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    wrapper = shallow(TableFilter, {
+    wrapper = shallowMount(TableFilter, {
       localVue,
       router,
       propsData: {

@@ -1,4 +1,4 @@
-import { createLocalVue, shallow } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import ObservableDetails from '@/components/Observables/ObservableDetails'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -23,7 +23,7 @@ describe('ObservableDetails.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
     fetchInfoSpy = jest.spyOn(ObservableDetails.methods, 'fetchInfo')
-    localWrp = shallow(ObservableDetails, {
+    localWrp = shallowMount(ObservableDetails, {
       localVue,
       router,
       propsData: { id: 483373 }
@@ -45,7 +45,7 @@ describe('ObservableDetails.vue', () => {
   })
 
   it('correctly parses the observable type', () => {
-    expect(localWrp.vm.observableType).toBe('hostname')
+    expect(localWrp.vm.observableType).toBe('domain-name')
   })
 
   it('correctly determines the fields depending on the type', () => {

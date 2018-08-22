@@ -12,13 +12,13 @@
 
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/entities">
-            <span data-feather="file"></span>Entities
+          <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'malware'}}">
+            <span data-feather="file"></span>Malware
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/indicators">
-            <span data-feather="file"></span>Indicators
+          <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'threat-actor'}}">
+            <span data-feather="file"></span>Actors
           </router-link>
         </li>
       </ul>

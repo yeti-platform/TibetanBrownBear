@@ -13,14 +13,15 @@ client = app.test_client()
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
 
-@pytest.mark.usefixtures("clean_db", "populate_hostnames")
-def test_index():
+@pytest.mark.usefixtures("clean_db")
+def test_index(populate_hostnames):
     """Test that a GET request fetches all Observables."""
     rv = client.get('/api/observables/')
     response = json.loads(rv.data)
-    assert len(response) == 10
+    assert len(response) == len(populate_hostnames)
+    print(response)
     for element in response:
-        assert isinstance(element['id'], int)
+        assert isinstance(element['value'], str)
 
 @pytest.mark.usefixtures("clean_db")
 def test_get(populate_hostnames):
@@ -28,7 +29,7 @@ def test_get(populate_hostnames):
     rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     response = json.loads(rv.data)
     assert isinstance(response, dict)
-    assert response['id'] == populate_hostnames[0].id
+    assert response['value'] == populate_hostnames[0].value
 
 @pytest.mark.usefixtures("clean_db")
 def test_get_notfound():
@@ -49,16 +50,14 @@ def test_put(populate_hostnames):
     assert response['value'] == 'qwe.com'
 
 @pytest.mark.usefixtures("clean_db")
-def test_put_ignore_invalid_fields(populate_hostnames):
+def test_put_fail_on_invalid_fields(populate_hostnames):
     """Tests updating a new object via PUT."""
     rv = client.get('/api/observables/{0:d}/'.format(populate_hostnames[0].id))
     observable_json = json.loads(rv.data)
     rv = client.put('/api/observables/{0:d}/'.format(observable_json['id']),
                     data=json.dumps({'asd': 'qwe.com'}),
                     content_type='application/json')
-    response = json.loads(rv.data)
-    assert rv.status_code == 200
-    assert 'asd' not in response
+    assert rv.status_code == 400
 
 @pytest.mark.usefixtures("clean_db", "populate_hostnames")
 def test_filter():
@@ -88,21 +87,7 @@ def test_subclass_serialization():
                      content_type='application/json')
     response = json.loads(rv.data)
     for item in response:
-        if item['type'] == 'observable.hostname':
-            assert item.get('idna', None) is not None
-        else:
-            assert item.get('idna', None) is None
-
-@pytest.mark.usefixtures("clean_db")
-def test_tag(populate_hostnames):
-    uri = '/api/observables/{0:d}/tag'.format(populate_hostnames[0].id)
-    rv = client.post(uri,
-                     data=json.dumps({'tags': ['tag1']}),
-                     content_type='application/json')
-    response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
-    assert response['tags']
-    assert 'tag1' in [tag['name'] for tag in response['tags']]
+        assert item['type'] == 'domain-name'
 
 @pytest.mark.usefixtures("clean_db", 'populate_hostnames', 'populate_urls')
 def test_match(populate_hostnames, populate_urls):

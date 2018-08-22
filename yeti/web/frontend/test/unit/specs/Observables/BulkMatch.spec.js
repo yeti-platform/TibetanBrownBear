@@ -1,4 +1,4 @@
-import { createLocalVue, shallow } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import BulkMatch from '@/components/Observables/BulkMatch'
 import Router from 'vue-router'
 import axios from 'axios'
@@ -21,7 +21,7 @@ describe('BulkMatch.vue', () => {
     localVue = createLocalVue()
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
-    localWrp = shallow(BulkMatch, {
+    localWrp = shallowMount(BulkMatch, {
       localVue,
       router
     })

@@ -6,10 +6,11 @@
     </div>
     <div v-else>
       <h3>{{entity.name}} <small>{{entity.type}}</small></h3>
-      <fields :field="{'type': 'list', 'name': 'family'}"  :elt="entity" />
+      <fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" />
       {{entity.description || 'No description'}}
     </div>
     <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
+    <links :object="entity"/>
   </div>
 
   <!--  Edit form -->
@@ -26,12 +27,13 @@
 <script>
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
+import Links from '@/components/Graph/Links'
 import Fields from '@/components/helpers/Fields'
 
 const typeFields = {
   'malware': [
     {name: 'name', type: 'text'},
-    {name: 'family', type: 'list', autocompleteValues: ['trojan', 'banker']}
+    {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
   ],
   'actor': [
     {name: 'name', type: 'text'}
@@ -50,7 +52,8 @@ export default {
   props: { id: [Number, String], edit: Boolean },
   components: {
     YetiForm,
-    Fields
+    Fields,
+    Links
   },
   beforeRouteUpdate (to, from, next) { // how do we test this?
     this.fetchInfo()

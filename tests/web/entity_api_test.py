@@ -13,22 +13,22 @@ client = app.test_client()
 # - Access to url_for objects to test routes
 # - Access to .json attribute of request
 
-@pytest.mark.usefixtures("clean_db", "populate_entities")
-def test_index():
+@pytest.mark.usefixtures("clean_db")
+def test_index(populate_malware):
     """Test that a GET request fetches all Entities."""
     rv = client.get('/api/entities/')
     response = json.loads(rv.data)
-    assert len(response) == 10
+    assert len(response) == len(populate_malware)
     for element in response:
-        assert isinstance(element['id'], int)
+        assert element['id'].startswith('malware--')
 
 @pytest.mark.usefixtures("clean_db")
-def test_get(populate_entities):
+def test_get(populate_malware):
     """Test fetching single Entity by ID."""
-    rv = client.get('/api/entities/{0:d}/'.format(populate_entities[0].id))
+    rv = client.get('/api/entities/{0:s}/'.format(populate_malware[0].id))
     response = json.loads(rv.data)
     assert isinstance(response, dict)
-    assert response['id'] == populate_entities[0].id
+    assert response['id'] == populate_malware[0].id
 
 @pytest.mark.usefixtures("clean_db")
 def test_get_notfound():
@@ -39,12 +39,12 @@ def test_get_notfound():
 @pytest.mark.usefixtures("clean_db")
 def test_post():
     """Tests the creation of a new Entity via POST."""
-    entity_json = {'name': 'asd', 'type': 'entity.malware'}
+    entity_json = {'name': 'Zeus', 'type': 'malware', 'labels': ['banker']}
     rv = client.post('/api/entities/',
                      data=json.dumps(entity_json),
                      content_type='application/json')
     response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
+    assert response['id'].startswith('malware--')
 
 @pytest.mark.usefixtures("clean_db")
 def test_wrong_type_raises_error():
@@ -56,35 +56,26 @@ def test_wrong_type_raises_error():
     assert rv.status_code == 400
     response = json.loads(rv.data)
     assert 'ValidationError' in response
-    assert 'is not a valid type for' in response['ValidationError']
+    error_message = response['ValidationError']
+    assert '"entity.notexist" not in acceptable datatypes' in error_message
 
 @pytest.mark.usefixtures("clean_db")
-def test_put(populate_entities):
+def test_put(populate_malware):
     """Tests updating a new object via PUT."""
-    rv = client.get('/api/entities/{0:d}/'.format(populate_entities[0].id))
+    rv = client.get('/api/entities/{0:s}/'.format(populate_malware[0].id))
     entity_json = json.loads(rv.data)
-    rv = client.put('/api/entities/{0:d}/'.format(entity_json['id']),
+    rv = client.put('/api/entities/{0:s}/'.format(entity_json['id']),
                     data=json.dumps({'name': 'NewEntity'}),
                     content_type='application/json')
     response = json.loads(rv.data)
-    assert isinstance(response['id'], int)
+    assert response['id'].startswith('malware--')
 
-@pytest.mark.usefixtures("clean_db", "populate_entities")
-def test_filter():
+@pytest.mark.usefixtures("clean_db")
+def test_filter(populate_malware):
     """Tests searching for specific Entitys based on a name regexp."""
-    entity_json = {'name': 'entity[0-4]'}
+    filter_query = {'name': populate_malware[0].name}
     rv = client.post('/api/entities/filter/',
-                     data=json.dumps(entity_json),
+                     data=json.dumps(filter_query),
                      content_type='application/json')
     response = json.loads(rv.data)
-    assert len(response) == 5
-
-@pytest.mark.usefixtures("clean_db", "populate_entities", "populate_malware")
-def test_subclass_serialization():
-    rv = client.get('/api/entities/')
-    response = json.loads(rv.data)
-    for item in response:
-        if item['type'] == 'entity.malware':
-            assert item.get('family', None) is not None
-        else:
-            assert item.get('family', None) is None
+    assert len(response) == 1

@@ -1,5 +1,8 @@
 <template>
+  <div>
     <table-filter :filter-params="filterParams" detailComponent="EntityDetails"/>
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -8,10 +11,11 @@ import TableFilter from '@/components/scaffolding/TableFilter'
 const typeFields = {
   'malware': [
     {name: 'name', type: 'text'},
-    {name: 'family', type: 'list'}
+    {name: 'labels', type: 'list'}
   ],
-  'actor': [
-    {name: 'name', type: 'text'}
+  'threat-actor': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'}
   ]
 }
 

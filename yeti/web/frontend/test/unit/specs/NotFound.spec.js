@@ -1,9 +1,9 @@
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 import NotFound from '@/components/NotFound'
 
 describe('NotFound.vue', () => {
-  let wrapper = shallow(NotFound)
+  let wrapper = shallowMount(NotFound)
 
   it('should render correct contents', () => {
     expect(wrapper.vm.$el.querySelector('p').textContent)

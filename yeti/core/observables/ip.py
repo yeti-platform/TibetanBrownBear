@@ -2,18 +2,12 @@
 
 import ipaddress
 
-from marshmallow import fields
+from stix2 import IPv4Address as STIXIPv4Address
 
 from yeti.core.helpers import refang
-from .observable import Observable, ObservableSchema
+from .observable import Observable
 
-class IPSchema(ObservableSchema):
-    """(De)serialization marshmallow.Schema for IP objects."""
-    geoip = fields.Dict(allow_none=True)
-    version = fields.Int(allow_none=True)
-    type = fields.String()
-
-class IP(Observable):
+class IP(Observable):  # pylint: disable=too-many-ancestors
     """IP Yeti object.
 
     Attributes:
@@ -21,12 +15,7 @@ class IP(Observable):
       version: The IP version (4 or 6).
     """
 
-    schema = IPSchema
-    _collection_name = 'observables'
-
-    type = 'observable.ip'
-    geoip = None
-    version = None
+    type = 'ipv4-addr'
 
     @classmethod
     def validate_string(cls, string):
@@ -38,9 +27,7 @@ class IP(Observable):
             return False
 
     def normalize(self):
-        self.value = refang(self.value)
-        ipaddr_object = ipaddress.ip_address(self.value)
-        self.value = str(ipaddr_object)
-        self.version = ipaddr_object.version
+        value = str(ipaddress.ip_address(refang(self.value)))
+        self._stix_object = STIXIPv4Address(value=value)
 
 Observable.datatypes[IP.type] = IP

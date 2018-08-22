@@ -18,6 +18,7 @@ class YetiObject(ArangoYetiConnector):
     datatypes = {}
 
     def __init__(self, **kwargs):
+        super().__init__()
         for key, value in kwargs.items():
             setattr(self, key, value)
         self.is_valid()
@@ -29,17 +30,19 @@ class YetiObject(ArangoYetiConnector):
 
     @classmethod
     def load_object_from_type(cls, obj, strict=False):
-        objtype = cls.datatypes.get(obj.get('type'), cls)
+        objtype = cls.get_final_datatype(obj)
         return objtype.schema(strict=strict).load(obj).data
 
     @classmethod
-    def get_realschema(cls, obj):
-        subtype = obj.get('type')
-        if cls.datatypes and subtype not in cls.datatypes:
-            raise ValidationError('{0:s} is not a valid type for {1:s}'.format(
-                subtype, cls.__name__
-            ))
-        return cls.datatypes.get(obj.get('type'), cls).schema
+    def get_final_datatype(cls, args):
+        subclass = cls
+        if 'type' in args:
+            if args['type'] not in cls.datatypes:
+                raise ValidationError(
+                    '"{0:s}" not in acceptable datatypes ({1!r})'.format(
+                        args['type'], cls.datatypes))
+            subclass = cls.datatypes[args['type']]
+        return subclass
 
     def is_valid(self):
         return True
@@ -48,6 +51,7 @@ class YetiObject(ArangoYetiConnector):
 class YetiSchema(ArangoYetiSchema):
     """Generic (de)serialization marshmallow.Schema object for Yeti objects."""
 
+    # pylint: disable=arguments-differ
     def handle_error(self, exc, data):
         """Log and raise our custom exception when (de)serialization fails."""
         error_dict = exc.messages

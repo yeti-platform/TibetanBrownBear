@@ -20,8 +20,7 @@ def test_hostname_attributes():
     """Tests that a created Hostname has all needed attributes."""
     allitems = Hostname.list()
     for hostname in allitems:
-        assert hasattr(hostname, 'idna')
-        assert hostname.idna is not None
+        assert hostname.value.startswith('asd')
 
 @pytest.mark.usefixtures('clean_db')
 def test_hostname_fetch():
@@ -37,12 +36,6 @@ def test_hostnames_list():
     allitems = Hostname.list()
     assert isinstance(allitems[0], Hostname)
     assert len(allitems) == 10
-
-@pytest.mark.usefixtures('clean_db')
-def test_hostname_formatting():
-    """Tests that observables are formatted correctly when printed."""
-    obs = Hostname(value='asd.com').save()
-    assert str(obs) == "<Hostname('asd.com')>"
 
 
 # Normalization and validation tests
@@ -66,11 +59,10 @@ FAILING_TESTS = (
 @pytest.mark.usefixtures('clean_db')
 def test_hostname_idna():
     """Tests that a Hostname's value and IDNA are correctly normalized."""
-    for value, expected, idna_value in NORMALIZATION_TESTS:
+    for value, expected, _ in NORMALIZATION_TESTS:
         obs = Hostname(value=value)
         obs.normalize()
         assert obs.value == expected
-        assert obs.idna == idna_value
 
 @pytest.mark.usefixtures('clean_db')
 def test_hostname_fails():

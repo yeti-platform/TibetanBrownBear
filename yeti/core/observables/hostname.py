@@ -1,37 +1,25 @@
 """Detail Yeti's Hostname object structure."""
 
 import re
+import json
 
 import idna
-from marshmallow import fields
 from tldextract import extract
+from stix2 import DomainName
 
 from yeti.core.helpers import refang
-from .observable import Observable, ObservableSchema
+from .observable import Observable
 
 MAIN_REGEX = r'([-.\w]+)?[^-]\[?\.\]?[a-z]+'
 FULL_REGEX = r'(?P<pre>\W?)(?P<search>' + MAIN_REGEX + r')(?P<post>\W?)'
 COMPILED_MAIN = re.compile(MAIN_REGEX, flags=re.IGNORECASE)
 COMPILED_FULL_REGEX = re.compile(FULL_REGEX, flags=re.IGNORECASE)
 
-class HostnameSchema(ObservableSchema):
-    """(De)serialization marshmallow.Schema for Hostname objects."""
-    tld = fields.String(allow_none=True)
-    idna = fields.String(allow_none=True)
-    type = fields.String()
 
 class Hostname(Observable):
-    """Observable Yeti object.
+    """Hostname Yeti object."""
 
-    Attributes:
-      tld: The corresponding TLD.
-    """
-
-    schema = HostnameSchema
-    _collection_name = 'observables'
-
-    type = 'observable.hostname'
-    idna = None
+    type = 'domain-name'
 
     @classmethod
     def validate_string(cls, string):
@@ -45,11 +33,12 @@ class Hostname(Observable):
         return False
 
     def normalize(self):
-        self.value = refang(self.value.lower())
-        if self.value.endswith('.'):
-            self.value = self.value[:-1]
-
-        self.value = idna.decode(self.value)
-        self.idna = idna.encode(self.value)
+        value = refang(self.value.lower())
+        if value.endswith('.'):
+            value = value[:-1]
+        value = idna.decode(value)
+        serialized = json.loads(self._stix_object.serialize())
+        serialized['value'] = value
+        self._stix_object = DomainName(**serialized)
 
 Observable.datatypes[Hostname.type] = Hostname

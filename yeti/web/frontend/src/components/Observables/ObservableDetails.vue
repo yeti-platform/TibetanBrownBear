@@ -27,7 +27,7 @@ import YetiForm from '@/components/scaffolding/YetiForm'
 import Fields from '@/components/helpers/Fields'
 
 const typeFields = {
-  'hostname': [
+  'domain-name': [
     {name: 'value', type: 'text'},
     {name: 'tags', type: 'tags'}
   ]

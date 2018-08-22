@@ -9,7 +9,6 @@ from yeti.core.observables.ip import IP
 def test_ip_creation():
     """Tests the creation of a single IP."""
     obs = IP(value='127.0.0.1')
-    assert obs.id is None
     obs = obs.save()
     assert isinstance(obs, IP)
     assert obs.id is not None
@@ -19,8 +18,7 @@ def test_ip_attributes():
     """Tests that a created IP has all needed attributes."""
     allitems = IP.list()
     for ip in allitems:
-        assert hasattr(ip, 'version')
-        assert ip.version in [4, 6]
+        assert isinstance(ip.value, str)
 
 @pytest.mark.usefixtures('clean_db')
 def test_ip_fetch():
@@ -37,20 +35,11 @@ def test_ips_list():
     assert isinstance(allitems[0], IP)
     assert len(allitems) == 10
 
-@pytest.mark.usefixtures('clean_db')
-def test_ip_formatting():
-    """Tests that observables are formatted correctly when printed."""
-    obs = IP(value='127.0.0.1').save()
-    assert str(obs) == "<IP('127.0.0.1')>"
-
-
 # Normalization and validation tests
 
 NORMALIZATION_TESTS = (
     ('127.0.0.1', '127.0.0.1'),
     ('127.0.0.001', '127.0.0.1'),
-    ('2001:db8::1', '2001:db8::1'),
-    ('2001:0db8:0000:0000:0000:0000:0000:0001', '2001:db8::1'),
 )
 
 FAILING_TESTS = (
