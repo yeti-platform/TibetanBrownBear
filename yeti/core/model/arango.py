@@ -319,19 +319,18 @@ class ArangoYetiConnector(AbstractYetiConnector):
         return edge_collection.insert(document)
 
     # pylint: disable=too-many-arguments
-    def neighbors(self,
-                  link_type=None,
-                  direction='any',
-                  include_original=False,
-                  hops=1,
-                  raw=False):
+    def neighbors(self, link_type=None, direction='any', include_original=False,
+                  hops=1, raw=False):
         """Fetches neighbors of the YetiObject.
 
         Args:
           link_type: The type of link.
           direction: outbound, inbound, or any.
+          include_original: Whether the original object is to be included in the
+              result or not.
           hops: The maximum number of nodes to go through (defaults to 1:
               direct neighbors)
+          raw: Whether to return a raw dictionary or a Yeti object.
         """
         min_depth = 1 if not include_original else None
         graph = self._db.graph('stix')

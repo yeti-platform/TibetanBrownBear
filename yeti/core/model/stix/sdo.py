@@ -109,17 +109,7 @@ class StixSDO(StixObject):
 
     @classmethod
     def load(cls, args, strict=True):  # pylint: disable=unused-argument
-        """Translate information from the backend into a valid STIX definition.
-
-        Will instantiate a STIX object from that definition.
-
-        Args:
-          args: The dictionary to use to create the STIX objectself.
-          strict: Unused, kept to be consistent wih overridden method.
-
-        Returns:
-          The corresponding STIX objects.
-        """
+        """Load a serialized STIX object from the database."""
         return cls._load_stix(args)
 
     @property

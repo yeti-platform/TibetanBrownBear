@@ -51,6 +51,7 @@ class YetiObject(ArangoYetiConnector):
 class YetiSchema(ArangoYetiSchema):
     """Generic (de)serialization marshmallow.Schema object for Yeti objects."""
 
+    # pylint: disable=arguments-differ
     def handle_error(self, exc, data):
         """Log and raise our custom exception when (de)serialization fails."""
         error_dict = exc.messages

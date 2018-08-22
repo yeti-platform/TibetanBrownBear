@@ -55,7 +55,6 @@ class URL(Observable):
         self._stix_object = StixURL(**serialized)
 
     def parse(self):
-        # TODO: Implement this as a STIX extension? Or just store it separately?
         parsed = urlparse(self.value)
 
         self.parsed = {

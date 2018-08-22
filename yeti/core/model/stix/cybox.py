@@ -69,21 +69,7 @@ class StixCYBOX(StixObject):
 
     @classmethod
     def load(cls, args, strict=True):  # pylint: disable=unused-argument
-        """Translate serialized information into a valid STIX definition.
-
-        Will instantiate a STIX object from that definition.
-
-        Args:
-          args: The dictionary to use to create the STIX object.
-          strict: Unused, kept to be consistent with overriden method
-
-        Returns:
-          The corresponding STIX objet.
-
-        Raises:
-          ValidationError: If a STIX object could not be instantiated from the
-              serialized data.
-        """
+        """Load a serialized CYBOX object from the database."""
         return cls._load_stix(args)
 
 
