@@ -9,6 +9,7 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 from yeti.core.model.arango import db
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
+from yeti.core.entities.threat_actor import ThreatActor
 from yeti.core.observables.observable import Observable
 from yeti.core.observables.hostname import Hostname
 from yeti.core.observables.url import URL
