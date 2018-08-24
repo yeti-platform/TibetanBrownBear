@@ -16,12 +16,16 @@ export default {
   data () {
     return {
       defaultObjects: {
-        malware: {
+        'malware': {
           type: 'malware',
           labels: []
         },
         'threat-actor': {
           type: 'threat-actor',
+          labels: []
+        },
+        'attack-pattern': {
+          type: 'attack-pattern',
           labels: []
         }
       },
@@ -31,6 +35,10 @@ export default {
           {name: 'labels', type: 'list'}
         ],
         'threat-actor': [
+          {name: 'name', type: 'text'},
+          {name: 'labels', type: 'list'}
+        ],
+        'attack-pattern': [
           {name: 'name', type: 'text'},
           {name: 'labels', type: 'list'}
         ]

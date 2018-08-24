@@ -21,6 +21,11 @@
             <span data-feather="file"></span>Actors
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'attack-pattern'}}">
+            <span data-feather="file"></span>Attack Patterns (TTPs)
+          </router-link>
+        </li>
       </ul>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
