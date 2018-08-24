@@ -2,9 +2,10 @@
 
 import pytest
 
-from yeti.core.errors import ValidationError
-from yeti.core.entities.attack_pattern import AttackPattern
 from stix2 import AttackPattern as StixAttackPattern
+
+from yeti.core.entities.attack_pattern import AttackPattern
+
 
 @pytest.mark.usefixtures('clean_db')
 def test_attack_pattern_creation():
