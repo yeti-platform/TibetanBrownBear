@@ -27,6 +27,10 @@ export default {
         'attack-pattern': {
           type: 'attack-pattern',
           labels: []
+        },
+        'tool': {
+          type: 'tool',
+          labels: []
         }
       },
       defaultFields: {
@@ -41,6 +45,11 @@ export default {
         'attack-pattern': [
           {name: 'name', type: 'text'},
           {name: 'labels', type: 'list'}
+        ],
+        'tool': [
+          {name: 'name', type: 'text'},
+          {name: 'labels', type: 'list'},
+          {name: 'tool_version', type: 'text'}
         ]
       }
     }

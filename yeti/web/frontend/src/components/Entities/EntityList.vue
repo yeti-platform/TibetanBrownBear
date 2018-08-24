@@ -20,6 +20,11 @@ const typeFields = {
   'attack-pattern': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'}
+  ],
+  'tool': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'tool_version', type: 'text'}
   ]
 }
 
