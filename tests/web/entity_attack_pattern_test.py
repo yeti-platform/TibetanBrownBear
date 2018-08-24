@@ -53,5 +53,7 @@ def test_attack_pattern_wrong_kc_format():
                      content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
-    assert response == {'ValidationError':
-        'Unexpected properties for KillChainPhase: (lol, rofl).'}
+    assert response == {
+        'ValidationError':
+        'Unexpected properties for KillChainPhase: (lol, rofl).'
+    }
