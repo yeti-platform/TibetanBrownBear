@@ -21,8 +21,8 @@ def test_attack_pattern_creation():
         'type': 'tool',
         'tool_version': '1.0',
         'kill_chain_phases': [
-            {'kill_chain_name': 'yeti-kc', 'phase_name': 'testing'},
-            {'kill_chain_name': 'yeti-kc', 'phase_name': 'debugging'}
+            {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'testing'},
+            {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'debugging'}
         ]
     }
     rv = client.post('/api/entities/',
@@ -34,8 +34,8 @@ def test_attack_pattern_creation():
     assert response['labels'] == ['privesc']
     assert response['tool_version'] == '1.0'
     assert response['kill_chain_phases'] == [
-        {'kill_chain_name': 'yeti-kc', 'phase_name': 'testing'},
-        {'kill_chain_name': 'yeti-kc', 'phase_name': 'debugging'}
+        {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'testing'},
+        {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'debugging'}
     ]
 
 
@@ -46,8 +46,8 @@ def test_attack_pattern_wrong_kc_format():
         'labels': ['privesc'],
         'type': 'tool',
         'kill_chain_phases': [
-            {'lol': 'yeti-kc', 'rofl': 'testing'},
-            {'lol': 'yeti-kc', 'rofl': 'debugging'}
+            {'lol': 'yeti-kc-tool', 'rofl': 'testing'},
+            {'lol': 'yeti-kc-tool', 'rofl': 'debugging'}
         ]
     }
     rv = client.post('/api/entities/',

@@ -26,8 +26,8 @@ def test_update_tool():
     tool = Tool(
         name='asd', labels=['label1'], description='dsa', tool_version='1.0',
         kill_chain_phases=[
-            {'kill_chain_name': 'yeti-kc', 'phase_name': 'testing'},
-            {'kill_chain_name': 'yeti-kc', 'phase_name': 'debugging'}
+            {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'testing'},
+            {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'debugging'}
         ]
     )
     tool.save()
@@ -38,6 +38,6 @@ def test_update_tool():
     assert updated.description == 'dsa'
     assert updated.tool_version == '1.0'
     assert updated.kill_chain_phases == [
-        {'kill_chain_name': 'yeti-kc', 'phase_name': 'testing'},
-        {'kill_chain_name': 'yeti-kc', 'phase_name': 'debugging'}
+        {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'testing'},
+        {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'debugging'}
     ]
