@@ -35,7 +35,10 @@ const typeFields = {
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
   ],
-  'actor': [
+  'threat-actor': [
+    {name: 'name', type: 'text'}
+  ],
+  'attack-pattern': [
     {name: 'name', type: 'text'}
   ]
 }

@@ -16,6 +16,10 @@ const typeFields = {
   'threat-actor': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'}
+  ],
+  'attack-pattern': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'}
   ]
 }
 
