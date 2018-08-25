@@ -29,28 +29,7 @@ import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
 import Links from '@/components/Graph/Links'
 import Fields from '@/components/helpers/Fields'
-
-const typeFields = {
-  'malware': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
-  ],
-  'threat-actor': [
-    {name: 'name', type: 'text'}
-  ],
-  'attack-pattern': [
-    {name: 'name', type: 'text'}
-  ],
-  'tool': [
-    {name: 'name', type: 'text'},
-    {name: 'tool_version', type: 'text'}
-  ],
-  'intrusion-set': [
-    {name: 'name', type: 'text'},
-    {name: 'first_seen', type: 'text'},
-    {name: 'last_seen', type: 'text'}
-  ]
-}
+import { typeFields } from './EntityFields.js'
 
 export default {
   data () {
