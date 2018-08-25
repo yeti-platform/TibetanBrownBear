@@ -7,6 +7,7 @@ class GenericYetiError(Exception):
         if info:
             self.info = info
 
+
 class ValidationError(GenericYetiError):
     type = 'ValidationError'
 
@@ -17,3 +18,7 @@ class IntegrityError(GenericYetiError):
 
 class RuntimeException(GenericYetiError):
     type = 'RuntimeError'
+
+
+class YetiSTIXError(GenericYetiError):
+    type = 'YetiSTIXError'

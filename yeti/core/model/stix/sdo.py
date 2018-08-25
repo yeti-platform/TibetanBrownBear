@@ -2,10 +2,11 @@
 import json
 
 from stix2 import parse
-from stix2.exceptions import MissingPropertiesError, ParseError
+from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
 
-from yeti.core.errors import ValidationError
+from yeti.core.errors import ValidationError, YetiSTIXError
 from .base import StixObject
+
 
 class StixSDO(StixObject):
 
@@ -40,9 +41,13 @@ class StixSDO(StixObject):
         Returns:
           The new version of the STIX object.
         """
-        new_version = self._stix_object.new_version(**args)
+        try:
+            new_version = self._stix_object.new_version(**args)
+        except UnmodifiablePropertyError as e:
+            raise YetiSTIXError(str(e))
         self._stix_object = new_version
         return self.save()
+
 
     @classmethod
     def get(cls, key):

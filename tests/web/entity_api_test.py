@@ -69,6 +69,7 @@ def test_put(populate_malware):
                     content_type='application/json')
     response = json.loads(rv.data)
     assert response['id'].startswith('malware--')
+    assert response['modified'] != entity_json['modified']
 
 @pytest.mark.usefixtures("clean_db")
 def test_filter(populate_malware):
