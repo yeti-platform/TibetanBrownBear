@@ -31,7 +31,11 @@ export default {
         'tool': {
           type: 'tool',
           labels: []
-        }
+        },
+        'intrusion-set': {
+          type: 'intrusion-set',
+          labels: []
+        },
       },
       defaultFields: {
         'malware': [
@@ -50,7 +54,11 @@ export default {
           {name: 'name', type: 'text'},
           {name: 'labels', type: 'list'},
           {name: 'tool_version', type: 'text'}
-        ]
+        ],
+        'intrusion-set': [
+          {name: 'name', type: 'text'},
+          {name: 'labels', type: 'list'}
+        ],
       }
     }
   },

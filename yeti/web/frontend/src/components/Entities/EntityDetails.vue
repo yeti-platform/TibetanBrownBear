@@ -44,6 +44,11 @@ const typeFields = {
   'tool': [
     {name: 'name', type: 'text'},
     {name: 'tool_version', type: 'text'}
+  ],
+  'intrusion-set': [
+    {name: 'name', type: 'text'},
+    {name: 'first_seen', type: 'text'},
+    {name: 'last_seen', type: 'text'}
   ]
 }
 
