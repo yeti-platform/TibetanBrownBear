@@ -25,13 +25,7 @@
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
 import Fields from '@/components/helpers/Fields'
-
-const typeFields = {
-  'domain-name': [
-    {name: 'value', type: 'text'},
-    {name: 'tags', type: 'tags'}
-  ]
-}
+import { typeFields } from './ObservableFields.js'
 
 export default {
   data () {
