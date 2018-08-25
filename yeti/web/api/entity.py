@@ -2,13 +2,12 @@
 from marshmallow import fields
 from flask_classful import route
 from flask import request
-from stix2.exceptions import UnmodifiablePropertyError
 
 
 from yeti.core.entities.entity import Entity
+from yeti.core.errors import YetiSTIXError
 from .generic import GenericResource
 from ..helpers import as_json, get_object_or_404
-from yeti.core.errors import YetiSTIXError
 
 
 class EntityResource(GenericResource):
