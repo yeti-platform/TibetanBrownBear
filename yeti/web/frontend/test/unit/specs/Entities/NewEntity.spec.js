@@ -25,9 +25,9 @@ describe('NewEntity.vue', () => {
   })
 
   it('Fields default fields are correct', () => {
-    expect(wrapper.vm.defaultFields[wrapper.vm.type]).toEqual([
+    expect(wrapper.vm.typeFields[wrapper.vm.type]).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list'}
+      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
     ])
   })
 
