@@ -21,6 +21,10 @@ export const typeFields = {
     {name: 'labels', type: 'list'},
     {name: 'first_seen', type: 'text'},
     {name: 'last_seen', type: 'text'}
+  ],
+  'vulnerability': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'}
   ]
 }
 
@@ -43,6 +47,10 @@ export const defaultObjects = {
   },
   'intrusion-set': {
     type: 'intrusion-set',
+    labels: []
+  },
+  'vulnerability': {
+    type: 'vulnerability',
     labels: []
   }
 }
