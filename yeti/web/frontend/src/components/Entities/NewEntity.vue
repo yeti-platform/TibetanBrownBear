@@ -35,7 +35,7 @@ export default {
         'intrusion-set': {
           type: 'intrusion-set',
           labels: []
-        },
+        }
       },
       defaultFields: {
         'malware': [
@@ -58,7 +58,7 @@ export default {
         'intrusion-set': [
           {name: 'name', type: 'text'},
           {name: 'labels', type: 'list'}
-        ],
+        ]
       }
     }
   },
