@@ -19,7 +19,6 @@ def test_index(populate_hostnames):
     rv = client.get('/api/observables/')
     response = json.loads(rv.data)
     assert len(response) == len(populate_hostnames)
-    print(response)
     for element in response:
         assert isinstance(element['value'], str)
 

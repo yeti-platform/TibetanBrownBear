@@ -86,7 +86,6 @@ class GenericResource(FlaskView):
             dumped = obj.dump()
             dumped.update(request.get_json())
             return self.resource_object.load(dumped).save()
-
         except GenericYetiError as err:
             return err, 400
 

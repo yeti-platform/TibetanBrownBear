@@ -45,7 +45,6 @@ def test_update_intrusion_set():
     intrusion_set.save()
     stix_id = intrusion_set.id
     updated = intrusion_set.update({'name': 'FancyBear'})
-    print(type(updated.first_seen))
     assert updated.id == stix_id
     assert updated.name == 'FancyBear'
     assert updated.labels == ['label1']

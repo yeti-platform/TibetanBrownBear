@@ -13,7 +13,6 @@ def test_get_vocab():
     """Tests that a vocab defined for a field can be fetched."""
     rv = client.get('/api/settings/vocabs/Malware.type/',
                     content_type='application/json')
-    # print(populate_settings[0].settings)
     response = json.loads(rv.data)
     assert sorted(response) == sorted(['trojan', 'banker'])
 
