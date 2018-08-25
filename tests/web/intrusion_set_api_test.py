@@ -27,6 +27,6 @@ def test_intrusion_set_creation():
     response = json.loads(rv.data)
     assert rv.status_code == 200
     assert response['id'].startswith('intrusion-set--')
-    assert response['name'] == ['FancyBear']
-    assert response['labels'] == ['phishing']
+    assert response['name'] == 'FancyBear'
+    assert response['labels'] == ['APT']
     assert response['first_seen'] == '2018-08-25T15:22:23.474159Z'
