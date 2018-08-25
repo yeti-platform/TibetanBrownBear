@@ -25,6 +25,13 @@ export const typeFields = {
   'vulnerability': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'}
+  ],
+  'campaign': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'first_seen', type: 'text'},
+    {name: 'last_seen', type: 'text'},
+    {name: 'objective', type: 'text'}
   ]
 }
 
@@ -51,6 +58,10 @@ export const defaultObjects = {
   },
   'vulnerability': {
     type: 'vulnerability',
+    labels: []
+  },
+  'campaign': {
+    type: 'campaign',
     labels: []
   }
 }
