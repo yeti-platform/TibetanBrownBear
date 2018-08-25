@@ -1,4 +1,4 @@
-"""Tests for the Malware API."""
+"""Tests for the Intrusion Set API."""
 
 import json
 import pytest
