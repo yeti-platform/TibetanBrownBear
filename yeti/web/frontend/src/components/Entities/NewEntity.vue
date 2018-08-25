@@ -1,13 +1,14 @@
 <template lang="html">
   <yeti-form apiPath="http://localhost:5000/api/entities/"
              :object="defaultObjects[type]"
-             :fields="defaultFields[type]"
+             :fields="typeFields[type]"
              v-on:form-submit="navigateToNew"/>
 </template>
 
 <script>
 
 import YetiForm from '@/components/scaffolding/YetiForm'
+import { typeFields, defaultObjects } from './EntityFields.js'
 
 export default {
   components: {
@@ -15,51 +16,8 @@ export default {
   },
   data () {
     return {
-      defaultObjects: {
-        'malware': {
-          type: 'malware',
-          labels: []
-        },
-        'threat-actor': {
-          type: 'threat-actor',
-          labels: []
-        },
-        'attack-pattern': {
-          type: 'attack-pattern',
-          labels: []
-        },
-        'tool': {
-          type: 'tool',
-          labels: []
-        },
-        'intrusion-set': {
-          type: 'intrusion-set',
-          labels: []
-        }
-      },
-      defaultFields: {
-        'malware': [
-          {name: 'name', type: 'text'},
-          {name: 'labels', type: 'list'}
-        ],
-        'threat-actor': [
-          {name: 'name', type: 'text'},
-          {name: 'labels', type: 'list'}
-        ],
-        'attack-pattern': [
-          {name: 'name', type: 'text'},
-          {name: 'labels', type: 'list'}
-        ],
-        'tool': [
-          {name: 'name', type: 'text'},
-          {name: 'labels', type: 'list'},
-          {name: 'tool_version', type: 'text'}
-        ],
-        'intrusion-set': [
-          {name: 'name', type: 'text'},
-          {name: 'labels', type: 'list'}
-        ]
-      }
+      defaultObjects: defaultObjects,
+      typeFields: typeFields
     }
   },
   props: ['type'],

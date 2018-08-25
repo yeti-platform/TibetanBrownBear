@@ -7,32 +7,7 @@
 
 <script>
 import TableFilter from '@/components/scaffolding/TableFilter'
-
-const typeFields = {
-  'malware': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
-  ],
-  'threat-actor': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
-  ],
-  'attack-pattern': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
-  ],
-  'tool': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'tool_version', type: 'text'}
-  ],
-  'intrusion-set': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'first_seen', type: 'text'},
-    {name: 'last_seen', type: 'text'}
-  ]
-}
+import { typeFields } from './EntityFields.js'
 
 export default {
   components: {
