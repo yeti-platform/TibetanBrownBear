@@ -36,6 +36,13 @@ export const typeFields = {
   'course-of-action': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'}
+  ],
+  'identity': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'identity_class', type: 'text'},
+    {name: 'sectors', type: 'list'},
+    {name: 'contact_information', type: 'text'}
   ]
 }
 
@@ -70,6 +77,10 @@ export const defaultObjects = {
   },
   'course-of-action': {
     type: 'course-of-action',
+    labels: []
+  },
+  'identity': {
+    type: 'identity',
     labels: []
   }
 }
