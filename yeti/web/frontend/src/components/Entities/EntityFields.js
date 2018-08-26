@@ -32,6 +32,10 @@ export const typeFields = {
     {name: 'first_seen', type: 'text'},
     {name: 'last_seen', type: 'text'},
     {name: 'objective', type: 'text'}
+  ],
+  'course-of-action': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'}
   ]
 }
 
@@ -62,6 +66,10 @@ export const defaultObjects = {
   },
   'campaign': {
     type: 'campaign',
+    labels: []
+  },
+  'course-of-action': {
+    type: 'course-of-action',
     labels: []
   }
 }
