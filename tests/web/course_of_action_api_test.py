@@ -25,6 +25,6 @@ def test_course_of_action_creation():
                      content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
-    assert response['id'].startswith('intrusion-set--')
+    assert response['id'].startswith('course-of-action--')
     assert response['name'] == 'Add TCP port 80 Filter Rule'
     assert response['labels'] == ['block']
