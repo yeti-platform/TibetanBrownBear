@@ -5,3 +5,4 @@ from . import attack_pattern
 from . import tool
 from . import intrusion_set
 from . import vulnerability
+from . import campaign
