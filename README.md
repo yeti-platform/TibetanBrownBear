@@ -1,6 +1,6 @@
 # Initial page
 
-[![Build Status](https://travis-ci.org/yeti-platform/TibetanBrownBear.svg?branch=api)](https://travis-ci.org/yeti-platform/TibetanBrownBear)
+[![Build Status](https://travis-ci.org/yeti-platform/TibetanBrownBear.svg?branch=master)](https://travis-ci.org/yeti-platform/TibetanBrownBear)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/yeti-platform/tibetanbrownbear/badge)](https://www.codefactor.io/repository/github/yeti-platform/tibetanbrownbear)
 
