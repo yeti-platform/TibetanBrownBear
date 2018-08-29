@@ -43,6 +43,12 @@ export const typeFields = {
     {name: 'identity_class', type: 'text'},
     {name: 'sectors', type: 'list'},
     {name: 'contact_information', type: 'text'}
+  ],
+  'observed-data': [
+    {name: 'id', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'first_observed', type: 'text'},
+    {name: 'last_observed', type: 'text'}
   ]
 }
 
@@ -83,4 +89,6 @@ export const defaultObjects = {
     type: 'identity',
     labels: []
   }
+  // No definition for observed-data since we're not currently supporting
+  // manual creation.
 }
