@@ -31,7 +31,7 @@ setup(name='yeti',
           'yara-python',
       ],
       entry_points={
-          'console_scripts': ['yeticli=yetictl:main'],
+          'console_scripts': ['yeticli=cli/yetictl:main'],
       },
       setup_requires=['pytest-runner'],
       test_suite='pytest',
