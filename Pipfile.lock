@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b73d6288b685a89fed75ee36343e39c092f61c0e9a2b6de36644550c991226dd"
+            "sha256": "e361613d722ef6a319fc9a39c7f450fbc93641ef6e215f1bef22f02fab5bdb31"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -545,7 +545,6 @@
                 "sha256:06a30435d058473046be836d3fc4f27167fd84c45b99704f2fb5509ef61f9af1",
                 "sha256:50402e9d1c9005d759426988a492e0edaadb7f4e68bcddfea586bc7432d009c6"
             ],
-            "markers": "python_version != '3.0.*' and python_version != '3.3.*' and python_version >= '2.7' and python_version != '3.2.*' and python_version != '3.1.*'",
             "version": "==1.6.0"
         },
         "pygments": {
@@ -763,7 +762,6 @@
                 "sha256:c58757e37c4a3172949c99099d4d5106e4d7b63aa0617f9bb24bfbff712c7866",
                 "sha256:d8984742ce86c0855cccecd5c6f54a9f7532c983947cff06f3a0e2115b47f85c"
             ],
-            "markers": "python_version >= '2.7' and python_version != '3.3.*' and python_version != '3.0.*' and python_version != '3.2.*' and python_version != '3.1.*'",
             "version": "==5.1"
         },
         "typed-ast": {
@@ -853,10 +851,6 @@
             ],
             "index": "pypi",
             "version": "==3.8.1"
-        },
-        "yeti": {
-            "editable": true,
-            "path": "."
         }
     }
 }
