@@ -51,7 +51,7 @@ def import_taxii():
         for item in items:
             obj = yeti_class.find(stix_id=item['id'])
             if not obj:
-                yeti_class.from_stix_object(item).save()
+                obj = yeti_class.from_stix_object(item).save()
                 new += 1
             elif obj.equals(item):
                 skipped += 1
