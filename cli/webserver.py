@@ -1,11 +1,6 @@
-#!/usr/bin/env python3
-"""Main entry point for Yeti commands."""
 import click
-from yeti.common.config import yeti_config
 
-@click.group()
-def cli():
-    pass
+from yeti.common.config import yeti_config
 
 # pylint: disable=line-too-long
 @click.command()
@@ -16,9 +11,3 @@ def webserver(debug, interface, port):
     from yeti import webapp
     webapp.app.debug = debug
     webapp.app.run(host=interface, port=port)
-
-cli.add_command(webserver)
-
-
-if __name__ == '__main__':
-    cli()

@@ -17,6 +17,7 @@ url-normalize = "*"
 redis = "*"
 rq = "*"
 "stix2" = "*"
+"taxii2-client" = "*"
 
 [dev-packages]
 pytest = "*"
@@ -28,10 +29,9 @@ sphinx = "*"
 sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
 recommonmark = "*"
-yeti = {path = ".", editable = true}
 
 [requires]
 python_version = "3.6"
 
 [scripts]
-yetictl = "./yetictl"
+yetictl = "cli/yetictl"

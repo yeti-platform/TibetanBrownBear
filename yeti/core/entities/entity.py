@@ -9,6 +9,7 @@ class Entity(StixSDO):
     _type_filter = None
     _indexes = [
         {'fields': ['name'], 'unique': False},
+        {'fields': ['stix_id'], 'unique': False},
     ]
     _text_indexes = [
         {'fields': ['name']},

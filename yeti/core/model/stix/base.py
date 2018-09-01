@@ -1,7 +1,9 @@
 """Detail Yeti's Entity object structure."""
 from abc import abstractmethod
+import json
 
 from yeti.core.model.database import YetiObject
+
 
 class StixObject(YetiObject):
     """Entity Yeti object.
@@ -10,6 +12,11 @@ class StixObject(YetiObject):
       key: Database primary key
       name: Entity name
     """
+
+    @classmethod
+    def from_stix_object(cls, stix_object):
+        """Creates a YetiObject instance from a native STIX object."""
+        return cls(**json.loads(stix_object.serialize()))
 
     def __init__(self, **stix_dict):
         """Initializes an Entity's STIX object.
@@ -20,6 +27,9 @@ class StixObject(YetiObject):
         self._stix_object = None
         self._stix_parse(stix_dict)
         super().__init__()
+
+    def get_extended_property(self, property_name):
+        return getattr(self._stix_object, property_name)
 
     @abstractmethod
     def _stix_parse(self, stix_dict):
