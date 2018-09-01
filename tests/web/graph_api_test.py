@@ -17,8 +17,8 @@ client = app.test_client()
 def test_index(populate_malware):
     """Test that a GET request fetches all neighbors for a given entity."""
     mal1, mal2, mal3 = populate_malware
-    mal1.link_to('uses', mal2)
-    mal1.link_to('uses', mal3)
+    mal1.link_to(mal2, 'uses')
+    mal1.link_to(mal3, 'uses')
     rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 2

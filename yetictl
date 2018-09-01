@@ -17,7 +17,65 @@ def webserver(debug, interface, port):
     webapp.app.debug = debug
     webapp.app.run(host=interface, port=port)
 
+
+@click.command()
+def import_taxii():
+    from stix2 import TAXIICollectionSource, Filter
+    from taxii2client import Collection
+
+    from yeti.core.entities import attack_pattern, campaign, course_of_action, identity, intrusion_set, malware, threat_actor, tool, vulnerability
+
+    collection = Collection('https://cti-taxii.mitre.org/stix/collections/95ecc380-afe9-11e4-9b6c-751b66dd541e/')
+    tc_source = TAXIICollectionSource(collection)
+
+    object_classes = {
+        'attack-pattern': attack_pattern.AttackPattern,
+        'campaign': campaign.Campaign,
+        'course-of-action': course_of_action.CourseOfAction,
+        'identity': identity.Identity,
+        'intrusion-set': intrusion_set.IntrusionSet,
+        'malware': malware.Malware,
+        'threat-actor': threat_actor.ThreatActor,
+        'tool': tool.Tool,
+        'vulnerability': vulnerability.Vulnerability,
+    }
+
+    all_objects = {}
+
+    for name, yeti_class in object_classes.items():
+        print('Fetching', name)
+        updated = 0
+        new = 0
+        skipped = 0
+        items = tc_source.query(Filter('type', '=', name))
+        for item in items:
+            obj = yeti_class.find(stix_id=item['id'])
+            if not obj:
+                yeti_class.from_stix_object(item).save()
+                new += 1
+            elif obj.equals(item):
+                skipped += 1
+            else:
+                obj.update(item)
+                updated += 1
+            all_objects[item['id']] = obj
+
+        print('New: {0:d}, Updated: {1:d}, Skipped: {2:d}'.format(
+            new, updated, skipped
+        ))
+
+    print('Getting relationships')
+    count = 0
+    for relationship in tc_source.query(Filter('type', '=', 'relationship')):
+        count += 1
+        source = all_objects[relationship.source_ref]
+        target = all_objects[relationship.target_ref]
+        source.link_to(target, stix_rel=relationship)
+    print('Added {0:d} relationships'.format(count))
+
+
 cli.add_command(webserver)
+cli.add_command(import_taxii)
 
 
 if __name__ == '__main__':

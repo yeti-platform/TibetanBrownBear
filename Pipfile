@@ -17,6 +17,7 @@ url-normalize = "*"
 redis = "*"
 rq = "*"
 "stix2" = "*"
+"taxii2-client" = "*"
 
 [dev-packages]
 pytest = "*"

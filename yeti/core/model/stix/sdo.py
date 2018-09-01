@@ -28,9 +28,15 @@ class StixSDO(StixObject):
         if 'type' not in stix_dict:
             stix_dict['type'] = self.type
         try:
-            self._stix_object = parse(stix_dict)
+            self._stix_object = parse(stix_dict, allow_custom=True)
         except (MissingPropertiesError, ParseError) as err:
             raise ValidationError(str(err))
+
+    def equals(self, stix_dict):
+        for attribute, value in stix_dict.items():
+            if getattr(self._stix_object, attribute) != value:
+                return False
+        return True
 
     def update(self, args):
         """Updates a STIX object, creating a new version.
@@ -41,6 +47,8 @@ class StixSDO(StixObject):
         Returns:
           The new version of the STIX object.
         """
+        if self.equals(args):
+            return self
         try:
             new_version = self._stix_object.new_version(**args)
         except UnmodifiablePropertyError as e:

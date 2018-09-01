@@ -8,8 +8,8 @@ from yeti.core.entities.malware import Malware
 def test_link(populate_malware):
     """Tests that neighbors are consistent with links in the database."""
     mal1, mal2, mal3 = populate_malware
-    mal1.link_to('uses', mal2)
-    mal1.link_to('uses', mal3)
+    mal1.link_to(mal2, 'uses')
+    mal1.link_to(mal3, 'uses')
     neighbors = mal1.neighbors('uses')
     assert len(neighbors) == 2
     assert isinstance(neighbors['vertices'][mal2.id], Malware)

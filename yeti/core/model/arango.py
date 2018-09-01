@@ -297,25 +297,30 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except IntegrityError:
             return cls.find(**kwargs)
 
-    def link_to(self, link_type, target, attributes=None):
+    def link_to(self, target, link_type=None, stix_rel=None):
         """Creates a link between two YetiObjects.
 
         Args:
-          link_type: The type of link.
           target: The YetiObject to link to.
-          attributes: A dictionary with attributes to add to the link.
+          link_type: The type of link.
+          stix_rel: STIX Relationship object
         """
-        stix_rel = Relationship(relationship_type=link_type,
-                                source_ref=self.id,
-                                target_ref=target.id)
+        if stix_rel is None:
+            stix_rel = Relationship(relationship_type=link_type,
+                                    source_ref=self.id,
+                                    target_ref=target.id)
 
         graph = self._db.graph('stix')
         edge_collection = graph.edge_collection('relationships')
         document = {
             '_from': self._arango_id,
             '_to': target._arango_id,  # pylint: disable=protected-access
-            'attributes': stix_rel.serialize(),
+            'attributes': json.loads(stix_rel.serialize()),
         }
+        existing = list(edge_collection.find(document))
+
+        if existing:
+            return existing[0]
         return edge_collection.insert(document)
 
     # pylint: disable=too-many-arguments
@@ -350,7 +355,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         return {'edges': edges, 'vertices': vertices}
 
     def _build_edges(self, arango_edges):
-        return [json.loads(edge['attributes']) for edge in arango_edges]
+        return [edge['attributes'] for edge in arango_edges]
 
     def _build_vertices(self, arango_vertices):
         return {vert['id']: vert for vert in arango_vertices}
