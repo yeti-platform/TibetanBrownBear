@@ -14,7 +14,7 @@ from yeti.core.entities import tool
 from yeti.core.entities import vulnerability
 
 @click.command()
-@click.option('--collection_url', help='Remote TAXII collection URL ', type=click.STRING, required=True)  # pylint: disable=
+@click.option('--collection_url', help='Remote TAXII collection URL ', type=click.STRING, required=True)  # pylint: disable=line-too-long
 def taxii_import(collection_url):
     print('Importing data from collection at: {0:s}')
     collection = Collection(collection_url)
