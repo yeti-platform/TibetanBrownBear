@@ -2,7 +2,7 @@
   <!-- Display details nicely -->
   <div v-if="!isEdit" id="detail">
     <div class='loading' v-if="loading">
-      Loading...
+      <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
     </div>
     <div v-else>
       <h3>{{observable.value}} <small>{{observable.type}}</small></h3>

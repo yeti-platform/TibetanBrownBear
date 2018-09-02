@@ -1,6 +1,9 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="!edit && !loading" class="entity-details">
+  <div v-if="loading">
+    <i class='fas fa-circle-notch fa-spin fa-5x m-5'></i>
+  </div>
+  <div v-else-if="!edit" class="entity-details">
 
     <!-- Title and edit button -->
     <div class="title border-bottom mb-4 pb-2">

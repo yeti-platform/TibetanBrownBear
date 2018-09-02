@@ -3,7 +3,7 @@
     <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
       <div v-if="loading">
-        Loading...
+        <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
       </div>
       <table id="table-filter" v-else class="table table-hover table-sm table-yeti">
         <thead>
@@ -61,6 +61,7 @@ export default {
       let params = {}
       params[this.filterParams.queryKey] = this.searchQuery
       params['type'] = this.filterParams.typeFilter
+      this.loading = true
       axios.post(this.filterParams.apiPath, params)
         .then(response => {
           this.elements = response.data.map(function (elt) {
