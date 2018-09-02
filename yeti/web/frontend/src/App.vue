@@ -66,4 +66,9 @@ body {
     background-color: #007bff;
 }
 
+h1.yeti-title {
+  font-weight: 300;
+  font-size: 3rem;
+}
+
 </style>

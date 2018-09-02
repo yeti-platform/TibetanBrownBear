@@ -10,11 +10,20 @@
   </div>
 
   <!-- display generic arrays as a list of tags -->
-  <div v-else-if="field.type === 'list'" :class="field.name">
+  <span v-else-if="field.type === 'list'" :class="field.name">
     <span v-for="v in getFieldValue"
           v-bind:key="v"
           class="badge m-1 badge-primary">
       {{v}}
+    </span>
+  </span>
+
+  <div v-else-if="field.type == 'killchain'" :class="field.name">
+    <span v-for="v in getFieldValue"
+          v-bind:key="v"
+          class="badge m-1 badge-primary"
+          :title="v.kill_chain_name">
+          {{v.phase_name}}
     </span>
   </div>
 
@@ -69,4 +78,8 @@ export default {
 </script>
 
 <style lang="css">
+
+.badge {
+  font-size: 90%;
+}
 </style>

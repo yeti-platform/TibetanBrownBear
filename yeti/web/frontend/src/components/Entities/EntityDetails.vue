@@ -3,15 +3,20 @@
   <div v-if="!edit && !loading" class="entity-details">
 
     <!-- Title and edit button -->
-    <div class="entity-type">
-      {{entityTypeHuman.singular}}
-    </div>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-      <h1 class="h1">{{entity.name}}</h1>
-      <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-          <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
+    <div class="title border-bottom mb-4 pb-2">
+      <div class="entity-type">
+        {{entityTypeHuman.singular}}
+      </div>
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+        <h1 class="h1 yeti-title">{{entity.name}}</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}">Edit</router-link>
+          </div>
         </div>
+      </div>
+      <div class="labels">
+        <fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" />
       </div>
     </div>
 
@@ -34,9 +39,56 @@
 
       <!-- Labels and other common info -->
       <div class="tab-pane show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-        <div class="labels mb-3">
-          <h5><fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" /></h5>
-        </div>
+
+        <table class="table table-compact">
+          <tr>
+            <th>Created:</th><td><fields :field="{'type': 'datetime', 'name': 'created'}" :elt="entity" /></td>
+            <th>Modified:</th><td><fields :field="{'type': 'datetime', 'name': 'modified'}" :elt="entity" /></td>
+          </tr>
+          <tr v-if="entity.tool_version">
+            <th>Tool version</th><td>{{entity.tool_version}}</td>
+          </tr>
+          <tr v-if="entity.action">
+            <th>Action</th><td>{{entity.action}}</td>
+          </tr>
+          <tr v-if="entity.identity_class">
+            <th>Identity class</th><td colspan="5">{{entity.identity_class}}</td>
+          </tr>
+          <tr v-if="entity.sectors">
+            <th>Sectors</th><td colspan="5"><fields :field="{'type': 'list', 'name': 'sectors'}" :elt="entity" /></td>
+          </tr>
+          <tr v-if="entity.contact_information">
+            <th>Contact info</th><td colspan="5">{{entity.contact_information}}</td>
+          </tr>
+          <tr v-if="entity.aliases">
+            <th>Aliases</th><td colspan="5"><fields :field="{'type': 'list', 'name': 'aliases'}" :elt="entity" /></td>
+          </tr>
+          <tr v-if="entity.kill_chain_phases">
+            <th>Kill-chain phases</th>
+            <td colspan="5"><fields :field="{'type': 'killchain', 'name': 'kill_chain_phases'}" :elt="entity" /></td>
+          </tr>
+          <tr v-if="entity.first_seen || entity.last_seen">
+            <th>First seen:</th><td><fields :field="{'type': 'datetime', 'name': 'first_seen'}" :elt="entity" /></td>
+            <th>Last seen:</th><td><fields :field="{'type': 'datetime', 'name': 'last_Seen'}" :elt="entity" /></td>
+          </tr>
+          <tr v-if="entity.objective">
+            <th>Objective</th><td colspan="5">{{entity.objective}}</td>
+          </tr>
+          <tr v-if="entity.roles || entity.sophistication">
+            <th>Roles</th><td><fields :field="{'type': 'list', 'name': 'roles'}" :elt="entity" /></td>
+            <th>Sophistication</th><td>{{entity.sophistication}}</td>
+          </tr>
+          <tr v-if="entity.goals || entity.resource_level">
+            <th>Goals</th><td><fields :field="{'type': 'list', 'name': 'goals'}" :elt="entity" /></td>
+            <th>Resource level</th><td>{{entity.resource_level}}</td>
+          </tr>
+          <tr v-if="entity.primary_motivation || entity.secondary_motivations || entity.personal_motivations">
+            <th>Primary motivation</th><td>{{entity.primary_motivation}}</td>
+            <th>Secondary</th><td><fields :field="{'type': 'list', 'name': 'secondary_motivations'}" :elt="entity" /></td>
+            <th>Personal</th><td><fields :field="{'type': 'list', 'name': 'personal_motivations'}" :elt="entity" /></td>
+          </tr>
+        </table>
+
         <div class="description mb-3">
           <h2>Description</h2>
           <div v-html="compiledMarkdown(entity.description) || 'No description' "></div>
@@ -48,8 +100,8 @@
         <div class="details mb-3">
           <h2>Details</h2>
           <table class='table table-compact'>
-            <tr><td>Type</td><td><fields :field="{'type': 'code', 'name': 'type'}"  :elt="entity" /></td></tr>
-            <tr><td>STIX ID</td><td><fields :field="{'type': 'code', 'name': 'id'}"  :elt="entity" /></td></tr>
+            <tr><td>Type</td><td><fields :field="{'type': 'code', 'name': 'type'}" :elt="entity" /></td></tr>
+            <tr><td>STIX ID</td><td><fields :field="{'type': 'code', 'name': 'id'}" :elt="entity" /></td></tr>
             <tr><td>Created by</td><td><fields :field="{'type': 'code', 'name': 'created_by_ref'}"  :elt="entity" /></td></tr>
             <tr><td>Created</td><td><fields :field="{'type': 'datetime', 'name': 'created'}"  :elt="entity" /></td></tr>
             <tr><td>Modified</td><td><fields :field="{'type': 'datetime', 'name': 'modified'}"  :elt="entity" /></td></tr>
@@ -64,6 +116,18 @@
             <tr><td>Object markings</td><td><code v-bind:key="ref" v-for="ref in entity.object_marking_refs">{{ref}}</code></td></tr>
             <tr><td>Granular markings</td><td><code v-bind:key="marking" v-for="marking in entity.granular_markings">{{marking}}</code></td></tr>
           </table>
+        <h2>{{entityTypeHuman.singular}} specific properties</h2>
+        <table class="table table-compact">
+          <tr v-for="prop in getSpecificProperties(entity)" v-bind:key="prop.name">
+            <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
+          </tr>
+        </table>
+        <h2>Extended properties</h2>
+        <table class="table table-compact">
+          <tr v-for="prop in getExtendedProperties(entity)" v-bind:key="prop.name">
+            <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
+          </tr>
+        </table>
         </div>
       </div>
 
@@ -75,12 +139,12 @@
         </div>
       </div>
 
+      <!-- JSON -->
       <div class="tab-pane" id="json" role="tabpanel" aria-labelledby="json-tab">
         <div class="json">
           <pre>{{entity}}</pre>
         </div>
       </div>
-
 
     <!-- End tab content -->
     </div>
@@ -102,7 +166,6 @@
   .json pre {
     white-space: pre-wrap;
   }
-
 </style>
 
 <script>
@@ -172,6 +235,45 @@ export default {
         breaks: true,
         sanitize: false
       })
+    },
+    getSpecificProperties (entity) {
+      var properties = []
+      for (var prop in entity) {
+        if (this.isSpecifcAttribute(entity, prop)) {
+          properties.push({value: entity[prop], name: prop})
+        }
+      }
+      return properties
+    },
+    getExtendedProperties (entity) {
+      var properties = []
+      for (var prop in entity) {
+        if (this.isExtendedAttribute(entity, prop)) {
+          properties.push({value: entity[prop], name: prop})
+        }
+      }
+      return properties
+    },
+    isSpecifcAttribute (entity, attribute) {
+      let commonProperties = [
+        'created',
+        'type',
+        'id',
+        'created_by_ref',
+        'created',
+        'modified',
+        'revoked',
+        'external_references',
+        'object_marking_refs',
+        'granular_markings',
+        'description',
+        'labels',
+        'name'
+      ]
+      return entity.hasOwnProperty(attribute) && !commonProperties.includes(attribute) && !attribute.startsWith('x_')
+    },
+    isExtendedAttribute (entity, attribute) {
+      return entity.hasOwnProperty(attribute) && attribute.startsWith('x_')
     }
   },
   mounted () {
