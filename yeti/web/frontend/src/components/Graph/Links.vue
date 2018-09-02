@@ -89,7 +89,6 @@ export default {
 }
 </script>
 
-
 <style lang="css">
   .links .outgoing-vertice, .links .incoming-vertice {
     white-space: nowrap;

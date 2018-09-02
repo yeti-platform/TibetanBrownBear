@@ -282,6 +282,6 @@ export default {
   watch: {
     // call again the method if the route changes
     'id': 'fetchInfo'
-  },
+  }
 }
 </script>
