@@ -23,6 +23,10 @@
   </div>
 
   <div v-else-if="field.type === 'code'" :class="field.name">
+    <code>{{getFieldValue}}</code>
+  </div>
+
+  <div v-else-if="field.type === 'pre'" :class="field.name">
     <pre>{{getFieldValue}}</pre>
   </div>
 
