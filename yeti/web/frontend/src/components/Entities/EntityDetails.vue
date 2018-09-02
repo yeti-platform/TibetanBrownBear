@@ -15,41 +15,76 @@
       </div>
     </div>
 
-    <!-- Labels and other common info -->
-    <div class="labels mb-3">
-      <h5><fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" /></h5>
-    </div>
-    <div class="description mb-3">
-      <h2>Description</h2>
-      <div v-html="compiledMarkdown(entity.description) || 'No description' "></div>
+    <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Main</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false">Details</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="relationships-tab" data-toggle="tab" href="#relationships" role="tab" aria-controls="relationships" aria-selected="false">Relationships</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="json-tab" data-toggle="tab" href="#json" role="tab" aria-controls="json" aria-selected="false">Raw JSON</a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+
+      <!-- Labels and other common info -->
+      <div class="tab-pane show active" id="main" role="tabpanel" aria-labelledby="main-tab">
+        <div class="labels mb-3">
+          <h5><fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" /></h5>
+        </div>
+        <div class="description mb-3">
+          <h2>Description</h2>
+          <div v-html="compiledMarkdown(entity.description) || 'No description' "></div>
+        </div>
+      </div>
+
+      <!-- Detailed information -->
+      <div class="tab-pane" id="details" role="tabpanel" aria-labelledby="details-tab">
+        <div class="details mb-3">
+          <h2>Details</h2>
+          <table class='table table-compact'>
+            <tr><td>Type</td><td><fields :field="{'type': 'code', 'name': 'type'}"  :elt="entity" /></td></tr>
+            <tr><td>STIX ID</td><td><fields :field="{'type': 'code', 'name': 'id'}"  :elt="entity" /></td></tr>
+            <tr><td>Created by</td><td><fields :field="{'type': 'code', 'name': 'created_by_ref'}"  :elt="entity" /></td></tr>
+            <tr><td>Created</td><td><fields :field="{'type': 'datetime', 'name': 'created'}"  :elt="entity" /></td></tr>
+            <tr><td>Modified</td><td><fields :field="{'type': 'datetime', 'name': 'modified'}"  :elt="entity" /></td></tr>
+            <tr><td>Revoked</td><td><fields :field="{'type': 'boolean', 'name': 'revoked'}"  :elt="entity" /></td></tr>
+            <tr v-for="ref in entity.external_references" v-bind:key="ref.source_name">
+              <td>External reference</td><td>
+                <a :href="ref.url" target="_blank">{{ref.source_name}}</a>
+                <small v-if="ref.description"><br>{{ref.description}}</small>
+                <small v-if="ref.external_id"><br>{{ref.external_id}}</small>
+              </td>
+            </tr>
+            <tr><td>Object markings</td><td><code v-bind:key="ref" v-for="ref in entity.object_marking_refs">{{ref}}</code></td></tr>
+            <tr><td>Granular markings</td><td><code v-bind:key="marking" v-for="marking in entity.granular_markings">{{marking}}</code></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Links and graph -->
+      <div class="tab-pane" id="relationships" role="tabpanel" aria-labelledby="relationships-tab">
+        <div class="relationships">
+          <h2>Relationships</h2>
+          <links :object="entity"/>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="json" role="tabpanel" aria-labelledby="json-tab">
+        <div class="json">
+          <pre>{{entity}}</pre>
+        </div>
+      </div>
+
+
+    <!-- End tab content -->
     </div>
 
-    <div class="details mb-3">
-      <h2>Details</h2>
-      <table class='table table-compact'>
-        <tr><td>Type</td><td><fields :field="{'type': 'code', 'name': 'type'}"  :elt="entity" /></td></tr>
-        <tr><td>STIX ID</td><td><fields :field="{'type': 'code', 'name': 'id'}"  :elt="entity" /></td></tr>
-        <tr><td>Created by</td><td><fields :field="{'type': 'code', 'name': 'created_by_ref'}"  :elt="entity" /></td></tr>
-        <tr><td>Created</td><td><fields :field="{'type': 'datetime', 'name': 'created'}"  :elt="entity" /></td></tr>
-        <tr><td>Modified</td><td><fields :field="{'type': 'datetime', 'name': 'modified'}"  :elt="entity" /></td></tr>
-        <tr><td>Revoked</td><td><fields :field="{'type': 'boolean', 'name': 'revoked'}"  :elt="entity" /></td></tr>
-        <tr v-for="ref in entity.external_references" v-bind:key="ref.source_name">
-          <td>External reference</td><td>
-            <a :href="ref.url" target="_blank">{{ref.source_name}}</a>
-            <small v-if="ref.description"><br>{{ref.description}}</small>
-            <small v-if="ref.external_id"><br>{{ref.external_id}}</small>
-          </td>
-        </tr>
-        <tr><td>Object markings</td><td><code v-bind:key="ref" v-for="ref in entity.object_marking_refs">{{ref}}</code></td></tr>
-        <tr><td>Granular markings</td><td><code v-bind:key="marking" v-for="marking in entity.granular_markings">{{marking}}</code></td></tr>
-      </table>
-    </div>
-
-    <!-- Links and graph -->
-    <div class="links">
-      <h2>Relationships</h2>
-      <links :object="entity"/>
-    </div>
   </div>
 
   <!--  Edit form -->
@@ -62,6 +97,13 @@
              v-else
              />
 </template>
+
+<style lang="css">
+  .json pre {
+    white-space: pre-wrap;
+  }
+
+</style>
 
 <script>
 import axios from 'axios'
@@ -137,6 +179,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-</style>
