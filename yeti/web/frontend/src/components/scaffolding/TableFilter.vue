@@ -5,7 +5,7 @@
       <div v-if="loading">
         Loading...
       </div>
-      <table id="table-filter" v-else class="table table-hover table-compact table-sm table-yeti">
+      <table id="table-filter" v-else class="table table-hover table-sm table-yeti">
         <thead>
           <tr><th v-bind:key="field['name']" v-for="field in filterParams.fields">{{field['name']}}</th></tr>
         </thead>

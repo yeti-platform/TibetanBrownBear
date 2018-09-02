@@ -135,7 +135,7 @@ export default {
 }
 
 a svg {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 </style>

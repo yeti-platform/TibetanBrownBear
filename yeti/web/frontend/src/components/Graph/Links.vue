@@ -1,11 +1,29 @@
 <template>
-  <div>
-    Graph
-    <table class='table'>
-      <tr><th>Link name</th><th>Object</th></tr>
+  <div class="links">
+    <table class="table table-sm">
       <tr v-for="edge in graph.edges"
           v-bind:key='edge._id'>
-        <td>{{edge.relationship_type}}</td><td>{{getVerticeForEdge(graph, edge)}}</td>
+        <td class="incoming-vertice">
+          <router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}">
+            <type-to-icon :type="getIncomingVertice(graph, edge).type"></type-to-icon>{{getIncomingVertice(graph, edge).name}}
+          </router-link>
+          </td>
+        <td>&rarr;</td>
+        <td>{{edge.relationship_type}}</td>
+        <td>&rarr;</td>
+        <td class="outgoing-vertice">
+          <router-link :to="{ name: '', params: {id: getOutgoingVertice(graph, edge).id} }">
+            <type-to-icon :type="getOutgoingVertice(graph, edge).type"></type-to-icon>{{getOutgoingVertice(graph, edge).name}}
+          </router-link>
+        </td>
+        <td><markdown-text :text="edge.description || 'No description'"></markdown-text></td>
+        <td>
+          <p v-for="ref in edge.external_references" v-bind:key="ref.source_name">
+              <a :href="ref.url" target="_blank">{{ref.source_name}}</a>
+              <small v-if="ref.description"><br>{{ref.description}}</small>
+              <small v-if="ref.external_id"><br>{{ref.external_id}}</small>
+          </p>
+        </td>
       </tr>
     </table>
   </div>
@@ -14,12 +32,16 @@
 <script>
 import axios from 'axios'
 import TableFilter from '@/components/scaffolding/TableFilter'
+import TypeToIcon from '@/components/scaffolding/TypeToIcon'
+import MarkdownText from '@/components/scaffolding/MarkdownText'
 
 export default {
   components: {
-    TableFilter
+    TableFilter,
+    TypeToIcon,
+    MarkdownText
   },
-  props: ['object'],
+  props: ['object', 'detailComponent'],
   data () {
     return {
       graph: []
@@ -41,9 +63,21 @@ export default {
     },
     getVerticeForEdge (graph, edge) {
       if (edge.source_ref === this.object.id) {
-        return graph.vertices[edge.target_ref].name
+        return graph.vertices[edge.target_ref]
       }
-      return graph.vertices[edge.source_ref].name
+      return graph.vertices[edge.source_ref]
+    },
+    getIncomingVertice (graph, edge) {
+      if (edge.target_ref === this.object.id) {
+        return graph.vertices[edge.source_ref]
+      }
+      return this.object
+    },
+    getOutgoingVertice (graph, edge) {
+      if (edge.source_ref === this.object.id) {
+        return graph.vertices[edge.target_ref]
+      }
+      return this.object
     }
   },
   watch: {
@@ -54,3 +88,10 @@ export default {
   }
 }
 </script>
+
+
+<style lang="css">
+  .links .outgoing-vertice, .links .incoming-vertice {
+    white-space: nowrap;
+  }
+</style>

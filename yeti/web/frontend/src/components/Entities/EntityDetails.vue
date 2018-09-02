@@ -40,7 +40,7 @@
       <!-- Labels and other common info -->
       <div class="tab-pane show active" id="main" role="tabpanel" aria-labelledby="main-tab">
 
-        <table class="table table-compact">
+        <table class="table">
           <tr>
             <th>Created:</th><td><fields :field="{'type': 'datetime', 'name': 'created'}" :elt="entity" /></td>
             <th>Modified:</th><td><fields :field="{'type': 'datetime', 'name': 'modified'}" :elt="entity" /></td>
@@ -91,7 +91,7 @@
 
         <div class="description mb-3">
           <h2>Description</h2>
-          <div v-html="compiledMarkdown(entity.description) || 'No description' "></div>
+          <markdown-text :text="entity.description || 'No description'"></markdown-text>
         </div>
       </div>
 
@@ -99,7 +99,7 @@
       <div class="tab-pane" id="details" role="tabpanel" aria-labelledby="details-tab">
         <div class="details mb-3">
           <h2>Details</h2>
-          <table class='table table-compact'>
+          <table class='table'>
             <tr><td>Type</td><td><fields :field="{'type': 'code', 'name': 'type'}" :elt="entity" /></td></tr>
             <tr><td>STIX ID</td><td><fields :field="{'type': 'code', 'name': 'id'}" :elt="entity" /></td></tr>
             <tr><td>Created by</td><td><fields :field="{'type': 'code', 'name': 'created_by_ref'}"  :elt="entity" /></td></tr>
@@ -118,7 +118,7 @@
           </table>
         <div v-if="getExtendedProperties(entity).length > 0">
           <h2>{{entityTypeHuman.singular}} specific properties</h2>
-          <table class="table table-compact">
+          <table class="table">
             <tr v-for="prop in getSpecificProperties(entity)" v-bind:key="prop.name">
               <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
             </tr>
@@ -126,7 +126,7 @@
         </div>
         <div v-if="getExtendedProperties(entity).length > 0">
           <h2>Extended properties</h2>
-          <table class="table table-compact">
+          <table class="table">
             <tr v-for="prop in getExtendedProperties(entity)" v-bind:key="prop.name">
               <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
             </tr>
@@ -140,7 +140,7 @@
       <div class="tab-pane" id="relationships" role="tabpanel" aria-labelledby="relationships-tab">
         <div class="relationships">
           <h2>Relationships</h2>
-          <links :object="entity"/>
+          <links :object="entity" :detailComponent="'EntityDetails'"/>
         </div>
       </div>
 
@@ -175,9 +175,9 @@
 
 <script>
 import axios from 'axios'
-import marked from 'marked'
 
 import YetiForm from '@/components/scaffolding/YetiForm'
+import MarkdownText from '@/components/scaffolding/MarkdownText'
 import Links from '@/components/Graph/Links'
 import Fields from '@/components/helpers/Fields'
 
@@ -197,7 +197,8 @@ export default {
   components: {
     YetiForm,
     Fields,
-    Links
+    Links,
+    MarkdownText
   },
   beforeRouteUpdate (to, from, next) { // how do we test this?
     this.fetchInfo()
@@ -234,12 +235,6 @@ export default {
     },
     toggleEdit () {
       this.$router.go(-1)
-    },
-    compiledMarkdown (text) {
-      return marked(text || '', {
-        breaks: true,
-        sanitize: false
-      })
     },
     getSpecificProperties (entity) {
       var properties = []
