@@ -116,18 +116,23 @@
             <tr><td>Object markings</td><td><code v-bind:key="ref" v-for="ref in entity.object_marking_refs">{{ref}}</code></td></tr>
             <tr><td>Granular markings</td><td><code v-bind:key="marking" v-for="marking in entity.granular_markings">{{marking}}</code></td></tr>
           </table>
-        <h2>{{entityTypeHuman.singular}} specific properties</h2>
-        <table class="table table-compact">
-          <tr v-for="prop in getSpecificProperties(entity)" v-bind:key="prop.name">
-            <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
-          </tr>
-        </table>
-        <h2>Extended properties</h2>
-        <table class="table table-compact">
-          <tr v-for="prop in getExtendedProperties(entity)" v-bind:key="prop.name">
-            <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
-          </tr>
-        </table>
+        <div v-if="getExtendedProperties(entity).length > 0">
+          <h2>{{entityTypeHuman.singular}} specific properties</h2>
+          <table class="table table-compact">
+            <tr v-for="prop in getSpecificProperties(entity)" v-bind:key="prop.name">
+              <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
+            </tr>
+          </table>
+        </div>
+        <div v-if="getExtendedProperties(entity).length > 0">
+          <h2>Extended properties</h2>
+          <table class="table table-compact">
+            <tr v-for="prop in getExtendedProperties(entity)" v-bind:key="prop.name">
+              <td><code>{{prop.name}}</code></td><td>{{prop.value}}</td>
+            </tr>
+          </table>
+        </div>
+
         </div>
       </div>
 

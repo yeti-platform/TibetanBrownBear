@@ -26,6 +26,7 @@ import Navigation from '@/components/scaffolding/Navigation'
 
 require('bootstrap')
 require('bootstrap/dist/css/bootstrap.css')
+require('@fortawesome/fontawesome-free/js/all.js')
 
 export default {
   components: {

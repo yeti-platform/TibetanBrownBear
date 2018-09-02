@@ -3,9 +3,6 @@
     <div class="sidebar-sticky">
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Intelligence</span>
-        <a class="d-flex align-items-center text-muted" href="#">
-          <span data-feather="plus-circle"></span>
-        </a>
       </h6>
       <ul class="nav flex-column">
         <li class="nav-item">
@@ -13,12 +10,12 @@
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'malware'}}">
-            <span data-feather="file"></span>Malware
+            <i class="fas fa-fw fa-lg fa-bug"></i>Malware
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'threat-actor'}}">
-            <span data-feather="file"></span>Actors
+            <i class="fas fa-fw fa-lg fa-user-secret"></i>Actors
           </router-link>
         </li>
         <li class="nav-item">
@@ -28,56 +25,53 @@
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'attack-pattern'}}">
-            <span data-feather="file"></span>Attack Patterns (TTPs)
+            <i class="fas fa-fw fa-lg fa-gamepad"></i>Attack Patterns (TTPs)
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'tool'}}">
-            <span data-feather="file"></span>Tools
+            <i class="fas fa-fw fa-lg fa-wrench"></i>Tools
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'intrusion-set'}}">
-            <span data-feather="file"></span>Intrusion sets
+          <i class="fas fa-fw fa-lg fa-umbrella"></i>Intrusion sets
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'vulnerability'}}">
-            <span data-feather="file"></span>Vulnerabilities
+            <i class="fas fa-fw fa-lg fa-bolt"></i>Vulnerabilities
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'campaign'}}">
-            <span data-feather="file"></span>Campaigns
+            <i class="fas fa-fw fa-lg fa-fighter-jet"></i>Campaigns
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'course-of-action'}}">
-            <span data-feather="file"></span>Courses of action
+            <i class="fas fa-fw fa-lg fa-medkit"></i>Courses of action
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'identity'}}">
-            <span data-feather="file"></span>Identities
+            <i class="fas fa-fw fa-lg fa-id-card"></i>Identities
           </router-link>
         </li>
       </ul>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Observables</span>
-        <a class="d-flex align-items-center text-muted" href="#">
-          <span data-feather="plus-circle"></span>
-        </a>
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'ObservableList'}">
-            <span data-feather="home"></span>Browse observables
+            <i class="fas fa-fw fa-lg fa-search"></i>Browse observables
           </router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'ObservablesBulk'}">
-            <span data-feather="home"></span>Bulk observable match
+            <i class="fas fa-fw fa-lg fa-archive"></i>Bulk observable match
           </router-link>
         </li>
       </ul>
@@ -138,6 +132,10 @@ export default {
 .sidebar-heading {
   font-size: .75rem;
   text-transform: uppercase;
+}
+
+a svg {
+  margin-right: 10px;
 }
 
 </style>

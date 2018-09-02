@@ -48,6 +48,9 @@ export default {
   },
   watch: {
     object: 'fetchNeighbors'
+  },
+  mounted () {
+    this.fetchNeighbors()
   }
 }
 </script>
