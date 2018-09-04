@@ -41,7 +41,7 @@ describe('ObservableDetails.vue', () => {
 
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
-    expect(localWrp.find('div.loading').text()).toBe('Loading...')
+    expect(localWrp.find('div.loading i')).toBeTruthy()
   })
 
   it('correctly parses the observable type', () => {

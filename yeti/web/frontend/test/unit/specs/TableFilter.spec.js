@@ -47,7 +47,7 @@ describe('TableFilter.vue', () => {
 
   it('should display a loading message', () => {
     wrapper.vm.loading = true
-    expect(wrapper.text()).toBe('Loading...')
+    expect(wrapper.find('div.loading i')).toBeTruthy()
   })
 
   it('should correctly fetch elements to display', () => {

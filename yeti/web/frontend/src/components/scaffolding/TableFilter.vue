@@ -2,7 +2,7 @@
   <div class="">
     <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
-      <div v-if="loading">
+      <div v-if="loading" class="loading">
         <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
       </div>
       <table id="table-filter" v-else class="table table-hover table-sm table-yeti">

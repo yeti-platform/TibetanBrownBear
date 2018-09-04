@@ -11,4 +11,9 @@ describe('EntityList.vue', () => {
       {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
     ])
   })
+
+  it('the New button should match the type', () => {
+    expect(wrapper.find('#new-entity').text())
+      .toContain('New Malware')
+  })
 })

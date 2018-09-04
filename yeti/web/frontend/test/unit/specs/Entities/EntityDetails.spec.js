@@ -41,7 +41,7 @@ describe('EntityDetails.vue', () => {
 
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
-    expect(localWrp.find('div.loading').text()).toBe('Loading...')
+    expect(localWrp.findAll('div.loading')).toBeTruthy()
   })
 
   it('correctly parses the entity type', () => {

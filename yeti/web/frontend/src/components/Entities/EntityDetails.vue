@@ -1,7 +1,7 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="loading">
-    <i class='fas fa-circle-notch fa-spin fa-5x m-5'></i>
+  <div v-if="loading" class="loading">
+    <i class="fas fa-circle-notch fa-spin fa-5x m-5"></i>
   </div>
   <div v-else-if="!edit" class="entity-details">
 
