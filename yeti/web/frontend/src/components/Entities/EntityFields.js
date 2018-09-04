@@ -16,6 +16,11 @@ export const typeFields = {
     {name: 'labels', type: 'list'},
     {name: 'tool_version', type: 'text'}
   ],
+  'report': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'published', type: 'text'}
+  ],
   'intrusion-set': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'},
@@ -59,6 +64,10 @@ export const defaultObjects = {
   },
   'threat-actor': {
     type: 'threat-actor',
+    labels: []
+  },
+  'report': {
+    type: 'report',
     labels: []
   },
   'attack-pattern': {

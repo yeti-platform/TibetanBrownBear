@@ -22,6 +22,11 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'report'}}">
+            <span data-feather="file"></span>Reports
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'attack-pattern'}}">
             <span data-feather="file"></span>Attack Patterns (TTPs)
           </router-link>
