@@ -20,7 +20,7 @@
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'EntityList', params: {type: 'report'}}">
-            <span data-feather="file"></span>Reports
+            <i class="far fa-fw fa-lg fa-newspaper"></i>Reports
           </router-link>
         </li>
         <li class="nav-item">

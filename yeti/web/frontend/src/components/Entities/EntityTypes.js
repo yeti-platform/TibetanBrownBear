@@ -7,6 +7,10 @@ export const entityTypes = {
     'plural': 'Actors',
     'singular': 'Actor'
   },
+  'reports': {
+    'plural': 'Reports',
+    'singular': 'Report'
+  },
   'attack-pattern': {
     'plural': 'Attack patterns (TTPs)',
     'singular': 'Attack pattern (TTP)'
