@@ -2,9 +2,9 @@
   <div class="">
     <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
     <div class="table-responsive">
-      <div v-if="loading" class="loading">
+      <span v-if="loading" class="loading">
         <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
-      </div>
+      </span>
       <table id="table-filter" v-else class="table table-hover table-sm table-yeti">
         <thead>
           <tr><th v-bind:key="field['name']" v-for="field in filterParams.fields">{{field['name']}}</th></tr>
@@ -67,11 +67,11 @@ export default {
           this.elements = response.data.map(function (elt) {
             elt.selected = false; return elt
           })
-          this.loading = false
         })
         .catch(error => {
           console.log(error)
         })
+        .finally(() => { this.loading = false })
     },
     select (elt) {
       this.selectedElements = [elt.id]

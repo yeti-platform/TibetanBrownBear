@@ -1,8 +1,8 @@
 <template>
   <div class="links">
-    <div v-if="loading">
+    <span v-if="loading">
       <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
-    </div>
+    </span>
     <table v-else class="table table-sm">
       <tr v-for="edge in graph.edges"
           v-bind:key='edge._id'>
@@ -58,14 +58,14 @@ export default {
   },
   methods: {
     fetchNeighbors () {
-      this.loading = true
       console.log('fetching neighbors for ' + this.object.id)
+      this.loading = true
       axios.get(this.apiPath)
         .then(response => {
           console.log('Got ' + response.data.edges.length + ' edges')
           this.graph = response.data
-          this.loading = false
         })
+        .finally(() => { this.loading = false })
     },
     getVerticeForEdge (graph, edge) {
       if (edge.source_ref === this.object.id) {

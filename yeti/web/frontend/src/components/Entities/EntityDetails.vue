@@ -1,8 +1,8 @@
 <template>
   <!-- Display details nicely -->
-  <div v-if="loading" class="loading">
+  <span v-if="loading" class="loading">
     <i class="fas fa-circle-notch fa-spin fa-5x m-5"></i>
-  </div>
+  </span>
   <div v-else-if="!edit" class="entity-details">
 
     <!-- Title and edit button -->
@@ -223,6 +223,7 @@ export default {
   },
   methods: {
     fetchInfo () {
+      this.loading = true
       axios.get(this.defaultApiPath + this.id)
         .then(response => {
           if (response.status !== 200) {
