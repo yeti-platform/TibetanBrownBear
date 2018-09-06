@@ -1,14 +1,14 @@
 <template lang="html">
   <yeti-form apiPath="http://localhost:5000/api/entities/"
              :object="defaultObjects[type]"
-             :fields="typeFields[type]"
+             :fields="editFields[type]"
              v-on:form-submit="navigateToNew"/>
 </template>
 
 <script>
 
 import YetiForm from '@/components/scaffolding/YetiForm'
-import { typeFields, defaultObjects } from './EntityFields.js'
+import { editFields, defaultObjects } from './EntityFields.js'
 
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
   data () {
     return {
       defaultObjects: defaultObjects,
-      typeFields: typeFields
+      editFields: editFields
     }
   },
   props: ['type'],

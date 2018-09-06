@@ -8,15 +8,24 @@
           <input v-if="field.type === 'text'" class="form-control" :id="field['name']" v-model="object[field['name']]">
           <!-- code input -->
           <textarea v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
+          <!-- textarea -->
+          <textarea v-if="field.type === 'longtext'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
+          <!-- datetime -->
+          <datepicker v-if="field.type === 'datetime'" :id="field['name']" v-model="object[field['name']]"
+                      :format="customFormatter"
+                      :bootstrap-styling="true"
+                      :typeable="true"
+                      placeholder="Click to pick date">
+          </datepicker>
           <!-- list-type input -->
           <yeti-list-input v-if="field.type === 'list'"
-                             v-model="object[field['name']]"
-                             :autocompleteValues="field['autocompleteValues'] || []" />
+                           v-model="object[field['name']]"
+                           :autocompleteValues="field['autocompleteValues'] || []" />
           <!-- tag input -->
           <yeti-list-input v-if="field.type === 'tags'"
-                             v-model="object[field['name']]"
-                             displayKey="name"
-                             :autocompleteValues="field['autocompleteValues'] || []" />
+                           v-model="object[field['name']]"
+                           displayKey="name"
+                           :autocompleteValues="field['autocompleteValues'] || []" />
         </div>
       </div>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
@@ -30,7 +39,11 @@
 
 <script>
 import axios from 'axios'
+import Datepicker from 'vuejs-datepicker'
+
 import YetiListInput from '@/components/scaffolding/YetiListInput'
+
+var moment = require('moment')
 
 const methods = {
   'PUT': axios.put,
@@ -39,7 +52,8 @@ const methods = {
 
 export default {
   components: {
-    YetiListInput
+    YetiListInput,
+    Datepicker
   },
   props: {
     'fields': { default: () => [], type: Array },
@@ -68,6 +82,9 @@ export default {
           this.saving = false
         })
       e.preventDefault()
+    },
+    customFormatter (date) {
+      return moment(date).format('YYYY-MM-DD HH:mm:ss ZZ')
     }
   }
 }

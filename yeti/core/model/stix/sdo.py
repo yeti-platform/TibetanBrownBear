@@ -34,7 +34,7 @@ class StixSDO(StixObject):
 
     def equals(self, stix_dict):
         for attribute, value in stix_dict.items():
-            if getattr(self._stix_object, attribute) != value:
+            if getattr(self._stix_object, attribute, None) != value:
                 return False
         return True
 
@@ -49,9 +49,12 @@ class StixSDO(StixObject):
         """
         if self.equals(args):
             return self
+        for key, value in args.items():
+            if not value:
+                args[key] = None
         try:
             new_version = self._stix_object.new_version(**args)
-        except UnmodifiablePropertyError as e:
+        except (UnmodifiablePropertyError, MissingPropertiesError) as e:
             raise YetiSTIXError(str(e))
         self._stix_object = new_version
         return self.save()

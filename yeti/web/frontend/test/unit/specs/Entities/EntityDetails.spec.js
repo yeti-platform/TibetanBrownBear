@@ -51,7 +51,9 @@ describe('EntityDetails.vue', () => {
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.entityFields).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
+      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']},
+      {name: 'description', type: 'longtext'},
+      {name: 'kill_chain_phases', type: 'killchain'}
     ])
   })
 

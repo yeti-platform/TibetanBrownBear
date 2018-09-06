@@ -184,7 +184,7 @@ import MarkdownText from '@/components/scaffolding/MarkdownText'
 import Links from '@/components/Graph/Links'
 import Fields from '@/components/helpers/Fields'
 
-import { typeFields } from './EntityFields.js'
+import { editFields } from './EntityFields.js'
 import { entityTypes } from './EntityTypes.js'
 
 export default {
@@ -215,7 +215,7 @@ export default {
       }
     },
     entityFields () {
-      return typeFields[this.entityType]
+      return editFields[this.entityType]
     },
     entityTypeHuman () {
       return entityTypes[this.entityType]
