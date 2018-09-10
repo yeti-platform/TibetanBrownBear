@@ -110,3 +110,6 @@ yeti.conf
 
 # vue and node things
 node_modules/
+
+# VS studio code
+.vscode
