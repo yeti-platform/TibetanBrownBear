@@ -45,8 +45,9 @@ describe('YetiListInput.vue', () => {
 
   it('autocomplete suggests the correct choices', () => {
     wrapper.setProps({
-      autocompleteValues: ['trojan', 'malware']
+      autocompleteVocab: 'malware'
     })
+    // fix me plz
     wrapper.vm.formatAutocompleteValues()
     expect(wrapper.vm.formattedAutoCompleteValues).toEqual([{text: 'trojan'}, {text: 'malware'}])
   })

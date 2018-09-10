@@ -20,12 +20,12 @@
           <!-- list-type input -->
           <yeti-list-input v-if="field.type === 'list'"
                            v-model="object[field['name']]"
-                           :autocompleteValues="field['autocompleteValues'] || []" />
+                           :autocompleteVocab="field['vocab'] || []" />
           <!-- tag input -->
           <yeti-list-input v-if="field.type === 'tags'"
                            v-model="object[field['name']]"
                            displayKey="name"
-                           :autocompleteValues="field['autocompleteValues'] || []" />
+                           :autocompleteVocab="field['vocab'] || []" />
         </div>
       </div>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>

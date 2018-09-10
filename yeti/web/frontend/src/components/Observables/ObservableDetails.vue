@@ -25,7 +25,7 @@
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
 import Fields from '@/components/helpers/Fields'
-import { typeFields } from './ObservableFields.js'
+import { listFields } from './ObservableFields.js'
 
 export default {
   data () {
@@ -56,7 +56,7 @@ export default {
       }
     },
     observableFields () {
-      return typeFields[this.observableType]
+      return listFields[this.observableType]
     }
   },
   methods: {

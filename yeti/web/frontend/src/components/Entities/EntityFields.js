@@ -39,7 +39,7 @@ export const editFields = {
   ],
   'malware': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']},
+    {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
     {name: 'description', type: 'longtext'},
     {name: 'kill_chain_phases', type: 'killchain'}
   ],
@@ -83,7 +83,7 @@ export const editFields = {
   ]
 }
 
-export const typeFields = {
+export const listFields = {
   'attack-pattern': [
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'},
@@ -115,7 +115,7 @@ export const typeFields = {
   ],
   'malware': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']},
+    {name: 'labels', type: 'list', vocab: 'malware'},
     {name: 'kill_chain_phases', type: 'killchain'}
   ],
   'observed-data': [

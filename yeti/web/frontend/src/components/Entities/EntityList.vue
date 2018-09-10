@@ -15,7 +15,7 @@
 
 <script>
 import TableFilter from '@/components/scaffolding/TableFilter'
-import { typeFields } from './EntityFields.js'
+import { listFields } from './EntityFields.js'
 import { entityTypes } from './EntityTypes.js'
 
 export default {
@@ -27,7 +27,7 @@ export default {
     filterParams () {
       return {
         apiPath: `http://localhost:5000/api/entities/filter/`,
-        fields: typeFields[this.type],
+        fields: listFields[this.type],
         queryKey: 'name',
         typeFilter: this.type
       }
