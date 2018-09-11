@@ -3,13 +3,13 @@
     <form @submit="submitForm">
       <div v-for="field in fields" v-bind:key="field.name" class="form-group row">
         <label :for="field.name" class="col-sm-2 col-form-label">{{field.name}}</label>
-        <div class="col-sm-10">
+        <div class="col-sm-10 form-group">
           <!-- plain text input -->
           <input v-if="field.type === 'text'" class="form-control" :id="field['name']" v-model="object[field['name']]">
           <!-- code input -->
-          <textarea v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
+          <textarea class="form-control" v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
           <!-- textarea -->
-          <textarea v-if="field.type === 'longtext'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
+          <textarea class="form-control" v-if="field.type === 'longtext'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
           <!-- datetime -->
           <datepicker v-if="field.type === 'datetime'" :id="field['name']" v-model="object[field['name']]"
                       :format="customFormatter"
