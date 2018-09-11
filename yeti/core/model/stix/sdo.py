@@ -3,6 +3,7 @@ import json
 
 from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
+from stix2 import utils
 
 from yeti.core.errors import ValidationError, YetiSTIXError
 from .base import StixObject
@@ -52,8 +53,10 @@ class StixSDO(StixObject):
         for key, value in args.items():
             if not value:
                 args[key] = None
+        for prop in utils.STIX_UNMOD_PROPERTIES:
+            args.pop(prop, None)
         try:
-            new_version = self._stix_object.new_version(**args)
+            new_version = self._stix_object.new_version(**args, allow_custom=True)
         except (UnmodifiablePropertyError, MissingPropertiesError) as e:
             raise YetiSTIXError(str(e))
         self._stix_object = new_version
