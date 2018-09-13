@@ -20,19 +20,19 @@
           <!-- list-type input -->
           <yeti-list-input v-if="field.type === 'list'"
                            v-model="object[field['name']]"
-                           :autocompleteVocab="field['vocab'] || []" />
+                           :autocompleteVocab="field['vocab']" />
           <!-- tag input -->
           <yeti-list-input v-if="field.type === 'tags'"
                            v-model="object[field['name']]"
                            displayKey="name"
-                           :autocompleteVocab="field['vocab'] || []" />
+                           :autocompleteVocab="field['vocab']" />
         </div>
       </div>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
-      <pre>{{object}}</pre>
+      <pre class="json p-3">{{object}}</pre>
     </form>
     <div v-if="errors">
-      <pre>{{errors}}</pre>
+      <pre class="json p-3">{{errors}}</pre>
     </div>
   </div>
 </template>
@@ -91,4 +91,5 @@ export default {
 </script>
 
 <style lang="css">
+
 </style>
