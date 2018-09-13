@@ -58,7 +58,10 @@ def clean_db():
 @pytest.fixture
 def populate_settings():
     vocabs = Vocabs().save()
-    vocabs.set_vocab_for_field('Malware.type', sorted(['trojan', 'banker']))
+    vocabs.set_vocab('malware-label-ov', sorted([
+        'adware',
+        'backdoor'
+    ]))
     return [vocabs]
 
 @pytest.fixture
