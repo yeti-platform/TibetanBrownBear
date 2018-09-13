@@ -115,7 +115,7 @@ export const listFields = {
   ],
   'malware': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list', vocab: 'malware'},
+    {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
     {name: 'kill_chain_phases', type: 'killchain'}
   ],
   'observed-data': [

@@ -27,7 +27,7 @@ describe('NewEntity.vue', () => {
   it('Fields default fields are correct', () => {
     expect(wrapper.vm.editFields[wrapper.vm.type]).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', vocab: 'malware'},
+      {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
       {name: 'description', type: 'longtext'},
       {name: 'kill_chain_phases', type: 'killchain'}
     ])

@@ -51,7 +51,7 @@ describe('EntityDetails.vue', () => {
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.entityFields).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', vocab: 'malware'},
+      {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
       {name: 'description', type: 'longtext'},
       {name: 'kill_chain_phases', type: 'killchain'}
     ])
