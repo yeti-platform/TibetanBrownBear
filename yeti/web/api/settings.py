@@ -34,7 +34,7 @@ class SettingsResource(FlaskView):
             return v.get_vocab(vocab)
         except RuntimeException as exception:
             return exception, 400
-        
+
     @as_json
     @route('/vocabs/<vocab>/', methods=['DELETE'])
     def remove_value_from_vocab(self, vocab):
