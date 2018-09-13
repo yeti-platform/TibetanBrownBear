@@ -28,8 +28,13 @@ MITRE_MALWARE_LABEL_OV = [
     'rogue-security-software',
     'rootkit',
     'screen-capture',
-    'spyware, trojan, virus, worm',
+    'spyware',
+    'trojan',
+    'virus',
+    'worm'
 ]
+
+
 
 VOCABS = {
     'malware-label-ov': MITRE_MALWARE_LABEL_OV
