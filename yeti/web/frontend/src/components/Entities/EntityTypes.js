@@ -1,31 +1,7 @@
 export const entityTypes = {
-  'malware': {
-    'plural': 'Malware',
-    'singular': 'Malware'
-  },
-  'threat-actor': {
-    'plural': 'Actors',
-    'singular': 'Actor'
-  },
-  'report': {
-    'plural': 'Reports',
-    'singular': 'Report'
-  },
   'attack-pattern': {
     'plural': 'Attack patterns (TTPs)',
     'singular': 'Attack pattern (TTP)'
-  },
-  'tool': {
-    'plural': 'Tools',
-    'singular': 'Tool'
-  },
-  'intrusion-set': {
-    'plural': 'Intrusion sets',
-    'singular': 'Intrusion set'
-  },
-  'vulnerability': {
-    'plural': 'Vulnerabilities',
-    'singular': 'Vulnerability'
   },
   'campaign': {
     'plural': 'Campaigns',
@@ -38,5 +14,29 @@ export const entityTypes = {
   'identity': {
     'plural': 'Identities',
     'singular': 'Identity'
+  },
+  'intrusion-set': {
+    'plural': 'Intrusion sets',
+    'singular': 'Intrusion set'
+  },
+  'malware': {
+    'plural': 'Malware',
+    'singular': 'Malware'
+  },
+  'report': {
+    'plural': 'Reports',
+    'singular': 'Report'
+  },
+  'threat-actor': {
+    'plural': 'Actors',
+    'singular': 'Actor'
+  },
+  'tool': {
+    'plural': 'Tools',
+    'singular': 'Tool'
+  },
+  'vulnerability': {
+    'plural': 'Vulnerabilities',
+    'singular': 'Vulnerability'
   }
 }
