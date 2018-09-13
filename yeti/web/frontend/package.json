@@ -30,7 +30,7 @@
     "vuejs-datepicker": "^1.5.3"
   },
   "devDependencies": {
-    "@vue/test-utils": "^1.0.0-beta.24",
+    "@vue/test-utils": "^1.0.0-beta.25",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
