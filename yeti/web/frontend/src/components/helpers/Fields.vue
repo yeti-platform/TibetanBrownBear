@@ -20,7 +20,7 @@
 
   <div v-else-if="field.type == 'killchain'" :class="field.name">
     <span v-for="v in getFieldValue"
-          v-bind:key="v"
+          v-bind:key="v.phase_name"
           class="badge m-1 badge-primary"
           :title="v.kill_chain_name">
           {{v.phase_name}}

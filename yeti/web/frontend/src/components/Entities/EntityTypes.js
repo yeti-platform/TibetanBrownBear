@@ -7,7 +7,7 @@ export const entityTypes = {
     'plural': 'Actors',
     'singular': 'Actor'
   },
-  'reports': {
+  'report': {
     'plural': 'Reports',
     'singular': 'Report'
   },
