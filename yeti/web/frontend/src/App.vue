@@ -26,6 +26,7 @@ import Navigation from '@/components/scaffolding/Navigation'
 
 require('bootstrap')
 require('bootstrap/dist/css/bootstrap.css')
+require('@fortawesome/fontawesome-free/js/all.js')
 
 export default {
   components: {
@@ -64,6 +65,11 @@ body {
 .nav-pills .nav-link.router-link-active, .nav-pills .show > .nav-link {
     color: #fff;
     background-color: #007bff;
+}
+
+h1.yeti-title {
+  font-weight: 300;
+  font-size: 3rem;
 }
 
 </style>

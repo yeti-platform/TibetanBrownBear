@@ -25,16 +25,17 @@ describe('NewEntity.vue', () => {
   })
 
   it('Fields default fields are correct', () => {
-    expect(wrapper.vm.typeFields[wrapper.vm.type]).toEqual([
+    expect(wrapper.vm.editFields[wrapper.vm.type]).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
+      {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
+      {name: 'description', type: 'longtext'},
+      {name: 'kill_chain_phases', type: 'killchain'}
     ])
   })
 
   it('Fields default objects are correct given the type', () => {
     expect(wrapper.vm.defaultObjects[wrapper.vm.type]).toEqual({
-      type: 'malware',
-      labels: []
+      type: 'malware'
     })
   })
 

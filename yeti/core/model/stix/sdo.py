@@ -3,6 +3,7 @@ import json
 
 from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
+from stix2 import utils
 
 from yeti.core.errors import ValidationError, YetiSTIXError
 from .base import StixObject
@@ -34,7 +35,7 @@ class StixSDO(StixObject):
 
     def equals(self, stix_dict):
         for attribute, value in stix_dict.items():
-            if getattr(self._stix_object, attribute) != value:
+            if getattr(self._stix_object, attribute, None) != value:
                 return False
         return True
 
@@ -49,9 +50,14 @@ class StixSDO(StixObject):
         """
         if self.equals(args):
             return self
+        for key, value in args.items():
+            if not value:
+                args[key] = None
+        for prop in utils.STIX_UNMOD_PROPERTIES:
+            args.pop(prop, None)
         try:
-            new_version = self._stix_object.new_version(**args)
-        except UnmodifiablePropertyError as e:
+            new_version = self._stix_object.new_version(**args, allow_custom=True)
+        except (UnmodifiablePropertyError, MissingPropertiesError) as e:
             raise YetiSTIXError(str(e))
         self._stix_object = new_version
         return self.save()

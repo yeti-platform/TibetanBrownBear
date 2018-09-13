@@ -8,6 +8,12 @@ import mockObjects from '../../__mocks__/mock_objects'
 
 const tagListSpy = jest.spyOn(TableFilter.methods, 'clearSelection')
 
+jest.mock('axios', () => ({
+  post: jest.fn((url) => {
+    return Promise.resolve({ data: [], status: 200 })
+  })
+}))
+
 describe('Tags.vue', () => {
   let localVue
   let wrapper

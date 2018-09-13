@@ -7,7 +7,7 @@ class SettingSchema(YetiSchema):
     settings = fields.Dict()
 
     @post_load
-    def load_tag(self, data):
+    def load_setting(self, data):
         """Load a Tag object from its JSON representation.
 
         Returns:
@@ -25,3 +25,7 @@ class Setting(YetiObject):
     id = None
     settings = {}
     types = {}
+
+    _indexes = [
+        {'fields': ['name'], 'unique': True},
+    ]

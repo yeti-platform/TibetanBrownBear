@@ -9,6 +9,28 @@ const mockMalware = {
   type: 'malware'
 }
 
+const mockVocabs = {
+  'malware-label-ov': [
+    'adware',
+    'backdoor',
+    'bot',
+    'ddos',
+    'dropper',
+    'exploit-kit',
+    'keylogger',
+    'ransomware',
+    'remote-access-trojan',
+    'resource-exploitation',
+    'rogue-security-software',
+    'rootkit',
+    'screen-capture',
+    'spyware',
+    'trojan',
+    'virus',
+    'worm'
+  ]
+}
+
 const mockHostname = {
   'id': 2685155,
   'type': 'domain-name',
@@ -92,6 +114,7 @@ const mockAsyncJobList = [
   }
 ]
 
+module.exports.mockVocabs = mockVocabs
 module.exports.mockMalware = mockMalware
 module.exports.mockHostname = mockHostname
 module.exports.mockObservableMatchresult = mockObservableMatchresult

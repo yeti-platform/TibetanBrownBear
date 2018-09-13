@@ -3,6 +3,13 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import YetiListInput from '@/components/scaffolding/YetiListInput'
 import Router from 'vue-router'
 import { routes } from '@/router'
+import mockObjects from '../__mocks__/mock_objects'
+
+jest.mock('axios', () => ({
+  post: jest.fn((url) => {
+    return Promise.resolve({ data: mockObjects.malwareLabelOV, status: 200 })
+  })
+}))
 
 describe('YetiListInput.vue', () => {
   let localVue
@@ -45,9 +52,8 @@ describe('YetiListInput.vue', () => {
 
   it('autocomplete suggests the correct choices', () => {
     wrapper.setProps({
-      autocompleteValues: ['trojan', 'malware']
+      autocompleteVocab: 'malware-label-ov'
     })
-    wrapper.vm.formatAutocompleteValues()
-    expect(wrapper.vm.formattedAutoCompleteValues).toEqual([{text: 'trojan'}, {text: 'malware'}])
+    expect(wrapper.vm.formattedAutoCompleteValues).toEqual()
   })
 })

@@ -41,7 +41,7 @@ describe('EntityDetails.vue', () => {
 
   it('the loading text is correctly displayed', () => {
     localWrp.vm.loading = true
-    expect(localWrp.find('div.loading').text()).toBe('Loading...')
+    expect(localWrp.findAll('div.loading')).toBeTruthy()
   })
 
   it('correctly parses the entity type', () => {
@@ -51,7 +51,9 @@ describe('EntityDetails.vue', () => {
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.entityFields).toEqual([
       {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', autocompleteValues: ['trojan', 'banker']}
+      {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
+      {name: 'description', type: 'longtext'},
+      {name: 'kill_chain_phases', type: 'killchain'}
     ])
   })
 
