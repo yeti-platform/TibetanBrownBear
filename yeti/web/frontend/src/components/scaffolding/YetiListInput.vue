@@ -4,7 +4,7 @@
                     v-model="item"
                     @tags-changed="processItems"
                     :autocomplete-items="filteredItems" />
-    <small v-if="autocompleteVocab">Autocompleting from <code>{{autocompleteVocab}}</code></small>
+    <small v-if="autocompleteVocab" class="form-text text-muted">Autocompleting from <code>{{autocompleteVocab}}</code></small>
   </div>
 </template>
 

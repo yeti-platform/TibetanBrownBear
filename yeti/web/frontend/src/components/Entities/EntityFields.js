@@ -33,7 +33,7 @@ export const editFields = {
     {name: 'first_seen', type: 'datetime'},
     {name: 'last_seen', type: 'datetime'},
     {name: 'goals', type: 'list'},
-    {name: 'resource_level', type: 'text'},
+    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
     {name: 'primary_motivation', type: 'text'},
     {name: 'secondary_motivations', type: 'list'}
   ],

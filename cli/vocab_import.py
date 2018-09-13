@@ -14,7 +14,7 @@ def vocab_import(vocab_filter):
             continue
         vocabs.set_vocab(name, vocab)
 
-MITRE_MALWARE_LABEL_OV = [
+STIX_MALWARE_LABEL_OV = [
     'adware',
     'backdoor',
     'bot',
@@ -34,8 +34,18 @@ MITRE_MALWARE_LABEL_OV = [
     'worm'
 ]
 
+STIX_ATTACK_RESOURCE_LEVEL_OV = [
+    'individual',
+    'club',
+    'contest',
+    'team',
+    'organization',
+    'government'
+]
+
 
 
 VOCABS = {
-    'malware-label-ov': MITRE_MALWARE_LABEL_OV
+    'malware-label-ov': STIX_MALWARE_LABEL_OV,
+    'attack-resource-level-ov': STIX_ATTACK_RESOURCE_LEVEL_OV
 }
