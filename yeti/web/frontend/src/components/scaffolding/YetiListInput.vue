@@ -1,10 +1,11 @@
 <template>
-  <vue-tags-input :tags="listItems"
-                  v-model="item"
-                  @tags-changed="processItems"
-                  :autocomplete-items="autocompleteItems"
-                  :add-only-from-autocomplete="true"
-                  />
+  <div>
+    <vue-tags-input :tags="listItems"
+                    v-model="item"
+                    @tags-changed="processItems"
+                    :autocomplete-items="filteredItems" />
+    <small v-if="autocompleteVocab">Autocompleting from <code>{{autocompleteVocab}}</code></small>
+  </div>
 </template>
 
 <script>
@@ -36,7 +37,6 @@ export default {
       }
     },
     getValuesForVocab: function () {
-      this.autocompleteValues = []
       axios.get('/api/settings/vocabs/' + this.autocompleteVocab + '/').then(response => {
         if (response.status === 200) {
           this.autocompleteItems = response.data.map(item => Object({text: item}))
@@ -46,7 +46,6 @@ export default {
   },
   computed: {
     filteredItems () {
-      this.getValuesForVocab()
       return this.autocompleteItems.filter(validTag => new RegExp(this.item, 'i').test(validTag.text))
     }
   },
