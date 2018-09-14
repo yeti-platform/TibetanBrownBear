@@ -1,0 +1,574 @@
+[
+    {
+        "name": "attack-motivation-ov",
+        "values": [
+            {
+                "value": "accidental",
+                "description": "A non-hostile actor whose benevolent or harmless intent inadvertently causes harm.\n\nFor example, a well-meaning and dedicated employee who through distraction or poor training unintentionally causes harm to his or her organization."
+            },
+            {
+                "value": "coercion",
+                "description": "Being forced to act on someone else's behalf.\n\n\nAdversaries who are motivated by coercion are often forced through intimidation or blackmail to act illegally for someone else’s benefit. Unlike the other motivations, a coerced person does not act for personal gain, but out of fear of incurring a loss."
+            },
+            {
+                "value": "dominance",
+                "description": "A desire to assert superiority over someone or something else.\n\nAdversaries who are seeking dominance over a target are focused on using their power to force their target into submission or irrelevance. Dominance may be found with ideology in some state-sponsored attacks and with notoriety in some cyber vandalism based attacks."
+            },
+            {
+                "value": "ideology",
+                "description": "A passion to express a set of ideas, beliefs, and values that may shape and drive harmful and illegal acts.\n\nAdversaries who act for ideological reasons (e.g., political, religious, human rights, environmental, desire to cause chaos/anarchy, etc.) are not usually motivated primarily by the desire for profit; they are acting on their own sense of morality, justice, or political loyalty.\n\nFor example, an activist group may sabotage a company’s equipment because they believe the company is harming the environment."
+            },
+            {
+                "value": "notoriety",
+                "description": "Seeking prestige or to become well known through some activity.\n\nAdversaries motivated by notoriety are often seeking either personal validation or respect within a community and staying covert is not a priority. In fact one of the main goals is to garner the respect of their target audience."
+            },
+            {
+                "value": "organizational-gain",
+                "description": "Seeking advantage over a competing organization, including a military organization.\n\nAdversaries motivated by increased profit or other gains through an unfairly obtained competitive advantage are often seeking theft of intellectual property, business processes, or supply chain agreements and thus accelerating their position in a market or capability."
+            },
+            {
+                "value": "personal-gain",
+                "description": "The desire to improve one’s own financial status.\n\nAdversaries motivated by a selfish desire for personal gain are often out for gains that come from financial fraud, hacking for hire, or intellectual property theft.\n\n\nWhile a Threat Actor or Intrusion Set may be seeking personal gain this does not mean they are acting alone. Individuals can band together solely to maximize their own personal profits."
+            },
+            {
+                "value": "personal-satisfaction",
+                "description": "A desire to satisfy a strictly personal goal, including curiosity, thrill-seeking, amusement, etc.\n\nThreat Actors or Intrusion Set driven by personal satisfaction may incidentally receive some other gain from their actions, such as a profit, but their primary motivation is to gratify a personal, emotional need. Individuals can band together with others toward a mutual, but not necessarily organizational, objective."
+            },
+            {
+                "value": "revenge",
+                "description": "A desire to avenge perceived wrongs through harmful actions such as sabotage, violence, theft, fraud, or embarrassing certain individuals or the organization.\n\nA disgruntled Threat Actor or Intrusion Set seeking revenge can include current or former employees, who may have extensive knowledge to leverage when conducting attacks. Individuals can band together with others if the individual believes that doing so will enable them to cause more harm."
+            },
+            {
+                "value": "unpredictable",
+                "description": "Acting without identifiable reason or purpose and creating unpredictable events.\n\nUnpredictable is not a miscellaneous or default category. Unpredictable means a truly random and likely bizarre event, which seems to have no logical purpose to the victims."
+            }
+        ]
+    },
+    {
+        "name": "attack-resource-level-ov",
+        "values": [
+            {
+                "value": "individual",
+                "description": "Resources limited to the average individual; Threat Actor acts independently."
+            },
+            {
+                "value": "club",
+                "description": "Members interact on a social and volunteer basis, often with little personal interest in the specific target. An example might be a core group of unrelated activists who regularly exchange tips on a particular blog. Group persists long term."
+            },
+            {
+                "value": "contest",
+                "description": "A short-lived and perhaps anonymous interaction that concludes when the participants have achieved a single goal. For example, people who break into systems just for thrills or prestige may hold a contest to see who can break into a specific target first. It also includes announced \"operations\" to achieve a specific goal, such as the original \"OpIsrael\" call for volunteers to disrupt all of Israel's Internet functions for a day."
+            },
+            {
+                "value": "team",
+                "description": "A formally organized group with a leader, typically motivated by a specific goal and organized around that goal. Group persists long term and typically operates within a single geography."
+            },
+            {
+                "value": "organization",
+                "description": "Larger and better resourced than a team; typically a company or crime syndicate. Usually operates in multiple geographic areas and persists long term."
+            },
+            {
+                "value": "government",
+                "description": "Controls public assets and functions within a jurisdiction; very well resourced and persists long term."
+            }
+        ]
+    },
+    {
+        "name": "hasing_algorithm-ov",
+        "values": [
+            {
+                "value": "MD5",
+                "description": "Specifies the MD5 message digest algorithm. The corresponding hash string for this value MUST be a valid MD5 message digest as defined in [RFC 1321]."
+            },
+            {
+                "value": "MD6",
+                "description": "Specifies the MD6 message digest algorithm. The corresponding hash string for this value MUST be a valid MD6 message digest as defined in the [MD6] proposal."
+            },
+            {
+                "value": "RIPEMD-160",
+                "description": "Specifies the RIPEMD­-160 (R​ACE​ Integrity Primitives Evaluation Message Digest)​ cryptographic hash function. The corresponding hash string for this value MUST be a valid RIPEMD-160 message digest as defined in the [RIPEMD-160] specification."
+            },
+            {
+                "value": "SHA-1",
+                "description": "Specifies the SHA­-1 (secure-­hash algorithm 1) cryptographic hash function. The corresponding hash string for this value MUST be a valid SHA-1 message digest as defined in [RFC 3174]."
+            },
+            {
+                "value": "SHA-224",
+                "description": "Specifies the SHA-­224 cryptographic hash function (part of the SHA­2 family). The corresponding hash string for this value MUST be a valid SHA-224 message digest as defined in [RFC 6234]."
+            },
+            {
+                "value": "SHA-256",
+                "description": "Specifies the SHA-­256 cryptographic hash function (part of the SHA­2 family). The corresponding hash string for this value MUST be a valid SHA-256 message digest as defined in [RFC 6234]."
+            },
+            {
+                "value": "SHA-384",
+                "description": "Specifies the SHA-­384 cryptographic hash function (part of the SHA­2 family). The corresponding hash string for this value MUST be a valid SHA-384 message digest as defined in [RFC 6234]."
+            },
+            {
+                "value": "SHA-512",
+                "description": "Specifies the SHA-­512 cryptographic hash function (part of the SHA­2 family). The corresponding hash string for this value MUST be a valid SHA-512 message digest as defined in [RFC 6234]."
+            },
+            {
+                "value": "SHA3-224",
+                "description": "Specifies the SHA3-224 cryptographic hash function. The corresponding hash string for this value MUST be a valid SHA3-224 message digest as defined in [FIPS202]."
+            },
+            {
+                "value": "SHA3-256",
+                "description": "Specifies the SHA3-256 cryptographic hash function. The corresponding hash string for this value MUST be a valid SHA3-256 message digest as defined in [FIPS202]."
+            },
+            {
+                "value": "SHA3-384",
+                "description": "Specifies the SHA3-384 cryptographic hash function. The corresponding hash string for this value MUST be a valid SHA3-384 message digest as defined in [FIPS202]."
+            },
+            {
+                "value": "SHA3-512",
+                "description": "Specifies the SHA3-512 cryptographic hash function. The corresponding hash string for this value MUST be a valid SHA3-512 message digest as defined in [FIPS202]."
+            },
+            {
+                "value": "ssdeep",
+                "description": "Specifies the ssdeep fuzzy hashing algorithm. The corresponding hash string for this value MUST be a valid piecewise hash as defined in the [SSDEEP] specification."
+            },
+            {
+                "value": "WHIRLPOOL",
+                "description": "Specifies the whirlpool cryptographic hash function. The corresponding hash string for this value MUST be a valid WHIRLPOOL message digest as defined in [ISO10118]."
+            }
+        ]
+    },
+    {
+        "name": "identity-class-ov",
+        "values": [
+            {
+                "value": "individual",
+                "description": "A single person."
+            },
+            {
+                "value": "group",
+                "description": "An informal collection of people, without formal governance, such as a distributed hacker group."
+            },
+            {
+                "value": "organization",
+                "description": "A formal organization of people, with governance, such as a company or country."
+            },
+            {
+                "value": "class",
+                "description": "A class of entities, such as all hospitals, all Europeans, or the Domain Administrators in a system."
+            },
+            {
+                "value": "unknown",
+                "description": "It is unknown whether the classification is individual, group, organization, or class."
+            }
+        ]
+    },
+    {
+        "name": "indicator-label-ov",
+        "values": [
+            {
+                "value": "anomalous-activity",
+                "description": "Unexpected, or unusual activity that may not necessarily be malicious or indicate compromise. This type of activity may include reconnaissance-like behavior such as port scans or version identification, network behavior anomalies, and asset and/or user behavioral anomalies."
+            },
+            {
+                "value": "anonymization",
+                "description": "Suspected anonymization tools or infrastructure (proxy, TOR, VPN, etc.)."
+            },
+            {
+                "value": "benign",
+                "description": "Activity that is not suspicious or malicious in and of itself, but when combined with other activity may indicate suspicious or malicious behavior."
+            },
+            {
+                "value": "compromised",
+                "description": "Assets that are suspected to be compromised."
+            },
+            {
+                "value": "malicious-activity",
+                "description": "Patterns of suspected malicious objects and/or activity."
+            },
+            {
+                "value": "attribution",
+                "description": "Patterns of behavior that indicate attribution to a particular Threat Actor or Campaign."
+            }
+        ]
+    },
+    {
+        "name": "industry-sector-ov",
+        "values": [
+            {
+                "value": "agriculture",
+                "description": ""
+            },
+            {
+                "value": "aerospace",
+                "description": ""
+            },
+            {
+                "value": "automotive",
+                "description": ""
+            },
+            {
+                "value": "communications",
+                "description": ""
+            },
+            {
+                "value": "construction",
+                "description": ""
+            },
+            {
+                "value": "defence",
+                "description": ""
+            },
+            {
+                "value": "education",
+                "description": ""
+            },
+            {
+                "value": "energy",
+                "description": ""
+            },
+            {
+                "value": "entertainment",
+                "description": ""
+            },
+            {
+                "value": "financial-services",
+                "description": ""
+            },
+            {
+                "value": "government-national",
+                "description": ""
+            },
+            {
+                "value": "government-regional",
+                "description": ""
+            },
+            {
+                "value": "government-local",
+                "description": ""
+            },
+            {
+                "value": "government-public-services",
+                "description": "emergency services, sanitation"
+            },
+            {
+                "value": "healthcare",
+                "description": ""
+            },
+            {
+                "value": "hospitality-leisure",
+                "description": ""
+            },
+            {
+                "value": "infrastructure",
+                "description": ""
+            },
+            {
+                "value": "insurance",
+                "description": ""
+            },
+            {
+                "value": "manufacturing",
+                "description": ""
+            },
+            {
+                "value": "mining",
+                "description": ""
+            },
+            {
+                "value": "non-profit",
+                "description": ""
+            },
+            {
+                "value": "pharmaceuticals",
+                "description": ""
+            },
+            {
+                "value": "retail",
+                "description": ""
+            },
+            {
+                "value": "technology",
+                "description": ""
+            },
+            {
+                "value": "telecommunications",
+                "description": ""
+            },
+            {
+                "value": "transportation",
+                "description": ""
+            },
+            {
+                "value": "utilities",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "name": "malware-label-ov",
+        "values": [
+            {
+                "value": "adware",
+                "description": "Any software that is funded by advertising. Adware may also gather sensitive user information from a system."
+            },
+            {
+                "value": "backdoor",
+                "description": "A malicious program that allows an attacker to perform actions on a remote system, such as transferring files, acquiring passwords, or executing arbitrary commands [Mell2005]."
+            },
+            {
+                "value": "bot",
+                "description": "A program that resides on an infected system, communicating with and forming part of a botnet. The bot may be implanted by a worm or Trojan, which opens a backdoor. The bot then monitors the backdoor for further instructions."
+            },
+            {
+                "value": "ddos",
+                "description": "A tool used to perform a distributed denial of service attack."
+            },
+            {
+                "value": "dropper",
+                "description": "A type of trojan that deposits an enclosed payload (generally, other malware) onto the target computer."
+            },
+            {
+                "value": "exploit-kit",
+                "description": "A software toolkit to target common vulnerabilities."
+            },
+            {
+                "value": "keylogger",
+                "description": "A type of malware that surreptitiously monitors keystrokes and either records them for later retrieval or sends them back to a central collection point."
+            },
+            {
+                "value": "ransomware",
+                "description": "A type of malware that encrypts files on a victim's system, demanding payment of ransom in return for the access codes required to unlock files."
+            },
+            {
+                "value": "remote-access-trojan",
+                "description": "A remote access trojan program (or RAT), is a trojan horse capable of controlling a machine through commands issued by a remote attacker."
+            },
+            {
+                "value": "resource-exploitation",
+                "description": "A type of malware that steals a system's resources (e.g., CPU cycles), such as a bitcoin miner."
+            },
+            {
+                "value": "rogue-security-software",
+                "description": "A fake security product that demands money to clean phony infections."
+            },
+            {
+                "value": "rootkit",
+                "description": "A type of malware that hides its files or processes from normal methods of monitoring in order to conceal its presence and activities. Rootkits can operate at a number of levels, from the application level — simply replacing or adjusting the settings of system software to prevent the display of certain information — through hooking certain functions or inserting modules or drivers into the operating system kernel, to the deeper level of firmware or virtualization rootkits, which are activated before the operating system and thus even harder to detect while the system is running."
+            },
+            {
+                "value": "screen-capture",
+                "description": "A type of malware used to capture images from the target systems screen, used for exfiltration and command and control."
+            },
+            {
+                "value": "spyware",
+                "description": "Software that gathers information on a user's system without their knowledge and sends it to another party. Spyware is generally used to track activities for the purpose of delivering advertising."
+            },
+            {
+                "value": "trojan",
+                "description": "Any malicious computer program which is used to hack into a computer by misleading users of its true intent."
+            },
+            {
+                "value": "virus",
+                "description": "A malicious computer program that replicates by reproducing itself or infecting other programs by modifying them."
+            },
+            {
+                "value": "worm",
+                "description": "A self-replicating, self-contained program that usually executes itself without user intervention."
+            }
+        ]
+    },
+    {
+        "name": "report-label-ov",
+        "values": [
+            {
+                "value": "threat-report",
+                "description": "Report subject is a broad characterization of a threat across multiple facets."
+            },
+            {
+                "value": "attack-pattern",
+                "description": "Report subject is a characterization of one or more attack patterns and related information."
+            },
+            {
+                "value": "campaign",
+                "description": "Report subject is a characterization of one or more campaigns and related information."
+            },
+            {
+                "value": "identity",
+                "description": "Report subject is a characterization of one or more identities and related information."
+            },
+            {
+                "value": "indicator",
+                "description": "Report subject is a characterization of one or more indicators and related information."
+            },
+            {
+                "value": "intrusion-set",
+                "description": "Report subject is a characterization of one or more intrusion sets and related information."
+            },
+            {
+                "value": "malware",
+                "description": "Report subject is a characterization of one or more malware instances and related information."
+            },
+            {
+                "value": "observed-data",
+                "description": "Report subject is a characterization of observed data and related information."
+            },
+            {
+                "value": "threat-actor",
+                "description": "Report subject is a characterization of one or more threat actors and related information."
+            },
+            {
+                "value": "tool",
+                "description": "Report subject is a characterization of one or more tools and related information."
+            },
+            {
+                "value": "vulnerability",
+                "description": "Report subject is a characterization of one or more vulnerabilities and related information."
+            }
+        ]
+    },
+    {
+        "name": "threat-actor-label-ov",
+        "values": [
+            {
+                "value": "activist",
+                "description": "Highly motivated, potentially destructive supporter of a social or political cause (e.g., trade, labor, environment, etc.) that attempts to disrupt an organization's business model or damage their image.\n\nThis category includes actors sometimes referred to as anarchists, cyber vandals, extremists, and hacktivists."
+            },
+            {
+                "value": "competitor",
+                "description": "An organization that competes in the same economic marketplace.\n\nThe goal of a competitor is to gain an advantage in business with respect to the rival organization it targets. It usually does this by copying intellectual property, trade secrets, acquisition strategies, or other technical or business data from a rival organization with the intention of using the data to bolster its own assets and market position. "
+            },
+            {
+                "value": "crime-syndicate",
+                "description": "An enterprise organized to conduct significant, large-scale criminal activity for profit.\n\nCrime syndicates, also known as organized crime, are generally large, well-resourced groups that operate to create profit from all types of crime."
+            },
+            {
+                "value": "criminal",
+                "description": "Individual who commits computer crimes, often for personal financial gain and often involves the theft of something valuable.\n\nIntellectual property theft, extortion via ransomware, and physical destruction are common examples. A criminal as defined here refers to those acting individually or in very small or informal groups. For sophisticated organized criminal activity, see the crime syndicate descriptor."
+            },
+            {
+                "value": "hacker",
+                "description": "An individual that tends to break into networks for the thrill or the challenge of doing so.\n\nHackers may use advanced skills or simple attack scripts they have downloaded."
+            },
+            {
+                "value": "insider-accidental",
+                "description": "A non-hostile insider who unintentionally exposes the organization to harm.\n\n“Insider” in this context includes any person extended internal trust, such as regular employees, contractors, consultants, and temporary workers."
+            },
+            {
+                "value": "insider-disgruntled",
+                "description": "Current or former insiders who seek revengeful and harmful retaliation for perceived wrongs.\n\n“Insider” in this context includes any person extended internal trust, such as regular employees, contractors, consultants, and temporary workers.\n\nDisgruntled threat actors may have extensive knowledge that can be leveraged when conducting attacks and can take any number of actions including sabotage, violence, theft, fraud, espionage, or embarrassing individuals or the organization."
+            },
+            {
+                "value": "nation-state",
+                "description": "Entities who work for the government or military of a nation state or who work at their direction.\n\nThese actors typically have access to significant support, resources, training, and tools and are capable of designing and executing very sophisticated and effective Intrusion Sets and Campaigns."
+            },
+            {
+                "value": "sensationalist",
+                "description": "Seeks to cause embarrassment and brand damage by exposing sensitive information in a manner designed to cause a public relations crisis.\n\nA sensationalist may be an individual or small group of people motivated primarily by a need for notoriety. Unlike the activist, the sensationalist generally has no political goal, and is not using bad PR to influence the target to change its behavior or business practices."
+            },
+            {
+                "value": "spy",
+                "description": "Secretly collects sensitive information for use, dissemination, or sale.\n\nTraditional spies (governmental and industrial) are part of a well-resourced intelligence organization and are capable of very sophisticated clandestine operations. However, insiders such as employees or consultants acting as spies can be just as effective and damaging, even when their activities are largely opportunistic and not part of an overall campaign."
+            },
+            {
+                "value": "terrorist",
+                "description": "Uses extreme violence to advance a social or political agenda as well as monetary crimes to support its activities.\n\nIn this context a terrorist refers to individuals who target noncombatants with violence to send a message of fear far beyond the actual events. They may act independently or as part of a terrorist organization.\n\nTerrorist organizations must typically raise much of their operating budget through criminal activity, which often occurs online. Terrorists are also often adept at using and covertly manipulating social media for both recruitment and impact."
+            }
+        ]
+    },
+    {
+        "name": "threat-actor-role-ov",
+        "values": [
+            {
+                "value": "agent",
+                "description": "Threat actor executes attacks either on behalf of themselves or at the direction of someone else."
+            },
+            {
+                "value": "director",
+                "description": "The threat actor who directs the activities, goals, and objectives of the malicious activities."
+            },
+            {
+                "value": "independent",
+                "description": "A threat actor acting by themselves."
+            },
+            {
+                "value": "infrastructure-architect",
+                "description": "Someone who designs the battle space."
+            },
+            {
+                "value": "infrastructure-operator",
+                "description": "The threat actor who provides and supports the attack infrastructure that is used to deliver the attack (botnet providers, cloud services, etc.)."
+            },
+            {
+                "value": "malware-author",
+                "description": "The threat actor who authors malware or other malicious tools."
+            },
+            {
+                "value": "sponsor",
+                "description": "The threat actor who funds the malicious activities."
+            }
+        ]
+    },
+    {
+        "name": "threat-actor-sophistication-ov",
+        "values": [
+            {
+                "value": "none",
+                "description": "Can carry out random acts of disruption or destruction by running tools they do not understand. Actors in this category have average computer skills.\n\nExample Roles: Average User\n\nThese actors:\n* can not launch targeted attacks"
+            },
+            {
+                "value": "minimal",
+                "description": "Can minimally use existing and frequently well known and easy-to-find techniques and programs or scripts to search for and exploit weaknesses in other computers. Commonly referred to as a script-kiddie.\n\nThese actors rely on others to develop the malicious tools, delivery mechanisms, and execution strategy and often do not fully understand the tool they are using or how they work. They also lack the ability to conduct their own reconnaissance and targeting research.\n\nExample Roles: Script-Kiddie\n\nThese actors:\n* attack known weaknesses;\n* use well known scripts and tools; and\n* have minimal knowledge of the tools."
+            },
+            {
+                "value": "intermediate",
+                "description": "Can proficiently use existing attack frameworks and toolkits to search for and exploit vulnerabilities in computers or systems. Actors in this category have computer skills equivalent to an IT professional and typically have a working knowledge of networks, operating systems, and possibly even defensive techniques and will typically exhibit some operational security.\n\nThese actors rely others to develop the malicious tools and delivery mechanisms, but are able to plan their own execution strategy. They are proficient in the tools they are using and how they work and can even make minimal modifications as needed.\n\nExample Roles Toolkit User\n\nThese actors:\n* attack known vulnerabilities;\n* use attack frameworks and toolkits; and\n* have proficient knowledge of the tools."
+            },
+            {
+                "value": "advanced",
+                "description": "Can develop their own tools or scripts from publicly known vulnerabilities to target systems and users. Actors in this category are very adept at IT systems and have a background in software development along with a solid understanding of defensive techniques and operational security.\n\nThese actors rely on others to find and identify weaknesses and vulnerabilities in systems, but are able to create their own tools, delivery mechanisms, and execution strategies.\n\nExample Roles: Toolkit Developer\n\nThese actors:\n* attack known vulnerabilities;\n* can create their own tools; and\n* have proficient knowledge of the tools.\n"
+            },
+            {
+                "value": "expert",
+                "description": "Can focus on the discovery and use of unknown malicious code, are is adept at installing user and kernel mode rootkits, frequently use data mining tools, target corporate executives and key users (government and industry) for the purpose of stealing personal and corporate data. Actors in this category are very adept at IT systems and software development and are experts with security systems, defensive techniques, attack methods, and operational security.\n\nExample Roles: Vulnerability Researcher, Reverse Engineer, Threat Researcher, Malware Creator\n\nThese actors:\n* attack unknown and known vulnerabilities;\n* can create their own tools from scratch; and\n* have proficient knowledge of the tools."
+            },
+            {
+                "value": "innovator",
+                "description": "Typically criminal or state actors who are organized, highly technical, proficient, well-funded professionals working in teams to discover new vulnerabilities and develop exploits.\n\nDemonstrates sophisticated capability. An innovator has the ability to create and script unique programs and codes targeting virtually any form of technology. At this level, this actor has a deep knowledge of networks, operating systems, programming languages, firmware, and infrastructure topologies and will demonstrate operational security when conducting his activities. Innovators are largely responsible for the discovery of 0-day vulnerabilities and the development of new attack techniques.\n\nExample Roles: Toolkit Innovator, 0-Day Exploit Author\n\nThese actors:\n* attack unknown and known vulnerabilities;\n* create attacks against 0-Day exploits from scratch; and\n* create new and innovative attacks and toolkits."
+            },
+            {
+                "value": "strategic",
+                "description": "State actors who create vulnerabilities through an active program to “influence” commercial products and services during design, development or manufacturing, or with the ability to impact products while in the supply chain to enable exploitation of networks and systems of interest.\n\nThese actors:\n* can create or use entire supply chains to launch an attack;\n* can create and design attacks for any systems, software package, or device; and\n* are responsible for APT-level attacks."
+            }
+        ]
+    },
+    {
+        "name": "tool-label-ov",
+        "values": [
+            {
+                "value": "denial-of-service",
+                "description": "Tools used to perform denial of service attacks or DDoS attacks, such as Low Orbit Ion Cannon (LOIC) and DHCPig."
+            },
+            {
+                "value": "exploitation",
+                "description": "Tools used to exploit software and systems, such as sqlmap and Metasploit."
+            },
+            {
+                "value": "information-gathering",
+                "description": "Tools used to enumerate system and network information, e.g., NMAP."
+            },
+            {
+                "value": "network-capture",
+                "description": "Tools used to capture network traffic, such as Wireshark and Kismet."
+            },
+            {
+                "value": "credential-exploitation",
+                "description": "Tools used to crack password databases or otherwise exploit/discover credentials, either locally or remotely, such as John the Ripper and NCrack."
+            },
+            {
+                "value": "remote-access",
+                "description": "Tools used to access machines remotely, such as VNC and Remote Desktop."
+            },
+            {
+                "value": "vulnerability-scanning",
+                "description": "Tools used to scan systems and networks for vulnerabilities, e.g., Nessus."
+            }
+        ]
+    }
+]

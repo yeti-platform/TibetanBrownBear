@@ -21,8 +21,8 @@ export const editFields = {
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'},
     {name: 'description', type: 'longtext'},
-    {name: 'identity_class', type: 'text'},
-    {name: 'sectors', type: 'list'},
+    {name: 'identity_class', type: 'text', vocab: 'identity-class-ov'},
+    {name: 'sectors', type: 'list', vocab: 'industry-sector-ov'},
     {name: 'contact_information', type: 'text'}
   ],
   'intrusion-set': [
@@ -34,8 +34,8 @@ export const editFields = {
     {name: 'last_seen', type: 'datetime'},
     {name: 'goals', type: 'list'},
     {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
-    {name: 'primary_motivation', type: 'text'},
-    {name: 'secondary_motivations', type: 'list'}
+    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov'},
+    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov'}
   ],
   'malware': [
     {name: 'name', type: 'text'},
@@ -52,26 +52,26 @@ export const editFields = {
   ],
   'report': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
+    {name: 'labels', type: 'list', vocab: 'report-label-ov'},
     {name: 'description', type: 'longtext'},
     {name: 'published', type: 'datetime'}
   ],
   'threat-actor': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
+    {name: 'labels', type: 'list', vocab: 'threat-actor-label-ov'},
     {name: 'description', type: 'longtext'},
     {name: 'aliases', type: 'list'},
-    {name: 'roles', type: 'list'},
+    {name: 'roles', type: 'list', vocab: 'threat-actor-role-ov'},
     {name: 'goals', type: 'list'},
-    {name: 'sophistication', type: 'text'},
-    {name: 'resource_level', type: 'text'},
-    {name: 'primary_motivation', type: 'text'},
-    {name: 'secondary_motivations', type: 'list'},
-    {name: 'personal_motivations', type: 'list'}
+    {name: 'sophistication', type: 'text', vocab: 'threat-actor-sophistication-ov'},
+    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
+    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov'},
+    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov'},
+    {name: 'personal_motivations', type: 'list', vocab: 'attack-motivation-ov'}
   ],
   'tool': [
     {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
+    {name: 'labels', type: 'list', vocab: 'tool-label-ov'},
     {name: 'description', type: 'longtext'},
     {name: 'tool_version', type: 'text'},
     {name: 'kill_chain_phases', type: 'killchain'}
