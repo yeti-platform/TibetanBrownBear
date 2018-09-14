@@ -5,8 +5,7 @@
         <label :for="field.name" class="col-sm-2 col-form-label">{{field.name}}</label>
         <div class="col-sm-10 form-group">
           <!-- plain text input -->
-          <input v-if="field.type === 'text'" class="form-control" :id="field['name']" v-model="object[field['name']]">
-          <small v-if="field.type === 'text' && field['vocab']" class="form-text text-muted">Suggested values from <code>{{field.vocab}}</code>: {{field.list.join(', ')}}</small>
+          <yeti-text-input :vocab="field.vocab" v-if="field.type === 'text'" :id="field['name']" v-model="object[field['name']]" />
           <!-- code input -->
           <textarea class="form-control" v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
           <!-- textarea -->
@@ -23,6 +22,7 @@
           <yeti-list-input v-if="field.type === 'list'"
                            v-model="object[field['name']]"
                            :autocompleteVocab="field['vocab']" />
+
           <!-- tag input -->
           <yeti-list-input v-if="field.type === 'tags'"
                            v-model="object[field['name']]"
@@ -44,6 +44,7 @@ import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
 
 import YetiListInput from '@/components/scaffolding/YetiListInput'
+import YetiTextInput from '@/components/scaffolding/YetiTextInput'
 
 var moment = require('moment')
 
@@ -55,6 +56,7 @@ const methods = {
 export default {
   components: {
     YetiListInput,
+    YetiTextInput,
     Datepicker
   },
   props: {
@@ -87,20 +89,6 @@ export default {
     },
     customFormatter (date) {
       return moment(date).format('YYYY-MM-DD HH:mm:ss ZZ')
-    },
-    getVocabValues (field) {
-      axios.get('/api/settings/vocabs/' + field.vocab + '/').then(response => {
-        if (response.status === 200) {
-          this.$set(field, 'list', response.data)
-        }
-      })
-    }
-  },
-  mounted () {
-    for (let field of this.fields) {
-      if (field.vocab !== undefined) {
-        this.getVocabValues(field)
-      }
     }
   }
 }
