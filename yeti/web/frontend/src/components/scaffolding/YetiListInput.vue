@@ -3,6 +3,9 @@
     <vue-tags-input :tags="listItems"
                     v-model="item"
                     @tags-changed="processItems"
+                    :autocomplete-min-length="0"
+                    :add-on-key="[13, 188, 186]"
+                    :separators="[',', ';']"
                     :autocomplete-items="filteredItems" />
     <small v-if="autocompleteVocab" class="form-text text-muted">Autocompleting from <code>{{autocompleteVocab}}</code></small>
   </div>
@@ -68,11 +71,16 @@ export default {
   background-color: #007bff;
 }
 
-.vue-tags-input .tag  {
+.vue-tags-input .tag {
   background-color: #007bff !important;
   border-radius: .25rem !important;
   vertical-align: baseline;
   line-height: 1;
   text-align: center;
 }
+
+.vue-tags-input .deletion-mark {
+  background-color: red !important;
+}
+
 </style>
