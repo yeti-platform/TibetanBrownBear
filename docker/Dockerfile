@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 RUN pip3 install pipenv
 ADD . /opt/yeti
-WORKDIR /opt/yeti/yeti/web/frontend
+WORKDIR /opt/yeti/web/frontend
 RUN npm install && npm run build
 WORKDIR /opt/yeti
 RUN pipenv install --system --deploy
