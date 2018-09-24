@@ -20,6 +20,7 @@ RUN pipenv install --system --deploy
 EXPOSE 5000
 
 COPY ./docker/docker-entrypoint.sh /
+ENV PYTHONPATH /opt/yeti
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["webserver"]
