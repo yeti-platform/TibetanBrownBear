@@ -28,6 +28,11 @@
                            v-model="object[field['name']]"
                            displayKey="name"
                            :autocompleteVocab="field['vocab']" />
+
+          <!-- killchain input -->
+          <yeti-killchain-input v-if="field.type === 'killchain'"
+                                v-model="object[field['name']]"
+                                />
         </div>
       </div>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
@@ -45,6 +50,7 @@ import Datepicker from 'vuejs-datepicker'
 
 import YetiListInput from '@/components/scaffolding/YetiListInput'
 import YetiTextInput from '@/components/scaffolding/YetiTextInput'
+import YetiKillchainInput from '@/components/scaffolding/YetiKillchainInput'
 
 var moment = require('moment')
 
@@ -57,6 +63,7 @@ export default {
   components: {
     YetiListInput,
     YetiTextInput,
+    YetiKillchainInput,
     Datepicker
   },
   props: {

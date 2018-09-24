@@ -1,0 +1,14 @@
+[
+    {
+        "name": "lockheed-martin-cyber-kill-chain",
+        "phases": [
+            "reconnaissance",
+            "weaponization",
+            "delivery",
+            "exploitation",
+            "installation",
+            "command-and-control",
+            "actions-on-objectives"
+        ]
+    }
+]

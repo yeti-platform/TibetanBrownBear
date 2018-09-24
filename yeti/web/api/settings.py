@@ -46,3 +46,37 @@ class SettingsResource(FlaskView):
         except RuntimeException as exception:
             return exception, 400
         return v.get_vocab(vocab)
+
+    @as_json
+    @route('/killchains/<killchain>/', methods=['GET'])
+    def get_killchain(self, killchain):
+        """Return defined killchains."""
+        try:
+            v = Setting.get_or_create(name='killchains')
+            return v.get_killchain(killchain)
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/killchains/<killchain>/', methods=['PUT'])
+    def add_phase_to_killchain(self, killchain):
+        """Set phases for a killchain."""
+        phase = request.json['phase']
+        try:
+            kc = Setting.find(name='killchains')
+            kc.add_phase_to_killchain(killchain, phase)
+            return kc.get_killchain(killchain)
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/killchains/<killchain>/', methods=['DELETE'])
+    def remove_phase_from_killchain(self, killchain):
+        """Remove a phase from a killchain."""
+        phase = request.json['phase']
+        kc = Setting.find(name='killchains')
+        try:
+            kc.remove_phase_from_killchain(killchain, phase)
+        except RuntimeException as exception:
+            return exception, 400
+        return kc.get_killchain(killchain)
