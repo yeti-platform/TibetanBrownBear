@@ -66,7 +66,7 @@ describe('EntityDetails.vue', () => {
   it('object is correctly fetched', (done) => {
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
+      expect(axios.get).toHaveBeenCalledWith('/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
       expect(localWrp.vm.entity).toBe(mockMalwareObject)
       done()
     })
@@ -76,7 +76,7 @@ describe('EntityDetails.vue', () => {
     localWrp.vm.id = 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b'
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
+      expect(axios.get).toHaveBeenCalledWith('/api/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b')
       done()
     })
   })

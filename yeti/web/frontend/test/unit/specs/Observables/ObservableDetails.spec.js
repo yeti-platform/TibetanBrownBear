@@ -64,7 +64,7 @@ describe('ObservableDetails.vue', () => {
   it('object is correctly fetched', (done) => {
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/observables/483373')
+      expect(axios.get).toHaveBeenCalledWith('/api/observables/483373')
       expect(localWrp.vm.observable).toBe(mockObservableObject)
       done()
     })
@@ -74,7 +74,7 @@ describe('ObservableDetails.vue', () => {
     localWrp.vm.id = 12345
     localWrp.vm.fetchInfo()
     localWrp.vm.$nextTick(() => {
-      expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/observables/12345')
+      expect(axios.get).toHaveBeenCalledWith('/api/observables/12345')
       done()
     })
   })
