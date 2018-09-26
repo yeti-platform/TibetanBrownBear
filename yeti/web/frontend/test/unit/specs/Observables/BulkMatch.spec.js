@@ -42,7 +42,7 @@ describe('BulkMatch.vue', () => {
     localWrp.setData({rawInput: 'tota.com\ntoto.com\nasd'})
     localWrp.find('form').trigger('submit')
     let expectedParams = {observables: ['tota.com', 'toto.com', 'asd']}
-    expect(axios.post).toHaveBeenCalledWith('/api/observables/match', expectedParams)
+    expect(axios.post).toHaveBeenCalledWith('/observables/match', expectedParams)
   })
 
   it('results are correctly displayed in a <pre> tag', (done) => {
