@@ -13,7 +13,7 @@ export default {
   data () {
     return {
       filterParams: {
-        apiPath: `http://localhost:5000/api/observables/filter/`,
+        apiPath: `/observables/filter/`,
         fields: [
           {name: 'value', type: 'text'},
           {name: 'tags', type: 'tags'}

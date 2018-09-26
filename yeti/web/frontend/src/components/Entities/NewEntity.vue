@@ -1,5 +1,5 @@
 <template lang="html">
-  <yeti-form apiPath="http://localhost:5000/api/entities/"
+  <yeti-form apiPath="/entities/"
              :object="defaultObjects[type]"
              :fields="editFields[type]"
              v-on:form-submit="navigateToNew"/>

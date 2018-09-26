@@ -21,7 +21,7 @@
 import TableFilter from '@/components/scaffolding/TableFilter'
 import YetiForm from '@/components/scaffolding/YetiForm'
 
-const apiRoot = `http://localhost:5000/api/tags/`
+const apiRoot = `/tags/`
 
 export default {
   components: {

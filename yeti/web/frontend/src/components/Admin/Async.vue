@@ -18,7 +18,7 @@
 import axios from 'axios'
 import TableFilter from '@/components/scaffolding/TableFilter'
 
-const apiRoot = `http://localhost:5000/api/async/`
+const apiRoot = `/async/`
 
 export default {
   components: {

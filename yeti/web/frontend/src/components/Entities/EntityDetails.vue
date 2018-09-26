@@ -193,7 +193,7 @@ export default {
       loading: true,
       entity: {},
       error: {},
-      defaultApiPath: `http://localhost:5000/api/entities/`
+      defaultApiPath: `/entities/`
     }
   },
   props: { id: [Number, String], edit: Boolean },

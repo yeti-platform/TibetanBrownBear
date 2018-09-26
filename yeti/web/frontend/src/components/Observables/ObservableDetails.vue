@@ -33,7 +33,7 @@ export default {
       loading: true,
       observable: {},
       error: {},
-      defaultApiPath: `http://localhost:5000/api/observables/`
+      defaultApiPath: `/observables/`
     }
   },
   components: {

@@ -23,6 +23,8 @@
 <script>
 import Sidebar from '@/components/scaffolding/Sidebar'
 import Navigation from '@/components/scaffolding/Navigation'
+import axios from 'axios'
+axios.defaults.baseURL = '/api'
 
 require('bootstrap')
 require('bootstrap/dist/css/bootstrap.css')

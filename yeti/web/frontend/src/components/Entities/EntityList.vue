@@ -26,7 +26,7 @@ export default {
   computed: {
     filterParams () {
       return {
-        apiPath: `http://localhost:5000/api/entities/filter/`,
+        apiPath: `/entities/filter/`,
         fields: listFields[this.type],
         queryKey: 'name',
         typeFilter: this.type

@@ -37,7 +37,7 @@ export default {
       }
     },
     getValuesForVocab: function () {
-      axios.get('/api/settings/vocabs/' + this.autocompleteVocab + '/').then(response => {
+      axios.get('/settings/vocabs/' + this.autocompleteVocab + '/').then(response => {
         if (response.status === 200) {
           this.autocompleteItems = response.data.map(item => Object({text: item}))
         }

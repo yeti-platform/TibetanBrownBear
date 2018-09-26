@@ -21,7 +21,7 @@ export default {
     return {
       observables: [],
       rawInput: '',
-      defaultApiPath: `http://localhost:5000/api/observables/match`,
+      defaultApiPath: `/observables/match`,
       error: {}
     }
   },

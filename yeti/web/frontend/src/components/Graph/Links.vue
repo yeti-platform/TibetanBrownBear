@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     apiPath () {
-      return 'http://localhost:5000/api/entities/' + this.object.id + '/neighbors'
+      return 'entities/' + this.object.id + '/neighbors'
     }
   },
   methods: {
