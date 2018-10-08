@@ -19,12 +19,12 @@
           </datepicker>
 
           <!-- list-type input -->
-          <yeti-list-input v-if="field.type === 'list'"
+          <yeti-vocab-input v-if="field.type === 'list'"
                            v-model="object[field['name']]"
                            :autocompleteVocab="field['vocab']" />
 
           <!-- tag input -->
-          <yeti-list-input v-if="field.type === 'tags'"
+          <yeti-vocab-input v-if="field.type === 'tags'"
                            v-model="object[field['name']]"
                            displayKey="name"
                            :autocompleteVocab="field['vocab']" />
@@ -48,7 +48,7 @@
 import axios from 'axios'
 import Datepicker from 'vuejs-datepicker'
 
-import YetiListInput from '@/components/scaffolding/YetiListInput'
+import YetiVocabInput from '@/components/scaffolding/YetiVocabInput'
 import YetiTextInput from '@/components/scaffolding/YetiTextInput'
 import YetiKillchainInput from '@/components/scaffolding/YetiKillchainInput'
 
@@ -61,7 +61,7 @@ const methods = {
 
 export default {
   components: {
-    YetiListInput,
+    YetiVocabInput,
     YetiTextInput,
     YetiKillchainInput,
     Datepicker
