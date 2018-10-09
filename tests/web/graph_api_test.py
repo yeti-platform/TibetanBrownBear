@@ -23,3 +23,20 @@ def test_index(populate_malware):
     response = json.loads(rv.data)
     assert len(response['vertices']) == 2
     assert len(response['edges']) == 2
+
+@pytest.mark.usefixtures('clean_db')
+def test_add_link(populate_malware):
+    """Test that a GET request fetches all neighbors for a given entity."""
+    mal1, mal2, _ = populate_malware
+    client.post('/api/entities/'+mal1.id+'/addlink/',
+                content_type='application/json',
+                data=json.dumps([{
+                    'target': {'id': mal2.id},
+                    'link_type': 'uses',
+                    'stix_rel': None
+                }])
+    )
+    rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
+    response = json.loads(rv.data)
+    assert len(response['vertices']) == 1
+    assert len(response['edges']) == 1
