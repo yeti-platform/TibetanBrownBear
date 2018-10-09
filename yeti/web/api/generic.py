@@ -56,6 +56,25 @@ class GenericResource(FlaskView):
         obj = get_object_or_404(self.resource_object, id)
         return obj.neighbors()
 
+    @as_json
+    @route('/<id>/addlink/', methods=['POST'])
+    def link(self, id):  # pylint: disable=redefined-builtin
+        """Link an object to another object.
+
+        Args:
+            id: The source object's primary ID.
+
+        Returns:
+            A JSON representation of the object's relationships.
+        """
+        obj = get_object_or_404(self.resource_object, id)
+        args = request.json
+        links = []
+        for link in args:
+            target = self.resource_object.get(link['target']['id'])
+            links.append(obj.link_to(target, link['link_type'], link['stix_rel']))
+        return links
+
     @route('/', methods=['POST'])
     @as_json
     def post(self):

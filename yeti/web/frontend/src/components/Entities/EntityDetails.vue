@@ -203,10 +203,6 @@ export default {
     Links,
     MarkdownText
   },
-  beforeRouteUpdate (to, from, next) { // how do we test this?
-    this.fetchInfo()
-    next()
-  },
   computed: {
     entityType () {
       if (this.entity.type) {
@@ -284,7 +280,7 @@ export default {
     this.fetchInfo()
   },
   watch: {
-    // call again the method if the route changes
+    // call again the method if the id changes
     'id': 'fetchInfo'
   }
 }

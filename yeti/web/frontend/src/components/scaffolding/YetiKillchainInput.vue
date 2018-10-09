@@ -47,7 +47,7 @@ export default {
       this.$emit('input', this.killchainPhases)
     },
     getKillchainPhases: function () {
-      axios.get('/api/settings/killchains/' + this.killchainName + '/').then(response => {
+      axios.get('settings/killchains/' + this.killchainName + '/').then(response => {
         if (response.status === 200) {
           this.autocompleteValues = response.data.map(item => Object({text: item}))
         }

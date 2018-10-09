@@ -1,5 +1,6 @@
 <template>
   <div class="links">
+    <new-link :sourceEntity="object" v-on:links-added='fetchNeighbors'></new-link>
     <span v-if="loading">
       <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
     </span>
@@ -37,12 +38,14 @@ import axios from 'axios'
 import TableFilter from '@/components/scaffolding/TableFilter'
 import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 import MarkdownText from '@/components/scaffolding/MarkdownText'
+import NewLink from '@/components/Graph/NewLink'
 
 export default {
   components: {
     TableFilter,
     TypeToIcon,
-    MarkdownText
+    MarkdownText,
+    NewLink
   },
   props: ['object', 'detailComponent'],
   data () {
@@ -53,7 +56,7 @@ export default {
   },
   computed: {
     apiPath () {
-      return 'entities/' + this.object.id + '/neighbors'
+      return 'entities/' + this.object.id + '/neighbors/'
     }
   },
   methods: {

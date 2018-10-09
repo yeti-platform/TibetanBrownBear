@@ -77,13 +77,13 @@ class AbstractYetiConnector(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def link_to(self, link_type, target, attributes=None):
+    def link_to(self, target, link_type=None, stix_rel=None):
         """Creates a link from an existing object to a target object.
 
         Args:
-          link_type: The type of link.
           target: The YetiObject to link to.
-          attributes: A dictionary with attributes to add to the link.
+          link_type: The type of link. (e.g. targets, uses, mitigates)
+          stix_rel: JSON-serialized STIX Relationship object
         """
         raise NotImplementedError
 

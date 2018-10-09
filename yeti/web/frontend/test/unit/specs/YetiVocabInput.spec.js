@@ -1,6 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 
-import YetiListInput from '@/components/scaffolding/YetiListInput'
+import YetiVocabInput from '@/components/scaffolding/YetiVocabInput'
 import Router from 'vue-router'
 import { routes } from '@/router'
 import mockObjects from '../__mocks__/mock_objects'
@@ -11,7 +11,7 @@ jest.mock('axios', () => ({
   })
 }))
 
-describe('YetiListInput.vue', () => {
+describe('YetiVocabInput.vue', () => {
   let localVue
   let wrapper
 
@@ -20,7 +20,7 @@ describe('YetiListInput.vue', () => {
     localVue.use(Router)
     let router = new Router({routes: routes, mode: 'history'})
 
-    wrapper = mount(YetiListInput, {
+    wrapper = mount(YetiVocabInput, {
       localVue,
       router,
       propsData: {value: []}

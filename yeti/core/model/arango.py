@@ -302,20 +302,21 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
         Args:
           target: The YetiObject to link to.
-          link_type: The type of link.
-          stix_rel: STIX Relationship object
+          link_type: The type of link. (e.g. targets, uses, mitigates)
+          stix_rel: JSON-serialized STIX Relationship object
         """
         if stix_rel is None:
             stix_rel = Relationship(relationship_type=link_type,
                                     source_ref=self.id,
                                     target_ref=target.id)
+            stix_rel = json.loads(stix_rel.serialize())
 
         graph = self._db.graph('stix')
         edge_collection = graph.edge_collection('relationships')
         document = {
             '_from': self._arango_id,
             '_to': target._arango_id,  # pylint: disable=protected-access
-            'attributes': json.loads(stix_rel.serialize()),
+            'attributes': stix_rel,
         }
         existing = list(edge_collection.find(document))
 
