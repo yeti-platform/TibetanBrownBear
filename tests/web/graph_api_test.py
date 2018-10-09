@@ -34,8 +34,7 @@ def test_add_link(populate_malware):
                     'target': {'id': mal2.id},
                     'link_type': 'uses',
                     'stix_rel': None
-                }])
-    )
+                }]))
     rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 1
