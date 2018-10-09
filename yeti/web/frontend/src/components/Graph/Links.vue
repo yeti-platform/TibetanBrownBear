@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     apiPath () {
-      return 'entities/' + this.object.id + '/neighbors'
+      return 'entities/' + this.object.id + '/neighbors/'
     }
   },
   methods: {

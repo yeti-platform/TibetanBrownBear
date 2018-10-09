@@ -7,7 +7,9 @@
                     :autocomplete-min-length="2"
                     :add-on-key="[13, 188, 186]"
                     :separators="[',', ';']"
-                    :autocomplete-items="filteredItems" />
+                    :autocomplete-items="filteredItems"
+                    ref="tagsInput"
+                    :placeholder="placeholder"/>
     <small v-if="autocompleteUrl" class="form-text text-muted">Autocompleting from <code>{{autocompleteUrl}}</code></small>
   </div>
 </template>
@@ -20,7 +22,7 @@ export default {
   components: {
     VueTagsInput
   },
-  props: ['value', 'autocompleteUrl', 'displayKey'],
+  props: ['value', 'autocompleteUrl', 'displayKey', 'placeholder'],
   data () {
     return {
       selectedItems: [],
@@ -30,6 +32,10 @@ export default {
     }
   },
   methods: {
+    clearItems () {
+      this.selectedItems = []
+      this.$refs.tagsInput.tagsCopy = []
+    },
     addItem (event) {
       for (var item of this.autocompleteItems) {
         if (item.name === event.tag.text) {

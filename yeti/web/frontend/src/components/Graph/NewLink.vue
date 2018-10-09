@@ -1,13 +1,18 @@
 <template>
-  <div class="new-link">
-    New relationship
-    <form @submit="addLink">
-      <yeti-autocomplete-input
-        autocompleteUrl="entities"
-        displayKey="name"
-        v-model="entities"
-      />
+  <div class="new-link mb-2">
+    <a href="#" class="btn btn-light" @click="toggleForm" v-if="!displayForm">Add relationships</a>
+    <form @submit="addLink" class="form" v-if="displayForm">
+      <div class="form-group mb-2">
+        <yeti-autocomplete-input
+          autocompleteUrl="entities"
+          displayKey="name"
+          v-model="entities"
+          ref="relInput"
+          placeholder="Search entities..."
+        />
+      </div>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
+      <a href="#" class="btn btn-secondary" @click="toggleForm">Cancel</a>
     </form>
   </div>
 </template>
@@ -25,10 +30,14 @@ export default {
   data () {
     return {
       entities: [],
-      saving: false
+      saving: false,
+      displayForm: false
     }
   },
   methods: {
+    toggleForm (e) {
+      this.displayForm = !this.displayForm
+    },
     addLink: function (e) {
       e.preventDefault()
       this.saving = true
@@ -51,8 +60,9 @@ export default {
       axios.post('entities/' + this.sourceEntity.id + '/addlink/', links)
         .then(response => {
           console.log('OK!')
-          this.entities = []
           this.$emit('links-added', response.data)
+          this.entities = []
+          this.$refs.relInput.clearItems()
         })
         .catch(error => {
           this.errors = error.response.data
