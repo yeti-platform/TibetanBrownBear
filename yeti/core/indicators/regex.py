@@ -2,6 +2,8 @@ import re
 
 from stix2 import CustomObject, properties
 
+from .indicator_base import Indicator
+from yeti.core.errors import ValidationError
 
 @CustomObject('x-regex', [
     ('labels', properties.StringProperty(required=True)),
@@ -17,8 +19,40 @@ class StixRegex():
         try:
             re.compile(pattern)
         except re.error as e:
-            raise ValueError('{0:s} is not a valid regular expression: {1:s}'.format(pattern, str(e)))
+            raise ValidationError('{0:s} is not a valid regular expression: {1:s}'.format(pattern, str(e)))
 
 
-class Regex():
-    pass
+class Regex(Indicator):
+    """STIX Indicator Yeti object.
+
+    Extends the Indicator STIX2 definition.
+    """
+
+    _collection_name = 'indicators'
+    type = 'x-regex'
+
+    @property
+    def name(self):
+        return self._stix_object.name
+
+    @property
+    def description(self):
+        return self._stix_object.description
+
+    @property
+    def pattern(self):
+        return self._stix_object.pattern
+
+    @property
+    def valid_from(self):
+        return self._stix_object.valid_from
+
+    @property
+    def valid_until(self):
+        return self._stix_object.valid_until
+
+    @property
+    def kill_chain_pahses(self):
+        return self._stix_object.kill_chain_pahses
+
+Indicator.datatypes[Regex.type] = Regex

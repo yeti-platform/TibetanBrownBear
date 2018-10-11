@@ -1,4 +1,4 @@
-"""Detail Yeti's Identity object structure."""
+"""Detail Yeti's Indicator object structure."""
 
 from .indicator_base import Indicator
 
