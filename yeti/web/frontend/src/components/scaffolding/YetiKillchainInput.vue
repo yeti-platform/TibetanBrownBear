@@ -40,6 +40,7 @@ export default {
     },
     addingPhase (event) {
       event.addTag()
+      console.log(this.killchainPhases)
       this.killchainPhases.push(Object({
         kill_chain_name: this.killchainName,
         phase_name: event.tag.text
@@ -60,7 +61,7 @@ export default {
     }
   },
   mounted () {
-    this.killchainPhases = this.value
+    this.killchainPhases = (this.value || [])
     this.listItems = (this.value || []).map(item => Object({text: item['phase_name']}))
     this.getKillchainPhases()
   }
