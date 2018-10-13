@@ -40,7 +40,6 @@ export default {
     },
     addingPhase (event) {
       event.addTag()
-      console.log(this.killchainPhases)
       this.killchainPhases.push(Object({
         kill_chain_name: this.killchainName,
         phase_name: event.tag.text

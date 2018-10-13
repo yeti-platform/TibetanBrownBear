@@ -99,7 +99,7 @@
 
          <div class="pattern mb-3">
           <h2>Pattern</h2>
-          <fields :field="{'type': 'code', 'name': 'pattern'}" :elt="indicator" ></fields>
+          <fields :field="{'type': 'code', 'name': 'pattern'}" :elt="indicator"></fields>
         </div>
 
       </div>
