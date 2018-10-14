@@ -1,6 +1,6 @@
 import re
 
-from stix2 import CustomObject, properties
+from stix2 import CustomObject, properties, KillChainPhase
 
 from .indicator_base import Indicator
 from yeti.core.errors import ValidationError
@@ -12,7 +12,7 @@ from yeti.core.errors import ValidationError
     ('pattern', properties.StringProperty(required=True)),
     ('valid_from', properties.TimestampProperty(required=True)),
     ('valid_until', properties.TimestampProperty()),
-    ('kill_chain_phases', properties.TimestampProperty())
+    ('kill_chain_phases', properties.ListProperty(KillChainPhase))
 ])
 class StixRegex():
     def __init__(self, pattern=None, **_):

@@ -36,7 +36,7 @@ export const defaultObjects = {
   'indicator': {
     type: 'indicator'
   },
-  'regex': {
+  'x-regex': {
     type: 'x-regex'
   }
 }

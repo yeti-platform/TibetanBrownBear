@@ -21,6 +21,22 @@ def test_regex_creation():
     assert isinstance(regex._stix_object, StixRegex)
 
 @pytest.mark.usefixtures('clean_db')
+def test_invalid_regex_creation():
+    """Tests the creation of a single Regex object."""
+
+    regex = Regex(
+        name='Zeus C2',
+        labels=['malicious-activity'],
+        description='This is how C2 URLs for Zeus usually end.',
+        pattern=r'gate\.php$',
+        # valid_from='2016-01-01T00:00:00Z',
+        # valid_until='2017-01-01T00:00:00Z'
+    )
+    # pylint: disable=protected-access
+    assert regex._stix_object is not None
+    assert isinstance(regex._stix_object, StixRegex)
+
+@pytest.mark.usefixtures('clean_db')
 def test_update_regex():
     """Tests that a Regex object is succesfully updated."""
     regex = Regex(
@@ -56,3 +72,16 @@ def test_invalid_regex():
             valid_until='2017-01-01T00:00:00Z'
         )
     assert 'is not a valid regular expression' in str(error.value)
+
+    with pytest.raises(ValidationError) as error:
+        Regex(
+            name='Zeus C2',
+            labels=['malicious-activity'],
+            description='This is how C2 URLs for Zeus usually end.',
+            pattern=r'gate\.php$)',
+            # valid_from='2016-01-01T00:00:00Z',
+            # valid_until='2017-01-01T00:00:00Z'
+        )
+    assert 'No values for required properties' in str(error.value)
+    assert 'valid_from' in str(error.value)
+
