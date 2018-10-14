@@ -1,11 +1,14 @@
-import re
+
+import base64
 
 from stix2 import CustomObject, properties, KillChainPhase
+import yara
 
-from .indicator_base import Indicator
 from yeti.core.errors import ValidationError
+from .indicator_base import Indicator
 
-@CustomObject('x-regex', [
+
+@CustomObject('x-yara', [
     ('labels', properties.StringProperty(required=True)),
     ('name', properties.StringProperty()),
     ('description', properties.StringProperty()),
@@ -14,22 +17,22 @@ from yeti.core.errors import ValidationError
     ('valid_until', properties.TimestampProperty()),
     ('kill_chain_phases', properties.ListProperty(KillChainPhase))
 ])
-class StixRegex():
+class StixYara():
     def __init__(self, pattern=None, **_):
         try:
-            re.compile(pattern)
-        except re.error as e:
-            raise ValidationError('{0:s} is not a valid regular expression: {1:s}'.format(pattern, str(e)))
+            yara.compile(source=pattern)
+        except (yara.SyntaxError, yara.Error) as e:
+            raise ValidationError('{0:s} is not a valid Yara rule: {1!s}'.format(pattern, e))
 
 
-class Regex(Indicator):
-    """STIX Indicator Yeti object.
+class Yara(Indicator):
+    """Yara rule STIX extension object.
 
     Extends the Indicator STIX2 definition.
     """
 
     _collection_name = 'indicators'
-    type = 'x-regex'
+    type = 'x-yara'
 
     @property
     def name(self):
@@ -56,17 +59,26 @@ class Regex(Indicator):
         return self._stix_object.kill_chain_phases
 
     def match(self, obj):
-        """Matches the Regex's compiled regular expression against a string.
+        """Matches a Yara rule against a binary stream.
 
         Args:
-          obj: A string to match the regex on.
+            obj: Binary data to match the Yara rule against.
 
         Returns:
-          The match.group() if there is a match, None otherwise.
+            The matching strings if found, None otherwise.
         """
-        match = re.compile(self.pattern).search(obj)
-        if match:
-            return {'name': self.name, 'details': match.group()}
+        matches = yara.compile(source=self.pattern).match(data=obj)
+        if matches:
+            result = {'name': self.name, 'details': []}
+            for match in matches:
+                for offset, name, bytes_ in match.strings:
+                    result['details'].append({
+                        'offset': offset,
+                        'name': name,
+                        'bytes': {'b64': str(base64.b64encode(bytes_))},
+                    })
+            return result
         return None
 
-Indicator.datatypes[Regex.type] = Regex
+
+Indicator.datatypes[Yara.type] = Yara

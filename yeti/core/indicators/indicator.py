@@ -32,7 +32,7 @@ class STIXIndicator(Indicator):
         return self._stix_object.valid_until
 
     @property
-    def kill_chain_pahses(self):
-        return self._stix_object.kill_chain_pahses
+    def kill_chain_phases(self):
+        return self._stix_object.kill_chain_phases
 
 Indicator.datatypes[STIXIndicator.type] = STIXIndicator

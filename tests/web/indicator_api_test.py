@@ -1,7 +1,6 @@
 """Tests for the Indicator API."""
 
 import json
-import re
 
 import pytest
 
