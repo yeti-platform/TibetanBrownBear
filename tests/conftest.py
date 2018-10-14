@@ -9,7 +9,6 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 from yeti.core.model.arango import db
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
-from yeti.core.entities.threat_actor import ThreatActor
 
 from yeti.core.indicators.indicator import Indicator
 from yeti.core.indicators.regex import Regex
@@ -116,8 +115,8 @@ def populate_regex():
         valid_until='2017-01-01T00:00:00Z',
         kill_chain_phases=[
             {
-            'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
-            'phase_name': 'reconnaissance'
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
             }
         ]
     ).save()
@@ -131,8 +130,8 @@ def populate_regex():
         valid_until='2017-01-01T00:00:00Z',
         kill_chain_phases=[
             {
-            'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
-            'phase_name': 'reconnaissance'
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
             }
         ]
     ).save()
@@ -163,8 +162,8 @@ def populate_yara_rules():
         valid_until='2017-01-01T00:00:00Z',
         kill_chain_phases=[
             {
-            'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
-            'phase_name': 'reconnaissance'
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
             }
         ]
     ).save()

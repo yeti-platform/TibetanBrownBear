@@ -244,8 +244,9 @@ class ArangoYetiConnector(AbstractYetiConnector):
                 'FOR o IN @@collection FILTER o.type IN @type RETURN o',
                 bind_vars={'type': type_filter, '@collection': coll})
         else:
-            objects = cls._db.aql.execute('FOR o IN @@collection RETURN o',
-            bind_vars={'@collection': coll})
+            objects = cls._db.aql.execute(
+                'FOR o IN @@collection RETURN o',
+                bind_vars={'@collection': coll})
 
         return cls.load(list(objects))
 

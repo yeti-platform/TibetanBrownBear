@@ -32,8 +32,8 @@ def test_update_regex():
         valid_until='2017-01-01T00:00:00Z',
         kill_chain_phases=[
             {
-            'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
-            'phase_name': 'reconnaissance'
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
             }
         ]
     )
@@ -45,11 +45,11 @@ def test_update_regex():
     assert updated.labels == ['malicious-activity']
     assert updated.description == 'This is how C2 URLs for Zeus usually end.'
     assert updated.kill_chain_phases == [
-            {
+        {
             'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
             'phase_name': 'reconnaissance'
-            }
-        ]
+        }
+    ]
     assert updated.pattern == r'gate\.php$'
     assert str(updated.valid_from) == '2016-01-01 00:00:00+00:00'
     assert str(updated.valid_until) == '2017-01-01 00:00:00+00:00'
