@@ -82,4 +82,8 @@ export default {
 .badge {
   font-size: 90%;
 }
+
+code {
+  white-space: pre-wrap;
+}
 </style>

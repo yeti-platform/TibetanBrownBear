@@ -6,5 +6,9 @@ export const indicatorTypes = {
   'x-regex': {
     'plural': 'Regular expressions',
     'singular': 'Regular expression'
+  },
+  'x-yara': {
+    'plural': 'Yara rules',
+    'singular': 'Yara rule'
   }
 }

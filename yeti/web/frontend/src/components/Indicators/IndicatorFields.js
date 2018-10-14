@@ -16,6 +16,15 @@ export const editFields = {
     {name: 'valid_from', type: 'datetime'},
     {name: 'valid_until', type: 'datetime'},
     {name: 'kill_chain_phases', type: 'killchain'}
+  ],
+  'x-yara': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'description', type: 'longtext'},
+    {name: 'pattern', type: 'code'},
+    {name: 'valid_from', type: 'datetime'},
+    {name: 'valid_until', type: 'datetime'},
+    {name: 'kill_chain_phases', type: 'killchain'}
   ]
 }
 
@@ -29,6 +38,11 @@ export const listFields = {
     {name: 'name', type: 'text'},
     {name: 'labels', type: 'list'},
     {name: 'kill_chain_phases', type: 'killchain'}
+  ],
+  'x-yara': [
+    {name: 'name', type: 'text'},
+    {name: 'labels', type: 'list'},
+    {name: 'kill_chain_phases', type: 'killchain'}
   ]
 }
 
@@ -38,5 +52,8 @@ export const defaultObjects = {
   },
   'x-regex': {
     type: 'x-regex'
+  },
+  'x-yara': {
+    type: 'x-yara'
   }
 }
