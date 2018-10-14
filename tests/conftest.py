@@ -11,6 +11,7 @@ from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
 from yeti.core.entities.threat_actor import ThreatActor
 
+from yeti.core.indicators.indicator import Indicator
 from yeti.core.indicators.regex import Regex
 from yeti.core.indicators.yara import Yara
 
@@ -52,6 +53,7 @@ def clean_db():
     # pylint: disable=protected-access
     # We need to access the collections to make sure they are in the cache
     Entity._get_collection()
+    Indicator._get_collection()
     Malware._get_collection()
     Observable._get_collection()
     Hostname._get_collection()

@@ -3,11 +3,10 @@ from marshmallow import fields
 from flask_classful import route
 from flask import request
 
-
 from yeti.core.indicators.indicator import Indicator
 from yeti.core.errors import YetiSTIXError, ValidationError
 from .generic import GenericResource
-from ..helpers import as_json, get_object_or_404
+from ..helpers import as_json, get_object_or_404, decode_object
 
 
 class IndicatorResource(GenericResource):
@@ -46,3 +45,18 @@ class IndicatorResource(GenericResource):
             return obj.update(update_dict)
         except (YetiSTIXError, ValidationError) as err:
             return err, 400
+
+    @as_json
+    @route('/match/', methods=['POST'])
+    def match(self):
+        """Matches a series of binary objects against indicators."""
+        objects = request.get_json()
+        all_indicators = Indicator.list()
+        matches = []
+        for obj in objects:
+            decoded = decode_object(obj)
+            for indicator in all_indicators:
+                match = indicator.match(decoded)
+                if match:
+                    matches.append(match)
+        return matches

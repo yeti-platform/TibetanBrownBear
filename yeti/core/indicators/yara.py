@@ -33,6 +33,10 @@ class Yara(Indicator):
 
     type = 'x-yara'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.compiled_pattern = yara.compile(source=self.pattern)
+
     @property
     def name(self):
         return self._stix_object.name
@@ -66,9 +70,9 @@ class Yara(Indicator):
         Returns:
             The matching strings if found, None otherwise.
         """
-        matches = yara.compile(source=self.pattern).match(data=obj)
+        matches = self.compiled_pattern.match(data=obj)
         if matches:
-            result = {'name': self.name, 'details': []}
+            result = {'name': self.name, 'details': [], 'id': self.id}
             for match in matches:
                 for offset, name, bytes_ in match.strings:
                     result['details'].append({

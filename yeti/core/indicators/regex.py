@@ -30,6 +30,10 @@ class Regex(Indicator):
 
     type = 'x-regex'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.compiled_pattern = re.compile(bytes(self.pattern, 'utf-8'))
+
     @property
     def name(self):
         return self._stix_object.name
@@ -63,9 +67,11 @@ class Regex(Indicator):
         Returns:
           The match.group() if there is a match, None otherwise.
         """
-        match = re.compile(self.pattern).search(obj)
+        if isinstance(obj, str):
+            obj = bytes(obj, 'utf-8')
+        match = self.compiled_pattern.search(obj)
         if match:
-            return {'name': self.name, 'details': match.group()}
+            return {'name': self.name, 'details': match.group(), 'id': self.id}
         return None
 
 Indicator.datatypes[Regex.type] = Regex

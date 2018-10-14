@@ -1,3 +1,4 @@
+import base64
 import functools
 
 from flask import jsonify
@@ -35,3 +36,10 @@ def get_object_or_404(klass, key):
     if not obj:
         return '', 404
     return obj
+
+def decode_object(object_dict):
+    if object_dict['encoding'] == 'b64':
+        return base64.b64decode(object_dict['data'])
+    if object_dict['encoding'] == 'utf-8':
+        return bytes(object_dict['data'], 'utf-8')
+    return object_dict['data']

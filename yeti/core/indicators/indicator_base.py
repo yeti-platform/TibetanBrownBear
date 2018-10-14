@@ -6,7 +6,7 @@ class Indicator(StixSDO):
 
     _collection_name = 'entities' # make graphs easier
     type = 'indicator'
-    _type_filter = None
+    _type_filter = ['indicator', 'x-regex', 'x-yara']
     _indexes = [
         {'fields': ['name'], 'unique': False},
     ]

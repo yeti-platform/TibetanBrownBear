@@ -89,4 +89,4 @@ def test_match(populate_regex):
     r = populate_regex[0]
     match = r.match('http://malicious.com/gate.php')
     assert match['name'] == 'Zeus C2'
-    assert match['details'] == 'gate.php'
+    assert match['details'] == b'gate.php'
