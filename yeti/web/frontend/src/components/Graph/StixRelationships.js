@@ -57,3 +57,8 @@ export const relationships = {
     'vulnerability': ['targets']
   }
 }
+
+// STIX extensions:
+
+relationships['x-regex'] = relationships['indicator']
+relationships['x-yara'] = relationships['indicator']

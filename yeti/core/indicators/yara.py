@@ -31,7 +31,6 @@ class Yara(Indicator):
     Extends the Indicator STIX2 definition.
     """
 
-    _collection_name = 'indicators'
     type = 'x-yara'
 
     @property
