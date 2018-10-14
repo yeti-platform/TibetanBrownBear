@@ -30,7 +30,6 @@ sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
 recommonmark = "*"
 yeti = {path = ".", editable = true}
-black = "*"
 
 [requires]
 python_version = "3.6"
