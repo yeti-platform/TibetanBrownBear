@@ -3,19 +3,18 @@
 You want to contribute to Yeti! We're so happy :) Here's the best way to get
 you started.
 
+## Fork the repo and clone the code
 
-## Clone the code
+We recommend you fork any repo you're thinking of contributing to. This will create a new `github.com/<YOUR USERNAME>/yeti-platform` repo on which you can push changes and from which you can submit pull-requests.
 
-First of all you'll need to clone Yeti's code if you're going to work on it::
+After forking the repo, just clone it::
 
-    $ git clone <repo_url>
-    $ cd <repo_url>
+    $ git clone https://github.com/<YOUR USERNAME>/yeti-platform
+    $ cd yeti-platform
 
-Now on to installing Yeti's core dependencies.
+## Install Pipenv
 
-## Pipenv
-
-We use Pipenv to manage dev and prod dependencies and virtual environments.
+We use Pipenv to manage dependencies and virtual environments.
 You should use it, too!
 
 You can get it through `pip`::
@@ -28,16 +27,12 @@ and drop you into a shell that already has it activated
 
 Install dev dependencies:
 
-    $ pipenv install --dev --python 3
+    $ pipenv install --dev
 
 This will install all of Yeti's dependencies **plus** its development
 dependencies in your new virtual environment.
 
-At this point, you can run the dev API server, although since you have no DB
-backend there won't be much to interact with.
-
-## Backend
-
+## Set up your database backend
 
 If you're going to write code for Yeti, you'll need to have an
 [ArangoDB](https://www.arangodb.com/) service running on `localhost:8529`.
@@ -63,7 +58,7 @@ instance listening on the default port and default interfaces.
 
 TODO
 
-## Frontend
+## Running the frontend
 
 Setting up the frontend for development is pretty straightforward. Yeti's
 frontend is written in [Vue.js](https://vuejs.org/) so you're going to need
@@ -81,22 +76,25 @@ To spin up a Vue.js development server (automatically reloads on each file
 change, which is quite handy), run these commands from the directory in which
 you cloned Yeti::
 
-    $ cd frontend
+    $ cd yeti/web/frontend
     $ npm run dev
 
-This will start a webserver listening on `localhost:8080` for connections.
+This will build and start a webserver listening on `localhost:8080` for connections.
 
-## Documentation
+## Building documentation
 
 Of course, you'll want to write documentation for all the cool new features
 you're about to bring in 😉. We use
 [Sphinx](http://www.sphinx-doc.org/en/master/) to generate our documentation,
-which is written entirely in markdown.
+which is written Markdown (with some reST directives here and there).
 
 Once you've updated anything you needed in the `/docs` directory, just run the
 following:
 
 ```shell
+# get into the right directory
+$ cd docs
+
 # builds the HTML documentation
 $ make html
 
