@@ -25,7 +25,7 @@ pytest-cov = "*"
 "e1839a8" = {path = ".", editable = true}
 pylint = "*"
 codecov = "*"
-sphinx = "*"
+sphinx = "==1.7.7"
 sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
 recommonmark = "*"
