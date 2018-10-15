@@ -6,17 +6,31 @@ Welcome to Yeti's documentation.
 
 There's no user guide yet, but stay tuned.
 
+```eval_rst
+.. toctree::
+   :maxdepth: 3
+
+   cli
+```
+
 
 ## API reference
 
 Ditto, no API reference yet.
+
+```eval_rst
+.. toctree::
+   :maxdepth: 3
+
+   api
+```
 
 
 ## Developer's guide
 
 ```eval_rst
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    development-environment
 ```
