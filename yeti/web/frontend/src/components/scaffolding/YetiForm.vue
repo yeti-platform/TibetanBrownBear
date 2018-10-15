@@ -104,6 +104,5 @@ export default {
 <style lang="css">
 textarea.code {
   font-family: 'Courier New', Courier, monospace;
-  font-weight: bold;
 }
 </style>
