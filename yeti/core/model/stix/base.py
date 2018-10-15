@@ -48,8 +48,6 @@ class StixObject(YetiObject):
     def list(cls):
         """Lists all STIX 2 objects.
 
-        By default, the latest version of all STIX SDOs is returned.
-
         Returns:
           An arango.cursor.Cursor object.
         """
