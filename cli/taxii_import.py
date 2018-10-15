@@ -65,5 +65,5 @@ def taxii_import(collection_url):
         stats += 1
         source = all_objects[relationship.source_ref]
         target = all_objects[relationship.target_ref]
-        source.link_to(target, stix_rel=relationship)
+        source.link_to(target, stix_rel=relationship.serialize())
     print('Added {0:d} relationships'.format(stats))

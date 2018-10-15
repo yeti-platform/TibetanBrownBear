@@ -58,6 +58,27 @@
       </ul>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <span>Indicators</span>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name: 'IndicatorList', params: {type: 'indicator'}}">
+            <i class="fas fa-fw fa-lg fa-bolt"></i>STIX Indicators
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name: 'IndicatorList', params: {type: 'x-regex'}}">
+            <i class="fas fa-fw fa-lg fa-bolt"></i>Regular expressions
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name: 'IndicatorList', params: {type: 'x-yara'}}">
+            <i class="fas fa-fw fa-lg fa-bolt"></i>Yara rules
+          </router-link>
+        </li>
+      </ul>
+
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Observables</span>
       </h6>
       <ul class="nav flex-column mb-2">

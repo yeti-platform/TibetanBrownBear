@@ -9,7 +9,11 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 from yeti.core.model.arango import db
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
-from yeti.core.entities.threat_actor import ThreatActor
+
+from yeti.core.indicators.indicator import Indicator
+from yeti.core.indicators.regex import Regex
+from yeti.core.indicators.yara import Yara
+
 from yeti.core.observables.observable import Observable
 from yeti.core.observables.hostname import Hostname
 from yeti.core.observables.url import URL
@@ -48,6 +52,7 @@ def clean_db():
     # pylint: disable=protected-access
     # We need to access the collections to make sure they are in the cache
     Entity._get_collection()
+    Indicator._get_collection()
     Malware._get_collection()
     Observable._get_collection()
     Hostname._get_collection()
@@ -100,7 +105,76 @@ def populate_malware():
     return malware
 
 @pytest.fixture
+def populate_regex():
+    r1 = Regex(
+        name='Zeus C2',
+        labels=['malicious-activity'],
+        description='This is how C2 URLs for Zeus usually end.',
+        pattern=r'gate\.php$',
+        valid_from='2016-01-01T00:00:00Z',
+        valid_until='2017-01-01T00:00:00Z',
+        kill_chain_phases=[
+            {
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
+            }
+        ]
+    ).save()
+
+    r2 = Regex(
+        name='AppData',
+        labels=['persistence'],
+        description='AppData directory',
+        pattern=r'Roaming\\AppData\\\w+$',
+        valid_from='2016-01-01T00:00:00Z',
+        valid_until='2017-01-01T00:00:00Z',
+        kill_chain_phases=[
+            {
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
+            }
+        ]
+    ).save()
+
+    return [r1, r2]
+
+
+TEST_RULE = """rule yeti_rule
+{
+    meta:
+        description = "Test rule"
+
+    strings:
+        $MZ = { 4D 5A }
+
+    condition:
+        $MZ
+}"""
+
+@pytest.fixture
+def populate_yara_rules():
+    y = Yara(
+        name='MZ',
+        labels=['binary-data'],
+        description='This is how PEs usually start with.',
+        pattern=TEST_RULE,
+        valid_from='2016-01-01T00:00:00Z',
+        valid_until='2017-01-01T00:00:00Z',
+        kill_chain_phases=[
+            {
+                'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+                'phase_name': 'reconnaissance'
+            }
+        ]
+    ).save()
+    return [y]
+
+@pytest.fixture
 def populate_all():
     clean_db()
     populate_hostnames()
+    populate_urls()
+    populate_ips()
     populate_malware()
+    populate_regex()
+    populate_yara_rules()

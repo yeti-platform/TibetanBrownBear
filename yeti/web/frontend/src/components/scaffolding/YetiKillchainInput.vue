@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted () {
-    this.killchainPhases = this.value
+    this.killchainPhases = (this.value || [])
     this.listItems = (this.value || []).map(item => Object({text: item['phase_name']}))
     this.getKillchainPhases()
   }

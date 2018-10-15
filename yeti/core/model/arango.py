@@ -239,13 +239,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
         coll = cls._collection_name
         type_filter = cls._type_filter
 
-        if type_filter is not None:
+        if type_filter:
             objects = cls._db.aql.execute(
-                'FOR o IN {0:s} FILTER o.type =~ @type RETURN o'.format(coll),
-                bind_vars={'type': type_filter})
+                'FOR o IN @@collection FILTER o.type IN @type RETURN o',
+                bind_vars={'type': type_filter, '@collection': coll})
         else:
             objects = cls._db.aql.execute(
-                'FOR o IN {0:s} RETURN o'.format(coll))
+                'FOR o IN @@collection RETURN o',
+                bind_vars={'@collection': coll})
 
         return cls.load(list(objects))
 

@@ -7,7 +7,7 @@
           <!-- plain text input -->
           <yeti-text-input :vocab="field.vocab" v-if="field.type === 'text'" :id="field['name']" v-model="object[field['name']]" />
           <!-- code input -->
-          <textarea class="form-control" v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
+          <textarea class="form-control code" v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
           <!-- textarea -->
           <textarea class="form-control" v-if="field.type === 'longtext'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
           <!-- datetime -->
@@ -102,5 +102,7 @@ export default {
 </script>
 
 <style lang="css">
-
+textarea.code {
+  font-family: 'Courier New', Courier, monospace;
+}
 </style>
