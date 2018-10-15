@@ -1,3 +1,4 @@
+"""Populate Yeti's database with pre-defined vocabulary lists."""
 import json
 import os
 import click

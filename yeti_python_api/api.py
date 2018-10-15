@@ -1,6 +1,5 @@
 """Library of Python functions to interact with Yeti's RESTful API."""
 
-import json
 import base64
 
 import requests
@@ -20,20 +19,24 @@ from yeti.core.entities import vulnerability
 from yeti.core.entities import entity
 
 API_BASE = 'http://localhost:5000/api/'
-TYPES_DICT = {obj.type: obj for obj in [
-    indicator.Indicator,
-    regex.Regex,
-    yara.Yara,
-    attack_pattern.AttackPattern,
-    campaign.Campaign,
-    course_of_action.CourseOfAction,
-    identity.Identity,
-    intrusion_set.IntrusionSet,
-    malware.Malware,
-    threat_actor.ThreatActor,
-    tool.Tool,
-    vulnerability.Vulnerability
-]}
+TYPES_DICT = {
+    obj.type: obj
+    for obj in [
+        indicator.Indicator,
+        regex.Regex,
+        yara.Yara,
+        attack_pattern.AttackPattern,
+        campaign.Campaign,
+        course_of_action.CourseOfAction,
+        identity.Identity,
+        intrusion_set.IntrusionSet,
+        malware.Malware,
+        threat_actor.ThreatActor,
+        tool.Tool,
+        vulnerability.Vulnerability,
+    ]
+}
+
 
 def filter_entities(name, entity_type):
     """Fetches Entities based on name and entity type.
@@ -51,6 +54,7 @@ def filter_entities(name, entity_type):
         yeti_objects.append(TYPES_DICT[item['type']](**item))
     return yeti_objects
 
+
 def filter_indicators(name, indicator_type):
     """Fetches Indicators based on name and indicator type.
 
@@ -66,6 +70,7 @@ def filter_indicators(name, indicator_type):
     for item in _do_post('indicators/filter/', data):
         yeti_objects.append(TYPES_DICT[item['type']](**item))
     return yeti_objects
+
 
 def get_neighbors(obj):
     """Fethes neighbors for a Yeti object.
@@ -90,6 +95,7 @@ def get_neighbors(obj):
     response['vertices'] = vertices
     return response
 
+
 def _do_post(endpoint, data):
     """Performs a POST request to the Yeti webserver.
 
@@ -107,6 +113,7 @@ def _do_post(endpoint, data):
         exit(-1)
     return response.json()
 
+
 def _do_get(endpoint):
     """Performs a GET request to the Yeti webserver.
 
@@ -122,6 +129,7 @@ def _do_get(endpoint):
         print(response.json())
         exit(-1)
     return response.json()
+
 
 def match_data(data):
     """Matches data against Yeti's indicators.

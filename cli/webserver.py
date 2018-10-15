@@ -1,3 +1,4 @@
+"""Expose Yeti's restful API on Flask's development webserver."""
 import click
 
 from yeti.common.config import yeti_config

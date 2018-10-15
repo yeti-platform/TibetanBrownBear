@@ -1,4 +1,4 @@
-"""Commands that match strings or file contents server-side."""
+"""Match strings or file contents server-side."""
 import click
 
 from yeti_python_api import api

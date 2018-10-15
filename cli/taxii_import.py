@@ -1,4 +1,4 @@
-#!/usr/bin/env
+"""List and import TAXII collections into Yeti."""
 import click
 from stix2 import TAXIICollectionSource, Filter
 from taxii2client import Collection, Server
@@ -13,29 +13,37 @@ from yeti.core.entities import threat_actor
 from yeti.core.entities import tool
 from yeti.core.entities import vulnerability
 
+# TODO: Change this to use the RESTful API instead of local DB commands.
+
+def _get_collection_url(server_url):
+    server = Server(server_url)
+    api_root = server.api_roots[0]
+    collections = list(api_root.collections)
+    print('{0:s} has {1:d} collections: '.format(server_url, len(collections)))
+    for index, collection in enumerate(collections):
+        print("[{0:d}] {1:s}: {2:s}".format(index, collection.title, collection.id))
+
+    collection_url = None
+    while not collection_url:
+        choice = input('Pick one: ')
+        try:
+            collection_url = collections[int(choice)].url
+        except (ValueError, IndexError):
+            print('Please specify a number from 0 to {0:d}'.format(len(collections)))
+
+    return collection_url
+
 @click.command()
 @click.option('--collection_url', help='Remote TAXII collection URL ', type=click.STRING)  # pylint: disable=line-too-long
 @click.option('--server_url', help='Remote TAXII collection URL ', type=click.STRING)  # pylint: disable=line-too-long
 def taxii_import(server_url, collection_url):
 
-    if (not server_url or collection_url):
+    if not (server_url or collection_url):
         print('Please specify one of --server_url or --collection_url')
         exit(-1)
 
     if server_url:
-        server = Server(server_url)
-        api_root = server.api_roots[0]
-        collections = list(api_root.collections)
-        print('{0:s} has {1:d} collections: '.format(server_url, len(collections)))
-        for index, collection in enumerate(collections):
-            print("[{0:d}] {1:s}: {2:s}".format(index, collection.title, collection.id))
-        collection_url = None
-        while not collection_url:
-            choice = input('Pick one: ')
-            try:
-                collection_url = collections[int(choice)].url
-            except (ValueError, IndexError):
-                print('Please specify a number from 0 to {0:d}'.format(len(collections)))
+        collection_url = _get_collection_url(server_url)
 
     if collection_url:
         print('Importing data from collection at: {0:s}'.format(collection_url))
@@ -64,8 +72,7 @@ def taxii_import(server_url, collection_url):
                 'skipped': 0,
             }
 
-            items = tc_source.query(Filter('type', '=', name))
-            for item in items:
+            for item in tc_source.query(Filter('type', '=', name)):
                 obj = yeti_class.find(stix_id=item['id'])
                 if not obj:
                     obj = yeti_class.from_stix_object(item).save()
