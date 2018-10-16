@@ -5,7 +5,7 @@ from yeti_python_api import api
 
 # pylint: disable=line-too-long
 @click.command()
-@click.option('--verbose', help='Display match details', type=click.BOOL, default=False)
+@click.option('--verbose', help='Display match details', is_flag=True, default=False)
 @click.option('--filename', help='Upload a file to be matched instead.', type=click.STRING)
 @click.option('--string', help='String against which to match indicators.', type=click.STRING, default='')
 def match(string, filename, verbose):
