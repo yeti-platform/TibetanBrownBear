@@ -46,9 +46,13 @@ def yara_scan(path, name_filter, verbose, recurse):
 
     print('Found {0:d} matches!'.format(len(results)))
     print('{0:s}   {1:s}   {2:s}'.format(
-        'Filename'.ljust(max_path_len), 'ID'.ljust(max_ruleid_len + 3), 'Details' if verbose else ''))
+        'Filename'.ljust(max_path_len),
+        'ID'.ljust(max_ruleid_len + 3),
+        'Details' if verbose else ''))
     print('{0:s}   {1:s}   {2:s}'.format(
-        '='.ljust(max_path_len, '='), '='.ljust(max_ruleid_len + 3, '='), '='*10 if verbose else ''))
+        '='.ljust(max_path_len, '='),
+        '='.ljust(max_ruleid_len + 3, '='),
+        '='*10 if verbose else ''))
     for filename, rule, result_list in results:
         for result in result_list:
             print('{0:s}   {1:s}   {2!s}'.format(
