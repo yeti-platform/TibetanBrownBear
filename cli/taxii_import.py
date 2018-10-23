@@ -1,4 +1,6 @@
 """List and import TAXII collections into Yeti."""
+import json
+
 import click
 from stix2 import TAXIICollectionSource, Filter
 from taxii2client import Collection, Server
@@ -90,9 +92,11 @@ def taxii_import(server_url, collection_url):
 
         print('Getting relationships')
         stats = 0
-        for relationship in tc_source.query(Filter('type', '=', 'relationship')):
+        taxii_filter = Filter('type', '=', 'relationship')
+        for relationship in tc_source.query(taxii_filter):
             stats += 1
             source = all_objects[relationship.source_ref]
             target = all_objects[relationship.target_ref]
-            source.link_to(target, stix_rel=relationship.serialize())
+            source.link_to(target, stix_rel=json.loads(
+                relationship.serialize()))
         print('Added {0:d} relationships'.format(stats))
