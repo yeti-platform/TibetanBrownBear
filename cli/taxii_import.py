@@ -1,4 +1,6 @@
 #!/usr/bin/env
+import json
+
 import click
 from stix2 import TAXIICollectionSource, Filter
 from taxii2client import Collection
@@ -65,5 +67,5 @@ def taxii_import(collection_url):
         stats += 1
         source = all_objects[relationship.source_ref]
         target = all_objects[relationship.target_ref]
-        source.link_to(target, stix_rel=relationship.serialize())
+        source.link_to(target, stix_rel=json.loads(relationship.serialize()))
     print('Added {0:d} relationships'.format(stats))
