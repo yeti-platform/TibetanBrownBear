@@ -3,7 +3,7 @@ import json
 
 from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
-from stix2 import utils
+from stix2 import utils, Malware
 
 from yeti.core.errors import ValidationError, YetiSTIXError
 from .base import StixObject
@@ -65,7 +65,11 @@ class StixSDO(StixObject):
 
     @classmethod
     def get(cls, key):
-        """Fetches the most recent version of a STIX object given its key.
+        """Fetches the most recent version of a STIX object given its
+            STIX ID.
+
+        Args:
+          key: The STIX ID of the object to fetch.
 
         Returns:
           A STIX object.
@@ -127,7 +131,7 @@ class StixSDO(StixObject):
         return cls._filter_latest_versions(super().list())
 
     def dump(self, destination='db'):
-        """Dumps an Entity object into its STIX JSON representation.
+        """Dumps a STIX SDO object into its STIX JSON representation.
 
         Args:
           destination: Since STIX2 uses IDs as means to identify a single object
@@ -135,7 +139,7 @@ class StixSDO(StixObject):
               sent to the database or to a web client.
 
         Returns:
-          The Entity's JSON representation in dictionary form.
+          The STIX SDO's JSON representation in dictionary form.
         """
         serialized = json.loads(self._stix_object.serialize())
         if destination == 'db':

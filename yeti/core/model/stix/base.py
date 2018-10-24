@@ -33,7 +33,8 @@ class StixObject(YetiObject):
 
     @abstractmethod
     def _stix_parse(self, stix_dict):
-        """Parses a dictionary into an actual STIX2 SDO or Observable.
+        """Parses a dictionary into an actual STIX2 SDO, Observable, or
+            Relationship.
 
         Args:
           stix_dict: The dictionary to use to create the STIX obejct.
