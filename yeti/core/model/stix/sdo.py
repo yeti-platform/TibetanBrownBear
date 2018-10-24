@@ -3,7 +3,7 @@ import json
 
 from stix2 import parse
 from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
-from stix2 import utils, Malware
+from stix2 import utils
 
 from yeti.core.errors import ValidationError, YetiSTIXError
 from .base import StixObject
