@@ -99,6 +99,12 @@ class StixSDO(StixObject):
           A List of Yeti objects.
         """
         all_versions = super().filter(args)
+        return cls._filter_latest_versions(all_versions)
+
+    @classmethod
+    def _filter_latest_versions(cls, all_versions):
+        """Filters a list of Yeti objects, keeping the most recent version of
+        each."""
         latest_versions = {}
         for version in all_versions:
             stored = latest_versions.get(version.id)
@@ -108,6 +114,17 @@ class StixSDO(StixObject):
             if version.modified > stored.modified:
                 latest_versions[version.id] = version
         return list(latest_versions.values())
+
+    @classmethod
+    def list(cls):
+        """Lists all STIX 2 objects.
+
+        By default, the latest version of all STIX SDOs is returned.
+
+        Returns:
+          An arango.cursor.Cursor object.
+        """
+        return cls._filter_latest_versions(super().list())
 
     def dump(self, destination='db'):
         """Dumps an Entity object into its STIX JSON representation.

@@ -1,3 +1,4 @@
+"""Populate Yeti's database with pre-defined killchains."""
 import json
 import os
 import click
