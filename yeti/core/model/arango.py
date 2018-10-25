@@ -226,8 +226,23 @@ class ArangoYetiConnector(AbstractYetiConnector):
             except DocumentUpdateError:
                 result = self._insert(document_json)
         arangodoc = result['new']
+        self.update_links(result['_id'])
         self._arango_id = result['_id']
         return self.load(arangodoc, strict=True)
+
+    def update_links(self, new_id):
+        if not self._arango_id:
+            return
+        graph = self._db.graph('stix')
+        neighbors = graph.traverse(
+            self._arango_id, direction='any', max_depth=1)
+        for path in neighbors['paths']:
+            for edge in path['edges']:
+                if edge['attributes']['target_ref'] == self.id:
+                    edge['_to'] = new_id
+                elif edge['attributes']['source_ref'] == self.id:
+                    edge['_from'] = new_id
+                graph.update_edge(edge)
 
     @classmethod
     def list(cls):
@@ -318,7 +333,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         existing = list(Relationship.filter({'attributes.id': stix_rel['id']}))
         if existing:
             return existing[0]
-        Relationship(self._arango_id, target._arango_id, stix_rel).save()
+        return Relationship(self._arango_id, target._arango_id, stix_rel).save()
         # return edge_collection.insert(document)
 
     # pylint: disable=too-many-arguments
@@ -413,12 +428,14 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     def delete(self, all_versions=True):
         """Deletes an object from the database."""
-        self._get_collection().delete(self._arango_id)
-        print("Deleted", self._arango_id)
+        if self._db.graph('stix').has_vertex_collection(self._collection_name):
+            col = self._db.graph('stix').vertex_collection(self._collection_name)
+        else:
+            col = self._db.collection(self._collection_name)
+        col.delete(self._arango_id)
         if all_versions:
             for version in self.all_versions():
                 version.delete(all_versions=False)
-
 
     @classmethod
     def _get_collection(cls):
