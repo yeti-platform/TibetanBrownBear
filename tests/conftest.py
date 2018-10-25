@@ -7,6 +7,9 @@ from yeti.common.config import yeti_config
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 from yeti.core.model.arango import db
+
+from yeti.core.relationships import Relationship
+
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
 
@@ -58,6 +61,9 @@ def clean_db():
     Hostname._get_collection()
     Tag._get_collection()
     Vocabs._get_collection()
+    Relationship._get_collection()
+    db.delete_graph('stix')
+    db.delete_graph('tags')
     db.clear()
 
 @pytest.fixture

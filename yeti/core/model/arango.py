@@ -226,6 +226,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             except DocumentUpdateError:
                 result = self._insert(document_json)
         arangodoc = result['new']
+        self._arango_id = result['_id']
         return self.load(arangodoc, strict=True)
 
     @classmethod
@@ -409,6 +410,15 @@ class ArangoYetiConnector(AbstractYetiConnector):
         for document in collection.find_by_text(key, query):
             yeti_objects.append(cls.load(document, strict=True))
         return yeti_objects
+
+    def delete(self, all_versions=True):
+        """Deletes an object from the database."""
+        self._get_collection().delete(self._arango_id)
+        print("Deleted", self._arango_id)
+        if all_versions:
+            for version in self.all_versions():
+                version.delete(all_versions=False)
+
 
     @classmethod
     def _get_collection(cls):
