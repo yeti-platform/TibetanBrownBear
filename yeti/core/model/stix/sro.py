@@ -94,3 +94,44 @@ class StixSRO(StixObject):
             obj._arango_id = arango_id
         except Exception as err:
             raise ValidationError(str(err))
+        return obj
+
+    @property
+    def type(self):
+        return self._stix_object.type
+
+    @property
+    def id(self):
+        return self._stix_object.id
+
+    @property
+    def created_by_ref(self):
+        return self._stix_object.created_by_ref
+
+    @property
+    def created(self):
+        return self._stix_object.created
+
+    @property
+    def modified(self):
+        return self._stix_object.modified
+
+    @property
+    def revoked(self):
+        return self._stix_object.revoked
+
+    @property
+    def labels(self):
+        return self._stix_object.labels
+
+    @property
+    def external_references(self):
+        return self._stix_object.external_references
+
+    @property
+    def object_marking_refs(self):
+        return self._stix_object.object_marking_refs
+
+    @property
+    def granular_markings(self):
+        return self._stix_object.granular_markings
