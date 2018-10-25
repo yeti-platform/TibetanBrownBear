@@ -62,8 +62,6 @@ def clean_db():
     Tag._get_collection()
     Vocabs._get_collection()
     Relationship._get_collection()
-    db.delete_graph('stix')
-    db.delete_graph('tags')
     db.clear()
 
 @pytest.fixture
