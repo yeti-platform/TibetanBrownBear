@@ -8,7 +8,7 @@ from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpd
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
-from stix2 import Relationship
+from stix2 import Relationship as StixRelationship
 
 from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
@@ -147,24 +147,23 @@ class ArangoYetiConnector(AbstractYetiConnector):
             raise ValidationError(e.messages)
 
     @classmethod
-    def _load_stix(cls, args):
-        """Translate information from the backend into a valid STIX definition.
+    def _load_yeti(cls, args):
+        """Translate information from the backend into a valid Yeti object.
 
-        Will instantiate a STIX object from that definition.
+        Will instantiate a Yeti object from that definition.
 
         Args:
-          args: The dictionary to use to create the STIX object.
-          strict: Unused, kept to be consistent with overriden method
+          args: The dictionary to use to create the Yeti object.
 
         Returns:
-          The corresponding STIX objet.
+          The corresponding Yeti objet.
 
         Raises:
-          ValidationError: If a STIX object could not be instantiated from the
+          ValidationError: If a Yeti object could not be instantiated from the
               serialized data.
         """
         if isinstance(args, list):
-            return [cls._load_stix(item) for item in args]
+            return [cls._load_yeti(item) for item in args]
         subclass = cls.get_final_datatype(args)
         db_id = args.pop('_id', None)
         args.pop('_rev', None)
@@ -304,26 +303,22 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Args:
           target: The YetiObject to link to.
           link_type: The type of link. (e.g. targets, uses, mitigates)
-          stix_rel: JSON-serialized STIX Relationship object
+          stix_rel: STIX Relationship object
         """
+        from yeti.core.relationships import Relationship
         if stix_rel is None:
-            stix_rel = Relationship(relationship_type=link_type,
+            stix_rel = StixRelationship(relationship_type=link_type,
                                     source_ref=self.id,
                                     target_ref=target.id)
             stix_rel = json.loads(stix_rel.serialize())
 
-        graph = self._db.graph('stix')
-        edge_collection = graph.edge_collection('relationships')
-        document = {
-            '_from': self._arango_id,
-            '_to': target._arango_id,  # pylint: disable=protected-access
-            'attributes': stix_rel,
-        }
-        existing = list(edge_collection.find(document))
-
+        # graph = self._db.graph('stix')
+        # edge_collection = graph.edge_collection('relationships')
+        existing = list(Relationship.filter({'attributes.id': stix_rel['id']}))
         if existing:
             return existing[0]
-        return edge_collection.insert(document)
+        Relationship(self._arango_id, target._arango_id, stix_rel).save()
+        # return edge_collection.insert(document)
 
     # pylint: disable=too-many-arguments
     def neighbors(self, link_type=None, direction='any', include_original=False,
@@ -362,6 +357,10 @@ class ArangoYetiConnector(AbstractYetiConnector):
     def _build_vertices(self, arango_vertices):
         return {vert['id']: vert for vert in arango_vertices}
 
+    def _dotted_to_dict(self, dotted_string):
+        subdocs = dotted_string.split('.')
+
+
     @classmethod
     def filter(cls, args):
         """Search in an ArangoDb collection.
@@ -379,10 +378,13 @@ class ArangoYetiConnector(AbstractYetiConnector):
         colname = cls._collection_name
         conditions = []
         for key in args:
-            if key in ['value', 'name', 'type', 'stix_id']:
-                conditions.append('o.{0:s} =~ @{0:s}'.format(key))
-        aql_string = "FOR o IN {0:s} FILTER {1:s} RETURN o".format(
-            colname, ' AND '.join(conditions))
+            if key in ['value', 'name', 'type', 'stix_id', 'attributes.id']:
+                conditions.append('o.{0:s} =~ @{1:s}'.format(key, key.replace('.', '_')))
+        aql_string = "FOR o IN @@collection FILTER {0:s} RETURN o".format(
+            ' AND '.join(conditions))
+        args['@collection'] = colname
+        for key in args:
+            args[key.replace('.', '_')] = args.pop(key)
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
         for doc in documents:
