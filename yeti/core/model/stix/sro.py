@@ -63,7 +63,6 @@ class StixSRO(StixObject):
             }
         return attributes
 
-
     @classmethod
     def _load_yeti(cls, args):
         """Translate information from the backend into a valid STIX definition.
