@@ -77,7 +77,7 @@ export default {
       this.selectedElements = [elt.id]
       this.$emit('input', [elt])
     },
-    selectMultiple (elt, event) {
+    selectMultiple (elt) {
       if (!this.selectedElements.includes(elt.id)) {
         this.selectedElements.push(elt.id)
       } else {
