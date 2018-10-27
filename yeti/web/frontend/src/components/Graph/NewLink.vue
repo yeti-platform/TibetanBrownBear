@@ -1,5 +1,5 @@
 <template>
-  <div class="new-link mb-2">
+  <div class="new-link mb-2 mr-2 float-left">
     <a href="#" class="btn btn-light" @click="toggleForm" v-if="!displayForm">Add relationships</a>
     <form @submit="addLink" class="form" v-if="displayForm">
       <div class="form-group mb-2">

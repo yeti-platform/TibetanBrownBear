@@ -1,12 +1,22 @@
 <template>
   <div class="links">
     <new-link :sourceEntity="object" v-on:links-added='fetchNeighbors'></new-link>
+    <delete-links ref="deleteLinks"
+                  v-if="selectedElements.length >= 1"
+                  :selectedLinks="selectedElements"
+                  v-on:links-deleted='fetchNeighbors'>
+    </delete-links>
     <span v-if="loading">
       <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
     </span>
     <table v-else class="table table-sm">
       <tr v-for="edge in graph.edges"
-          v-bind:key='edge._id'>
+          v-bind:key='edge._id'
+          @click.exact="select(edge)"
+          @click.shift.exact="selectMultiple(edge)"
+          v-bind:class="{'selected': selectedElements.includes(edge.id)}"
+        >
+        <td><a href="#" @click="this.$ref.deleteLinks([edge])"><i class="fas fa-unlink"></i></a></td>
         <td class="incoming-vertice">
           <router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}">
             <type-to-icon :type="getIncomingVertice(graph, edge).type"></type-to-icon>{{getIncomingVertice(graph, edge).name}}
@@ -39,19 +49,22 @@ import TableFilter from '@/components/scaffolding/TableFilter'
 import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 import MarkdownText from '@/components/scaffolding/MarkdownText'
 import NewLink from '@/components/Graph/NewLink'
+import DeleteLinks from '@/components/Graph/DeleteLinks'
 
 export default {
   components: {
     TableFilter,
     TypeToIcon,
     MarkdownText,
-    NewLink
+    NewLink,
+    DeleteLinks
   },
   props: ['object', 'detailComponent'],
   data () {
     return {
       graph: [],
-      loading: true
+      loading: true,
+      selectedElements: []
     }
   },
   computed: {
@@ -67,6 +80,7 @@ export default {
         .then(response => {
           console.log('Got ' + response.data.edges.length + ' edges')
           this.graph = response.data
+          this.selectedElements = []
         })
         .finally(() => { this.loading = false })
     },
@@ -87,6 +101,18 @@ export default {
         return graph.vertices[edge.target_ref]
       }
       return this.object
+    },
+    select (elt) {
+      this.selectedElements = [elt.id]
+      this.$emit('input', [elt])
+    },
+    selectMultiple (elt) {
+      if (!this.selectedElements.includes(elt.id)) {
+        this.selectedElements.push(elt.id)
+      } else {
+        this.selectedElements.splice(this.selectedElements.indexOf(elt.id), 1)
+      }
+      this.$emit('input', this.graph.edges.filter(elt => this.selectedElements.includes(elt.id)))
     }
   },
   watch: {
@@ -99,7 +125,11 @@ export default {
 </script>
 
 <style lang="css">
-  .links .outgoing-vertice, .links .incoming-vertice {
-    white-space: nowrap;
-  }
+.selected {
+  font-weight: bold;
+}
+
+.links .outgoing-vertice, .links .incoming-vertice {
+  white-space: nowrap;
+}
 </style>

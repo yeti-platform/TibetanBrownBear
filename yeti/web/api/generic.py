@@ -39,13 +39,23 @@ class GenericResource(FlaskView):
         return get_object_or_404(self.resource_object, id)
 
     @as_json
+    @route('/delete/', methods=['POST'])
+    def delete_multiple(self):
+        """Deletes multiple objects from the database.
+
+        Processes an array of IDs to delete.
+        """
+        for id in request.json:
+            get_object_or_404(self.resource_object, id).delete()
+
+    @as_json
     def delete(self, id):
         """Deletes a single object from the database.
 
         Args:
           id: The object's ID.
         """
-        return get_object_or_404(self.resource_object, id).delete()
+        get_object_or_404(self.resource_object, id).delete()
 
     @route('/', methods=['POST'])
     @as_json
