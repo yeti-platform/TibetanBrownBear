@@ -68,6 +68,7 @@ export default {
           this.errors = error.response.data
         })
         .finally(() => {
+          this.displayForm = false
           this.saving = false
         })
     }

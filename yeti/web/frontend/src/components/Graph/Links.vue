@@ -1,6 +1,6 @@
 <template>
   <div class="links">
-    <new-link :sourceEntity="object" v-on:links-added='fetchNeighbors'></new-link>
+    <new-link ref="newLink" :sourceEntity="object" v-on:links-added='fetchNeighbors'></new-link>
     <delete-links ref="deleteLinks"
                   v-if="selectedElements.length >= 1"
                   :selectedLinks="selectedElements"
@@ -15,8 +15,9 @@
           @click.exact="select(edge)"
           @click.shift.exact="selectMultiple(edge)"
           v-bind:class="{'selected': selectedElements.includes(edge.id)}"
+          class="show-on-hover"
         >
-        <td><a href="#" @click="this.$ref.deleteLinks([edge])"><i class="fas fa-unlink"></i></a></td>
+        <td class="show-on-hover"><a href="#" @click="$refs.deleteLinks.deleteLinks([edge.id])"><i class="fas fa-unlink"></i></a></td>
         <td class="incoming-vertice">
           <router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}">
             <type-to-icon :type="getIncomingVertice(graph, edge).type"></type-to-icon>{{getIncomingVertice(graph, edge).name}}
@@ -125,8 +126,17 @@ export default {
 </script>
 
 <style lang="css">
+
 .selected {
-  font-weight: bold;
+  background-color: #ffffe4;
+}
+
+td.show-on-hover {
+  opacity: 0;
+}
+
+tr.show-on-hover:hover .show-on-hover {
+  opacity: 1;
 }
 
 .links .outgoing-vertice, .links .incoming-vertice {
