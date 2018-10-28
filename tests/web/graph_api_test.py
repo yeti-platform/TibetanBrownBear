@@ -38,7 +38,10 @@ def test_add_link(populate_malware):
     rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 1
+    assert response['vertices'][mal2.id]['id'] == mal2.id
     assert len(response['edges']) == 1
+    assert response['edges'][0]['source_ref'] == mal1.id
+    assert response['edges'][0]['target_ref'] == mal2.id
 
 @pytest.mark.usefixtures('clean_db')
 def test_delete_link(populate_malware):
