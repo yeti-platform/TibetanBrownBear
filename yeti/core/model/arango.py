@@ -9,6 +9,7 @@ from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
 from stix2 import Relationship as StixRelationship
+from dateutil import parser
 
 from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
@@ -360,12 +361,34 @@ class ArangoYetiConnector(AbstractYetiConnector):
         for path in neighbors['paths']:
             edges.extend(self._build_edges(path['edges']))
 
+        edges = self._dedup_edges(edges)
+
         if raw:
-            vertices = self._build_vertices(neighbors['vertices'].items())
+            vertices = self._build_vertices(neighbors['vertices'])
         else:
             vertices = {n.id: n for n in self.load(neighbors['vertices'])}
 
         return {'edges': edges, 'vertices': vertices}
+
+    def _dedup_edges(self, edges):
+        """Deduplicates edges with same STIX ID, keeping the most recent one.
+
+        Args:
+          edges: list of JSON-serialized STIX2 SROs.
+
+        Returns:
+          A list of the most recent versions of JSON-serialized STIX2 SROs.
+        """
+        seen = {}
+        for edge in edges:
+            edge_id = edge['id']
+            if edge_id in seen:
+                seen_modified = parser.parse(seen[edge_id]['modified'])
+                current_modified = parser.parse(edge['modified'])
+                if seen_modified > current_modified :
+                    continue
+            seen[edge_id] = edge
+        return list(seen.values())
 
     def _build_edges(self, arango_edges):
         return [edge['attributes'] for edge in arango_edges]

@@ -55,3 +55,22 @@ def test_delete_link(populate_malware):
     response = json.loads(rv.data)
     assert not response['vertices']
     assert not response['edges']
+
+@pytest.mark.usefixtures('clean_db')
+def test_update_link(populate_malware):
+    mal1, mal2, _ = populate_malware
+    relationship = mal1.link_to(mal2, 'uses')
+    rv = client.put(
+        '/api/relationships/' + relationship.id + '/',
+        data=json.dumps({
+            'description': 'random description',
+            'relationship_type': 'related-to'
+            }),
+        content_type='application/json')
+    assert rv.status_code == 200
+    response = json.loads(rv.data)
+    assert response['description'] == 'random description'
+    assert response['relationship_type'] == 'related-to'
+    assert response['id'] == relationship.id
+
+

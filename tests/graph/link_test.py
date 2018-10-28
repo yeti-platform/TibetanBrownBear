@@ -42,3 +42,13 @@ def test_link_delete(populate_malware):
     assert len(Relationship.list()) == 2
     mal2.delete()
     assert len(Relationship.list()) == 1
+
+@pytest.mark.usefixtures('clean_db')
+def test_most_recent_link(populate_malware):
+    mal1, mal2, _ = populate_malware
+    relationship = mal1.link_to(mal2, 'uses')
+    relationship.update({'description': 'random description'})
+    assert len(Relationship.list()) == 1
+    neighbors = mal1.neighbors()
+    assert len(neighbors['edges']) == 1
+    assert neighbors['edges'][0]['description'] == 'random description'
