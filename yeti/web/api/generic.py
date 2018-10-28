@@ -84,9 +84,8 @@ class GenericResource(FlaskView):
         """
         try:
             obj = get_object_or_404(self.resource_object, id)
-            dumped = obj.dump()
-            dumped.update(request.get_json())
-            return self.resource_object.load(dumped).save()
+            updated = obj.update(request.get_json())
+            return updated
         except GenericYetiError as err:
             return err, 400
 

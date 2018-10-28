@@ -56,7 +56,7 @@ class StixSRO(StixObject):
         attributes = json.loads(self._stix_object.serialize())
         if destination == 'db':
             return {
-                'id': self._arango_id,
+                'id': None,
                 '_from': self._db_from,
                 '_to': self._db_to,
                 'attributes': attributes
@@ -83,14 +83,15 @@ class StixSRO(StixObject):
         if isinstance(args, list):
             return [cls._load_yeti(item) for item in args]
         subclass = cls.get_final_datatype(args['attributes'])
-        arango_id = args.pop('_id')
+        db_id = args.pop('_id', None)
         db_from = args.pop('_from')
         db_to = args.pop('_to')
         args.pop('_rev', None)
         stix_rel = args['attributes']
         try:
             obj = subclass(db_from, db_to, stix_rel)
-            obj._arango_id = arango_id
+            if db_id:
+                obj._arango_id = db_id  # pylint: disable=protected-access
         except Exception as err:
             raise ValidationError(str(err))
         return obj
