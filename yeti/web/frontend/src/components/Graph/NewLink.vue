@@ -46,9 +46,7 @@ export default {
       for (var entity of this.entities) {
         let linkType = relationships[this.sourceEntity.type][entity.type]
         if (linkType === undefined) {
-          console.log('Wrong datatype')
-          this.saving = false
-          return
+          linkType = ['related-to']
         }
         links.push({
           target: entity,
