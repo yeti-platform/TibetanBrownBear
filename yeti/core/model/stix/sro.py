@@ -40,7 +40,7 @@ class StixSRO(StixObject):
         Returns:
           A list of STIX objects.
         """
-        return super().filter({'attributes.id': self.id})
+        return super().filter({'attributes.id': self.id}, latest=False)
 
     def dump(self, destination='db'):
         """Dumps an Entity object into its STIX JSON representation.

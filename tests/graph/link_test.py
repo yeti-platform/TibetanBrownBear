@@ -43,6 +43,18 @@ def test_link_delete(populate_malware):
     mal2.delete()
     assert len(Relationship.list()) == 1
 
+@pytest.mark.usefixtures("clean_db")
+def test_updated_link_delete(populate_malware):
+    """Tests that all versions of a Relationship are correctly deleted."""
+    mal1, mal2, _ = populate_malware
+    relationship = mal1.link_to(mal2, 'uses')
+    relationship.update({'description': 'description1'})
+    relationship.update({'description': 'description2'})
+    relationship.update({'description': 'description3'})
+    assert len(Relationship.list()) == 1
+    relationship.delete()
+    assert not Relationship.list()
+
 @pytest.mark.usefixtures('clean_db')
 def test_most_recent_link(populate_malware):
     mal1, mal2, _ = populate_malware
