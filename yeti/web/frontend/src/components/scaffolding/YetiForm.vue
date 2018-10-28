@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div>
     <form @submit="submitForm">
       <div v-for="field in fields" v-bind:key="field.name" class="form-group row">

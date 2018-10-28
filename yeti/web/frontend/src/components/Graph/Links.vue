@@ -1,11 +1,12 @@
 <template>
   <div class="links">
-    <new-link ref="newLink" :sourceEntity="object" v-on:links-added='fetchNeighbors'></new-link>
+    <new-link ref="newLink" :sourceEntity="object" v-on:links-changed='fetchNeighbors'></new-link>
     <delete-links ref="deleteLinks"
-                  v-if="selectedElements.length >= 1"
-                  :selectedLinks="selectedElements"
+                  v-if="selectedLinks.length >= 1"
+                  :selectedLinks="selectedLinks"
                   v-on:links-deleted='fetchNeighbors'>
     </delete-links>
+    <edit-links :selectedLinks="selectedLinks" v-on:links-changed='fetchNeighbors'></edit-links>
     <span v-if="loading">
       <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
     </span>
@@ -14,7 +15,7 @@
           v-bind:key='edge._id'
           @click.exact="select(edge)"
           @click.shift.exact="selectMultiple(edge)"
-          v-bind:class="{'selected': selectedElements.includes(edge.id)}"
+          v-bind:class="{'selected': selectedLinks.includes(edge.id)}"
           class="show-on-hover"
         >
         <td class="show-on-hover"><a href="#" @click="$refs.deleteLinks.deleteLinks([edge.id])"><i class="fas fa-unlink"></i></a></td>
@@ -51,6 +52,7 @@ import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 import MarkdownText from '@/components/scaffolding/MarkdownText'
 import NewLink from '@/components/Graph/NewLink'
 import DeleteLinks from '@/components/Graph/DeleteLinks'
+import EditLinks from '@/components/Graph/EditLinks'
 
 export default {
   components: {
@@ -58,14 +60,15 @@ export default {
     TypeToIcon,
     MarkdownText,
     NewLink,
-    DeleteLinks
+    DeleteLinks,
+    EditLinks
   },
   props: ['object', 'detailComponent'],
   data () {
     return {
       graph: [],
       loading: true,
-      selectedElements: []
+      selectedLinks: []
     }
   },
   computed: {
@@ -81,7 +84,7 @@ export default {
         .then(response => {
           console.log('Got ' + response.data.edges.length + ' edges')
           this.graph = response.data
-          this.selectedElements = []
+          this.selectedLinks = []
         })
         .finally(() => { this.loading = false })
     },
@@ -104,16 +107,16 @@ export default {
       return this.object
     },
     select (elt) {
-      this.selectedElements = [elt.id]
+      this.selectedLinks = [elt.id]
       this.$emit('input', [elt])
     },
     selectMultiple (elt) {
-      if (!this.selectedElements.includes(elt.id)) {
-        this.selectedElements.push(elt.id)
+      if (!this.selectedLinks.includes(elt.id)) {
+        this.selectedLinks.push(elt.id)
       } else {
-        this.selectedElements.splice(this.selectedElements.indexOf(elt.id), 1)
+        this.selectedLinks.splice(this.selectedLinks.indexOf(elt.id), 1)
       }
-      this.$emit('input', this.graph.edges.filter(elt => this.selectedElements.includes(elt.id)))
+      this.$emit('input', this.graph.edges.filter(elt => this.selectedLinks.includes(elt.id)))
     }
   },
   watch: {

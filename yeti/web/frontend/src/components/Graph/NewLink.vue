@@ -58,7 +58,7 @@ export default {
       axios.post('entities/' + this.sourceEntity.id + '/addlink/', links)
         .then(response => {
           console.log('OK!')
-          this.$emit('links-added', response.data)
+          this.$emit('links-changed', response.data)
           this.entities = []
           this.$refs.relInput.clearItems()
         })
