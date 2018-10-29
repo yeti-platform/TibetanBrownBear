@@ -33,32 +33,32 @@ export const editFields = {
     {name: 'first_seen', type: 'datetime', humanName: 'First seen'},
     {name: 'last_seen', type: 'datetime', humanName: 'Last seen'},
     {name: 'goals', type: 'list', humanName: 'Goals'},
-    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
-    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov'},
-    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov'}
+    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov', humanName: 'Resource level'},
+    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov', humanName: 'Primary motivation'},
+    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov', humanName: 'Secondary motivations'}
   ],
   'malware': [
     {name: 'name', type: 'text', humanName: 'Name'},
-    {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
+    {name: 'labels', type: 'list', vocab: 'malware-label-ov', humanName: 'Labels'},
     {name: 'description', type: 'longtext', humanName: 'Description'},
     {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'observed-data': [
     {name: 'id', type: 'text'},
     {name: 'labels', type: 'list', humanName: 'Labels'},
-    {name: 'first_observed', type: 'text'},
-    {name: 'last_observed', type: 'text'},
-    {name: 'number_observed', type: 'int'}
+    {name: 'first_observed', type: 'text', humanName: 'First observed'},
+    {name: 'last_observed', type: 'text', humanName: 'Last observed'},
+    {name: 'number_observed', type: 'int', humanName: 'Number observed'}
   ],
   'report': [
     {name: 'name', type: 'text', humanName: 'Name'},
-    {name: 'labels', type: 'list', vocab: 'report-label-ov'},
+    {name: 'labels', type: 'list', vocab: 'report-label-ov', humanName: 'Labels'},
     {name: 'description', type: 'longtext', humanName: 'Description'},
-    {name: 'published', type: 'datetime'}
+    {name: 'published', type: 'datetime', humanName: 'Date published'}
   ],
   'threat-actor': [
     {name: 'name', type: 'text', humanName: 'Name'},
-    {name: 'labels', type: 'list', vocab: 'threat-actor-label-ov'},
+    {name: 'labels', type: 'list', vocab: 'threat-actor-label-ov', humanName: 'Labels'},
     {name: 'description', type: 'longtext', humanName: 'Description'},
     {name: 'aliases', type: 'list', humanName: 'Aliases'},
     {name: 'roles', type: 'list', vocab: 'threat-actor-role-ov', humanName: 'Roles'},
@@ -71,7 +71,7 @@ export const editFields = {
   ],
   'tool': [
     {name: 'name', type: 'text', humanName: 'Name'},
-    {name: 'labels', type: 'list', vocab: 'tool-label-ov'},
+    {name: 'labels', type: 'list', vocab: 'tool-label-ov', humanName: 'Labels'},
     {name: 'description', type: 'longtext', humanName: 'Description'},
     {name: 'tool_version', type: 'text', humanName: 'Tool version'},
     {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
