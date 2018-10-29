@@ -1,5 +1,4 @@
 """Detail Yeti's Entity object structure."""
-from abc import abstractmethod
 import json
 
 from stix2 import parse

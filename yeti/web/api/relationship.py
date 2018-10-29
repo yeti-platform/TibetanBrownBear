@@ -1,12 +1,8 @@
 """API resources for interacting with Entities."""
 from marshmallow import fields
-from flask_classful import route
-from flask import request
 
 from yeti.core.relationships import BaseRelationship
-from yeti.core.errors import YetiSTIXError
 from .generic import GenericResource
-from ..helpers import as_json, get_object_or_404
 
 
 class RelationshipResource(GenericResource):

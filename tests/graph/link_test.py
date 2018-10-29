@@ -18,6 +18,7 @@ def test_link(populate_malware):
     assert 'Sofacy' in names
     assert 'Zeus' in names
 
+# pylint: disable=protected-access
 @pytest.mark.usefixtures("clean_db")
 def test_link_preservation_on_update(populate_malware):
     """Tests that links always point to the most up-to-date STIX object."""

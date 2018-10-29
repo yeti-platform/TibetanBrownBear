@@ -1,9 +1,6 @@
 """Detail Yeti's Entity object structure."""
 import json
 
-from stix2.exceptions import MissingPropertiesError, ParseError
-from stix2 import parse
-
 from yeti.core.errors import ValidationError
 from .base import StixObject
 

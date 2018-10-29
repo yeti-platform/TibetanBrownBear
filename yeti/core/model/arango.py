@@ -325,17 +325,15 @@ class ArangoYetiConnector(AbstractYetiConnector):
         from yeti.core.relationships import Relationship
         if stix_rel is None:
             stix_rel = StixRelationship(relationship_type=link_type,
-                                    source_ref=self.id,
-                                    target_ref=target.id)
+                                        source_ref=self.id,
+                                        target_ref=target.id)
             stix_rel = json.loads(stix_rel.serialize())
 
-        # graph = self._db.graph('stix')
-        # edge_collection = graph.edge_collection('relationships')
         existing = list(Relationship.filter({'attributes.id': stix_rel['id']}))
         if existing:
             return existing[0]
+        # pylint: disable=protected-access
         return Relationship(self._arango_id, target._arango_id, stix_rel).save()
-        # return edge_collection.insert(document)
 
     # pylint: disable=too-many-arguments
     def neighbors(self, link_type=None, direction='any', include_original=False,
@@ -385,7 +383,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             if edge_id in seen:
                 seen_modified = parser.parse(seen[edge_id]['modified'])
                 current_modified = parser.parse(edge['modified'])
-                if seen_modified > current_modified :
+                if seen_modified > current_modified:
                     continue
             seen[edge_id] = edge
         return list(seen.values())
@@ -395,10 +393,6 @@ class ArangoYetiConnector(AbstractYetiConnector):
 
     def _build_vertices(self, arango_vertices):
         return {vert['id']: vert for vert in arango_vertices}
-
-    def _dotted_to_dict(self, dotted_string):
-        subdocs = dotted_string.split('.')
-
 
     @classmethod
     def filter(cls, args):

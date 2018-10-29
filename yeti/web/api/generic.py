@@ -45,11 +45,11 @@ class GenericResource(FlaskView):
 
         Processes an array of IDs to delete.
         """
-        for id in request.json:
-            get_object_or_404(self.resource_object, id).delete()
+        for _id in request.json:
+            get_object_or_404(self.resource_object, _id).delete()
 
     @as_json
-    def delete(self, id):
+    def delete(self, id):  # pylint: disable=redefined-builtin
         """Deletes a single object from the database.
 
         Args:

@@ -1,7 +1,5 @@
 """Tests for the Stix2 bindings."""
 
-import pytest
-
 from stix2 import Relationship as StixRelationship
 from yeti.core.relationships.relationship import Relationship
 

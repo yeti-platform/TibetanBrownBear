@@ -72,5 +72,3 @@ def test_update_link(populate_malware):
     assert response['description'] == 'random description'
     assert response['relationship_type'] == 'related-to'
     assert response['id'] == relationship.id
-
-
