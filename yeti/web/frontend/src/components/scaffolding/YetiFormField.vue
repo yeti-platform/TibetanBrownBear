@@ -75,7 +75,6 @@ export default {
     }
   },
   mounted () {
-    console.log('updating buffervalue')
     this.bufferValue = this.value
     console.log(this.bufferValue)
   },

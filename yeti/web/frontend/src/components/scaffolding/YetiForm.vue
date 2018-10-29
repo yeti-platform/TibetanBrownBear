@@ -2,7 +2,8 @@
   <div>
     <form @submit="submitForm">
       <yeti-form-field v-bind:key="field.name" v-for="field in fields" :field="field" v-model="object[field['name']]"></yeti-form-field>
-      <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
+      <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save changes"}}</button>
+      <button id="cancel" @click="back()" class="btn btn-secondary" v-bind:class="{ disabled: saving }">Cancel</button>
       <pre class="json p-3">{{object}}</pre>
     </form>
     <div v-if="errors">
@@ -56,6 +57,9 @@ export default {
     },
     customFormatter (date) {
       return moment(date).format('YYYY-MM-DD HH:mm:ss ZZ')
+    },
+    back () {
+      history.back()
     }
   }
 }

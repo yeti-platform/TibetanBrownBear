@@ -23,7 +23,7 @@
           <div class="modal-footer">
             <small>This action will affect {{ selectedLinks.length }} selected links.</small>
             <button type="button" ref="modalClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="saveLinkData">Save changes</button>
+            <button type="button" class="btn btn-primary" @click="saveLinkData" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save changes"}}</button>
           </div>
         </div>
       </div>
@@ -45,24 +45,22 @@ export default {
   props: ['selectedLinks'],
   data () {
     return {
-      newRelationship: {}
+      newRelationship: {},
+      saving: false
     }
   },
   methods: {
-    editLinks (e) {
-      console.log(e)
-    },
     fetchLinkData (linkId) {
       var linkID = this.selectedLinks[0]
       axios.get('/relationships/' + linkID + '/')
         .then(response => {
           if (response.status === 200) {
-            console.log(response.data)
             this.newRelationship = response.data
           }
         })
     },
     saveLinkData () {
+      this.saving = true
       for (var index = 0; index < this.selectedLinks.length; index++) {
         var lastIndex = index
         var linkID = this.selectedLinks[index]
@@ -73,6 +71,7 @@ export default {
         axios.put('/relationships/' + linkID + '/', linkData)
           .then(response => {
             if (lastIndex === this.selectedLinks.length - 1) {
+              this.saving = false
               this.$refs.modalClose.click()
               this.$emit('links-changed', response.data)
             }
