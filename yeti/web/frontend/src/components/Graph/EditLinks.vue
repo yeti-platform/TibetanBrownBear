@@ -14,9 +14,9 @@
           </div>
 
           <div class="modal-body">
-            <yeti-form-field v-model="newRelationship.relationship_type" :field="{'name': 'Relationship type', 'type': 'text'}">
+            <yeti-form-field v-model="newRelationship.relationship_type" :field="{'name': 'relationship_type', 'type': 'text', humanName: 'Relationship type'}">
             </yeti-form-field>
-            <yeti-form-field v-model="newRelationship.description" :field="{'name': 'Description', 'type': 'longtext'}">
+            <yeti-form-field v-model="newRelationship.description" :field="{'name': 'description', 'type': 'longtext', humanName: 'Description'}">
             </yeti-form-field>
           </div>
 

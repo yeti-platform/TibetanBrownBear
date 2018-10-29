@@ -1,151 +1,151 @@
 export const editFields = {
   'attack-pattern': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'campaign': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'aliases', type: 'list'},
-    {name: 'first_seen', type: 'datetime'},
-    {name: 'last_seen', type: 'datetime'},
-    {name: 'objective', type: 'text'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'first_seen', type: 'datetime', humanName: 'First seen'},
+    {name: 'last_seen', type: 'datetime', humanName: 'Last seen'},
+    {name: 'objective', type: 'text', humanName: 'Objective'}
   ],
   'course-of-action': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'description', type: 'longtext'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'description', type: 'longtext', humanName: 'Description'}
   ],
   'identity': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'description', type: 'longtext'},
-    {name: 'identity_class', type: 'text', vocab: 'identity-class-ov'},
-    {name: 'sectors', type: 'list', vocab: 'industry-sector-ov'},
-    {name: 'contact_information', type: 'text'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'description', type: 'longtext', humanName: 'Description'},
+    {name: 'identity_class', type: 'text', vocab: 'identity-class-ov', humanName: 'Identity class'},
+    {name: 'sectors', type: 'list', vocab: 'industry-sector-ov', humanName: 'Industry sector'},
+    {name: 'contact_information', type: 'text', humanName: 'Contact information'}
   ],
   'intrusion-set': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'description', type: 'longtext'},
-    {name: 'aliases', type: 'list'},
-    {name: 'first_seen', type: 'datetime'},
-    {name: 'last_seen', type: 'datetime'},
-    {name: 'goals', type: 'list'},
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'description', type: 'longtext', humanName: 'Description'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'first_seen', type: 'datetime', humanName: 'First seen'},
+    {name: 'last_seen', type: 'datetime', humanName: 'Last seen'},
+    {name: 'goals', type: 'list', humanName: 'Goals'},
     {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
     {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov'},
     {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov'}
   ],
   'malware': [
-    {name: 'name', type: 'text'},
+    {name: 'name', type: 'text', humanName: 'Name'},
     {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
-    {name: 'description', type: 'longtext'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'description', type: 'longtext', humanName: 'Description'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'observed-data': [
     {name: 'id', type: 'text'},
-    {name: 'labels', type: 'list'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
     {name: 'first_observed', type: 'text'},
     {name: 'last_observed', type: 'text'},
     {name: 'number_observed', type: 'int'}
   ],
   'report': [
-    {name: 'name', type: 'text'},
+    {name: 'name', type: 'text', humanName: 'Name'},
     {name: 'labels', type: 'list', vocab: 'report-label-ov'},
-    {name: 'description', type: 'longtext'},
+    {name: 'description', type: 'longtext', humanName: 'Description'},
     {name: 'published', type: 'datetime'}
   ],
   'threat-actor': [
-    {name: 'name', type: 'text'},
+    {name: 'name', type: 'text', humanName: 'Name'},
     {name: 'labels', type: 'list', vocab: 'threat-actor-label-ov'},
-    {name: 'description', type: 'longtext'},
-    {name: 'aliases', type: 'list'},
-    {name: 'roles', type: 'list', vocab: 'threat-actor-role-ov'},
-    {name: 'goals', type: 'list'},
-    {name: 'sophistication', type: 'text', vocab: 'threat-actor-sophistication-ov'},
-    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov'},
-    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov'},
-    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov'},
-    {name: 'personal_motivations', type: 'list', vocab: 'attack-motivation-ov'}
+    {name: 'description', type: 'longtext', humanName: 'Description'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'roles', type: 'list', vocab: 'threat-actor-role-ov', humanName: 'Roles'},
+    {name: 'goals', type: 'list', humanName: 'Goals'},
+    {name: 'sophistication', type: 'text', vocab: 'threat-actor-sophistication-ov', humanName: 'Sophistication'},
+    {name: 'resource_level', type: 'text', vocab: 'attack-resource-level-ov', humanName: 'Resource level'},
+    {name: 'primary_motivation', type: 'text', vocab: 'attack-motivation-ov', humanName: 'Primary motivation'},
+    {name: 'secondary_motivations', type: 'list', vocab: 'attack-motivation-ov', humanName: 'Secondary motivations'},
+    {name: 'personal_motivations', type: 'list', vocab: 'attack-motivation-ov', humanName: 'Personal motivations'}
   ],
   'tool': [
-    {name: 'name', type: 'text'},
+    {name: 'name', type: 'text', humanName: 'Name'},
     {name: 'labels', type: 'list', vocab: 'tool-label-ov'},
-    {name: 'description', type: 'longtext'},
-    {name: 'tool_version', type: 'text'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'description', type: 'longtext', humanName: 'Description'},
+    {name: 'tool_version', type: 'text', humanName: 'Tool version'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'vulnerability': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'description', type: 'longtext'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'description', type: 'longtext', humanName: 'Description'}
   ]
 }
 
 export const listFields = {
   'attack-pattern': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'campaign': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'aliases', type: 'list'},
-    {name: 'first_seen', type: 'datetime'},
-    {name: 'last_seen', type: 'datetime'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'first_seen', type: 'datetime', humanName: 'First seen'},
+    {name: 'last_seen', type: 'datetime', humanName: 'Last seen'}
   ],
   'course-of-action': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'}
   ],
   'identity': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'sectors', type: 'list'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'sectors', type: 'list', humanName: 'Sectors'}
   ],
   'intrusion-set': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'aliases', type: 'list'},
-    {name: 'first_seen', type: 'text'},
-    {name: 'last_seen', type: 'text'},
-    {name: 'primary_motivation', type: 'text'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'first_seen', type: 'text', humanName: 'First seen'},
+    {name: 'last_seen', type: 'text', humanName: 'Last seen'},
+    {name: 'primary_motivation', type: 'text', humanName: 'Primary motivation'}
   ],
   'malware': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', vocab: 'malware-label-ov', humanName: 'Labels'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'observed-data': [
-    {name: 'id', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'first_observed', type: 'text'},
-    {name: 'last_observed', type: 'text'},
-    {name: 'number_observed', type: 'int'}
+    {name: 'id', type: 'text', humanName: 'ID'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'first_observed', type: 'text', humanName: 'First observed'},
+    {name: 'last_observed', type: 'text', humanName: 'last observed'},
+    {name: 'number_observed', type: 'int', humanName: 'Number observed'}
   ],
   'report': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'published', type: 'datetime'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'published', type: 'datetime', humanName: 'Date published'}
   ],
   'threat-actor': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'aliases', type: 'list'},
-    {name: 'roles', type: 'list'},
-    {name: 'primary_motivation', type: 'text'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'aliases', type: 'list', humanName: 'Aliases'},
+    {name: 'roles', type: 'list', humanName: 'Roles'},
+    {name: 'primary_motivation', type: 'text', humanName: 'Primary motivation'}
   ],
   'tool': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'},
-    {name: 'tool_version', type: 'text'},
-    {name: 'kill_chain_phases', type: 'killchain'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'},
+    {name: 'tool_version', type: 'text', humanName: 'Tool version'},
+    {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
   ],
   'vulnerability': [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
+    {name: 'name', type: 'text', humanName: 'Name'},
+    {name: 'labels', type: 'list', humanName: 'Labels'}
   ]
 }
 

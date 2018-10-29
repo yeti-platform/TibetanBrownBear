@@ -1,40 +1,7 @@
 <template>
   <div>
     <form @submit="submitForm">
-      <div v-for="field in fields" v-bind:key="field.name" class="form-group row">
-        <label :for="field.name" class="col-sm-2 col-form-label">{{field.name}}</label>
-        <div class="col-sm-10 form-group">
-          <!-- plain text input -->
-          <yeti-text-input :vocab="field.vocab" v-if="field.type === 'text'" :id="field['name']" v-model="object[field['name']]" />
-          <!-- code input -->
-          <textarea class="form-control code" v-if="field.type === 'code'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
-          <!-- textarea -->
-          <textarea class="form-control" v-if="field.type === 'longtext'" :id="field['name']" rows="8" cols="80" v-model="object[field['name']]"></textarea>
-          <!-- datetime -->
-          <datepicker v-if="field.type === 'datetime'" :id="field['name']" v-model="object[field['name']]"
-                      :format="customFormatter"
-                      :bootstrap-styling="true"
-                      :typeable="true"
-                      placeholder="Click to pick date">
-          </datepicker>
-
-          <!-- list-type input -->
-          <yeti-vocab-input v-if="field.type === 'list'"
-                           v-model="object[field['name']]"
-                           :autocompleteVocab="field['vocab']" />
-
-          <!-- tag input -->
-          <yeti-vocab-input v-if="field.type === 'tags'"
-                           v-model="object[field['name']]"
-                           displayKey="name"
-                           :autocompleteVocab="field['vocab']" />
-
-          <!-- killchain input -->
-          <yeti-killchain-input v-if="field.type === 'killchain'"
-                                v-model="object[field['name']]"
-                                />
-        </div>
-      </div>
+      <yeti-form-field v-bind:key="field.name" v-for="field in fields" :field="field" v-model="object[field['name']]"></yeti-form-field>
       <button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }">{{saving ? "Saving..." : "Save"}}</button>
       <pre class="json p-3">{{object}}</pre>
     </form>
@@ -46,11 +13,7 @@
 
 <script>
 import axios from 'axios'
-import Datepicker from 'vuejs-datepicker'
-
-import YetiVocabInput from '@/components/scaffolding/YetiVocabInput'
-import YetiTextInput from '@/components/scaffolding/YetiTextInput'
-import YetiKillchainInput from '@/components/scaffolding/YetiKillchainInput'
+import YetiFormField from '@/components/scaffolding/YetiFormField'
 
 var moment = require('moment')
 
@@ -61,10 +24,7 @@ const methods = {
 
 export default {
   components: {
-    YetiVocabInput,
-    YetiTextInput,
-    YetiKillchainInput,
-    Datepicker
+    YetiFormField
   },
   props: {
     'fields': { default: () => [], type: Array },
