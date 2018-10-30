@@ -22,6 +22,43 @@ class EntityResource(GenericResource):
     }
 
     @as_json
+    @route('/<id>/neighbors/', methods=['GET'])
+    def neighbors(self, id):  # pylint: disable=redefined-builtin
+        """Fetch objects an object is related to.
+
+        A (relationships_list, objects_list) tuple is built, the first list
+        representing all the relationship data for a given object, the second
+        list is all the objects referenced by those relationships.
+
+        Args:
+            id: The object's primary ID.
+
+        Returns:
+            A JSON representation of the object's relationships.
+        """
+        obj = get_object_or_404(self.resource_object, id)
+        return obj.neighbors()
+
+    @as_json
+    @route('/<id>/addlink/', methods=['POST'])
+    def link(self, id):  # pylint: disable=redefined-builtin
+        """Link an object to another object.
+
+        Args:
+            id: The source object's primary ID.
+
+        Returns:
+            A JSON representation of the object's relationships.
+        """
+        obj = get_object_or_404(self.resource_object, id)
+        args = request.json
+        links = []
+        for link in args:
+            target = self.resource_object.get(link['target']['id'])
+            links.append(obj.link_to(target, link['link_type'], link['stix_rel']))
+        return links
+
+    @as_json
     @route('/<id>/', methods=['PUT'])
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a STIX SDO object.

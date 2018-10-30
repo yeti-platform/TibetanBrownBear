@@ -38,4 +38,37 @@ def test_add_link(populate_malware):
     rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 1
+    assert response['vertices'][mal2.id]['id'] == mal2.id
     assert len(response['edges']) == 1
+    assert response['edges'][0]['source_ref'] == mal1.id
+    assert response['edges'][0]['target_ref'] == mal2.id
+
+@pytest.mark.usefixtures('clean_db')
+def test_delete_link(populate_malware):
+    """Test that a GET request fetches all neighbors for a given entity."""
+    mal1, mal2, _ = populate_malware
+    relationship = mal1.link_to(mal2, 'uses')
+    rv = client.delete('/api/relationships/' + relationship.id + '/')
+    assert rv.status_code == 200
+    rv = client.get('/api/entities/'+mal1.id+'/neighbors/')
+    assert rv.status_code == 200
+    response = json.loads(rv.data)
+    assert not response['vertices']
+    assert not response['edges']
+
+@pytest.mark.usefixtures('clean_db')
+def test_update_link(populate_malware):
+    mal1, mal2, _ = populate_malware
+    relationship = mal1.link_to(mal2, 'uses')
+    rv = client.put(
+        '/api/relationships/' + relationship.id + '/',
+        data=json.dumps({
+            'description': 'random description',
+            'relationship_type': 'related-to'
+            }),
+        content_type='application/json')
+    assert rv.status_code == 200
+    response = json.loads(rv.data)
+    assert response['description'] == 'random description'
+    assert response['relationship_type'] == 'related-to'
+    assert response['id'] == relationship.id

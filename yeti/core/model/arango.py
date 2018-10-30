@@ -8,7 +8,8 @@ from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpd
 from marshmallow import Schema, fields
 from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
-from stix2 import Relationship
+from stix2 import Relationship as StixRelationship
+from dateutil import parser
 
 from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
@@ -147,24 +148,23 @@ class ArangoYetiConnector(AbstractYetiConnector):
             raise ValidationError(e.messages)
 
     @classmethod
-    def _load_stix(cls, args):
-        """Translate information from the backend into a valid STIX definition.
+    def _load_yeti(cls, args):
+        """Translate information from the backend into a valid Yeti object.
 
-        Will instantiate a STIX object from that definition.
+        Will instantiate a Yeti object from that definition.
 
         Args:
-          args: The dictionary to use to create the STIX object.
-          strict: Unused, kept to be consistent with overriden method
+          args: The dictionary to use to create the Yeti object.
 
         Returns:
-          The corresponding STIX objet.
+          The corresponding Yeti objet.
 
         Raises:
-          ValidationError: If a STIX object could not be instantiated from the
+          ValidationError: If a Yeti object could not be instantiated from the
               serialized data.
         """
         if isinstance(args, list):
-            return [cls._load_stix(item) for item in args]
+            return [cls._load_yeti(item) for item in args]
         subclass = cls.get_final_datatype(args)
         db_id = args.pop('_id', None)
         args.pop('_rev', None)
@@ -227,7 +227,23 @@ class ArangoYetiConnector(AbstractYetiConnector):
             except DocumentUpdateError:
                 result = self._insert(document_json)
         arangodoc = result['new']
+        self.update_links(result['_id'])
+        self._arango_id = result['_id']
         return self.load(arangodoc, strict=True)
+
+    def update_links(self, new_id):
+        if not self._arango_id:
+            return
+        graph = self._db.graph('stix')
+        neighbors = graph.traverse(
+            self._arango_id, direction='any', max_depth=1)
+        for path in neighbors['paths']:
+            for edge in path['edges']:
+                if edge['attributes']['target_ref'] == self.id:
+                    edge['_to'] = new_id
+                elif edge['attributes']['source_ref'] == self.id:
+                    edge['_from'] = new_id
+                graph.update_edge(edge)
 
     @classmethod
     def list(cls):
@@ -304,26 +320,20 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Args:
           target: The YetiObject to link to.
           link_type: The type of link. (e.g. targets, uses, mitigates)
-          stix_rel: JSON-serialized STIX Relationship object
+          stix_rel: STIX Relationship object
         """
+        from yeti.core.relationships import Relationship
         if stix_rel is None:
-            stix_rel = Relationship(relationship_type=link_type,
-                                    source_ref=self.id,
-                                    target_ref=target.id)
+            stix_rel = StixRelationship(relationship_type=link_type,
+                                        source_ref=self.id,
+                                        target_ref=target.id)
             stix_rel = json.loads(stix_rel.serialize())
 
-        graph = self._db.graph('stix')
-        edge_collection = graph.edge_collection('relationships')
-        document = {
-            '_from': self._arango_id,
-            '_to': target._arango_id,  # pylint: disable=protected-access
-            'attributes': stix_rel,
-        }
-        existing = list(edge_collection.find(document))
-
+        existing = list(Relationship.filter({'attributes.id': stix_rel['id']}))
         if existing:
             return existing[0]
-        return edge_collection.insert(document)
+        # pylint: disable=protected-access
+        return Relationship(self._arango_id, target._arango_id, stix_rel).save()
 
     # pylint: disable=too-many-arguments
     def neighbors(self, link_type=None, direction='any', include_original=False,
@@ -349,12 +359,34 @@ class ArangoYetiConnector(AbstractYetiConnector):
         for path in neighbors['paths']:
             edges.extend(self._build_edges(path['edges']))
 
+        edges = self._dedup_edges(edges)
+
         if raw:
-            vertices = self._build_vertices(neighbors['vertices'].items())
+            vertices = self._build_vertices(neighbors['vertices'])
         else:
             vertices = {n.id: n for n in self.load(neighbors['vertices'])}
 
         return {'edges': edges, 'vertices': vertices}
+
+    def _dedup_edges(self, edges):
+        """Deduplicates edges with same STIX ID, keeping the most recent one.
+
+        Args:
+          edges: list of JSON-serialized STIX2 SROs.
+
+        Returns:
+          A list of the most recent versions of JSON-serialized STIX2 SROs.
+        """
+        seen = {}
+        for edge in edges:
+            edge_id = edge['id']
+            if edge_id in seen:
+                seen_modified = parser.parse(seen[edge_id]['modified'])
+                current_modified = parser.parse(edge['modified'])
+                if seen_modified > current_modified:
+                    continue
+            seen[edge_id] = edge
+        return list(seen.values())
 
     def _build_edges(self, arango_edges):
         return [edge['attributes'] for edge in arango_edges]
@@ -379,10 +411,13 @@ class ArangoYetiConnector(AbstractYetiConnector):
         colname = cls._collection_name
         conditions = []
         for key in args:
-            if key in ['value', 'name', 'type', 'stix_id']:
-                conditions.append('o.{0:s} =~ @{0:s}'.format(key))
-        aql_string = "FOR o IN {0:s} FILTER {1:s} RETURN o".format(
-            colname, ' AND '.join(conditions))
+            if key in ['value', 'name', 'type', 'stix_id', 'attributes.id']:
+                conditions.append('o.{0:s} =~ @{1:s}'.format(key, key.replace('.', '_')))
+        aql_string = "FOR o IN @@collection FILTER {0:s} RETURN o".format(
+            ' AND '.join(conditions))
+        args['@collection'] = colname
+        for key in args:
+            args[key.replace('.', '_')] = args.pop(key)
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
         for doc in documents:
@@ -407,6 +442,17 @@ class ArangoYetiConnector(AbstractYetiConnector):
         for document in collection.find_by_text(key, query):
             yeti_objects.append(cls.load(document, strict=True))
         return yeti_objects
+
+    def delete(self, all_versions=True):
+        """Deletes an object from the database."""
+        if self._db.graph('stix').has_vertex_collection(self._collection_name):
+            col = self._db.graph('stix').vertex_collection(self._collection_name)
+        else:
+            col = self._db.collection(self._collection_name)
+        col.delete(self._arango_id)
+        if all_versions:
+            for version in self.all_versions():
+                version.delete(all_versions=False)
 
     @classmethod
     def _get_collection(cls):

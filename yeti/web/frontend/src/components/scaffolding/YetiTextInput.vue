@@ -33,6 +33,11 @@ export default {
     if (this.vocab) {
       this.getVocabValues()
     }
+  },
+  watch: {
+    'value': function (val) {
+      this.bufferValue = val
+    }
   }
 }
 </script>

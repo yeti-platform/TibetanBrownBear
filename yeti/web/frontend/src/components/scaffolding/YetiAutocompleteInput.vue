@@ -42,7 +42,6 @@ export default {
           this.selectedItems.push(item)
         }
       }
-      console.log(this.selectedItems)
       this.$emit('input', this.selectedItems)
       event.addTag()
     },

@@ -10,9 +10,9 @@ describe('EntityList.vue', () => {
 
   it('Fields are correctly determined with type', () => {
     expect(wrapper.vm.filterParams.fields).toEqual([
-      {name: 'name', type: 'text'},
-      {name: 'labels', type: 'list', vocab: 'malware-label-ov'},
-      {name: 'kill_chain_phases', type: 'killchain'}
+      {name: 'name', type: 'text', humanName: 'Name'},
+      {name: 'labels', type: 'list', vocab: 'malware-label-ov', humanName: 'Labels'},
+      {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
     ])
   })
 

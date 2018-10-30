@@ -39,41 +39,23 @@ class GenericResource(FlaskView):
         return get_object_or_404(self.resource_object, id)
 
     @as_json
-    @route('/<id>/neighbors/', methods=['GET'])
-    def neighbors(self, id):  # pylint: disable=redefined-builtin
-        """Fetch objects an object is related to.
+    @route('/delete/', methods=['POST'])
+    def delete_multiple(self):
+        """Deletes multiple objects from the database.
 
-        A (relationships_list, objects_list) tuple is built, the first list
-        representing all the relationship data for a given object, the second
-        list is all the objects referenced by those relationships.
-
-        Args:
-            id: The object's primary ID.
-
-        Returns:
-            A JSON representation of the object's relationships.
+        Processes an array of IDs to delete.
         """
-        obj = get_object_or_404(self.resource_object, id)
-        return obj.neighbors()
+        for _id in request.json:
+            get_object_or_404(self.resource_object, _id).delete()
 
     @as_json
-    @route('/<id>/addlink/', methods=['POST'])
-    def link(self, id):  # pylint: disable=redefined-builtin
-        """Link an object to another object.
+    def delete(self, id):  # pylint: disable=redefined-builtin
+        """Deletes a single object from the database.
 
         Args:
-            id: The source object's primary ID.
-
-        Returns:
-            A JSON representation of the object's relationships.
+          id: The object's ID.
         """
-        obj = get_object_or_404(self.resource_object, id)
-        args = request.json
-        links = []
-        for link in args:
-            target = self.resource_object.get(link['target']['id'])
-            links.append(obj.link_to(target, link['link_type'], link['stix_rel']))
-        return links
+        get_object_or_404(self.resource_object, id).delete()
 
     @route('/', methods=['POST'])
     @as_json
@@ -102,9 +84,8 @@ class GenericResource(FlaskView):
         """
         try:
             obj = get_object_or_404(self.resource_object, id)
-            dumped = obj.dump()
-            dumped.update(request.get_json())
-            return self.resource_object.load(dumped).save()
+            updated = obj.update(request.get_json())
+            return updated
         except GenericYetiError as err:
             return err, 400
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="new-link mb-2">
+  <div class="new-link mb-2 mr-2 float-left">
     <a href="#" class="btn btn-light" @click="toggleForm" v-if="!displayForm">Add relationships</a>
     <form @submit="addLink" class="form" v-if="displayForm">
       <div class="form-group mb-2">
@@ -46,9 +46,7 @@ export default {
       for (var entity of this.entities) {
         let linkType = relationships[this.sourceEntity.type][entity.type]
         if (linkType === undefined) {
-          console.log('Wrong datatype')
-          this.saving = false
-          return
+          linkType = ['related-to']
         }
         links.push({
           target: entity,
@@ -60,7 +58,7 @@ export default {
       axios.post('entities/' + this.sourceEntity.id + '/addlink/', links)
         .then(response => {
           console.log('OK!')
-          this.$emit('links-added', response.data)
+          this.$emit('links-changed', response.data)
           this.entities = []
           this.$refs.relInput.clearItems()
         })
@@ -68,6 +66,7 @@ export default {
           this.errors = error.response.data
         })
         .finally(() => {
+          this.displayForm = false
           this.saving = false
         })
     }

@@ -77,7 +77,7 @@ export default {
       this.selectedElements = [elt.id]
       this.$emit('input', [elt])
     },
-    selectMultiple (elt, event) {
+    selectMultiple (elt) {
       if (!this.selectedElements.includes(elt.id)) {
         this.selectedElements.push(elt.id)
       } else {
@@ -105,14 +105,9 @@ export default {
 </script>
 
 <style lang="css">
+
 .selected {
-  font-weight: bold;
+  background-color: #ffffe4;
 }
 
-.table-yeti {
-            user-select: none; /* CSS3 (little to no support) */
-        -ms-user-select: none; /* IE 10+ */
-       -moz-user-select: none; /* Gecko (Firefox) */
-    -webkit-user-select: none; /* Webkit (Safari, Chrome) */
-}
 </style>
