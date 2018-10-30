@@ -75,16 +75,28 @@ def taxii_import(server_url, collection_url):
             }
 
             for item in tc_source.query(Filter('type', '=', name)):
-                obj = yeti_class.find(stix_id=item['id'])
-                if not obj:
-                    obj = yeti_class.from_stix_object(item).save()
-                    stats['new'] += 1
-                elif obj.equals(item):
-                    stats['skipped'] += 1
-                else:
-                    obj.update(item)
-                    stats['updated'] += 1
+                item_json = json.loads(item.serialize())
+                obj = yeti_class.get(item.id)
                 all_objects[item['id']] = obj
+
+                if not obj:
+                    obj = yeti_class(**item).save()
+                    stats['new'] += 1
+                    continue
+
+                if obj.modified >= item.modified:
+                    continue
+
+                if obj.revoked:
+                    stats['skipped'] += 1
+                    continue
+
+                if obj.equals(item_json):
+                    stats['skipped'] += 1
+                    continue
+
+                obj.update(item_json)
+                stats['updated'] += 1
 
             print('New: {0:d}, Updated: {1:d}, Skipped: {2:d}'.format(
                 stats['new'], stats['updated'], stats['skipped']
