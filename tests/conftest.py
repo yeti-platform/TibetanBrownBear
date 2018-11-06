@@ -109,6 +109,13 @@ def populate_malware():
     return malware
 
 @pytest.fixture
+def populate_malware_large():
+    malware = []
+    for i in range(100):
+        malware.append(Malware(name=f'Malware{i:03}', labels=['trojan']).save())
+    return malware
+
+@pytest.fixture
 def populate_regex():
     r1 = Regex(
         name='Zeus C2',

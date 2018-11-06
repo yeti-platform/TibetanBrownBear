@@ -44,7 +44,7 @@ class StixObject(YetiObject):
         return cls._filter_latest_versions(super().list())
 
     @classmethod
-    def filter(cls, args, latest=True):
+    def filter(cls, args, offset=0, count=50, latest=True):
         """Return matching STIX SDOs.
 
         Args:
@@ -56,7 +56,7 @@ class StixObject(YetiObject):
         Returns:
           A List of Yeti objects.
         """
-        all_versions = super().filter(args)
+        all_versions = super().filter(args, offset, count)
         if not latest:
             return all_versions
         return cls._filter_latest_versions(all_versions)

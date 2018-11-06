@@ -402,7 +402,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
                 vertices[vertex['stix_id']] = vertex
 
     @classmethod
-    def filter(cls, args):
+    def filter(cls, args, offset, count):
         """Search in an ArangoDb collection.
 
         Search the collection for all objects whose 'value' attribute matches
@@ -417,11 +417,19 @@ class ArangoYetiConnector(AbstractYetiConnector):
         """
         colname = cls._collection_name
         conditions = []
+        sorts = []
         for key in args:
             if key in ['value', 'name', 'type', 'stix_id', 'attributes.id']:
                 conditions.append('o.{0:s} =~ @{1:s}'.format(key, key.replace('.', '_')))
-        aql_string = "FOR o IN @@collection FILTER {0:s} RETURN o".format(
-            ' AND '.join(conditions))
+                sorts.append('o.{0:s}'.format(key))
+        aql_string = f"""
+            FOR o IN @@collection
+                FILTER {' AND '.join(conditions)}
+                SORT {', '.join(sorts)}
+                LIMIT {offset}, {count}
+                RETURN o
+            """
+
         args['@collection'] = colname
         for key in args:
             args[key.replace('.', '_')] = args.pop(key)
