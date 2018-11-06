@@ -314,17 +314,17 @@ class ArangoYetiConnector(AbstractYetiConnector):
         except IntegrityError:
             return cls.find(**kwargs)
 
-    def link_to(self, target, link_type=None, stix_rel=None):
+    def link_to(self, target, relationship_type=None, stix_rel=None):
         """Creates a link between two YetiObjects.
 
         Args:
           target: The YetiObject to link to.
-          link_type: The type of link. (e.g. targets, uses, mitigates)
+          relationship_type: The type of link. (e.g. targets, uses, mitigates)
           stix_rel: STIX Relationship object
         """
         from yeti.core.relationships import Relationship
         if stix_rel is None:
-            stix_rel = StixRelationship(relationship_type=link_type,
+            stix_rel = StixRelationship(relationship_type=relationship_type,
                                         source_ref=self.id,
                                         target_ref=target.id)
             stix_rel = json.loads(stix_rel.serialize())
@@ -349,22 +349,27 @@ class ArangoYetiConnector(AbstractYetiConnector):
               direct neighbors)
           raw: Whether to return a raw dictionary or a Yeti object.
         """
-        min_depth = 1 if not include_original else None
-        graph = self._db.graph('stix')
-        neighbors = graph.traverse(self._arango_id,
-                                   direction=direction,
-                                   min_depth=min_depth,
-                                   max_depth=hops)
+        query_filter = ''
+        if link_type:
+            query_filter = f'FILTER e.attributes.relationship_type == "{link_type}"'
+        aql = f"""
+        FOR v, e, p IN 1..{hops} {direction} '{self._arango_id}'
+          GRAPH 'stix'
+          {query_filter}
+          RETURN p
+        """
+        neighbors = list(self._db.aql.execute(aql))
         edges = []
-        for path in neighbors['paths']:
+        vertices = {}
+        for path in neighbors:
             edges.extend(self._build_edges(path['edges']))
-
+            self._build_vertices(vertices, path['vertices'])
+        if not include_original:
+            vertices.pop(self.id, None)
         edges = self._dedup_edges(edges)
 
-        if raw:
-            vertices = self._build_vertices(neighbors['vertices'])
-        else:
-            vertices = {n.id: n for n in self.load(neighbors['vertices'])}
+        if not raw:
+            vertices = {n.id: n for n in self.load(list(vertices.values()))}
 
         return {'edges': edges, 'vertices': vertices}
 
@@ -391,8 +396,10 @@ class ArangoYetiConnector(AbstractYetiConnector):
     def _build_edges(self, arango_edges):
         return [edge['attributes'] for edge in arango_edges]
 
-    def _build_vertices(self, arango_vertices):
-        return {vert['id']: vert for vert in arango_vertices}
+    def _build_vertices(self, vertices, arango_vertices):
+        for vertex in arango_vertices:
+            if vertex['stix_id'] not in vertices:
+                vertices[vertex['stix_id']] = vertex
 
     @classmethod
     def filter(cls, args):

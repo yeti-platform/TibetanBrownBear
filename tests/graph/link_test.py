@@ -14,9 +14,11 @@ def test_link(populate_malware):
     neighbors = mal1.neighbors()
     assert len(neighbors) == 2
     assert isinstance(neighbors['vertices'][mal2.id], Malware)
-    names = [n.name for n in neighbors['vertices'].values()]
-    assert 'Sofacy' in names
-    assert 'Zeus' in names
+    names = sorted([n.name for n in neighbors['vertices'].values()])
+    assert 'Sofacy' == names[0]
+    assert 'Zeus' == names[1]
+    assert len(neighbors['vertices']) == 2
+    assert len(neighbors['edges']) == 2
 
 # pylint: disable=protected-access
 @pytest.mark.usefixtures("clean_db")
@@ -33,6 +35,16 @@ def test_link_preservation_on_update(populate_malware):
     assert neighbors['vertices'][sofacy.id]._arango_id == sofacy._arango_id
     assert neighbors['vertices'][sofacy.id].name == 'PlugX'
     assert old_id != sofacy._arango_id
+
+@pytest.mark.usefixtures("clean_db")
+def test_link_with_relationship_filter(populate_malware, populate_regex):
+    _, sofacy, zeus = populate_malware
+    zeusc2, _ = populate_regex
+    zeus.link_to(sofacy, 'related-to')
+    zeus.link_to(zeusc2, 'uses')
+    neighbor_uses = zeus.neighbors(link_type='uses')
+    assert len(neighbor_uses['vertices']) == 1
+    assert neighbor_uses['vertices'][zeusc2.id].id == zeusc2.id
 
 @pytest.mark.usefixtures("clean_db")
 def test_link_delete(populate_malware):
