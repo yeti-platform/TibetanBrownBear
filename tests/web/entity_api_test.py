@@ -96,19 +96,4 @@ def test_filter_pagination(populate_malware_large):
     response = json.loads(rv.data)
     assert len(response) == 20
     for i in range(20, 40):
-        assert response[i-20]['id'] == populate_malware_large[i].id
-
-@pytest.mark.usefixtures("clean_db")
-def test_filter_default_pagination(populate_malware_large):
-    """Tests default pagination options."""
-    filter_query = {
-        'name': '',
-        'type': 'malware'
-    }
-    rv = client.post('/api/entities/filter/',
-                     data=json.dumps(filter_query),
-                     content_type='application/json')
-    response = json.loads(rv.data)
-    assert len(response) == 50
-    for i in range(50):
-        assert response[i]['id'] == populate_malware_large[i].id
+        assert response[i-20]['name'] == populate_malware_large[i].name
