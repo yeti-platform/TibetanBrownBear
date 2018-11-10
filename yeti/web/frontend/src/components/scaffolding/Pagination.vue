@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div class='mt-3'>
     <nav aria-label="Pagination">
       <ul class="pagination justify-content-center">
         <li class="page-item" v-bind:class="{ disabled: currentPage === 1 }">
-          <a class="page-link" href="#" tabindex="-1" @click="currentPage = 1">&laquo;</a>
+          <a class="page-link" href="#" tabindex="-1" @click="currentPage = 1">Start</a>
         </li>
         <li class="page-item" v-bind:class="{ disabled: currentPage === 1 }">
-          <a class="page-link" href="#" tabindex="-1" @click="prevPage">&lsaquo;</a>
+          <a class="page-link" href="#" tabindex="-1" @click="prevPage">Prev</a>
         </li>
         <li v-for="pageNumber in dynamicPageButtons" v-bind:key="pageNumber" class="page-item" v-bind:class="{ disabled: currentPage === pageNumber }">
           <a @click="setPage(pageNumber)" class="page-link" href="#" >{{pageNumber}}</a>
         </li>
         <li class="page-item" v-bind:class="{ disabled: currentPage === totalPages }">
-          <a class="page-link" href="#" @click="nextPage">&rsaquo;</a>
+          <a class="page-link" href="#" @click="nextPage">Next</a>
         </li>
         <li class="page-item" v-bind:class="{ disabled: currentPage === totalPages }">
-          <a class="page-link" href="#" tabindex="-1" @click="currentPage = totalPages" >&raquo;</a>
+          <a class="page-link" href="#" tabindex="-1" @click="currentPage = totalPages" >Last</a>
         </li>
       </ul>
     </nav>

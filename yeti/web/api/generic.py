@@ -95,9 +95,7 @@ class GenericResource(FlaskView):
         """Search the database for object with specific fields."""
         try:
             args = parser.parse(self.searchargs, request)
-            page_size = args.pop('page_size')
-            page = args.pop('page')
-            return self.resource_object.filter(args, offset=page*page_size, count=page_size)
+            return self.resource_object.filter(args)
         except ValidationError as err:
             return err, 400
 

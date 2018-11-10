@@ -11,7 +11,7 @@
           <tr><th v-bind:key="field['name']" v-for="field in filterParams.fields">{{field['name']}}</th></tr>
         </thead>
         <tbody>
-          <tr v-for="elt in elements"
+          <tr v-for="elt in paginatedElements"
               v-bind:key="elt.id"
               @click.exact="select(elt)"
               @click.shift.exact="selectMultiple(elt)"
@@ -53,30 +53,34 @@ export default {
       selectedElements: [],
       timer: false,
       currentPage: 1,
-      totalItems: 1000 // changeme
+      pageSize: 50,
+      totalItems: 0 // changeme
     }
   },
   watch: {
     // call again the method if the route changes
     '$route': 'fetchElements'
   },
+  computed: {
+    paginatedElements () {
+      return this.elements.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage - 1) * this.pageSize) + this.pageSize)
+    }
+  },
   methods: {
     updateCurrentPage (data) {
-      console.log(data)
       this.currentPage = data
-      this.fetchElements()
     },
     fetchElements () {
       console.log('fetching elements')
       let params = {
-        page: this.currentPage - 1,
-        page_size: 50
+        'type': this.filterParams.typeFilter
       }
       params[this.filterParams.queryKey] = this.searchQuery
-      params['type'] = this.filterParams.typeFilter
+
       this.loading = true
       axios.post(this.filterParams.apiPath, params)
         .then(response => {
+          this.totalItems = response.data.length
           this.elements = response.data.map(function (elt) {
             elt.selected = false; return elt
           })

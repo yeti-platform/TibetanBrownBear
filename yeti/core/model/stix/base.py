@@ -44,7 +44,7 @@ class StixObject(YetiObject):
         return cls._filter_latest_versions(super().list())
 
     @classmethod
-    def filter(cls, args, offset=0, count=50, latest=True):
+    def filter(cls, args, latest=True, offset=None, count=None):
         """Return matching STIX SDOs.
 
         Args:
