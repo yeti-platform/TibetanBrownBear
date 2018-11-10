@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
+    <pagination :currentPage="currentPage" :totalItems="totalItems" v-on:page-change='updateCurrentPage'></pagination>
     <div class="table-responsive">
       <span v-if="loading" class="loading">
         <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
@@ -31,10 +32,12 @@
 <script>
 import axios from 'axios'
 import Fields from '@/components/helpers/Fields'
+import Pagination from '@/components/scaffolding/Pagination'
 
 export default {
   components: {
-    Fields
+    Fields,
+    Pagination
   },
   props: [
     'value', // value is specified to be able to use v-bind directive on selected items
@@ -48,7 +51,9 @@ export default {
       searchQuery: '',
       loading: true,
       selectedElements: [],
-      timer: false
+      timer: false,
+      currentPage: 1,
+      totalItems: 1000 // changeme
     }
   },
   watch: {
@@ -56,9 +61,17 @@ export default {
     '$route': 'fetchElements'
   },
   methods: {
+    updateCurrentPage (data) {
+      console.log(data)
+      this.currentPage = data
+      this.fetchElements()
+    },
     fetchElements () {
       console.log('fetching elements')
-      let params = {}
+      let params = {
+        page: this.currentPage - 1,
+        page_size: 50
+      }
       params[this.filterParams.queryKey] = this.searchQuery
       params['type'] = this.filterParams.typeFilter
       this.loading = true
