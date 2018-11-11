@@ -68,11 +68,13 @@ class AbstractYetiConnector(ABC):
 
     @classmethod
     @abstractmethod
-    def filter(cls, args):
+    def filter(cls, args, offset=None, count=None):
         """Filters objects according to args.
 
         Args:
           args: parameters used to filter the objects.
+          offset: Skip this many objects when querying the DB.
+          count: How many objecst after `offset` to return.
         """
         raise NotImplementedError
 

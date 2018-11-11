@@ -411,6 +411,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Args:
             args: A key:value dictionary containing a 'value' or 'name' key
               defining the regular expression to match against.
+            offset: Skip this many objects when querying the DB.
+            count: How many objecst after `offset` to return.
 
         Returns:
             A List of Yeti objects
