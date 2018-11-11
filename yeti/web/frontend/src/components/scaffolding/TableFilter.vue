@@ -1,6 +1,7 @@
 <template>
   <div class="">
     <input id="filter" @keyup.enter='fetchElements()' v-model="searchQuery" class="form-control form-control-light w-100" type="text" placeholder="Filter query" aria-label="Search">
+    <pagination :currentPage="currentPage" :totalItems="totalItems" v-on:page-change='updateCurrentPage'></pagination>
     <div class="table-responsive">
       <span v-if="loading" class="loading">
         <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
@@ -10,7 +11,7 @@
           <tr><th v-bind:key="field['name']" v-for="field in filterParams.fields">{{field['name']}}</th></tr>
         </thead>
         <tbody>
-          <tr v-for="elt in elements"
+          <tr v-for="elt in paginatedElements"
               v-bind:key="elt.id"
               @click.exact="select(elt)"
               @click.shift.exact="selectMultiple(elt)"
@@ -31,10 +32,12 @@
 <script>
 import axios from 'axios'
 import Fields from '@/components/helpers/Fields'
+import Pagination from '@/components/scaffolding/Pagination'
 
 export default {
   components: {
-    Fields
+    Fields,
+    Pagination
   },
   props: [
     'value', // value is specified to be able to use v-bind directive on selected items
@@ -48,22 +51,36 @@ export default {
       searchQuery: '',
       loading: true,
       selectedElements: [],
-      timer: false
+      timer: false,
+      currentPage: 1,
+      pageSize: 50,
+      totalItems: 0 // changeme
     }
   },
   watch: {
     // call again the method if the route changes
     '$route': 'fetchElements'
   },
+  computed: {
+    paginatedElements () {
+      return this.elements.slice((this.currentPage - 1) * this.pageSize, ((this.currentPage - 1) * this.pageSize) + this.pageSize)
+    }
+  },
   methods: {
+    updateCurrentPage (data) {
+      this.currentPage = data
+    },
     fetchElements () {
       console.log('fetching elements')
-      let params = {}
+      let params = {
+        'type': this.filterParams.typeFilter
+      }
       params[this.filterParams.queryKey] = this.searchQuery
-      params['type'] = this.filterParams.typeFilter
+
       this.loading = true
       axios.post(this.filterParams.apiPath, params)
         .then(response => {
+          this.totalItems = response.data.length
           this.elements = response.data.map(function (elt) {
             elt.selected = false; return elt
           })

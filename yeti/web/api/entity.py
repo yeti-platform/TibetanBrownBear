@@ -19,6 +19,8 @@ class EntityResource(GenericResource):
     searchargs = {
         'name': fields.Str(required=True),
         'type': fields.Str(),
+        'page': fields.Int(),
+        'page_size': fields.Int(),
     }
 
     @as_json
