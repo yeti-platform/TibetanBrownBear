@@ -7,6 +7,7 @@ from cli import vocab_import
 from cli import killchain_import
 from cli import yara_commands
 from cli import match
+from cli import user_admin
 
 @click.group()
 def cli():
@@ -19,6 +20,7 @@ cli.add_command(killchain_import.killchain_import)
 cli.add_command(yara_commands.yara_scan)
 cli.add_command(yara_commands.dump_yara_rules)
 cli.add_command(match.match)
+cli.add_command(user_admin.add_user)
 
 
 if __name__ == '__main__':
