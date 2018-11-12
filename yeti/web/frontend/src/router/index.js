@@ -123,7 +123,7 @@ export const observableRoutes = {
 
 export const authenticationRoutes = {
   path: '/login',
-  name: 'Login',
+  name: 'LogIn',
   component: Login
 }
 

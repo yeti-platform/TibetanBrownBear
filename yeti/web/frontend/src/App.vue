@@ -1,28 +1,26 @@
 <template>
-
   <div id="app">
-
     <!-- Top menu -->
-    <navigation/>
-
+    <navigation />
     <div class="container-fluid">
-      <div class="row">
+      <div class="row" v-if="isAuthenticated">
         <!-- sidebar column -->
-        <sidebar/>
+        <sidebar />
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
           <router-view/>
         </main>
-
       </div> <!-- end row -->
+      <div v-else>
+        <log-in />
+      </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
 import Sidebar from '@/components/scaffolding/Sidebar'
 import Navigation from '@/components/scaffolding/Navigation'
+import LogIn from '@/components/LogIn'
 import axios from 'axios'
 axios.defaults.baseURL = '/api'
 
@@ -33,7 +31,8 @@ require('@fortawesome/fontawesome-free/js/all.js')
 export default {
   components: {
     Sidebar,
-    Navigation
+    Navigation,
+    LogIn
   },
   name: 'App',
   metaInfo: {
@@ -46,6 +45,23 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' }
     ]
+  },
+  computed: {
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
+    }
+  },
+  created () {
+    let component = this
+    axios.interceptors.response.use(undefined, function (error) {
+      return new Promise(function (resolve, reject) {
+        if (error.response.status === 401) {
+          component.$store.dispatch('logout').then(() => {
+            component.$router.push('/login')
+          })
+        }
+      })
+    })
   }
 }
 </script>
