@@ -1,10 +1,13 @@
-<template lang="html">
+<template>
   <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Yeti</a>
     <div class="navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav px-3 ml-auto">
+      <li v-if='isAuthenticated' class="nav-item">
+          <a class="nav-link" href="#">{{tokenSubject}}</a>
+      </li>
       <li class="nav-item">
-          <router-link class="nav-link active" :to="{name: 'AdminMain'}">Admin</router-link>
+        <router-link class="nav-link" :to="{name: 'AdminMain'}">Admin</router-link>
       </li>
     </ul>
   </div>
@@ -13,6 +16,14 @@
 
 <script>
 export default {
+  computed: {
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
+    },
+    tokenSubject () {
+      return this.$store.getters.tokenSubject
+    }
+  }
 }
 </script>
 

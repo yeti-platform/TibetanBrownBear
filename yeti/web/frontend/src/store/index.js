@@ -56,20 +56,20 @@ const actions = {
 const mutations = {
   authRequest (state) {
     state.token = ''
-    // localStorage.setItem('user-token', '')
+    localStorage.setItem('user-token', '')
   },
   authSuccess (state, token) {
     state.token = token
-    // localStorage.setItem('user-token', token)
+    localStorage.setItem('user-token', token)
   },
   authError (state, error) {
     console.log(error)
     state.token = ''
-    // localStorage.removeItem('user-token')
+    localStorage.removeItem('user-token')
   },
   logout (state) {
     state.token = ''
-    // localStorage.removeItem('user-token')
+    localStorage.removeItem('user-token')
   }
 }
 

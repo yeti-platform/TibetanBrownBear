@@ -20,6 +20,7 @@ import AdminMain from '@/components/Admin/AdminMain'
 import Tags from '@/components/Admin/Tags'
 import Async from '@/components/Admin/Async'
 import NotFound from '@/components/NotFound'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -120,6 +121,12 @@ export const observableRoutes = {
   ]
 }
 
+export const authenticationRoutes = {
+  path: '/login',
+  name: 'Login',
+  component: Login
+}
+
 export const settingsRoutes = {
   path: '/admin',
   name: 'AdminMain',
@@ -147,6 +154,9 @@ export const routes = [
   indicatorRoutes,
   // Settings
   settingsRoutes,
+  // Authentication
+  authenticationRoutes,
+  // Catch all
   {
     path: '*',
     name: 'NotFound',
