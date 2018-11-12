@@ -21,18 +21,16 @@ function getJwtSubject (jwt) {
   return ''
 }
 
-const LOGIN_URL = '/users/login/'
-
+axios.defaults.headers.common['Authorization'] = `Bearer: ${localStorage.getItem('user-token')}`
 const state = {
-  // token: localStorage.getItem('user-token') || ''
-  token: ''
+  token: localStorage.getItem('user-token') || ''
 }
 
 const actions = {
   login ({commit}, params) {
     return new Promise((resolve, reject) => {
       commit('authRequest')
-      axios.post(LOGIN_URL, params)
+      axios.post('/users/login/', params)
         .then(response => {
           axios.defaults.headers.common['Authorization'] = `Bearer: ${response.data.token}`
           commit('authSuccess', response.data.token)
@@ -57,6 +55,7 @@ const mutations = {
   authRequest (state) {
     state.token = ''
     localStorage.setItem('user-token', '')
+    delete axios.defaults.headers.common['Authorization']
   },
   authSuccess (state, token) {
     state.token = token
@@ -66,10 +65,12 @@ const mutations = {
     console.log(error)
     state.token = ''
     localStorage.removeItem('user-token')
+    delete axios.defaults.headers.common['Authorization']
   },
   logout (state) {
     state.token = ''
     localStorage.removeItem('user-token')
+    delete axios.defaults.headers.common['Authorization']
   }
 }
 
