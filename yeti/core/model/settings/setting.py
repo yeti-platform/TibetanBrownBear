@@ -8,10 +8,10 @@ class SettingSchema(YetiSchema):
 
     @post_load
     def load_setting(self, data):
-        """Load a Tag object from its JSON representation.
+        """Load a Setting object from its JSON representation.
 
         Returns:
-          The created Tag object.
+          The created Setting object.
         """
         name = data['name']
         return Setting.types[name](**data)
