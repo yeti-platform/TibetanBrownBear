@@ -6,7 +6,10 @@ from yeti.common.config import yeti_config
 # Make sure we are not deleting the user's database when running tests
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
+from yeti.auth.local import user_management
+
 from yeti.core.model.arango import db
+from yeti.core.model.user import User
 
 from yeti.core.relationships import Relationship
 
@@ -62,6 +65,7 @@ def clean_db():
     Tag._get_collection()
     Vocabs._get_collection()
     Relationship._get_collection()
+    User._get_collection()
     db.clear()
 
 @pytest.fixture
@@ -179,6 +183,16 @@ def populate_yara_rules():
         ]
     ).save()
     return [y]
+
+@pytest.fixture
+def populate_users():
+    users = [User(email='admin@email.com', admin=True).save()]
+    for i in range(3):
+        users.append(User(email=f'user{i}@email.com').save())
+    for i, user in enumerate(users):
+        user_management.set_password(user, f'password{i}')
+        user.save()
+    return users
 
 @pytest.fixture
 def populate_all():
