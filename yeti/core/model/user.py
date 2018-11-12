@@ -30,5 +30,11 @@ class User(YetiObject):
         {'fields': ['email'], 'unique': True},
     ]
 
+    def dump(self, destination='db'):
+        serialized = super().dump()
+        if destination == 'web':
+            serialized.pop('password')
+        return serialized
+
     def __repr__(self):
         return f'<User:{self.email}>'
