@@ -14,7 +14,7 @@ client = app.test_client()
 # - Access to .json attribute of request
 
 @pytest.mark.usefixtures('clean_db')
-def test_identity_creation():
+def test_identity_creation(authenticated_client):
     query_json = {
         'name': 'John Smith',
         'type': 'identity',
@@ -24,9 +24,9 @@ def test_identity_creation():
         'contact_information': '555-12345',
         'identity_class': 'individual',
     }
-    rv = client.post('/api/entities/',
-                     data=json.dumps(query_json),
-                     content_type='application/json')
+    rv = authenticated_client.post('/api/entities/',
+                                   data=json.dumps(query_json),
+                                   content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
     assert response['id'].startswith('identity--')

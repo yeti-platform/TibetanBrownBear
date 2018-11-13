@@ -6,7 +6,7 @@ from webargs.flaskparser import parser
 
 from yeti.core import analysis
 from yeti.core.observables.observable import Observable
-from yeti.web.helpers import as_json, get_object_or_404
+from yeti.web.helpers import as_json, get_object_or_404, auth_required
 from yeti.core.errors import GenericYetiError
 from .generic import GenericResource
 
@@ -36,6 +36,7 @@ class ObservableResource(GenericResource):
 
     @as_json
     @route('/<id>/tag', methods=['POST'])
+    @auth_required
     def tag(self, id):  # pylint: disable=redefined-builtin
         """Updates a given object.
 
@@ -53,6 +54,7 @@ class ObservableResource(GenericResource):
 
     @as_json
     @route('/<id>/', methods=['PUT'])
+    @auth_required
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates an Observable.
 
@@ -76,6 +78,7 @@ class ObservableResource(GenericResource):
 
     @as_json
     @route('/match', methods=['POST'])
+    @auth_required
     def match(self):
         query = parser.parse(self.matchargs, request)
         return analysis.match_observables(query['observables'])

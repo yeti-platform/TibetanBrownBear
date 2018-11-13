@@ -1,36 +1,33 @@
-# pylint: disable=wrong-import-position
+from datetime import datetime, timedelta
 
+import jwt
 import pytest
-
-from yeti.common.config import yeti_config
-# Make sure we are not deleting the user's database when running tests
-yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
+from flask import testing
+from werkzeug.datastructures import Headers
 
 from yeti.auth.local import user_management
-
-from yeti.core.model.arango import db
-from yeti.core.model.user import User
-
-from yeti.core.relationships import Relationship
-
+from yeti.common.config import yeti_config
+# Async jobs
+from yeti.core import async
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
-
 from yeti.core.indicators.indicator import Indicator
 from yeti.core.indicators.regex import Regex
 from yeti.core.indicators.yara import Yara
-
-from yeti.core.observables.observable import Observable
-from yeti.core.observables.hostname import Hostname
-from yeti.core.observables.url import URL
-from yeti.core.observables.ip import IP
-from yeti.core.observables.tag import Tag
-
-# Async jobs
-from yeti.core import async
-
+from yeti.core.model.arango import db
 # Settings
 from yeti.core.model.settings.vocabs import Vocabs
+from yeti.core.model.user import User
+from yeti.core.observables.hostname import Hostname
+from yeti.core.observables.ip import IP
+from yeti.core.observables.observable import Observable
+from yeti.core.observables.tag import Tag
+from yeti.core.observables.url import URL
+from yeti.core.relationships import Relationship
+from yeti.webapp import app
+
+# Make sure we are not deleting the user's database when running tests
+yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 
 class FastDummyFeed(async.AsyncJob):
@@ -184,15 +181,44 @@ def populate_yara_rules():
     ).save()
     return [y]
 
+
+# Users and authentication
+
 @pytest.fixture
 def populate_users():
-    users = [User(email='admin@email.com', admin=True).save()]
-    for i in range(3):
-        users.append(User(email=f'user{i}@email.com').save())
-    for i, user in enumerate(users):
-        user_management.set_password(user, f'password{i}')
-        user.save()
-    return users
+    admin = User(email='admin@email.com', admin=True).save()
+    user_management.set_password(admin, 'admin')
+    admin.save()
+    user = User(email='user@email.com',).save()
+    user_management.set_password(user, 'user')
+    user.save()
+    return [admin, user]
+
+token = jwt.encode({
+    'sub': 'admin@email.com',
+    'iat': datetime.utcnow(),
+    'exp': datetime.utcnow() + timedelta(minutes=30),
+}, yeti_config.core.secret_key).decode('UTF-8')
+
+app.testing = True
+
+class AuthenticatedFlaskClient(testing.FlaskClient):
+    token = token
+    def open(self, *args, **kwargs):
+        api_key_headers = Headers({
+            'Authorization': f'Bearer: {self.token}'
+        })
+        headers = kwargs.pop('headers', Headers())
+        headers.extend(api_key_headers)
+        kwargs['headers'] = headers
+        return super().open(*args, **kwargs)
+
+@pytest.fixture()
+def authenticated_client(populate_users):
+    app.test_client_class = AuthenticatedFlaskClient
+    return app.test_client()
+
+
 
 @pytest.fixture
 def populate_all():

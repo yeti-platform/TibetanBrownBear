@@ -5,7 +5,7 @@ from webargs.flaskparser import parser
 from flask_classful import FlaskView, route
 
 from yeti.core.errors import GenericYetiError, ValidationError
-from ..helpers import as_json, get_object_or_404
+from ..helpers import as_json, get_object_or_404, auth_required
 
 
 @parser.error_handler
@@ -21,11 +21,13 @@ class GenericResource(FlaskView):
     fulltext_searchargs = None
 
     @as_json
+    @auth_required
     def index(self):
         """Return a list of all objects in the database."""
         return self.resource_object.list()
 
     @as_json
+    @auth_required
     def get(self, id):  # pylint: disable=redefined-builtin
         """Fetch a single object from the database.
 
@@ -40,6 +42,7 @@ class GenericResource(FlaskView):
 
     @as_json
     @route('/delete/', methods=['POST'])
+    @auth_required
     def delete_multiple(self):
         """Deletes multiple objects from the database.
 
@@ -49,6 +52,7 @@ class GenericResource(FlaskView):
             get_object_or_404(self.resource_object, _id).delete()
 
     @as_json
+    @auth_required
     def delete(self, id):  # pylint: disable=redefined-builtin
         """Deletes a single object from the database.
 
@@ -59,6 +63,7 @@ class GenericResource(FlaskView):
 
     @route('/', methods=['POST'])
     @as_json
+    @auth_required
     def post(self):
         """Creates a new object.
 
@@ -72,6 +77,7 @@ class GenericResource(FlaskView):
 
     @as_json
     @route('/<id>/', methods=['PUT'])
+    @auth_required
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a given object.
 
@@ -91,6 +97,7 @@ class GenericResource(FlaskView):
 
     @route('/filter/', methods=['POST'])
     @as_json
+    @auth_required
     def filter(self):
         """Search the database for object with specific fields."""
         try:
@@ -103,6 +110,7 @@ class GenericResource(FlaskView):
 
     @route('/filter/fulltext/', methods=['POST'])
     @as_json
+    @auth_required
     def filter_fulltext(self):
         """Fulltext search on the database."""
         try:

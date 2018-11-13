@@ -11,9 +11,9 @@ client = app.test_client()
 
 
 @pytest.mark.usefixtures('populate_all')
-def test_regex_filter():
+def test_regex_filter(authenticated_client):
     json_data = {'name': '', 'type': 'x-regex'}
-    rv = client.post(
+    rv = authenticated_client.post(
         '/api/indicators/filter/',
         data=json.dumps(json_data),
         content_type='application/json',
@@ -26,9 +26,9 @@ def test_regex_filter():
 
 
 @pytest.mark.usefixtures('populate_all')
-def test_regex_filter_on_name():
+def test_regex_filter_on_name(authenticated_client):
     json_data = {'name': 'Zeus', 'type': 'x-regex'}
-    rv = client.post(
+    rv = authenticated_client.post(
         '/api/indicators/filter/',
         data=json.dumps(json_data),
         content_type='application/json',
@@ -42,7 +42,7 @@ def test_regex_filter_on_name():
 
 
 @pytest.mark.usefixtures('clean_db')
-def test_regex_new():
+def test_regex_new(authenticated_client):
     json_data = {
         'type': 'x-regex',
         'name': 'New regex',
@@ -58,7 +58,7 @@ def test_regex_new():
             }
         ],
     }
-    rv = client.post(
+    rv = authenticated_client.post(
         '/api/indicators/',
         data=json.dumps(json_data),
         content_type='application/json',
@@ -70,7 +70,7 @@ def test_regex_new():
 
 
 @pytest.mark.usefixtures('clean_db')
-def test_regex_invalid():
+def test_regex_invalid(authenticated_client):
     json_data = {
         'type': 'x-regex',
         'name': 'New regex',
@@ -85,7 +85,7 @@ def test_regex_invalid():
             }
         ],
     }
-    rv = client.post(
+    rv = authenticated_client.post(
         '/api/indicators/',
         data=json.dumps(json_data),
         content_type='application/json',

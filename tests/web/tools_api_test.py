@@ -14,7 +14,7 @@ client = app.test_client()
 # - Access to .json attribute of request
 
 @pytest.mark.usefixtures('clean_db')
-def test_attack_pattern_creation():
+def test_attack_pattern_creation(authenticated_client):
     query_json = {
         'name': 'Mimikatz',
         'labels': ['privesc'],
@@ -25,7 +25,7 @@ def test_attack_pattern_creation():
             {'kill_chain_name': 'yeti-kc-tool', 'phase_name': 'debugging'}
         ]
     }
-    rv = client.post('/api/entities/',
+    rv = authenticated_client.post('/api/entities/',
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
@@ -40,7 +40,7 @@ def test_attack_pattern_creation():
 
 
 @pytest.mark.usefixtures('clean_db')
-def test_attack_pattern_wrong_kc_format():
+def test_attack_pattern_wrong_kc_format(authenticated_client):
     query_json = {
         'name': 'Mimikatz',
         'labels': ['privesc'],
@@ -50,9 +50,9 @@ def test_attack_pattern_wrong_kc_format():
             {'lol': 'yeti-kc-tool', 'rofl': 'debugging'}
         ]
     }
-    rv = client.post('/api/entities/',
-                     data=json.dumps(query_json),
-                     content_type='application/json')
+    rv = authenticated_client.post('/api/entities/',
+                                   data=json.dumps(query_json),
+                                   content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 400
     assert response == {

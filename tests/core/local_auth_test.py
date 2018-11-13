@@ -42,7 +42,9 @@ def test_existing_user_manual_password(populate_users):
 def test_filter_users(populate_users):
     """Tests that users are correctly populated and can be searched for."""
     users = User.filter({'email': 'user'})
-    assert len(users) == 3
+    assert len(users) == 1
+    users = User.filter({'email': 'admin'})
+    assert len(users) == 1
 
 @pytest.mark.usefixtures('clean_db')
 def test_no_override_password():

@@ -1,8 +1,8 @@
 """Tests for the User API."""
 
 import json
-import jwt
 
+import jwt
 import pytest
 
 from yeti.common.config import yeti_config
@@ -17,14 +17,14 @@ client = app.test_client()
 # - Access to .json attribute of request
 
 @pytest.mark.usefixtures('clean_db')
-def test_index(populate_users):
+def test_index(populate_users, authenticated_client):
     """Test that fetched User objects are well-formed"""
     emails = [user.email for user in populate_users]
     for email in emails:
         query_json = {'email': email}
-        rv = client.post('/api/users/filter/',
-                         data=json.dumps(query_json),
-                         content_type='application/json')
+        rv = authenticated_client.post('/api/users/filter/',
+                                       data=json.dumps(query_json),
+                                       content_type='application/json')
         response = json.loads(rv.data)
         for item in response:
             assert item['email']
@@ -35,7 +35,7 @@ def test_login():
     """Test that a user gets a valid JWT on succesful log-in."""
     query_json = {
         'email': 'admin@email.com',
-        'password': 'password0'
+        'password': 'admin'
     }
 
     rv = client.post('/api/users/login/',
@@ -49,7 +49,7 @@ def test_login():
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_failed_login():
-    """Test that a user gets a valid JWT on succesful log-in."""
+    """Test that log-in attempts with wrong credentials fail."""
     query_json = {
         'email': 'admin@email.com',
         'password': 'DIDNTSAYTHEMAGICWORD'
@@ -62,7 +62,7 @@ def test_failed_login():
 
 @pytest.mark.usefixtures('clean_db')
 def test_nonexistent_user():
-    """Test that a user gets a valid JWT on succesful log-in."""
+    """Test that logging-in as a nonexistent user returns a generic error."""
     query_json = {
         'email': 'notexist@email.com',
         'password': '123456'
@@ -75,9 +75,10 @@ def test_nonexistent_user():
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_protected_resource_access_granted():
+    """Tests that an authenticated client has access to protected resources."""
     query_json = {
         'email': 'admin@email.com',
-        'password': 'password0'
+        'password': 'admin'
     }
     rv = client.post('/api/users/login/',
                      data=json.dumps(query_json),
@@ -94,6 +95,8 @@ def test_protected_resource_access_granted():
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_protected_resource_access_denied():
+    """Tests that an unauthenticated client can't access a protected
+    resource."""
     rv = client.get('/api/users/protected/',
                     content_type='application/json')
     assert rv.status_code == 401
