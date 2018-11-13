@@ -15,8 +15,8 @@ def test_link(populate_malware):
     assert len(neighbors) == 2
     assert isinstance(neighbors['vertices'][mal2.id], Malware)
     names = sorted([n.name for n in neighbors['vertices'].values()])
-    assert 'Sofacy' == names[0]
-    assert 'Zeus' == names[1]
+    assert names[0] == 'Sofacy'
+    assert names[1] == 'Zeus'
     assert len(neighbors['vertices']) == 2
     assert len(neighbors['edges']) == 2
 

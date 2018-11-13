@@ -1,5 +1,4 @@
 from yeti.core.model.settings.setting import Setting
-from yeti.core.model.settings.vocabs import Vocabs
 
 from yeti.core.errors import RuntimeException
 

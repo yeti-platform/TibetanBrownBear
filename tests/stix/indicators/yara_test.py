@@ -42,12 +42,10 @@ def test_update_yara():
         pattern=VALID_RULE,
         valid_from='2016-01-01T00:00:00Z',
         valid_until='2017-01-01T00:00:00Z',
-        kill_chain_phases=[
-            {
+        kill_chain_phases=[{
             'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
             'phase_name': 'reconnaissance'
-            }
-        ]
+        }]
     ).save()
     stix_id = yara.id
     updated = yara.update({'name': 'PE start'})
@@ -56,12 +54,10 @@ def test_update_yara():
     assert updated.labels == ['binary-data']
     assert updated.description == 'This is how PEs usually start with.'
     assert updated.pattern == VALID_RULE
-    assert updated.kill_chain_phases == [
-            {
-            'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
-            'phase_name': 'reconnaissance'
-            }
-        ]
+    assert updated.kill_chain_phases == [{
+        'kill_chain_name': 'lockheed-martin-cyber-kill-chain',
+        'phase_name': 'reconnaissance'
+    }]
     assert str(updated.valid_from) == '2016-01-01 00:00:00+00:00'
     assert str(updated.valid_until) == '2017-01-01 00:00:00+00:00'
 
