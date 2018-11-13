@@ -3,11 +3,6 @@
 import json
 import pytest
 
-from yeti.webapp import app
-
-app.testing = True
-client = app.test_client()
-
 @pytest.mark.usefixtures('clean_db', 'populate_settings')
 def test_get_vocab(authenticated_client):
     """Tests that a vocab defined for a field can be fetched."""

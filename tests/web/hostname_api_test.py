@@ -5,12 +5,6 @@ import re
 
 import pytest
 
-from yeti.webapp import app
-
-app.testing = True
-client = app.test_client()
-
-
 @pytest.mark.usefixtures('clean_db', 'populate_hostnames')
 def test_filter_on_subtype(authenticated_client):
     """Tests searching for regular expressions on the /observables/ endpoint

@@ -200,6 +200,7 @@ token = jwt.encode({
     'exp': datetime.utcnow() + timedelta(minutes=30),
 }, yeti_config.core.secret_key).decode('UTF-8')
 
+# Prepare authenticated Flask testing client
 app.testing = True
 
 class AuthenticatedFlaskClient(testing.FlaskClient):
@@ -213,11 +214,12 @@ class AuthenticatedFlaskClient(testing.FlaskClient):
         kwargs['headers'] = headers
         return super().open(*args, **kwargs)
 
-@pytest.fixture()
+
+# pylint: disable=unused-argument,redefined-outer-name
+@pytest.fixture
 def authenticated_client(populate_users):
     app.test_client_class = AuthenticatedFlaskClient
     return app.test_client()
-
 
 
 @pytest.fixture

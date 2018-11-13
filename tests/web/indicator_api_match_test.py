@@ -4,11 +4,6 @@ import json
 
 import pytest
 
-from yeti.webapp import app
-
-app.testing = True
-client = app.test_client()
-
 @pytest.mark.usefixtures('populate_all')
 def test_yara_rule_match(authenticated_client):
     json_data = [{'encoding': 'b64', 'data': 'TVoAAAA='}]

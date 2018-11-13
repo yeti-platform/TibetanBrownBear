@@ -3,11 +3,6 @@
 import json
 import pytest
 
-from yeti.webapp import app
-
-app.testing = True
-client = app.test_client()
-
 # pylint: disable=fixme
 # TODO: Consider using pytest-flask for easier testing flask stuff, e.g.:
 # - Access to url_for objects to test routes
@@ -26,8 +21,8 @@ def test_attack_pattern_creation(authenticated_client):
         ]
     }
     rv = authenticated_client.post('/api/entities/',
-                     data=json.dumps(query_json),
-                     content_type='application/json')
+                                   data=json.dumps(query_json),
+                                   content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
     assert response['id'].startswith('tool--')

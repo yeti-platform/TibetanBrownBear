@@ -4,12 +4,6 @@ import json
 
 import pytest
 
-from yeti.webapp import app
-
-app.testing = True
-client = app.test_client()
-
-
 @pytest.mark.usefixtures('populate_all')
 def test_regex_filter(authenticated_client):
     json_data = {'name': '', 'type': 'x-regex'}

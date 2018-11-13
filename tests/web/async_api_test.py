@@ -6,11 +6,8 @@ import time
 
 import pytest
 
-from yeti.webapp import app
 from yeti.core.async import get_active_jobs
 
-app.testing = True
-client = app.test_client()
 
 @pytest.yield_fixture(autouse=True)
 def wait_for_jobs():
