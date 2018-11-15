@@ -1,6 +1,4 @@
 """Populate Yeti's database with pre-defined vocabulary lists."""
-import json
-import os
 import click
 
 from yeti.auth.local import user_management
