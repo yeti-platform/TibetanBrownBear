@@ -26,29 +26,26 @@ INVALID_API_KEY = {
 def auth_required(f):
     @functools.wraps(f)
     def inner(*args, **kwargs):
-        auth_headers = request.headers.get('Authorization', '').split()
+        auth_headers = request.headers.get('Authorization', None)
         api_key = request.headers.get('X-Yeti-API', None)
+        user = None
 
         if api_key:
             user = User.find(api_key=api_key)
             if not user:
                 return INVALID_API_KEY, 401
-            g.user = user
-            return f(*args, **kwargs)
 
-        if len(auth_headers) != 2:
-            return INVALID_TOKEN, 401
+        if auth_headers:
+            try:
+                token = auth_headers.split()[1]
+                data = jwt.decode(token, yeti_config.core.secret_key)
+                user = User.find(email=data['sub'])
+            except jwt.ExpiredSignatureError:
+                return EXPIRED_TOKEN, 401
+            except (jwt.InvalidTokenError, Exception): # pylint: disable=broad-except
+                pass
 
-        token = auth_headers[1]
-        try:
-            data = jwt.decode(token, yeti_config.core.secret_key)
-            user = User.find(email=data['sub'])
-            if not user:
-                return {'error': f'Invalid user {data["sub"]}.'}, 401
-            return f(*args, **kwargs)
-        except jwt.ExpiredSignatureError:
-            return EXPIRED_TOKEN, 401
-        except (jwt.InvalidTokenError, Exception): # pylint: disable=broad-except
+        if not user:
             return INVALID_TOKEN, 401
         g.user = user
         return f(*args, **kwargs)
