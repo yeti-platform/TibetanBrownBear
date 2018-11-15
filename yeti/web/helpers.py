@@ -18,10 +18,24 @@ EXPIRED_TOKEN = {
     'authenticated': False
 }
 
+INVALID_API_KEY = {
+    'message': 'Invalid API key.',
+    'authenticated': False
+}
+
 def auth_required(f):
     @functools.wraps(f)
     def inner(*args, **kwargs):
         auth_headers = request.headers.get('Authorization', '').split()
+        api_key = request.headers.get('X-Yeti-API', None)
+
+        if api_key:
+            user = User.find(api_key=api_key)
+            if not user:
+                return INVALID_API_KEY, 401
+            g.user = user
+            return f(*args, **kwargs)
+
         if len(auth_headers) != 2:
             return INVALID_TOKEN, 401
 

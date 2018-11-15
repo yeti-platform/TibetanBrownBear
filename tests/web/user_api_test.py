@@ -29,6 +29,7 @@ def test_index(populate_users, authenticated_client):
         for item in response:
             assert item['email']
             assert 'password' not in item
+            assert 'api_key' in item
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_login():
@@ -92,6 +93,29 @@ def test_protected_resource_access_granted():
     response = json.loads(rv.data)
     assert response['msg'] == "You're in!"
 
+
+@pytest.mark.usefixtures('clean_db')
+def test_api_key_access_granted(populate_users):
+    """Tests that a user using an API key has access to protected resources."""
+    user = populate_users[0]
+    rv = client.get('/api/users/protected/',
+                    headers={'X-Yeti-API': user.api_key},
+                    content_type='application/json')
+    assert rv.status_code == 200
+    response = json.loads(rv.data)
+    assert response['msg'] == "You're in!"
+
+
+@pytest.mark.usefixtures('clean_db', 'populate_users')
+def test_invalid_api_key():
+    """Tests that a user using an API key has access to protected resources."""
+    rv = client.get('/api/users/protected/',
+                    headers={'X-Yeti-API': 'INVALID'},
+                    content_type='application/json')
+    assert rv.status_code == 401
+    response = json.loads(rv.data)
+    assert not response['authenticated']
+    assert response['message'] == 'Invalid API key.'
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_protected_resource_access_denied():

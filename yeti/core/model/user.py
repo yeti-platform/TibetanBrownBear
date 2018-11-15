@@ -6,6 +6,7 @@ class UserSchema(YetiSchema):
     email = fields.String(required=True, validate=validate.Email(error='Not a valid email'))
     password = fields.Str(allow_none=True)
     admin = fields.Boolean(missing=False)
+    api_key = fields.Str(allow_none=True)
 
     @post_load
     def load_user(self, data):
@@ -25,6 +26,7 @@ class User(YetiObject):
     email = None
     password = None
     admin = False
+    api_key = None
 
     _indexes = [
         {'fields': ['email'], 'unique': True},
