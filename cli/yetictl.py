@@ -21,6 +21,7 @@ cli.add_command(yara_commands.yara_scan)
 cli.add_command(yara_commands.dump_yara_rules)
 cli.add_command(match.match)
 cli.add_command(user_admin.add_user)
+cli.add_command(user_admin.reset_password)
 
 
 if __name__ == '__main__':
