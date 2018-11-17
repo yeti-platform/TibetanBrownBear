@@ -1,3 +1,11 @@
+[core]
+
+##
+## These settings define general Yeti settings
+##
+
+# secret_key = "CHANGEME"
+
 [arangodb]
 
 ##

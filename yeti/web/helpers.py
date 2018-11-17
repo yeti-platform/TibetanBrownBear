@@ -1,10 +1,56 @@
 import base64
 import functools
 
-from flask import jsonify
+import jwt
+from flask import jsonify, request, g
 
+from yeti.common.config import yeti_config
 from yeti.core.errors import GenericYetiError
 from yeti.core.model.database import YetiObject
+from yeti.core.model.user import User
+
+INVALID_TOKEN = {
+    'message': 'Invalid or nonexistent token. Please get a new token.',
+    'authenticated': False
+}
+EXPIRED_TOKEN = {
+    'message': 'Expired token. Please log in again.',
+    'authenticated': False
+}
+
+INVALID_API_KEY = {
+    'message': 'Invalid API key.',
+    'authenticated': False
+}
+
+def auth_required(f):
+    @functools.wraps(f)
+    def inner(*args, **kwargs):
+        auth_headers = request.headers.get('Authorization', None)
+        api_key = request.headers.get('X-Yeti-API', None)
+        user = None
+
+        if api_key:
+            user = User.find(api_key=api_key)
+            if not user:
+                return INVALID_API_KEY, 401
+
+        if auth_headers:
+            try:
+                token = auth_headers.split()[1]
+                data = jwt.decode(token, yeti_config.core.secret_key)
+                user = User.find(email=data['sub'])
+            except jwt.ExpiredSignatureError:
+                return EXPIRED_TOKEN, 401
+            except (jwt.InvalidTokenError, Exception): # pylint: disable=broad-except
+                pass
+
+        if not user:
+            return INVALID_TOKEN, 401
+        g.user = user
+        return f(*args, **kwargs)
+    return inner
+
 
 def _as_json(result): # pylint: disable=too-many-return-statements
     if isinstance(result, list):

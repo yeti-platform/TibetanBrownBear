@@ -6,7 +6,7 @@ from webargs.flaskparser import parser
 
 from yeti.core.async import functions, q, get_active_jobs
 from yeti.core.errors import GenericYetiError
-from ..helpers import as_json
+from ..helpers import as_json, auth_required
 
 # We need to import modules without referencing them so that any async jobs
 # they register is actually registered
@@ -68,6 +68,7 @@ class AsyncResource(FlaskView):
 
     @as_json
     @route('/filter', methods=['POST'])
+    @auth_required
     def filter(self):
         """Filters and returns a list of all declared AsyncJobs."""
         try:
@@ -87,6 +88,7 @@ class AsyncResource(FlaskView):
 
     @as_json
     @route('/<name>/toggle', methods=['POST'])
+    @auth_required
     def toggle(self, name):
         """Toggles the enabled state of a registered AsyncJob."""
         if name not in functions:
@@ -101,6 +103,7 @@ class AsyncResource(FlaskView):
 
     @as_json
     @route('/<name>/execute', methods=['POST'])
+    @auth_required
     def execute(self, name):
         """Executes a declared AsyncJob by name.
 
@@ -132,6 +135,7 @@ class AsyncResource(FlaskView):
 
     @as_json
     @route('/info/<job_id>', methods=['GET'])
+    @auth_required
     def info(self, job_id):
         """Fetches runtime information on a specific job.
 
@@ -153,6 +157,7 @@ class AsyncResource(FlaskView):
 
     @as_json
     @route('/active', methods=['GET'])
+    @auth_required
     def active(self):
         """Returns a list of all active jobs in queue."""
         return self.get_active_asyncjobs()

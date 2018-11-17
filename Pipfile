@@ -18,6 +18,7 @@ redis = "*"
 rq = "*"
 "stix2" = "*"
 "taxii2-client" = "*"
+pyjwt = "*"
 
 [dev-packages]
 pytest = "*"

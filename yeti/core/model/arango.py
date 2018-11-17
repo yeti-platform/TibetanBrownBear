@@ -421,7 +421,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         conditions = []
         sorts = []
         for key in args:
-            if key in ['value', 'name', 'type', 'stix_id', 'attributes.id']:
+            if key in ['value', 'name', 'type', 'stix_id', 'attributes.id', 'email']:
                 conditions.append('o.{0:s} =~ @{1:s}'.format(key, key.replace('.', '_')))
                 sorts.append('o.{0:s}'.format(key))
 

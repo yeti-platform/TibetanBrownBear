@@ -6,7 +6,7 @@ common tasks that leverage Yeti's HTTP API.
 ## Installation
 
 Running `pipenv --install` automatically installs `yeticli` in your
-`$PATH`. `yeticli` is just a shorthand to the `/cli/yetictl.py` script::
+`$PATH`. `yeticli` is just a shorthand to the `cli/yetictl.py` script::
 
     $ yeticli --help
     Usage: yeticli [OPTIONS] COMMAND [ARGS]...
@@ -41,6 +41,46 @@ To get more details on a specific sub-command, just run `yeticli <SUBCOMMAND> --
     --collection_url TEXT  Remote TAXII collection URL   [required]
     --help                 Show this message and exit.
 
+## User management
+
+User management is done with the `yeticli` script.
+
+### Adding users
+
+    $ yeticli add-user --help
+    Usage: yeticli add-user [OPTIONS] USER_EMAIL
+
+    Options:
+    --password TEXT  Take password from CLI
+    --admin          Give admin rights to this user
+    --help           Show this message and exit.
+
+Example::
+
+    $ yeticli add-user admin@admin.com --admin
+    Password:
+    Repeat for confirmation:
+    User admin@admin.com created succesfully (ID: 2489500)
+    Admin: True
+    API key: 9733e2c150319eaf54639d210ebf72647d9ba01bdd20209ea7ddff42026f7417
+
+### Reseting user passwords
+
+    $ yeticli reset-password --help
+    Usage: yeticli reset-password [OPTIONS] USER_EMAIL
+
+    Options:
+    --password TEXT  Take password from CLI
+    --help           Show this message and exit.
+
+Example::
+
+    $ yeticli reset-password admin@admin.com
+    Password:
+    Repeat for confirmation:
+    User admin@admin.com created succesfully (ID: 2489500)
+    Admin: True
+    API key: 323ab22c0d4d0ead3884e1ee7bdda6daf995205c59e4d594e2d49b587bdb407d
 
 ## Populate kill-chains
 

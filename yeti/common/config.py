@@ -1,5 +1,6 @@
 import os
 import configparser
+import secrets
 
 from yeti.common.constants import YETI_ROOT
 
@@ -50,6 +51,9 @@ class Config:
 
 
 yeti_config = Config()
+
+yeti_config.set_default_value(
+    'core', 'secret_key', os.environ.get('SECRET_KEY') or secrets.token_hex(32))
 yeti_config.set_default_value(
     'arangodb', 'host', os.environ.get('YETI_ARANGO_HOST') or '127.0.0.1')
 yeti_config.set_default_value(

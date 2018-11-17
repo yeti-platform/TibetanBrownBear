@@ -3,7 +3,7 @@ from flask import request
 
 from yeti.core.model.settings.setting import Setting
 from yeti.core.errors import RuntimeException
-from ..helpers import as_json
+from ..helpers import as_json, auth_required
 
 class SettingsResource(FlaskView):
     """Class describing resources to manipulate Yeti settings."""
@@ -15,6 +15,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/vocabs/<vocab>/', methods=['GET'])
+    @auth_required
     def get_vocab(self, vocab):
         """Return defined vocabularies."""
         try:
@@ -25,6 +26,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/vocabs/<vocab>/', methods=['PUT'])
+    @auth_required
     def add_value_to_vocab(self, vocab):
         """Set a vocabulary."""
         value = request.json['value']
@@ -37,6 +39,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/vocabs/<vocab>/', methods=['DELETE'])
+    @auth_required
     def remove_value_from_vocab(self, vocab):
         """Remove a value from a vocab."""
         value = request.json['value']
@@ -49,6 +52,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/killchains/<killchain>/', methods=['GET'])
+    @auth_required
     def get_killchain(self, killchain):
         """Return defined killchains."""
         try:
@@ -59,6 +63,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/killchains/<killchain>/', methods=['PUT'])
+    @auth_required
     def add_phase_to_killchain(self, killchain):
         """Set phases for a killchain."""
         phase = request.json['phase']
@@ -71,6 +76,7 @@ class SettingsResource(FlaskView):
 
     @as_json
     @route('/killchains/<killchain>/', methods=['DELETE'])
+    @auth_required
     def remove_phase_from_killchain(self, killchain):
         """Remove a phase from a killchain."""
         phase = request.json['phase']

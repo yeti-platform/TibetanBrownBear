@@ -7,7 +7,7 @@ from flask import request
 from yeti.core.entities.entity import Entity
 from yeti.core.errors import YetiSTIXError
 from .generic import GenericResource
-from ..helpers import as_json, get_object_or_404
+from ..helpers import as_json, get_object_or_404, auth_required
 
 
 class EntityResource(GenericResource):
@@ -25,6 +25,7 @@ class EntityResource(GenericResource):
 
     @as_json
     @route('/<id>/neighbors/', methods=['GET'])
+    @auth_required
     def neighbors(self, id):  # pylint: disable=redefined-builtin
         """Fetch objects an object is related to.
 
@@ -43,6 +44,7 @@ class EntityResource(GenericResource):
 
     @as_json
     @route('/<id>/addlink/', methods=['POST'])
+    @auth_required
     def link(self, id):  # pylint: disable=redefined-builtin
         """Link an object to another object.
 
@@ -62,6 +64,7 @@ class EntityResource(GenericResource):
 
     @as_json
     @route('/<id>/', methods=['PUT'])
+    @auth_required
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a STIX SDO object.
 

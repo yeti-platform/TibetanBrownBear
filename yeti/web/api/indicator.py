@@ -6,7 +6,7 @@ from flask import request
 from yeti.core.indicators.indicator import Indicator
 from yeti.core.errors import YetiSTIXError, ValidationError
 from .generic import GenericResource
-from ..helpers import as_json, get_object_or_404, decode_object
+from ..helpers import as_json, get_object_or_404, decode_object, auth_required
 
 
 class IndicatorResource(GenericResource):
@@ -22,6 +22,7 @@ class IndicatorResource(GenericResource):
 
     @as_json
     @route('/<id>/', methods=['PUT'])
+    @auth_required
     def put(self, id):  # pylint: disable=redefined-builtin
         """Updates a STIX SDO object.
 
@@ -48,6 +49,7 @@ class IndicatorResource(GenericResource):
 
     @as_json
     @route('/match/', methods=['POST'])
+    @auth_required
     def match(self):
         """Matches a series of binary objects against indicators."""
         objects = request.get_json()

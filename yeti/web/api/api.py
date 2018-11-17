@@ -11,6 +11,7 @@ from .tag import TagResource
 from .async import AsyncResource
 from .settings import SettingsResource
 from .relationship import RelationshipResource
+from .user import UserResource
 
 blueprint = Blueprint('api', __name__)
 
@@ -20,6 +21,7 @@ IndicatorResource.register(blueprint)
 TagResource.register(blueprint)
 SettingsResource.register(blueprint)
 RelationshipResource.register(blueprint)
+UserResource.register(blueprint)
 
 if yeti_config.async.enabled:
     AsyncResource.register(blueprint)
