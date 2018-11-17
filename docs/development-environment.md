@@ -12,7 +12,7 @@ After forking the repo, just clone it::
     $ git clone https://github.com/<YOUR USERNAME>/yeti-platform
     $ cd yeti-platform
 
-## Install Pipenv
+## Install dependencies
 
 We use Pipenv to manage dependencies and virtual environments.
 You should use it, too!
@@ -57,6 +57,38 @@ instance listening on the default port and default interfaces.
 ### Linux (Ubuntu)
 
 TODO
+
+## Import demo data
+
+If you're about to develop a new feature for Yeti, it might be useful to populate your database with some data.
+
+### Import a TAXII feed
+
+Start by importing one of MITRE's TAXIi feeds. ATT&CK is a good start:
+
+```
+$ yeticli taxii-import --server_url https://cti-taxii.mitre.org/taxii/
+https://cti-taxii.mitre.org/taxii/ has 3 collections:
+[0] Enterprise ATT&CK: 95ecc380-afe9-11e4-9b6c-751b66dd541e
+[1] PRE-ATT&CK: 062767bd-02d2-4b72-84ba-56caef0f8658
+[2] Mobile ATT&CK: 2f669986-b40b-4423-b720-4396ca6a462b
+Pick one: 0
+Importing data from collection at: https://cti-taxii.mitre.org/stix/collections/95ecc380-afe9-11e4-9b6c-751b66dd541e/
+Fetching attack-pattern
+[...]
+```
+
+### Add users to the database
+
+You'll also want to add users to your database:
+
+    $ yeticli add-user admin@yourorg.com --admin
+
+or, if you haven't installed the scripts:
+
+    $ python cli/yetictl.py add-user admin@yourorg.com --admin
+
+And follow the on-screen prompts.
 
 ## Running the frontend
 
