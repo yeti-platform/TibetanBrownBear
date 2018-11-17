@@ -48,15 +48,25 @@ as your package manager:
 The first command will install ArangoDB in your system, the second will run an
 instance listening on the default port and default interfaces.
 
+```eval_rst
+.. warning::
+  Setting up ArangoDB this way is dangerous for production use since it
+  is not authenticated whatsoever; but it's more than enough for development
+```
+### Linux (Ubuntu 16.04)
+
+Add the ArangoDB repo key to your install, update your packages and install everything as usual.
+
+    $ wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+    $ sudo apt-key add Release.key
+    $ sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
+    $ sudo apt-get update -y && sudo apt-get install arangodb3 --allow-unauthenticated
 
 ```eval_rst
 .. warning::
   Setting up ArangoDB this way is dangerous for production use since it
   is not authenticated whatsoever; but it's more than enough for development
 ```
-### Linux (Ubuntu)
-
-TODO
 
 ## Import demo data
 
