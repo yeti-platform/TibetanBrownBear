@@ -1,7 +1,8 @@
 """Match strings or file contents server-side."""
 import click
 
-from yeti_python_api import api
+from yeti_python_api.api import YetiAPI
+from config import config
 
 # pylint: disable=line-too-long
 @click.command()
@@ -10,6 +11,7 @@ from yeti_python_api import api
 @click.option('--string', help='String against which to match indicators.', type=click.STRING, default='')
 def match(string, filename, verbose):
     """Matches a string or a file's contents against all yeti Indicators."""
+    api = YetiAPI(config.api_base, config.api_key)
     if not (filename or string):
         print('Please provide either a filename or a string to match.')
         exit(-1)
