@@ -31,19 +31,6 @@ class ArangoDatabase:
         self.db = None
         self.collections = dict()
         self.graphs = dict()
-        self.create_edge_definition(self.graph('tags'), {
-            'edge_collection': 'tagged',
-            'from_vertex_collections': ['observables'],
-            'to_vertex_collections': ['tags'],
-        })
-        self.create_edge_definition(self.graph('stix'), {
-            'edge_collection': 'relationships',
-            'from_vertex_collections': ['entities'],
-            'to_vertex_collections': ['entities'],
-        })
-        # entities, observables, and tags are already created
-        self.collection('indicators')
-
 
     def connect(self):
         client = ArangoClient(
@@ -70,6 +57,17 @@ class ArangoDatabase:
         self.db = client.db(yeti_config.arangodb.database,
                             username=yeti_config.arangodb.username,
                             password=yeti_config.arangodb.password)
+
+        self.create_edge_definition(self.graph('tags'), {
+            'edge_collection': 'tagged',
+            'from_vertex_collections': ['observables'],
+            'to_vertex_collections': ['tags'],
+        })
+        self.create_edge_definition(self.graph('stix'), {
+            'edge_collection': 'relationships',
+            'from_vertex_collections': ['entities'],
+            'to_vertex_collections': ['entities'],
+        })
 
     def clear(self):
         for name in self.collections:
@@ -107,11 +105,7 @@ class ArangoDatabase:
         return graph.create_edge_definition(**definition)
 
     def __getattr__(self, key):
-        if self.db is None:
-            self.connect()
-
         return getattr(self.db, key)
-
 
 db = ArangoDatabase()
 
