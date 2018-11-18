@@ -1,0 +1,15 @@
+[server]
+
+##
+## Yeti HTTP API endpoint
+##
+
+# api_base = http://localhost/api/
+
+[authentication]
+
+##
+## Authentication settings
+##
+
+# api_key = INSERT_API_KEY_HERE

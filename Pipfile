@@ -36,4 +36,5 @@ yeti = {path = ".", editable = true}
 python_version = "3.6"
 
 [scripts]
-yeticli = "cli/yetictl.py"
+yeticli = "cli/yeticli.py"
+yetictl = "cli/yetictl.py"

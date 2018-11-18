@@ -36,7 +36,9 @@ setup(name='yeti',
           'taxii2-client',
       ],
       entry_points={
-          'console_scripts': ['yeticli=cli.yetictl:cli'],
+          'console_scripts': [
+              'yeticli=cli.yeticli:cli',
+              'yetictl=ctl.yetictl:cli'],
       },
       setup_requires=['pytest-runner'],
       test_suite='pytest',

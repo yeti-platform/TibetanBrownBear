@@ -5,8 +5,12 @@ import pytest
 from flask import testing
 from werkzeug.datastructures import Headers
 
-from yeti.auth.local import user_management
+# pylint: disable=wrong-import-position
+# We need to override the database
 from yeti.common.config import yeti_config
+yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
+
+from yeti.auth.local import user_management
 # Async jobs
 from yeti.core import async
 from yeti.core.entities.entity import Entity
@@ -14,6 +18,7 @@ from yeti.core.entities.malware import Malware
 from yeti.core.indicators.indicator import Indicator
 from yeti.core.indicators.regex import Regex
 from yeti.core.indicators.yara import Yara
+# Make sure we are not deleting the user's database when running tests
 from yeti.core.model.arango import db
 # Settings
 from yeti.core.model.settings.vocabs import Vocabs
@@ -25,9 +30,6 @@ from yeti.core.observables.tag import Tag
 from yeti.core.observables.url import URL
 from yeti.core.relationships import Relationship
 from yeti.webapp import app
-
-# Make sure we are not deleting the user's database when running tests
-yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 
 class FastDummyFeed(async.AsyncJob):

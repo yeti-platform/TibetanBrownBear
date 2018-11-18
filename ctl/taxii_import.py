@@ -15,7 +15,6 @@ from yeti.core.entities import threat_actor
 from yeti.core.entities import tool
 from yeti.core.entities import vulnerability
 
-# TODO: Change this to use the RESTful API instead of local DB commands.
 
 def _get_collection_url(server_url):
     server = Server(server_url)
