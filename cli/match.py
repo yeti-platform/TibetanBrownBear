@@ -2,7 +2,7 @@
 import click
 
 from yeti_python_api.api import YetiAPI
-from config import config
+from cli.config import config
 
 # pylint: disable=line-too-long
 @click.command()
