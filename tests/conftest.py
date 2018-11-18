@@ -5,6 +5,8 @@ import pytest
 from flask import testing
 from werkzeug.datastructures import Headers
 
+# pylint: disable=wrong-import-position
+# We need to override the database
 from yeti.common.config import yeti_config
 yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
