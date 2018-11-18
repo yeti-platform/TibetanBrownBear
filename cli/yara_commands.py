@@ -4,7 +4,8 @@ import os
 
 import click
 
-from yeti_python_api import api
+from yeti_python_api.api import YetiAPI
+from cli.config import config
 
 @click.command()
 @click.option('--recurse', help='Recurse in directory', is_flag=True, default=False)  # pylint: disable=line-too-long
@@ -16,6 +17,7 @@ def yara_scan(path, name_filter, verbose, recurse):
     if not os.path.exists(path):
         print('Error: {0:s} was not found'.format(path))
         exit(-1)
+    api = YetiAPI(config.api_base, config.api_key)
     yara_rules = api.filter_indicators(name_filter, 'x-yara')
 
     paths = [path]
@@ -70,6 +72,7 @@ def dump_yara_rules(path, name_filter):
     if not os.path.exists(path):
         print('Error: {0:s} was not found'.format(path))
         exit(-1)
+    api = YetiAPI(config.api_base, config.api_key)
     yara_rules = api.filter_indicators(name_filter, 'x-yara')
     choice = input('About to dump {0:d} Yara rules to "{1:s}"\n'
                    'Continue? [Y/n] '.format(len(yara_rules), path))
