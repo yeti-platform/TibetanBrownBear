@@ -10,7 +10,8 @@ There's no user guide yet, but stay tuned.
 .. toctree::
    :maxdepth: 3
 
-   cli
+   yeticli
+   yetictl
 ```
 
 
@@ -23,6 +24,7 @@ Ditto, no API reference yet.
    :maxdepth: 3
 
    api
+   python_api
 ```
 
 
