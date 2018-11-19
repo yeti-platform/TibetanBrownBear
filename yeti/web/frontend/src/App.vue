@@ -54,13 +54,12 @@ export default {
   created () {
     let component = this
     axios.interceptors.response.use(undefined, function (error) {
-      return new Promise(function (resolve, reject) {
-        if (error.response.status === 401) {
-          component.$store.dispatch('logout').then(() => {
-            component.$router.push('/login')
-          })
-        }
-      })
+      if (error.response.status === 401 && !error.request.responseURL.includes('/api/users/login/')) {
+        component.$store.dispatch('logout').then(() => {
+          component.$router.push('/login')
+        })
+      }
+      return Promise.reject(error)
     })
   }
 }
