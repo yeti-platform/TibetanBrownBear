@@ -27,8 +27,7 @@ try:
     redis_connection.set('yeti', 'redis_init')
     q = Queue(connection=redis_connection)
 except redis.exceptions.ConnectionError as err:
-    raise RuntimeError('Could not establish connection '
-                       'to Redis server: ' + str(err))
+    print('Could not connect to a redis database.')
 
 class AsyncJobSettingsSchema(YetiSchema):
     name = fields.String()
