@@ -198,7 +198,7 @@ def populate_users():
 
 token = jwt.encode({
     'sub': 'admin@email.com',
-    'iat': datetime.utcnow(),
+    'iat': datetime.utcnow() - timedelta(minutes=10),
     'exp': datetime.utcnow() + timedelta(minutes=30),
 }, yeti_config.core.secret_key).decode('UTF-8')
 

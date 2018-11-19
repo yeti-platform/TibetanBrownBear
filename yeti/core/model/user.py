@@ -1,5 +1,6 @@
 from marshmallow import fields, post_load, validate
 from yeti.core.model.database import YetiObject, YetiSchema
+from yeti.core.model.fields import RealDateTime
 
 class UserSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for User objects."""
@@ -7,6 +8,7 @@ class UserSchema(YetiSchema):
     password = fields.Str(allow_none=True)
     admin = fields.Boolean(missing=False)
     api_key = fields.Str(allow_none=True)
+    last_password_change = RealDateTime()
 
     @post_load
     def load_user(self, data):
@@ -27,6 +29,7 @@ class User(YetiObject):
     password = None
     admin = False
     api_key = None
+    last_password_change = None
 
     _indexes = [
         {'fields': ['email'], 'unique': True},

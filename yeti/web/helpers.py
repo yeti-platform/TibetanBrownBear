@@ -1,8 +1,9 @@
 import base64
 import functools
+from datetime import datetime
 
 import jwt
-from flask import jsonify, request, g
+from flask import g, jsonify, request
 
 from yeti.common.config import yeti_config
 from yeti.core.errors import GenericYetiError
@@ -40,9 +41,11 @@ def auth_required(f):
                 token = auth_headers.split()[1]
                 data = jwt.decode(token, yeti_config.core.secret_key)
                 user = User.find(email=data['sub'])
+                if datetime.utcfromtimestamp(data['iat']) < user.last_password_change:
+                    return EXPIRED_TOKEN, 401
             except jwt.ExpiredSignatureError:
                 return EXPIRED_TOKEN, 401
-            except (jwt.InvalidTokenError, Exception): # pylint: disable=broad-except
+            except (jwt.InvalidTokenError): # pylint: disable=broad-except
                 pass
 
         if not user:

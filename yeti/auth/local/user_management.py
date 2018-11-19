@@ -1,9 +1,12 @@
 """User management utilities for local user management."""
 
 import secrets
+from datetime import datetime
+
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from yeti.core.model.user import User
+
 
 def create_user(email, password=None):
     """Creates a user in the database.
@@ -53,4 +56,5 @@ def set_password(user, password=None):
     user.password = generate_password_hash(
         password, method='pbkdf2:sha256:100000')
     user.api_key = secrets.token_hex(32)
+    user.last_password_change = datetime.utcnow()
     return password
