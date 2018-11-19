@@ -196,17 +196,12 @@ def populate_users():
     user.save()
     return [admin, user]
 
-token = jwt.encode({
-    'sub': 'admin@email.com',
-    'iat': datetime.utcnow() - timedelta(minutes=10),
-    'exp': datetime.utcnow() + timedelta(minutes=30),
-}, yeti_config.core.secret_key).decode('UTF-8')
 
 # Prepare authenticated Flask testing client
 app.testing = True
 
 class AuthenticatedFlaskClient(testing.FlaskClient):
-    token = token
+    token = None
     def open(self, *args, **kwargs):
         api_key_headers = Headers({
             'Authorization': f'Bearer: {self.token}'
@@ -220,6 +215,13 @@ class AuthenticatedFlaskClient(testing.FlaskClient):
 # pylint: disable=unused-argument,redefined-outer-name
 @pytest.fixture
 def authenticated_client(populate_users):
+    token = jwt.encode({
+        'sub': populate_users[0].email,
+        'iat': populate_users[0].last_password_change + timedelta(seconds=1),
+        'exp': datetime.utcnow() + timedelta(minutes=30),
+    }, yeti_config.core.secret_key).decode('UTF-8')
+
+    AuthenticatedFlaskClient.token = token
     app.test_client_class = AuthenticatedFlaskClient
     return app.test_client()
 
