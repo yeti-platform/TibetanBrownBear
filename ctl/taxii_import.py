@@ -2,7 +2,8 @@
 import json
 
 import click
-from stix2 import TAXIICollectionSource, Filter
+import requests
+from stix2 import TAXIICollectionSource, Filter, datastore
 from taxii2client import Collection, Server
 
 from yeti.core.entities import attack_pattern
@@ -73,33 +74,30 @@ def taxii_import(server_url, collection_url):
                 'skipped': 0,
             }
 
-            for item in tc_source.query(Filter('type', '=', name)):
-                item_json = json.loads(item.serialize())
-                obj = yeti_class.get(item.id)
-                all_objects[item['id']] = obj
+            try:
+                for item in tc_source.query(Filter('type', '=', name)):
+                    item_json = json.loads(item.serialize())
+                    obj = yeti_class.get(item.id)
 
-                if not obj:
-                    obj = yeti_class(**item).save()
-                    stats['new'] += 1
-                    continue
+                    if not obj:
+                        obj = yeti_class(**item).save()
+                        stats['new'] += 1
 
-                if obj.modified >= item.modified:
-                    continue
+                    all_objects[item['id']] = obj
 
-                if obj.revoked:
-                    stats['skipped'] += 1
-                    continue
+                    if obj.modified >= item.modified or obj.revoked or obj.equals(item_json):
+                        stats['skipped'] += 1
+                    elif obj.modified < item.modified:
+                        obj.update(item_json)
+                        stats['updated'] += 1
 
-                if obj.equals(item_json):
-                    stats['skipped'] += 1
-                    continue
+            except requests.exceptions.HTTPError as error:
+                print(f'HTTPError: {error}')
+            except datastore.DataSourceError as error:
+                print(f'DataSourceError: {error}')
 
-                obj.update(item_json)
-                stats['updated'] += 1
-
-            print('New: {0:d}, Updated: {1:d}, Skipped: {2:d}'.format(
-                stats['new'], stats['updated'], stats['skipped']
-            ))
+            print(f"[{name}] New: {stats['new']}, Updated: {stats['updated']}, "
+                  f"Skipped: {stats['skipped']}")
 
         print('Getting relationships')
         stats = 0
