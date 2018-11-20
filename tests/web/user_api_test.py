@@ -4,6 +4,7 @@ import json
 
 import jwt
 import pytest
+import time
 
 from yeti.common.config import yeti_config
 from yeti.webapp import app
@@ -87,6 +88,7 @@ def test_protected_resource_access_granted():
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
+    assert rv.status_code == 200
     token = response['token']
     rv = client.get('/api/users/protected/',
                     headers={'Authorization': f'Bearer: {token}'},
@@ -134,19 +136,10 @@ def test_protected_resource_access_denied():
 @pytest.mark.usefixtures('clean_db')
 def test_password_reset_expires_token(populate_users, authenticated_client):
     """Tests a password reset expires a users JWT."""
-    query_json = {
-        'email': 'admin@email.com',
-        'password': 'admin'
-    }
-    rv = client.post('/api/users/login/',
-                     data=json.dumps(query_json),
-                     content_type='application/json')
-    response = json.loads(rv.data)
-    token = response['token']
-    rv = client.get('/api/users/protected/',
-                    headers={'Authorization': f'Bearer: {token}'},
+    rv = authenticated_client.get('/api/users/protected/',
                     content_type='application/json')
     assert rv.status_code == 200
+    time.sleep(1)
     admin = populate_users[0]
     user_management.set_password(admin)
     admin.save()
