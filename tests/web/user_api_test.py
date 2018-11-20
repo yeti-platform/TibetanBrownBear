@@ -139,7 +139,7 @@ def test_password_reset_expires_token(populate_users, authenticated_client):
     rv = authenticated_client.get('/api/users/protected/',
                     content_type='application/json')
     assert rv.status_code == 200
-    time.sleep(1)
+    time.sleep(2)
     admin = populate_users[0]
     user_management.set_password(admin)
     admin.save()
