@@ -48,14 +48,14 @@ def test_execute_nonexistent(authenticated_client):
 @pytest.mark.usefixtures('clean_db')
 def test_filter(populate_feeds, authenticated_client):
     """Test that asyncJobs can be filtered by name."""
-    rv = authenticated_client.post('/api/async/filter', data={'name': 'DummyFeed'})
+    rv = authenticated_client.post('/api/async/filter', json={'name': 'DummyFeed'})
     response = json.loads(rv.data)
     assert len(response) == len(populate_feeds)
 
 @pytest.mark.usefixtures('clean_db', 'populate_feeds')
 def test_filter_errors(authenticated_client):
     """Test that incorrect filtering generates a ValidationError / HTTP 400."""
-    rv = authenticated_client.post('/api/async/filter', data={})
+    rv = authenticated_client.post('/api/async/filter', json={})
     response = json.loads(rv.data)
     assert 'ValidationError' in response
     assert rv.status_code == 400
@@ -67,10 +67,10 @@ def test_toggle(authenticated_client):
     response = json.loads(rv.data)
     assert response['enabled']
     assert 'FastDummyFeed' in response['msg']
-    rv = authenticated_client.post('/api/async/filter', data={'name': 'FastDummyFeed'})
+    rv = authenticated_client.post('/api/async/filter', json={'name': 'FastDummyFeed'})
     response = json.loads(rv.data)
     assert response[0]['enabled']
-    rv = authenticated_client.post('/api/async/filter', data={'name': 'SlowDummyFeed'})
+    rv = authenticated_client.post('/api/async/filter', json={'name': 'SlowDummyFeed'})
     response = json.loads(rv.data)
     assert not response[0]['enabled']
 

@@ -105,6 +105,8 @@ class ArangoDatabase:
         return graph.create_edge_definition(**definition)
 
     def __getattr__(self, key):
+        if self.db is None and not key.startswith('__'):
+            self.connect()
         return getattr(self.db, key)
 
 db = ArangoDatabase()

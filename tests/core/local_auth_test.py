@@ -14,6 +14,7 @@ def test_create_user():
     user = user_management.create_user('user@email.com')
     assert user is not None
     assert user.password is not None
+    assert user.last_password_change is not None
 
 @pytest.mark.usefixtures('clean_db')
 def test_new_user_manual_password():
