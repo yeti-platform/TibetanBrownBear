@@ -41,11 +41,14 @@ def auth_required(f):
                 token = auth_headers.split()[1]
                 data = jwt.decode(token, yeti_config.core.secret_key)
                 user = User.find(email=data['sub'])
-                if datetime.utcfromtimestamp(data['iat']) < user.last_password_change.replace(microsecond=0):
+                issued_at = datetime.utcfromtimestamp(data['iat'])
+                last_pwd_reset = user.last_password_change.replace(
+                    microsecond=0)
+                if issued_at < last_pwd_reset:
                     return EXPIRED_TOKEN, 401
             except jwt.ExpiredSignatureError:
                 return EXPIRED_TOKEN, 401
-            except (jwt.InvalidTokenError): # pylint: disable=broad-except
+            except jwt.InvalidTokenError:
                 pass
 
         if not user:

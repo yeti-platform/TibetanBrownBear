@@ -1,15 +1,14 @@
 """Tests for the User API."""
 
 import json
+import time
 
 import jwt
 import pytest
-import time
-
-from yeti.common.config import yeti_config
-from yeti.webapp import app
 
 from yeti.auth.local import user_management
+from yeti.common.config import yeti_config
+from yeti.webapp import app
 
 app.testing = True
 client = app.test_client()
