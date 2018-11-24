@@ -1,14 +1,20 @@
 <template>
   <div>
-    <div v-bind:key="killChain.id" v-for="killChain in killChains" class="killchain">
+    <div v-bind:key="killChain.id" v-for="killChain in killChains" class="killchain mt-4 mb-4">
       <h3>{{killChain.name}}</h3>
       <p>{{killChain.description}}</p>
+      <div class="form-row">
+        <div class='col col-md-3'><p>Phase name</p></div>
+        <div class='col'><p>Phase description</p></div>
+      </div>
+
+
       <div class="form-row show-on-hover" v-for="phase in killChain.settings[killChain.name]" v-bind:key="phase.name">
         <div class="col col-md-3">
-          <input class="form-control " type="text" placeholder="Phase name" v-model="phase.name">
+          <input class="form-control " type="text" v-model="phase.name">
         </div>
         <div class="col">
-          <input class="form-control " type="text" placeholder="Phase description" v-model="phase.description">
+          <input class="form-control " type="text" v-model="phase.description">
         </div>
         <div class="form-group">
           <a href="#" class="btn btn-outline-danger show-on-hover" @click="removeField(killChain.settings[killChain.name], phase)">
@@ -20,7 +26,7 @@
         <div class="form-row">
           <div class="col">
             <button v-bind:class="{ disabled: saving }" class="btn btn-light mr-2" @click="addField(killChain.settings[killChain.name])">
-            <i class="fas fa-fw fa-lg fa-plus-circle"></i>
+            Add phase
             </button>
             <button v-bind:class="{ disabled: saving }" class="btn btn-primary" @click="updateKillChain(killChain, killChain.settings[killChain.name])">
               {{saving ? "Saving..." : "Save changes"}}
@@ -28,6 +34,7 @@
           </div>
         </div>
       </div>
+      <hr>
     </div>
   </div>
 </template>
