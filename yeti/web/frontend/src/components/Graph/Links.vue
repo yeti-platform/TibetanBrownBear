@@ -2,7 +2,7 @@
   <div class="links">
     <ul class="nav nav-pills mb-3 float-left" role="tablist">
       <li class="nav-item" v-bind:key="linkType" v-for="(linkType, index) in linkTypes">
-        <a class="nav-link" v-bind:class="{active: index === 0}":id="linkType + '-tab'" data-toggle="tab" :href="'#'+linkType" role="tab" :aria-controls="linkType" aria-selected="true">{{entityType(linkType).plural}}</a>
+        <a class="nav-link" v-bind:class="{active: index === 0}" :id="linkType + '-tab'" data-toggle="tab" :href="'#'+linkType" role="tab" :aria-controls="linkType" aria-selected="true">{{entityType(linkType).plural}}</a>
       </li>
     </ul>
     <div class="float-right">
