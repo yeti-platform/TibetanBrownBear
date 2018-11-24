@@ -4,7 +4,9 @@ from yeti.core.model.database import YetiObject, YetiSchema
 class SettingSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Setting objects."""
     name = fields.String(required=True)
+    description = fields.String()
     settings = fields.Dict()
+    type = fields.String()
 
     @post_load
     def load_setting(self, data):
@@ -13,18 +15,18 @@ class SettingSchema(YetiSchema):
         Returns:
           The created Setting object.
         """
-        name = data['name']
-        return Setting.types[name](**data)
+        return Setting.datatypes[data['type']](**data)
 
 class Setting(YetiObject):
 
     _collection_name = 'settings'
+    _type_filter = None
     schema = SettingSchema
 
     name = None
     id = None
     settings = {}
-    types = {}
+    description = ''
 
     _indexes = [
         {'fields': ['name'], 'unique': True},

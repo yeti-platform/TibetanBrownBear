@@ -1,11 +1,12 @@
-from flask_classful import FlaskView, route
+from flask_classful import route
 from flask import request
 
 from yeti.core.model.settings.setting import Setting
 from yeti.core.errors import RuntimeException
 from ..helpers import as_json, auth_required
+from .generic import GenericResource
 
-class SettingsResource(FlaskView):
+class SettingsResource(GenericResource):
     """Class describing resources to manipulate Yeti settings."""
 
     route_base = '/settings/'
@@ -13,14 +14,16 @@ class SettingsResource(FlaskView):
     searchargs = None
     fulltext_searchargs = None
 
+    # ============ VOCABS ============
+
     @as_json
     @route('/vocabs/<vocab>/', methods=['GET'])
     @auth_required
     def get_vocab(self, vocab):
         """Return defined vocabularies."""
         try:
-            v = Setting.get_or_create(name='vocabs')
-            return v.get_vocab(vocab)
+            v = Setting.find(name=vocab)
+            return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
 
@@ -31,9 +34,9 @@ class SettingsResource(FlaskView):
         """Set a vocabulary."""
         value = request.json['value']
         try:
-            v = Setting.find(name='vocabs')
-            v.add_value_to_vocab(vocab, value)
-            return v.get_vocab(vocab)
+            v = Setting.get_or_create(name=vocab, type='vocab')
+            v.add_value_to_vocab(value)
+            return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
 
@@ -43,12 +46,24 @@ class SettingsResource(FlaskView):
     def remove_value_from_vocab(self, vocab):
         """Remove a value from a vocab."""
         value = request.json['value']
-        v = Setting.find(name='vocabs')
+        v = Setting.find(name=vocab)
         try:
-            v.remove_value_from_vocab(vocab, value)
+            v.remove_value_from_vocab(value)
         except RuntimeException as exception:
             return exception, 400
-        return v.get_vocab(vocab)
+        return v.get_vocab()
+
+    # ============ Kill Chains ============
+
+    @as_json
+    @route('/killchains/')
+    @auth_required
+    def list_killchains(self):
+        """Return a list of available killchains."""
+        try:
+            return Setting.get_or_create(name='killchains').settings
+        except RuntimeException as exception:
+            return exception, 400
 
     @as_json
     @route('/killchains/<killchain>/', methods=['GET'])

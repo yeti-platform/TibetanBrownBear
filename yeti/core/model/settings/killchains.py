@@ -10,70 +10,61 @@ class KillChains(Setting):
       name: Name of the killchain setting
     """
 
-    name = 'killchains'
+    type = 'killchain'
 
-    def get_killchain(self, killchain_name):
-        """Gets a specific killchain by name.
-
-        Args:
-          killchain_name: The name of the killchain to get.
+    def get_killchain(self):
+        """Gets a specific killchain's contents.
 
         Raises:
           RuntimeException: When no killchain with that name is defined.
         """
-        if killchain_name not in self.settings:
+        if self.name not in self.settings:
             raise RuntimeException('{0:s} is not a defined killchain'.format(
-                killchain_name))
-        return self.settings[killchain_name]
+                self.name))
+        return self.settings[self.name]
 
-    def set_phases(self, killchain_name, killchain_list):
+    def set_phases(self, killchain_list):
         """Sets the killchain phases."""
-        self.settings[killchain_name] = killchain_list
+        self.settings[self.name] = killchain_list
         self.save()
 
-    def add_phase_to_killchain(self, killchain_name, phase):
-        """Adds a killchain phase to a given killchain.
-
-        Args:
-          killchain_name: The name of the killchain to update.
-        """
-        if not killchain_name in self.settings:
-            self.settings[killchain_name] = []
-        if phase not in self.settings[killchain_name]:
-            self.settings[killchain_name].append(phase)
+    def add_phase_to_killchain(self, phase):
+        """Adds a killchain phase to a given killchain."""
+        if not self.name in self.settings:
+            self.settings[self.name] = []
+        if phase not in self.settings[self.name]:
+            self.settings[self.name].append(phase)
             self.save()
 
-    def remove_phase_from_killchain(self, killchain_name, phase):
+    def remove_phase_from_killchain(self, phase):
         """Removes a phase from a killchain.
 
         Args:
-          killchain_name: The killchain from which to remove the phase.
           phase: The phase to remove.
 
         Raises:
           RuntimeException: A killchain is not defined or the killchain is not
               in the killchain list.
         """
-        if killchain_name not in self.settings:
+        if self.name not in self.settings:
             raise RuntimeException('{0:s} is not a defined killchain'.format(
-                killchain_name))
-        if phase not in self.settings[killchain_name]:
+                self.name))
+        if phase not in self.settings[self.name]:
             raise RuntimeException('"{0:s}" not in killchain {1:s}'.format(
-                phase, killchain_name))
-        self.settings[killchain_name].remove(phase)
+                phase, self.name))
+        self.settings[self.name].remove(phase)
         self.save()
 
-    def filter_phase_killchain(self, killchain_name, phase_filter):
+    def filter_phase_killchain(self, phase_filter):
         """Returns a filtered list of killchain items.
 
         Args:
-          killchain_name: The name of the killchain to filter on.
           phase_filter: string to filter KillChain phases with.
         """
         selected_phases = []
-        for phase in self.settings[killchain_name]:
+        for phase in self.settings[self.name]:
             if phase_filter in phase:
                 selected_phases.append(phase)
         return selected_phases
 
-Setting.types[KillChains.name] = KillChains
+Setting.datatypes[KillChains.type] = KillChains
