@@ -30,7 +30,7 @@ class SettingsResource(GenericResource):
             return exception, 400
 
     @as_json
-    @route('/vocabs/<vocab>/', methods=['PUT'])
+    @route('/vocabs/<vocab>/', methods=['POST'])
     @auth_required
     def add_value_to_vocab(self, vocab):
         """Set a vocabulary."""
@@ -38,6 +38,19 @@ class SettingsResource(GenericResource):
         try:
             v = Setting.get_or_create(name=vocab, type='vocab')
             v.add_value_to_vocab(value)
+            return v.get_vocab()
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/vocabs/<vocab>/', methods=['PUT'])
+    @auth_required
+    def set_values_for_vocab(self, vocab):
+        """Set a vocabulary."""
+        values = request.json['values']
+        try:
+            v = Setting.get_or_create(name=vocab, type='vocab')
+            v.set_vocab(values)
             return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
@@ -60,6 +73,16 @@ class SettingsResource(GenericResource):
     # ============ Kill Chains ============
 
     @as_json
+    @route('/killchains/', methods=['GET'])
+    @auth_required
+    def get_killchains(self):
+        """Return all killchains"""
+        try:
+            return Setting.filter({'type': 'killchain'})
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
     @route('/killchains/<killchain>/', methods=['GET'])
     @auth_required
     def get_killchain(self, killchain):
@@ -73,7 +96,7 @@ class SettingsResource(GenericResource):
             return exception, 400
 
     @as_json
-    @route('/killchains/<killchain>/', methods=['PUT'])
+    @route('/killchains/<killchain>/', methods=['POST'])
     @auth_required
     def add_phase_to_killchain(self, killchain):
         """Set phases for a killchain."""
@@ -81,6 +104,19 @@ class SettingsResource(GenericResource):
         try:
             kc = Setting.get_or_create(name=killchain)
             kc.add_phase_to_killchain(phase)
+            return kc.get_killchain()
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/killchains/<killchain>/', methods=['PUT'])
+    @auth_required
+    def set_killchain_pahses(self, killchain):
+        """Set phases for a killchain."""
+        phases = request.json['phases']
+        try:
+            kc = Setting.get_or_create(name=killchain)
+            kc.set_phases(phases)
             return kc.get_killchain()
         except RuntimeException as exception:
             return exception, 400
