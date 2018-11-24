@@ -24,9 +24,9 @@ export default {
   data () {
     return {
       killchainName: 'lockheed-martin-cyber-kill-chain',
-      listItems: [],
       item: '',
-      autocompleteValues: []
+      autocompleteValues: [],
+      killchainPhases: []
     }
   },
   methods: {
@@ -35,6 +35,7 @@ export default {
         if (this.killchainPhases[i].phase_name === event.tag.text) {
           this.killchainPhases.splice(i, 1)
           event.deleteTag()
+          this.$emit('input', this.killchainPhases)
         }
       }
     },
@@ -57,12 +58,18 @@ export default {
   computed: {
     filteredItems () {
       return (this.autocompleteValues || []).filter(item => new RegExp(this.item, 'i').test(item.text))
+    },
+    listItems () {
+      return this.killchainPhases.map(item => Object({text: item['phase_name']}))
     }
   },
   mounted () {
-    this.killchainPhases = (this.value || [])
-    this.listItems = (this.value || []).map(item => Object({text: item['phase_name']}))
     this.getKillchainPhases()
+  },
+  watch: {
+    'value': function (val) {
+      this.killchainPhases = val
+    }
   }
 }
 </script>
