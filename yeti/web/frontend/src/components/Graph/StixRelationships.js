@@ -29,7 +29,7 @@ export const relationships = {
     'threat-actor': ['indicates'],
     'tool': ['indicates']
   },
-  'intrustion-set': {
+  'intrusion-set': {
     'threat-actor': ['attributed-to'],
     'identity': ['targets'],
     'vulnerabiliyt': ['targets'],

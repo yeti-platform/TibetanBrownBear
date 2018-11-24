@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <ul class="nav nav-pills mb-3" id="myTab" role="tablist">
+    <ul class="nav nav-pills mb-3" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true">Main</a>
       </li>
