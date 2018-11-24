@@ -49,7 +49,7 @@ export default {
     getKillchainPhases: function () {
       axios.get('settings/killchains/' + this.killchainName + '/').then(response => {
         if (response.status === 200) {
-          this.autocompleteValues = response.data.map(item => Object({text: item}))
+          this.autocompleteValues = response.data.map(item => Object({text: item.name}))
         }
       })
     }

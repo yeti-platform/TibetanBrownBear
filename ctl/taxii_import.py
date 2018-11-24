@@ -82,14 +82,13 @@ def taxii_import(server_url, collection_url):
                     if not obj:
                         obj = yeti_class(**item).save()
                         stats['new'] += 1
-
-                    all_objects[item['id']] = obj
-
-                    if obj.modified >= item.modified or obj.revoked or obj.equals(item_json):
+                    elif obj.modified >= item.modified or obj.revoked or obj.equals(item_json):
                         stats['skipped'] += 1
                     elif obj.modified < item.modified:
                         obj.update(item_json)
                         stats['updated'] += 1
+
+                    all_objects[item['id']] = obj
 
             except requests.exceptions.HTTPError as error:
                 print(f'HTTPError: {error}')

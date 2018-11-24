@@ -23,6 +23,8 @@ class SettingsResource(GenericResource):
         """Return defined vocabularies."""
         try:
             v = Setting.find(name=vocab)
+            if not v:
+                return '', 404
             return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
@@ -47,6 +49,8 @@ class SettingsResource(GenericResource):
         """Remove a value from a vocab."""
         value = request.json['value']
         v = Setting.find(name=vocab)
+        if not v:
+            return '', 404
         try:
             v.remove_value_from_vocab(value)
         except RuntimeException as exception:
@@ -56,23 +60,15 @@ class SettingsResource(GenericResource):
     # ============ Kill Chains ============
 
     @as_json
-    @route('/killchains/')
-    @auth_required
-    def list_killchains(self):
-        """Return a list of available killchains."""
-        try:
-            return Setting.get_or_create(name='killchains').settings
-        except RuntimeException as exception:
-            return exception, 400
-
-    @as_json
     @route('/killchains/<killchain>/', methods=['GET'])
     @auth_required
     def get_killchain(self, killchain):
         """Return defined killchains."""
         try:
-            v = Setting.get_or_create(name='killchains')
-            return v.get_killchain(killchain)
+            kc = Setting.find(name=killchain)
+            if not kc:
+                return '', 404
+            return kc.get_killchain()
         except RuntimeException as exception:
             return exception, 400
 
@@ -83,9 +79,9 @@ class SettingsResource(GenericResource):
         """Set phases for a killchain."""
         phase = request.json['phase']
         try:
-            kc = Setting.find(name='killchains')
-            kc.add_phase_to_killchain(killchain, phase)
-            return kc.get_killchain(killchain)
+            kc = Setting.get_or_create(name=killchain)
+            kc.add_phase_to_killchain(phase)
+            return kc.get_killchain()
         except RuntimeException as exception:
             return exception, 400
 
@@ -95,9 +91,11 @@ class SettingsResource(GenericResource):
     def remove_phase_from_killchain(self, killchain):
         """Remove a phase from a killchain."""
         phase = request.json['phase']
-        kc = Setting.find(name='killchains')
+        kc = Setting.find(name=killchain)
+        if not kc:
+            return '', 404
         try:
-            kc.remove_phase_from_killchain(killchain, phase)
+            kc.remove_phase_from_killchain(phase)
         except RuntimeException as exception:
             return exception, 400
-        return kc.get_killchain(killchain)
+        return kc.get_killchain()
