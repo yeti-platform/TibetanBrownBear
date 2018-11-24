@@ -60,7 +60,7 @@ export default {
       return (this.autocompleteValues || []).filter(item => new RegExp(this.item, 'i').test(item.text))
     },
     listItems () {
-      return this.killchainPhases.map(item => Object({text: item['phase_name']}))
+      return (this.killchainPhases || []).map(item => Object({text: item['phase_name']}))
     }
   },
   mounted () {

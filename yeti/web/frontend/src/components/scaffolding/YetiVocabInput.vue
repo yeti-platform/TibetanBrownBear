@@ -2,7 +2,8 @@
   <div>
     <vue-tags-input :tags="listItems"
                     v-model="item"
-                    @tags-changed="processItems"
+                    @before-adding-tag="addingPhase"
+                    @before-deleting-tag="deletingPhase"
                     :autocomplete-min-length="0"
                     :add-on-key="[13, 188, 186]"
                     :separators="[',', ';']"
@@ -22,22 +23,25 @@ export default {
   props: ['value', 'autocompleteVocab', 'displayKey'],
   data () {
     return {
-      listItems: [],
       item: '',
-      autocompleteItems: []
+      autocompleteItems: [],
+      vocabList: []
     }
   },
   methods: {
-    processItems: function (listItems) {
-      this.$emit('input', listItems.map(item => item.text))
-      this.listItems = listItems
-    },
-    formatListItems: function () {
-      if (this.displayKey) {
-        this.listItems = (this.value || []).map(item => Object({text: item[this.displayKey]}))
-      } else {
-        this.listItems = (this.value || []).map(item => Object({text: item}))
+    deletingPhase (event) {
+      for (var i in this.vocabList) {
+        if (this.vocabList[i] === event.tag.text) {
+          this.vocabList.splice(i, 1)
+          event.deleteTag()
+          this.$emit('input', this.vocabList)
+        }
       }
+    },
+    addingPhase (event) {
+      event.addTag()
+      this.vocabList.push(event.tag.text)
+      this.$emit('input', this.vocabList)
     },
     getValuesForVocab: function () {
       axios.get('/settings/vocabs/' + this.autocompleteVocab + '/').then(response => {
@@ -50,12 +54,23 @@ export default {
   computed: {
     filteredItems () {
       return this.autocompleteItems.filter(validTag => new RegExp(this.item, 'i').test(validTag.text))
+    },
+    listItems () {
+      if (this.displayKey) {
+        return (this.vocabList || []).map(item => Object({text: item[this.displayKey]}))
+      } else {
+        return (this.vocabList || []).map(item => Object({text: item}))
+      }
     }
   },
   mounted () {
-    this.formatListItems()
     if (this.autocompleteVocab) {
       this.getValuesForVocab()
+    }
+  },
+  watch: {
+    'value': function (val) {
+      this.vocabList = val
     }
   }
 }
