@@ -34,6 +34,9 @@
         <a class="nav-link" id="relationships-tab" data-toggle="tab" href="#relationships" role="tab" aria-controls="relationships" aria-selected="false">Relationships</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" id="killchainview-tab" data-toggle="tab" href="#killchainview" role="tab" aria-controls="killchainview" aria-selected="false">Kill chain view</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="json-tab" data-toggle="tab" href="#json" role="tab" aria-controls="json" aria-selected="false">Raw JSON</a>
       </li>
     </ul>
@@ -147,6 +150,13 @@
         </div>
       </div>
 
+      <div class="tab-pane" id="killchainview" role="tabpanel" aria-labelledby="killchainview-tab">
+        <div class="killchainview">
+          <h2>Kill chain view</h2>
+          <kill-chain-view :entity="entity"></kill-chain-view>
+        </div>
+      </div>
+
       <!-- JSON -->
       <div class="tab-pane" id="json" role="tabpanel" aria-labelledby="json-tab">
         <div class="json">
@@ -182,6 +192,7 @@ import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
 import MarkdownText from '@/components/scaffolding/MarkdownText'
 import Links from '@/components/Graph/Links'
+import KillChainView from '@/components/Entities/KillChainView'
 import Fields from '@/components/helpers/Fields'
 
 import { editFields } from './EntityFields.js'
@@ -201,7 +212,8 @@ export default {
     YetiForm,
     Fields,
     Links,
-    MarkdownText
+    MarkdownText,
+    KillChainView
   },
   computed: {
     entityType () {
