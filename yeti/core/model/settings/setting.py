@@ -4,6 +4,7 @@ from yeti.core.model.database import YetiObject, YetiSchema
 class SettingSchema(YetiSchema):
     """(De)serialization marshmallow.Schema for Setting objects."""
     name = fields.String(required=True)
+    human_name = fields.String()
     description = fields.String()
     settings = fields.Dict()
     type = fields.String()
@@ -24,6 +25,7 @@ class Setting(YetiObject):
     schema = SettingSchema
 
     name = None
+    human_name = ''
     id = None
     settings = {}
     description = ''
