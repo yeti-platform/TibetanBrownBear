@@ -38,7 +38,10 @@
           :autocompleteVocab="field['vocab']" />
 
       <!-- killchain input -->
-      <yeti-killchain-input v-if="field.type === 'killchain'" v-model="bufferValue" />
+      <yeti-killchain-input v-if="field.type === 'killchain'" v-model="bufferValue"
+          v-for="killchain in availableKillchains" v-bind:key="killchain.name"
+          :killchainName="killchain.name"
+          class="mb-2"/>
 
       <small v-if="field.help" :id="slug+'-help'" class="form-text text-muted">{{field.help}}</small>
     </div>
@@ -46,6 +49,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 import YetiVocabInput from '@/components/scaffolding/YetiVocabInput'
 import YetiTextInput from '@/components/scaffolding/YetiTextInput'
 import YetiKillchainInput from '@/components/scaffolding/YetiKillchainInput'
@@ -60,13 +65,20 @@ export default {
   },
   data () {
     return {
-      bufferValue: null
+      bufferValue: null,
+      availableKillchains: []
     }
   },
   props: ['field', 'value'],
   methods: {
     valueUpdated () {
       this.$emit('input', this.bufferValue)
+    },
+    fetchKillchains () {
+      axios.get('/settings/killchains/')
+        .then(response => {
+          this.availableKillchains = response.data
+        })
     }
   },
   computed: {
@@ -77,6 +89,7 @@ export default {
   mounted () {
     this.bufferValue = this.value
     console.log(this.bufferValue)
+    this.fetchKillchains()
   },
   watch: {
     'bufferValue': 'valueUpdated',
