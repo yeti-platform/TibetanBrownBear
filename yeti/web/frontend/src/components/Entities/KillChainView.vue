@@ -7,14 +7,16 @@
       </ul>
       <div class="tab-content" id="pills-tabContent">
         <div v-for="killchain in killchains" v-bind:key="killchain.name" class="tab-pane" :id="killchain.name" role="tabpanel" :aria-labelledby="killchain.name+'-tab'">
-          <div class="row">
-            <div class="col" v-for="phase in getPhases(killchain)" v-bind:key="phase.name">
-              <div class="row">{{phase.name}} {{neighborsPerKillchain[killchain.name][phase.name].length}}</div>
-              <div class="row" v-for="neighbor in neighborsPerKillchain[killchain.name][phase.name]" v-bind:key="killchain.name + phase.name + neighbor.id">
-                {{neighbor.name}}
-              </div>
-            </div>
-          </div>
+          <table class="table">
+            <tr v-for="phase in getPhases(killchain)" v-bind:key="phase.name">
+              <th>{{phase.name}}</th>
+              <td v-for="neighbor in neighborsPerKillchain[killchain.name][phase.name]" v-bind:key="killchain.name + phase.name + neighbor.id">
+                <router-link :to="{ name: 'EntityDetails', params: {id: neighbor.id}}">
+                  <type-to-icon :type="neighbor.type"></type-to-icon>{{neighbor.name}}
+                </router-link>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -22,8 +24,12 @@
 
 <script>
 import axios from 'axios'
+import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 
 export default {
+  components: {
+    TypeToIcon
+  },
   props: ['entity'],
   data () {
     return {
