@@ -10,10 +10,11 @@
           <table class="table">
             <tr v-for="phase in getPhases(killchain)" v-bind:key="phase.name">
               <th>{{phase.name}}</th>
-              <td v-for="neighbor in neighborsPerKillchain[killchain.name][phase.name]" v-bind:key="killchain.name + phase.name + neighbor.id">
+              <td class="neighbor-data" v-for="neighbor in neighborsPerKillchain[killchain.name][phase.name]" v-bind:key="killchain.name + phase.name + neighbor.id">
                 <router-link :to="{ name: 'EntityDetails', params: {id: neighbor.id}}">
                   <type-to-icon :type="neighbor.type"></type-to-icon>{{neighbor.name}}
                 </router-link>
+                <neighbor-icons :entity="neighbor"></neighbor-icons>
               </td>
             </tr>
           </table>
@@ -25,10 +26,12 @@
 <script>
 import axios from 'axios'
 import TypeToIcon from '@/components/scaffolding/TypeToIcon'
+import NeighborIcons from '@/components/Graph/NeighborIcons'
 
 export default {
   components: {
-    TypeToIcon
+    TypeToIcon,
+    NeighborIcons
   },
   props: ['entity'],
   data () {
