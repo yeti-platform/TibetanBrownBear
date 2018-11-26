@@ -16,29 +16,36 @@ export default {
   components: {
     TypeToIcon
   },
-  props: ['entity'],
+  props: {
+    entity: Object,
+    neighbors: Object
+  },
   data () {
     return {
-      neighbors: [],
       countByType: {}
     }
   },
   methods: {
     getNeighbors () {
-      axios.get('/entities/' + this.entity.id + '/neighbors/')
-        .then(response => {
-          this.neighbors = response.data
-          this.countNeighborsByType()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .finally(() => {})
+      if (this.neighbors !== undefined) {
+        console.log('neighbors provided')
+        this.countNeighborsByType(this.neighbors)
+      } else {
+        console.log('fetching neighbors')
+        axios.get('/entities/' + this.entity.id + '/neighbors/')
+          .then(response => {
+            this.countNeighborsByType(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+          .finally(() => {})
+      }
     },
-    countNeighborsByType () {
+    countNeighborsByType (neighbors) {
       let count = {}
-      Object.values(this.neighbors.vertices).map(neighbor => {
-        count[neighbor.type] = (count[neighbor.type] || 0) + 1;
+      Object.values(neighbors.vertices).map(neighbor => {
+        count[neighbor.type] = (count[neighbor.type] || 0) + 1
       })
       this.countByType = count
     }
