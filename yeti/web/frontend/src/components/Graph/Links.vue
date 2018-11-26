@@ -37,6 +37,7 @@
                 <router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}">
                   <type-to-icon :type="getIncomingVertice(graph, edge).type"></type-to-icon>{{getIncomingVertice(graph, edge).name}}
                 </router-link>
+                <neighbor-icons v-if="getIncomingVertice(graph, edge).id !== object.id" :entity="object"></neighbor-icons>
                 </td>
               <td>&rarr;</td>
               <td>{{edge.relationship_type}}</td>
@@ -45,6 +46,7 @@
                 <router-link :to="{ name: '', params: {id: getOutgoingVertice(graph, edge).id} }">
                   <type-to-icon :type="getOutgoingVertice(graph, edge).type"></type-to-icon>{{getOutgoingVertice(graph, edge).name}}
                 </router-link>
+                <neighbor-icons v-if="getOutgoingVertice(graph, edge).id !== object.id" :entity="getOutgoingVertice(graph, edge)"></neighbor-icons>
               </td>
               <td><markdown-text :text="edge.description || 'No description'"></markdown-text></td>
               <td>
@@ -71,6 +73,7 @@ import NewLink from '@/components/Graph/NewLink'
 import DeleteLinks from '@/components/Graph/DeleteLinks'
 import EditLinks from '@/components/Graph/EditLinks'
 import { entityTypes } from '@/components/Entities/EntityTypes.js'
+import NeighborIcons from '@/components/Graph/NeighborIcons'
 
 export default {
   components: {
@@ -79,7 +82,8 @@ export default {
     MarkdownText,
     NewLink,
     DeleteLinks,
-    EditLinks
+    EditLinks,
+    NeighborIcons
   },
   props: ['object', 'detailComponent'],
   data () {
