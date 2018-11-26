@@ -27,24 +27,18 @@ export default {
   },
   methods: {
     getNeighbors () {
-      if (this.neighbors !== undefined) {
-        console.log('neighbors provided')
-        this.countNeighborsByType(this.neighbors)
-      } else {
-        console.log('fetching neighbors')
-        axios.get('/entities/' + this.entity.id + '/neighbors/')
-          .then(response => {
-            this.countNeighborsByType(response.data)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-          .finally(() => {})
-      }
+      this.countNeighborsByType(this.neighbors)
     },
-    countNeighborsByType (neighbors) {
+    countNeighborsByType () {
       let count = {}
-      Object.values(neighbors.vertices).map(neighbor => {
+
+      let relevantIds = new Set(
+        this.neighbors.edges
+          .filter(edge => edge.source_ref === this.entity.id || edge.target_ref === this.entity.id)
+          .map(edge => edge.source_ref === this.entity.id ? edge.target_ref : edge.source_ref)
+      )
+      let relevantVertices = Object.values(this.neighbors.vertices).filter(vertice => relevantIds.has(vertice.id))
+      relevantVertices.map(neighbor => {
         count[neighbor.type] = (count[neighbor.type] || 0) + 1
       })
       this.countByType = count
@@ -52,6 +46,9 @@ export default {
   },
   mounted () {
     this.getNeighbors()
+  },
+  watch: {
+    'neighbors': 'countNeighborsByType'
   }
 }
 </script>

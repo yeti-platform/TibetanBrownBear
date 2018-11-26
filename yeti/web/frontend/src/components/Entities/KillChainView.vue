@@ -14,7 +14,7 @@
                 <router-link :to="{ name: 'EntityDetails', params: {id: neighbor.id}}">
                   <type-to-icon :type="neighbor.type"></type-to-icon>{{neighbor.name}}
                 </router-link>
-                <neighbor-icons :entity="neighbor"></neighbor-icons>
+                <neighbor-icons :entity="neighbor" :neighbors="extendedGraph"></neighbor-icons>
               </td>
             </tr>
           </table>
@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       killchains: [],
-      neighbors: [],
+      extendedGraph: {},
       neighborsPerKillchain: {}
     }
   },
@@ -65,18 +65,28 @@ export default {
       return killchain.settings[killchain.name]
     },
     getNeighbors () {
-      axios.get('/entities/' + this.entity.id + '/neighbors/')
+      axios.post('/entities/' + this.entity.id + '/neighbors/')
         .then(response => {
-          this.neighbors = response.data
-          this.sortNeighborsByPhase()
+          this.sortNeighborsByPhase(response.data)
         })
         .catch(error => {
           console.log(error)
         })
         .finally(() => {})
+
+      let extendedGraphParams = {
+        hops: 2,
+        include_original: true
+      }
+      axios.post('/entities/' + this.entity.id + '/neighbors/', extendedGraphParams)
+        .then(response => {
+          console.log('(kc extended) got ' + response.data.edges.length + ' edges')
+          this.extendedGraph = response.data
+        })
+        .finally(() => { this.loading = false })
     },
-    sortNeighborsByPhase () {
-      for (var neighbor of Object.values(this.neighbors.vertices)) {
+    sortNeighborsByPhase (neighbors) {
+      for (var neighbor of Object.values(neighbors.vertices)) {
         if (neighbor.kill_chain_phases === undefined) { return }
         neighbor.kill_chain_phases.map(phase => {
           this.neighborsPerKillchain[phase.kill_chain_name][phase.phase_name].push(neighbor)

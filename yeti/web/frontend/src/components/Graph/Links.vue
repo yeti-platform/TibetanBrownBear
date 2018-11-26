@@ -37,7 +37,10 @@
                 <router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}">
                   <type-to-icon :type="getIncomingVertice(graph, edge).type"></type-to-icon>{{getIncomingVertice(graph, edge).name}}
                 </router-link>
-                <neighbor-icons v-if="getIncomingVertice(graph, edge).id !== object.id" :entity="object"></neighbor-icons>
+                <neighbor-icons v-if="getIncomingVertice(graph, edge).id !== object.id"
+                                :entity="getIncomingVertice(graph, edge)"
+                                :neighbors="extendedGraph">
+                </neighbor-icons>
                 </td>
               <td>&rarr;</td>
               <td>{{edge.relationship_type}}</td>
@@ -46,7 +49,10 @@
                 <router-link :to="{ name: '', params: {id: getOutgoingVertice(graph, edge).id} }">
                   <type-to-icon :type="getOutgoingVertice(graph, edge).type"></type-to-icon>{{getOutgoingVertice(graph, edge).name}}
                 </router-link>
-                <neighbor-icons v-if="getOutgoingVertice(graph, edge).id !== object.id" :entity="getOutgoingVertice(graph, edge)"></neighbor-icons>
+                <neighbor-icons v-if="getOutgoingVertice(graph, edge).id !== object.id"
+                                :entity="getOutgoingVertice(graph, edge)"
+                                :neighbors="extendedGraph">
+                </neighbor-icons>
               </td>
               <td><markdown-text :text="edge.description || 'No description'"></markdown-text></td>
               <td>
@@ -90,7 +96,8 @@ export default {
     return {
       graph: [],
       loading: true,
-      selectedLinks: []
+      selectedLinks: [],
+      extendedGraph: undefined
     }
   },
   computed: {
@@ -108,11 +115,22 @@ export default {
     fetchNeighbors () {
       console.log('fetching neighbors for ' + this.object.id)
       this.loading = true
-      axios.get(this.apiPath)
+      axios.post(this.apiPath)
         .then(response => {
           console.log('Got ' + response.data.edges.length + ' edges')
           this.graph = response.data
           this.selectedLinks = []
+        })
+        .finally(() => { this.loading = false })
+
+      let extendedGraphParams = {
+        hops: 2,
+        include_original: true
+      }
+      axios.post(this.apiPath, extendedGraphParams)
+        .then(response => {
+          console.log('(extended) got ' + response.data.edges.length + ' edges')
+          this.extendedGraph = response.data
         })
         .finally(() => { this.loading = false })
     },
