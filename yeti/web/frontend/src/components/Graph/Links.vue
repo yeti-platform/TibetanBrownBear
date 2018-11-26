@@ -2,7 +2,10 @@
   <div class="links">
     <ul class="nav nav-pills mb-3 float-left" role="tablist">
       <li class="nav-item" v-bind:key="linkType" v-for="(linkType, index) in linkTypes">
-        <a class="nav-link" v-bind:class="{active: index === 0}" :id="linkType + '-tab'" data-toggle="tab" :href="'#'+linkType" role="tab" :aria-controls="linkType" aria-selected="true">{{entityType(linkType).plural}}</a>
+        <a class="nav-link" v-bind:class="{active: index === 0}" :id="linkType + '-tab'" data-toggle="tab" :href="'#'+linkType" role="tab" :aria-controls="linkType" aria-selected="true">
+          <type-to-icon :type="linkType"></type-to-icon> {{entityType(linkType).plural}}
+          <span class="badge badge-pill badge-light ml-2"> {{getFilterEdges(linkType).length}}</span>
+        </a>
       </li>
     </ul>
     <div class="float-right">
@@ -22,13 +25,12 @@
             <i class='fas fa-circle-notch fa-spin fa-3x m-3'></i>
           </span>
           <table v-else class="table table-sm">
-            <tr v-for="edge in graph.edges"
+            <tr v-for="edge in getFilterEdges(linkType)"
                 v-bind:key='edge._id'
                 @click.exact="select(edge)"
                 @click.shift.exact="selectMultiple(edge)"
                 v-bind:class="{'selected': selectedLinks.includes(edge.id)}"
                 class="show-on-hover"
-                v-if="getVerticeForEdge(edge).type === linkType"
               >
               <td class="show-on-hover"><a href="#" @click="$refs.deleteLinks.deleteLinks([edge.id])"><i class="fas fa-unlink"></i></a></td>
               <td class="incoming-vertice">
@@ -111,7 +113,7 @@ export default {
         .finally(() => { this.loading = false })
     },
     getFilterEdges (filter) {
-      return this.graph.edges.filter(edge => edge.type === filter)
+      return this.graph.edges.filter(edge => this.getVerticeForEdge(edge).type === filter)
     },
     getVerticeForEdge (edge) {
       if (edge.source_ref === this.object.id) {

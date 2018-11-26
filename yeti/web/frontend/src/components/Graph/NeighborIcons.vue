@@ -2,7 +2,7 @@
   <div class='neighbor-icons'>
     <div v-for="type in Object.keys(countByType)" v-bind:key="type" class="float-left mr-3 neighbor-icon-single">
       <type-to-icon :type="type"></type-to-icon>
-      <span>{{countByType[type]}}</span>
+      <span class="badge badge-pill badge-light"> {{countByType[type]}}</span>
     </div>
   </div>
 
