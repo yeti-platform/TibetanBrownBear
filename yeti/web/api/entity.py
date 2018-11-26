@@ -2,7 +2,7 @@
 from marshmallow import fields
 from flask_classful import route
 from flask import request
-
+from webargs.flaskparser import parser
 
 from yeti.core.entities.entity import Entity
 from yeti.core.errors import YetiSTIXError
@@ -23,8 +23,15 @@ class EntityResource(GenericResource):
         'page_size': fields.Int(),
     }
 
+    neighbor_params = {
+        'link_type': fields.Str(),
+        'direction': fields.Str(),
+        'include_original': fields.Boolean(),
+        'hops': fields.Int(),
+    }
+
     @as_json
-    @route('/<id>/neighbors/', methods=['GET'])
+    @route('/<id>/neighbors/', methods=['POST'])
     @auth_required
     def neighbors(self, id):  # pylint: disable=redefined-builtin
         """Fetch objects an object is related to.
@@ -39,8 +46,9 @@ class EntityResource(GenericResource):
         Returns:
             A JSON representation of the object's relationships.
         """
+        args = parser.parse(self.neighbor_params, request)
         obj = get_object_or_404(self.resource_object, id)
-        return obj.neighbors()
+        return obj.neighbors(**args)
 
     @as_json
     @route('/<id>/addlink/', methods=['POST'])

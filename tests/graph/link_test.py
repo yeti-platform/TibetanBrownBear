@@ -77,3 +77,17 @@ def test_most_recent_link(populate_malware):
     neighbors = mal1.neighbors()
     assert len(neighbors['edges']) == 1
     assert neighbors['edges'][0]['description'] == 'random description'
+
+@pytest.mark.usefixtures('clean_db')
+def test_second_level_links(populate_malware, populate_regex):
+    mal1, mal2, _ = populate_malware
+    regex1, _ = populate_regex
+    mal1.link_to(regex1, 'related-to')
+    regex1.link_to(mal2, 'related-to')
+    neighbors = mal1.neighbors(hops=2, include_original=True)
+    assert len(neighbors['edges']) == 2
+    assert len(neighbors['vertices']) == 3
+    names = [n.name for n in neighbors['vertices'].values()]
+    assert mal1.name in names
+    assert mal2.name in names
+    assert regex1.name in names

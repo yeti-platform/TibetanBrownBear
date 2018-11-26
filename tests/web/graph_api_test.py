@@ -14,10 +14,33 @@ def test_index(populate_malware, authenticated_client):
     mal1, mal2, mal3 = populate_malware
     mal1.link_to(mal2, 'uses')
     mal1.link_to(mal3, 'uses')
-    rv = authenticated_client.get('/api/entities/'+mal1.id+'/neighbors/')
+    rv = authenticated_client.post('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 2
     assert len(response['edges']) == 2
+
+@pytest.mark.usefixtures('clean_db')
+def test_two_levels(populate_malware, populate_regex, authenticated_client):
+    mal1, mal2, _ = populate_malware
+    regex1, _ = populate_regex
+    mal1.link_to(regex1, 'related-to')
+    regex1.link_to(mal2, 'related-to')
+    params = {
+        'hops': 2,
+        'include_original': True
+    }
+    rv = authenticated_client.post(
+        '/api/entities/'+mal1.id+'/neighbors/', json=params)
+    assert rv.status_code == 200
+    neighbors = json.loads(rv.data)
+    assert len(neighbors['edges']) == 2
+    assert len(neighbors['vertices']) == 3
+    names = [n.name for n in neighbors['vertices'].values()]
+    assert mal1.name in names
+    assert mal2.name in names
+    assert regex1.name in names
+
+
 
 @pytest.mark.usefixtures('clean_db')
 def test_add_link(populate_malware, authenticated_client):
@@ -30,7 +53,7 @@ def test_add_link(populate_malware, authenticated_client):
                                   'link_type': 'uses',
                                   'stix_rel': None
                               }]))
-    rv = authenticated_client.get('/api/entities/'+mal1.id+'/neighbors/')
+    rv = authenticated_client.post('/api/entities/'+mal1.id+'/neighbors/')
     response = json.loads(rv.data)
     assert len(response['vertices']) == 1
     assert response['vertices'][mal2.id]['id'] == mal2.id
@@ -45,7 +68,7 @@ def test_delete_link(populate_malware, authenticated_client):
     relationship = mal1.link_to(mal2, 'uses')
     rv = authenticated_client.delete('/api/relationships/' + relationship.id + '/')
     assert rv.status_code == 200
-    rv = authenticated_client.get('/api/entities/'+mal1.id+'/neighbors/')
+    rv = authenticated_client.post('/api/entities/'+mal1.id+'/neighbors/')
     assert rv.status_code == 200
     response = json.loads(rv.data)
     assert not response['vertices']
