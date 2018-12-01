@@ -94,7 +94,7 @@ export default {
   props: ['object', 'detailComponent'],
   data () {
     return {
-      graph: [],
+      graph: {},
       loading: true,
       selectedLinks: [],
       extendedGraph: undefined
@@ -129,7 +129,7 @@ export default {
       }
       axios.post(this.apiPath, extendedGraphParams)
         .then(response => {
-          console.log('(extended) got ' + response.data.edges.length + ' edges')
+          console.log('(extended) Got ' + response.data.edges.length + ' edges')
           this.extendedGraph = response.data
         })
         .finally(() => { this.loading = false })

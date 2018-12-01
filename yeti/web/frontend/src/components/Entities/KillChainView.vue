@@ -80,7 +80,6 @@ export default {
       }
       axios.post('/entities/' + this.entity.id + '/neighbors/', extendedGraphParams)
         .then(response => {
-          console.log('(kc extended) got ' + response.data.edges.length + ' edges')
           this.extendedGraph = response.data
         })
         .finally(() => { this.loading = false })

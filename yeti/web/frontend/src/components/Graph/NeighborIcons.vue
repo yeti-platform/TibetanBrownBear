@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 
 export default {
@@ -33,7 +32,7 @@ export default {
       let count = {}
 
       let relevantIds = new Set(
-        this.neighbors.edges
+        (this.neighbors.edges || [])
           .filter(edge => edge.source_ref === this.entity.id || edge.target_ref === this.entity.id)
           .map(edge => edge.source_ref === this.entity.id ? edge.target_ref : edge.source_ref)
       )

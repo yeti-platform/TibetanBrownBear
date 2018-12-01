@@ -79,7 +79,6 @@ export default {
     },
     removeField (killChainPhases, phase) {
       killChainPhases.splice(killChainPhases.indexOf(phase), 1)
-      console.log(killChainPhases)
     }
   },
   mounted () {
