@@ -78,7 +78,7 @@ class StixObject(YetiObject):
     @classmethod
     def load(cls, args, strict=True):  # pylint: disable=unused-argument
         """Load a serialized STIX object from the database."""
-        return cls._load_yeti(args)
+        return cls.load_stix(args)
 
     def _stix_parse(self, stix_dict):
         """Parses a dictionary into an actual STIX2 SDO.

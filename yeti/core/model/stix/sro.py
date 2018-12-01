@@ -61,7 +61,7 @@ class StixSRO(StixObject):
         return attributes
 
     @classmethod
-    def _load_yeti(cls, args):
+    def load_stix(cls, args):
         """Translate information from the backend into a valid STIX definition.
 
         Will instantiate a STIX object from that definition.
@@ -78,7 +78,7 @@ class StixSRO(StixObject):
               serialized data.
         """
         if isinstance(args, list):
-            return [cls._load_yeti(item) for item in args]
+            return [cls.load_stix(item) for item in args]
         subclass = cls.get_final_datatype(args['attributes'])
         db_id = args.pop('_id', None)
         db_from = args.pop('_from')

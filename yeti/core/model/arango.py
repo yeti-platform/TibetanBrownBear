@@ -129,22 +129,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         self._arango_id = None
 
     @classmethod
-    def load(cls, args, strict=False):
-        """Loads data from a dictionary into the corresponding YetiObject.
-
-        Args:
-          args: key:value dictionary with which to populate fields in the
-              YetiObject
-        """
-        try:
-            if isinstance(args, list):
-                return [cls.load(doc, strict=strict) for doc in args]
-            return cls.load_object_from_type(args, strict=strict)
-        except MarshmallowValidationError as e:
-            raise ValidationError(e.messages)
-
-    @classmethod
-    def _load_yeti(cls, args):
+    def load_stix(cls, args):
         """Translate information from the backend into a valid Yeti object.
 
         Will instantiate a Yeti object from that definition.
@@ -160,7 +145,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
               serialized data.
         """
         if isinstance(args, list):
-            return [cls._load_yeti(item) for item in args]
+            return [cls.load_stix(item) for item in args]
         subclass = cls.get_final_datatype(args)
         db_id = args.pop('_id', None)
         args.pop('_rev', None)
