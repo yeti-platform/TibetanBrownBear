@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       killchains: [],
-      extendedGraph: {},
+      extendedGraph: {edges: [], vertices: []},
       neighborsPerKillchain: {}
     }
   },
