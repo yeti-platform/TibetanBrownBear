@@ -35,7 +35,7 @@ def test_two_levels(populate_malware, populate_regex, authenticated_client):
     neighbors = json.loads(rv.data)
     assert len(neighbors['edges']) == 2
     assert len(neighbors['vertices']) == 3
-    names = [n.name for n in neighbors['vertices'].values()]
+    names = [n['name'] for n in neighbors['vertices'].values()]
     assert mal1.name in names
     assert mal2.name in names
     assert regex1.name in names

@@ -3,7 +3,6 @@ import json
 import os
 import click
 
-from yeti.core.model.settings import setting
 from yeti.core.model.settings.vocabs import Vocabs
 
 VOCABS_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'vocabs.json')

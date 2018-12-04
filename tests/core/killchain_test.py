@@ -2,7 +2,6 @@
 import pytest
 
 from yeti.core.model.settings.killchains import KillChains
-from yeti.core.model.settings.vocabs import Vocabs
 from yeti.core.model.settings.setting import Setting
 
 @pytest.mark.usefixtures('clean_db', 'populate_settings')

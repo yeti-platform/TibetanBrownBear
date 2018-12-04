@@ -1,20 +1,20 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
-import time
-import sys
 import json
+import sys
+import time
 
-from arango import ArangoClient
-from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpdateError
-from marshmallow import Schema, fields
-from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
-from stix2 import Relationship as StixRelationship
+from arango import ArangoClient
+from arango.exceptions import (DocumentInsertError, DocumentUpdateError,
+                               GraphCreateError)
 from dateutil import parser
+from marshmallow import Schema, fields
+from stix2 import Relationship as StixRelationship
 
-from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
-from .interfaces import AbstractYetiConnector
+from yeti.core.errors import IntegrityError, ValidationError
 
+from .interfaces import AbstractYetiConnector
 
 LINK_TYPE_TO_GRAPH = {
     'tagged': 'tags',

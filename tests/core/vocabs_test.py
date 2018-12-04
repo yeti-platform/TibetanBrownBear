@@ -4,7 +4,6 @@ import pytest
 
 from yeti.core.model.settings.vocabs import Vocabs
 from yeti.core.model.settings.setting import Setting
-from yeti.core.errors import RuntimeException
 
 @pytest.mark.usefixtures('clean_db', 'populate_settings')
 def test_create_vocab_setting():
