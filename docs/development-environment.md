@@ -92,11 +92,11 @@ Fetching attack-pattern
 
 You'll also want to add users to your database:
 
-    $ yeticli add-user admin@yourorg.com --admin
+    $ yetictl add-user admin@yourorg.com --admin
 
 or, if you haven't installed the scripts:
 
-    $ python cli/yetictl.py add-user admin@yourorg.com --admin
+    $ python ctl/yetictl.py add-user admin@yourorg.com --admin
 
 And follow the on-screen prompts.
 
