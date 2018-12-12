@@ -19,6 +19,7 @@ import IndicatorDetails from '@/components/Indicators/IndicatorDetails'
 import AdminMain from '@/components/Admin/AdminMain'
 import Tags from '@/components/Admin/Tags'
 import Async from '@/components/Admin/Async'
+import KillChains from '@/components/Admin/KillChains'
 import NotFound from '@/components/NotFound'
 import LogIn from '@/components/LogIn'
 
@@ -141,6 +142,11 @@ export const settingsRoutes = {
       name: 'Async',
       path: 'async',
       component: Async
+    },
+    {
+      name: 'KillChains',
+      path: 'killchains',
+      component: KillChains
     }
   ]
 }

@@ -1,8 +1,12 @@
 """Interface definition for Yeti DB connectors."""
 
 
+from marshmallow.exceptions import ValidationError as MarshmallowValidationError
+
 from yeti.core.errors import ValidationError
+
 from .arango import ArangoYetiConnector, ArangoYetiSchema
+
 
 class YetiObject(ArangoYetiConnector):
     """Generic Yeti object.
@@ -27,6 +31,21 @@ class YetiObject(ArangoYetiConnector):
         return '<{type:s}({key!r})>'.format(
             type=self.__class__.__name__,
             key=self.value if hasattr(self, 'value') else self.name)
+
+    @classmethod
+    def load(cls, args, strict=False):
+        """Loads data from a dictionary into the corresponding YetiObject.
+
+        Args:
+          args: key:value dictionary with which to populate fields in the
+              YetiObject
+        """
+        try:
+            if isinstance(args, list):
+                return [cls.load(doc, strict=strict) for doc in args]
+            return cls.load_object_from_type(args, strict=strict)
+        except MarshmallowValidationError as e:
+            raise ValidationError(e.messages)
 
     @classmethod
     def load_object_from_type(cls, obj, strict=False):

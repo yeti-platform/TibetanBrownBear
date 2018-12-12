@@ -1,14 +1,16 @@
 [
     {
         "name": "lockheed-martin-cyber-kill-chain",
+        "description": "Lockheed Martin Cyber kill chain",
+        "human_name": "Lockheed Martin Cyber kill chain",
         "phases": [
-            "reconnaissance",
-            "weaponization",
-            "delivery",
-            "exploitation",
-            "installation",
-            "command-and-control",
-            "actions-on-objectives"
+            {"name": "reconnaissance", "description": ""},
+            {"name": "weaponization", "description": ""},
+            {"name": "delivery", "description": ""},
+            {"name": "exploitation", "description": ""},
+            {"name": "installation", "description": ""},
+            {"name": "command-and-control", "description": ""},
+            {"name": "actions-on-objectives", "description": ""}
         ]
     }
 ]

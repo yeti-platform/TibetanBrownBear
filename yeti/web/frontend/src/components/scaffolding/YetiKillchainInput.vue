@@ -8,7 +8,7 @@
                     :add-on-key="[13, 188, 186]"
                     :separators="[',', ';']"
                     :autocomplete-items="filteredItems" />
-    <small>Current killchain: <code>{{this.killchainName}}</code></small>
+    <small>Selected killchain: <code>{{this.killchainName}}</code></small>
   </div>
 </template>
 
@@ -17,24 +17,24 @@ import axios from 'axios'
 import VueTagsInput from '@johmun/vue-tags-input'
 
 export default {
-  props: ['value'],
+  props: ['value', 'killchainName'],
   components: {
     VueTagsInput
   },
   data () {
     return {
-      killchainName: 'lockheed-martin-cyber-kill-chain',
-      listItems: [],
       item: '',
-      autocompleteValues: []
+      autocompleteValues: [],
+      killchainPhases: []
     }
   },
   methods: {
     deletingPhase (event) {
       for (var i in this.killchainPhases) {
-        if (this.killchainPhases[i].phase_name === event.tag.text) {
+        if (this.killchainPhases[i].phase_name === event.tag.text && this.killchainPhases[i].kill_chain_name === this.killchainName) {
           this.killchainPhases.splice(i, 1)
           event.deleteTag()
+          this.$emit('input', this.killchainPhases)
         }
       }
     },
@@ -49,7 +49,7 @@ export default {
     getKillchainPhases: function () {
       axios.get('settings/killchains/' + this.killchainName + '/').then(response => {
         if (response.status === 200) {
-          this.autocompleteValues = response.data.map(item => Object({text: item}))
+          this.autocompleteValues = response.data.map(item => Object({text: item.name}))
         }
       })
     }
@@ -57,12 +57,16 @@ export default {
   computed: {
     filteredItems () {
       return (this.autocompleteValues || []).filter(item => new RegExp(this.item, 'i').test(item.text))
+    },
+    listItems () {
+      return (this.killchainPhases || [])
+        .filter(item => (item.kill_chain_name) === this.killchainName)
+        .map(item => Object({text: item['phase_name']}))
     }
   },
   mounted () {
-    this.killchainPhases = (this.value || [])
-    this.listItems = (this.value || []).map(item => Object({text: item['phase_name']}))
     this.getKillchainPhases()
+    this.killchainPhases = this.value
   }
 }
 </script>

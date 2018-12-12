@@ -12,10 +12,15 @@
         <input type="password" class="form-control" id="password" v-model="password" placeholder="Password">
       </div>
       <button type="submit" v-bind:class="{ disabled: canSubmit }" class="btn btn-primary">Log in</button>
-      <div v-if="error" class="card text-white bg-danger mt-3 login-error">
-        <div class="card-body">
-          <h5 class="card-title">Authentication error</h5>
-          <p class="card-text">{{error}}</p>
+      <div v-if="error">
+        <div class="alert alert-danger mt-2" role="alert">
+          <h4>
+            Authentication error
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </h4>
+          {{error}}
         </div>
       </div>
     </form>
@@ -63,11 +68,6 @@ export default {
   margin: auto;
   width: 100%;
   margin-top: 5rem;
-}
-
-.login-error {
-  max-width: 18rem;
-  margin: auto;
 }
 
 </style>

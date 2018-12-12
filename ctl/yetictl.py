@@ -15,6 +15,7 @@ cli.add_command(webserver.webserver)
 cli.add_command(taxii_import.taxii_import)
 cli.add_command(vocab_import.vocab_import)
 cli.add_command(killchain_import.killchain_import)
+cli.add_command(killchain_import.mitre_tactics_import)
 cli.add_command(user_admin.add_user)
 cli.add_command(user_admin.reset_password)
 

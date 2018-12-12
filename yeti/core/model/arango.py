@@ -1,20 +1,20 @@
 """Class implementing a YetiConnector interface for ArangoDB."""
-import time
-import sys
 import json
+import sys
+import time
 
-from arango import ArangoClient
-from arango.exceptions import DocumentInsertError, GraphCreateError, DocumentUpdateError
-from marshmallow import Schema, fields
-from marshmallow.exceptions import ValidationError as MarshmallowValidationError
 import requests
-from stix2 import Relationship as StixRelationship
+from arango import ArangoClient
+from arango.exceptions import (DocumentInsertError, DocumentUpdateError,
+                               GraphCreateError)
 from dateutil import parser
+from marshmallow import Schema, fields
+from stix2 import Relationship as StixRelationship
 
-from yeti.core.errors import ValidationError, IntegrityError
 from yeti.common.config import yeti_config
-from .interfaces import AbstractYetiConnector
+from yeti.core.errors import IntegrityError, ValidationError
 
+from .interfaces import AbstractYetiConnector
 
 LINK_TYPE_TO_GRAPH = {
     'tagged': 'tags',
@@ -129,22 +129,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         self._arango_id = None
 
     @classmethod
-    def load(cls, args, strict=False):
-        """Loads data from a dictionary into the corresponding YetiObject.
-
-        Args:
-          args: key:value dictionary with which to populate fields in the
-              YetiObject
-        """
-        try:
-            if isinstance(args, list):
-                return [cls.load(doc, strict=strict) for doc in args]
-            return cls.load_object_from_type(args, strict=strict)
-        except MarshmallowValidationError as e:
-            raise ValidationError(e.messages)
-
-    @classmethod
-    def _load_yeti(cls, args):
+    def load_stix(cls, args):
         """Translate information from the backend into a valid Yeti object.
 
         Will instantiate a Yeti object from that definition.
@@ -160,7 +145,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
               serialized data.
         """
         if isinstance(args, list):
-            return [cls._load_yeti(item) for item in args]
+            return [cls.load_stix(item) for item in args]
         subclass = cls.get_final_datatype(args)
         db_id = args.pop('_id', None)
         args.pop('_rev', None)

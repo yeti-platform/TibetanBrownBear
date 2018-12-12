@@ -70,7 +70,7 @@ class StixCYBOX(StixObject):
     @classmethod
     def load(cls, args, strict=True):  # pylint: disable=unused-argument
         """Load a serialized CYBOX object from the database."""
-        return cls._load_yeti(args)
+        return cls.load_stix(args)
 
 
     @property

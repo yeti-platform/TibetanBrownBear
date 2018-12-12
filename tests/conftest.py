@@ -21,6 +21,7 @@ from yeti.core.indicators.yara import Yara
 # Make sure we are not deleting the user's database when running tests
 from yeti.core.model.arango import db
 # Settings
+from yeti.core.model.settings.setting import Setting
 from yeti.core.model.settings.vocabs import Vocabs
 from yeti.core.model.user import User
 from yeti.core.observables.hostname import Hostname
@@ -69,12 +70,12 @@ def clean_db():
 
 @pytest.fixture
 def populate_settings():
-    vocabs = Vocabs().save()
-    vocabs.set_vocab('malware-label-ov', sorted([
+    v = Setting(name='malware-label-ov', type='vocab').save()
+    v.set_vocab(sorted([
         'adware',
         'backdoor'
     ]))
-    return [vocabs]
+    return [v]
 
 @pytest.fixture
 def populate_hostnames():

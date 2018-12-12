@@ -1,11 +1,12 @@
-from flask_classful import FlaskView, route
+from flask_classful import route
 from flask import request
 
 from yeti.core.model.settings.setting import Setting
 from yeti.core.errors import RuntimeException
 from ..helpers import as_json, auth_required
+from .generic import GenericResource
 
-class SettingsResource(FlaskView):
+class SettingsResource(GenericResource):
     """Class describing resources to manipulate Yeti settings."""
 
     route_base = '/settings/'
@@ -13,27 +14,44 @@ class SettingsResource(FlaskView):
     searchargs = None
     fulltext_searchargs = None
 
+    # ============ VOCABS ============
+
     @as_json
     @route('/vocabs/<vocab>/', methods=['GET'])
     @auth_required
     def get_vocab(self, vocab):
         """Return defined vocabularies."""
         try:
-            v = Setting.get_or_create(name='vocabs')
-            return v.get_vocab(vocab)
+            v = Setting.find(name=vocab)
+            if not v:
+                return '', 404
+            return v.get_vocab()
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/vocabs/<vocab>/', methods=['POST'])
+    @auth_required
+    def add_value_to_vocab(self, vocab):
+        """Set a vocabulary."""
+        value = request.json['value']
+        try:
+            v = Setting.get_or_create(name=vocab, type='vocab')
+            v.add_value_to_vocab(value)
+            return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
 
     @as_json
     @route('/vocabs/<vocab>/', methods=['PUT'])
     @auth_required
-    def add_value_to_vocab(self, vocab):
+    def set_values_for_vocab(self, vocab):
         """Set a vocabulary."""
-        value = request.json['value']
+        values = request.json['values']
         try:
-            v = Setting.find(name='vocabs')
-            v.add_value_to_vocab(vocab, value)
-            return v.get_vocab(vocab)
+            v = Setting.get_or_create(name=vocab, type='vocab')
+            v.set_vocab(values)
+            return v.get_vocab()
         except RuntimeException as exception:
             return exception, 400
 
@@ -43,12 +61,26 @@ class SettingsResource(FlaskView):
     def remove_value_from_vocab(self, vocab):
         """Remove a value from a vocab."""
         value = request.json['value']
-        v = Setting.find(name='vocabs')
+        v = Setting.find(name=vocab)
+        if not v:
+            return '', 404
         try:
-            v.remove_value_from_vocab(vocab, value)
+            v.remove_value_from_vocab(value)
         except RuntimeException as exception:
             return exception, 400
-        return v.get_vocab(vocab)
+        return v.get_vocab()
+
+    # ============ Kill Chains ============
+
+    @as_json
+    @route('/killchains/', methods=['GET'])
+    @auth_required
+    def get_killchains(self):
+        """Return all killchains"""
+        try:
+            return Setting.filter({'type': 'killchain'})
+        except RuntimeException as exception:
+            return exception, 400
 
     @as_json
     @route('/killchains/<killchain>/', methods=['GET'])
@@ -56,21 +88,36 @@ class SettingsResource(FlaskView):
     def get_killchain(self, killchain):
         """Return defined killchains."""
         try:
-            v = Setting.get_or_create(name='killchains')
-            return v.get_killchain(killchain)
+            kc = Setting.find(name=killchain)
+            if not kc:
+                return '', 404
+            return kc.get_killchain()
+        except RuntimeException as exception:
+            return exception, 400
+
+    @as_json
+    @route('/killchains/<killchain>/', methods=['POST'])
+    @auth_required
+    def add_phase_to_killchain(self, killchain):
+        """Set phases for a killchain."""
+        phase = request.json['phase']
+        try:
+            kc = Setting.get_or_create(name=killchain)
+            kc.add_phase_to_killchain(phase)
+            return kc.get_killchain()
         except RuntimeException as exception:
             return exception, 400
 
     @as_json
     @route('/killchains/<killchain>/', methods=['PUT'])
     @auth_required
-    def add_phase_to_killchain(self, killchain):
+    def set_killchain_pahses(self, killchain):
         """Set phases for a killchain."""
-        phase = request.json['phase']
+        phases = request.json['phases']
         try:
-            kc = Setting.find(name='killchains')
-            kc.add_phase_to_killchain(killchain, phase)
-            return kc.get_killchain(killchain)
+            kc = Setting.get_or_create(name=killchain)
+            kc.set_phases(phases)
+            return kc.get_killchain()
         except RuntimeException as exception:
             return exception, 400
 
@@ -80,9 +127,11 @@ class SettingsResource(FlaskView):
     def remove_phase_from_killchain(self, killchain):
         """Remove a phase from a killchain."""
         phase = request.json['phase']
-        kc = Setting.find(name='killchains')
+        kc = Setting.find(name=killchain)
+        if not kc:
+            return '', 404
         try:
-            kc.remove_phase_from_killchain(killchain, phase)
+            kc.remove_phase_from_killchain(phase)
         except RuntimeException as exception:
             return exception, 400
-        return kc.get_killchain(killchain)
+        return kc.get_killchain()
