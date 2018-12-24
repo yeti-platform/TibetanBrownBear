@@ -19,6 +19,7 @@ rq = "*"
 "stix2" = "*"
 "taxii2-client" = "*"
 pyjwt = "*"
+sigmatools = "*"
 
 [dev-packages]
 pytest = "*"
