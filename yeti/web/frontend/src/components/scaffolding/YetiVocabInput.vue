@@ -71,6 +71,9 @@ export default {
   watch: {
     'value': function (val) {
       this.vocabList = val
+      if (val === undefined) {
+        this.vocabList = []
+      }
     }
   }
 }

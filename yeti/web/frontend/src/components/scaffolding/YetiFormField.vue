@@ -88,7 +88,6 @@ export default {
   },
   mounted () {
     this.bufferValue = this.value
-    console.log(this.bufferValue)
     this.fetchKillchains()
   },
   watch: {
