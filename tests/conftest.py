@@ -229,7 +229,6 @@ def authenticated_client(populate_users):
 
 @pytest.fixture
 def populate_all():
-    clean_db()
     populate_hostnames()
     populate_urls()
     populate_ips()
