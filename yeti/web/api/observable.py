@@ -35,24 +35,6 @@ class ObservableResource(GenericResource):
     }
 
     @as_json
-    @route('/<id>/tag', methods=['POST'])
-    @auth_required
-    def tag(self, id):  # pylint: disable=redefined-builtin
-        """Updates a given object.
-
-        Args:
-            id: The object's primary ID.
-
-        Returns:
-            A JSON representation of the requested object, or a 404 HTTP
-            status code if the object cannot be found.
-        """
-        args = parser.parse(self.tagargs, request)
-        obj = get_object_or_404(self.resource_object, id)
-        obj.tag(args['tags'])
-        return obj
-
-    @as_json
     @route('/<id>/', methods=['PUT'])
     @auth_required
     def put(self, id):  # pylint: disable=redefined-builtin
