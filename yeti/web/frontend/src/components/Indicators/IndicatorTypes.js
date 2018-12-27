@@ -10,5 +10,9 @@ export const indicatorTypes = {
   'x-yara': {
     'plural': 'Yara rules',
     'singular': 'Yara rule'
+  },
+  'x-sigma': {
+    'plural': 'Sigma rules',
+    'singular': 'Sigma rule'
   }
 }

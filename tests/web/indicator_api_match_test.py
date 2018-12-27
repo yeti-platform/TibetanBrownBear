@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-@pytest.mark.usefixtures('populate_all')
+@pytest.mark.usefixtures('clean_db', 'populate_yara_rules')
 def test_yara_rule_match(authenticated_client):
     json_data = [{'encoding': 'b64', 'data': 'TVoAAAA='}]
     rv = authenticated_client.post('/api/indicators/match/',
@@ -15,7 +15,7 @@ def test_yara_rule_match(authenticated_client):
     assert len(response) == 1
     assert response[0]['name'] == 'MZ'
 
-@pytest.mark.usefixtures('populate_all')
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_regex_match(authenticated_client):
     json_data = [{
         'encoding': 'utf-8',
