@@ -1,10 +1,9 @@
-import base64
-
-from stix2 import CustomObject, properties, KillChainPhase
 import yaml
 from sigma import parser
+from stix2 import CustomObject, KillChainPhase, properties
 
 from yeti.core.errors import ValidationError
+
 from .indicator_base import Indicator
 
 
