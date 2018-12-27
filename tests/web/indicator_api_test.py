@@ -4,7 +4,7 @@ import json
 
 import pytest
 
-@pytest.mark.usefixtures('clean_db', 'populate_all')
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_regex_filter(authenticated_client):
     json_data = {'name': '', 'type': 'x-regex'}
     rv = authenticated_client.post(
@@ -19,7 +19,7 @@ def test_regex_filter(authenticated_client):
         assert item['id'].startswith('x-regex--')
 
 
-@pytest.mark.usefixtures('clean_db', 'populate_all')
+@pytest.mark.usefixtures('clean_db', 'populate_regex')
 def test_regex_filter_on_name(authenticated_client):
     json_data = {'name': 'Zeus', 'type': 'x-regex'}
     rv = authenticated_client.post(

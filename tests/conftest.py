@@ -225,13 +225,3 @@ def authenticated_client(populate_users):
     AuthenticatedFlaskClient.token = token
     app.test_client_class = AuthenticatedFlaskClient
     return app.test_client()
-
-
-@pytest.fixture
-def populate_all():
-    populate_hostnames()
-    populate_urls()
-    populate_ips()
-    populate_malware()
-    populate_regex()
-    populate_yara_rules()
