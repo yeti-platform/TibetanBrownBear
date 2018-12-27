@@ -1,5 +1,4 @@
 """Tests for the Stix2 bindings."""
-from datetime import datetime
 
 import pytest
 
