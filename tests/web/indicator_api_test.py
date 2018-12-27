@@ -89,3 +89,28 @@ def test_regex_invalid(authenticated_client):
     assert 'ValidationError' in response
     assert 'valid_from' in response['ValidationError']
     assert 'No values for required properties' in response['ValidationError']
+
+@pytest.mark.usefixtures('clean_db')
+def test_indicator_update(authenticated_client, populate_regex):
+    """Tests updating an indicator."""
+    regex = populate_regex[0]
+    rv = authenticated_client.put(
+        '/api/indicators/{0:s}/'.format(regex.id),
+        data=json.dumps({'name': 'NewName'}),
+        content_type='application/json')
+    assert rv.status_code == 200
+    response = json.loads(rv.data)
+    assert response['name'] == 'NewName'
+
+@pytest.mark.usefixtures('clean_db')
+def test_bad_indicator_update(authenticated_client, populate_regex):
+    """Tests updating an indicator."""
+    regex = populate_regex[0]
+    rv = authenticated_client.put(
+        '/api/indicators/{0:s}/'.format(regex.id),
+        data=json.dumps({'pattern': r'['}),
+        content_type='application/json')
+    assert rv.status_code == 400
+    response = json.loads(rv.data)
+    assert 'ValidationError' in response
+    assert 'not a valid regular expression' in response['ValidationError']
