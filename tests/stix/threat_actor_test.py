@@ -12,7 +12,7 @@ def test_threat_actor_creation():
     threat_actor = ThreatActor(
         name='APT28',
         description='Bears...',
-        roles='spies',
+        roles=['spies'],
         sophistication='advanced',
         labels=['label1'],
         aliases=['Sofacy'],
@@ -33,7 +33,7 @@ def test_update_threat_actor():
     threat_actor = ThreatActor(
         name='APT28',
         description='Bears...',
-        roles='spies',
+        roles=['spies'],
         sophistication='advanced',
         labels=['label1'],
         aliases=['Sofacy'],
@@ -49,7 +49,7 @@ def test_update_threat_actor():
     assert updated.id == stix_id
     assert updated.name == 'FancyBear'
     assert updated.description == 'Bears...'
-    assert updated.roles == 'spies'
+    assert updated.roles == ['spies']
     assert updated.sophistication == 'advanced'
     assert updated.labels == ['label1']
     assert updated.aliases == ['Sofacy']
