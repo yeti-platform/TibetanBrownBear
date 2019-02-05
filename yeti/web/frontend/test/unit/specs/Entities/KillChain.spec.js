@@ -51,5 +51,4 @@ describe('KillChainView.vue', () => {
       'name': 'foo'
     }])
   })
-
 })
