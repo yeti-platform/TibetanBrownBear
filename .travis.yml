@@ -1,6 +1,8 @@
 
 sudo: required
 
+os: linux
+dist: xenial
 language: python
 python: "3.6"
 node_js: "10"
