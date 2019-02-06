@@ -1,5 +1,6 @@
 import yaml
-from sigma import parser
+from sigma.parser.collection import SigmaCollectionParser
+from sigma.parser.exceptions import SigmaParseError, SigmaCollectionParseError
 from stix2 import CustomObject, KillChainPhase, properties
 
 from yeti.core.errors import ValidationError
@@ -19,10 +20,10 @@ from .indicator_base import Indicator
 class StixSigma():
     def __init__(self, pattern=None, **_):
         try:
-            parser.SigmaCollectionParser(self.pattern)
+            SigmaCollectionParser(self.pattern)
         except (yaml.parser.ParserError, yaml.scanner.ScannerError) as e:
             raise ValidationError('{0:s} is not a valid YAML markup: {1!s}'.format(pattern, e))
-        except (parser.SigmaParseError, parser.SigmaCollectionParseError) as e:
+        except (SigmaParseError, SigmaCollectionParseError) as e:
             raise ValidationError('{0:s} is not a valid Sigma rule: {1!s}'.format(pattern, e))
 
 
