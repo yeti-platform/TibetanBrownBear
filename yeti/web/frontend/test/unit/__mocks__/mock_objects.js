@@ -217,6 +217,7 @@ const mockAsyncJobList = [
   }
 ]
 
+module.exports.mockNeighbors = mockNeighbors
 module.exports.mockKillChains = mockKillChains
 module.exports.mockVocabs = mockVocabs
 module.exports.mockMalware = mockMalware
