@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 python-arango = "*"
-marshmallow = "*"
+marshmallow = "<3"
 flask = "*"
 flask-classful = "*"
 webargs = "*"
@@ -20,6 +20,7 @@ rq = "*"
 "taxii2-client" = "*"
 pyjwt = "*"
 sigmatools = "*"
+pyyaml = ">=4.2b1"
 
 [dev-packages]
 pytest = "*"
