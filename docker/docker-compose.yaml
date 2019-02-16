@@ -16,7 +16,7 @@ services:
     restart: always
 
   yeti:
-    image: yetiplatform/tibetanbrownbear
+    image: yetiplatform/tibetanbrownbear:dev
     ports:
       - 5000:5000
     links:
@@ -28,6 +28,8 @@ services:
       - YETI_WEB_LISTEN_PORT=5000
       - YETI_ASYNC_ENABLED=True
       - YETI_REDIS_SERVER=redis
+    entrypoint:
+      - /docker-entrypoint.sh
     restart: always
     depends_on:
       - arangodb
