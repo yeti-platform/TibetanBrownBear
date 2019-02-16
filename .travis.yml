@@ -1,6 +1,8 @@
 
 sudo: required
 
+os: linux
+dist: xenial
 language: python
 python: "3.6"
 node_js: "10"
@@ -11,9 +13,9 @@ services:
   - redis-server
 
 before_install:
-  - wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+  - curl -OL https://download.arangodb.com/arangodb34/DEBIAN/Release.key
   - sudo apt-key add Release.key
-  - sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
+  - sudo apt-add-repository 'deb https://download.arangodb.com/arangodb34/DEBIAN/ /'
   - sudo apt-get update -y
   - sudo apt-get install arangodb3 --allow-unauthenticated
   - npm i -g npm@latest
