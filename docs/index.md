@@ -2,6 +2,17 @@
 
 Welcome to Yeti's documentation.
 
+## Installation guides
+
+```eval_rst
+.. toctree::
+   :maxdepth: 2
+
+   docker
+   development-environment
+```
+
+
 ## User's guide
 
 There's no user guide yet, but stay tuned.
@@ -25,14 +36,4 @@ Ditto, no API reference yet.
 
    api
    python_api
-```
-
-
-## Developer's guide
-
-```eval_rst
-.. toctree::
-   :maxdepth: 3
-
-   development-environment
 ```

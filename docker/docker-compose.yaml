@@ -28,6 +28,9 @@ services:
       - YETI_WEB_LISTEN_PORT=5000
       - YETI_ASYNC_ENABLED=True
       - YETI_REDIS_SERVER=redis
+    entrypoint:
+      - /docker-entrypoint.sh
+      - bootstrap-webserver
     restart: always
     depends_on:
       - arangodb
