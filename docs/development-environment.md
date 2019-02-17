@@ -143,28 +143,3 @@ $ make html
 # opens the file for viewing (MacOS)
 $ open _build/html/index.html
 ```
-
-## Using docker
-
-### Clone the repo
-
-    $ git clone https://github.com/yeti-platform/TibetanBrownBear.git
-    $ cd TibetanBrownBear
-
-### Build the image
-
-    $ docker build -t yetiplatform/tibetanbrownbear .
-
-The tag `yetiplatform/tibetanbrownbear` will be used in the compose file.
-
-### Run the application
-
-    $ docker-compose -f docker/docker-compose.yaml up
-
-The `docker-compose up` command should start a working container listening for connections on `http://localhost:5000/`.
-
-### Create the first user
-
-    $ docker-compose -f docker/docker-compose.yaml exec yeti python3 ctl/yetictl.py add-user admin@yourorg.com --admin
-
-The command will prompt for the user password and then create it.

@@ -8,9 +8,8 @@ if [[ "$1" =~ "bootstrap-webserver" ]]; then
     python3 /opt/yeti/ctl/yetictl.py mitre-tactics-import
     python3 /opt/yeti/ctl/yetictl.py vocab-import
     python3 /opt/yeti/ctl/yetictl.py killchain-import
-    python3 /opt/yeti/ctl/yetictl.py add-user admin@admin.com
+    python3 /opt/yeti/ctl/yetictl.py add-user admin@admin.com --password RESETME
     exec python3 /opt/yeti/ctl/yetictl.py webserver
-
 fi
 
 if [[ "$1" =~ "webserver" ]]; then
