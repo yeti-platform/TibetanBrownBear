@@ -30,6 +30,8 @@ services:
       - YETI_REDIS_SERVER=redis
     entrypoint:
       - /docker-entrypoint.sh
+      - bootstrap
+      - webserver
     restart: always
     depends_on:
       - arangodb
