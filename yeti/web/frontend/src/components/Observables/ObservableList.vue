@@ -15,8 +15,8 @@ export default {
       filterParams: {
         apiPath: `/observables/filter/`,
         fields: [
-          {name: 'value', type: 'text'},
-          {name: 'tags', type: 'tags'}
+          { name: 'value', type: 'text' },
+          { name: 'tags', type: 'tags' }
         ],
         queryKey: 'value'
       }

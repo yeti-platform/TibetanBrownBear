@@ -31,7 +31,7 @@ before_script:
 
 script:
   - pytest tests --verbose
-  - cd yeti/web/frontend && npm run unit
+  - cd yeti/web/frontend && npm run test:unit
   - cd ../../../docs && make html
 
 after_success:

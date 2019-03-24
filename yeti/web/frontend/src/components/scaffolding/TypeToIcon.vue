@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     classArray () {
-      return ['fas', 'fa-fw', typeToIcon[this.type], {'fa-lg': this.large}]
+      return ['fas', 'fa-fw', typeToIcon[this.type], { 'fa-lg': this.large }]
     }
   }
 }

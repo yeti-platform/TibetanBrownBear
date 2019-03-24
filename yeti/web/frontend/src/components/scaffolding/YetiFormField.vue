@@ -38,10 +38,12 @@
           :autocompleteVocab="field['vocab']" />
 
       <!-- killchain input -->
-      <yeti-killchain-input v-if="field.type === 'killchain'" v-model="bufferValue"
+      <div v-if="field.type === 'killchain'">
+        <yeti-killchain-input v-model="bufferValue"
           v-for="killchain in availableKillchains" v-bind:key="killchain.name"
           :killchainName="killchain.name"
           class="mb-2"/>
+      </div>
 
       <small v-if="field.help" :id="slug+'-help'" class="form-text text-muted">{{field.help}}</small>
     </div>

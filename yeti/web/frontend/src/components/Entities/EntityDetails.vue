@@ -217,10 +217,8 @@ export default {
   },
   computed: {
     entityType () {
-      if (this.entity.type) {
-        let arr = this.entity.type.split('.')
-        return arr[arr.length - 1]
-      }
+      let arr = this.entity.type.split('.')
+      return arr[arr.length - 1]
     },
     entityFields () {
       return editFields[this.entityType]
@@ -252,7 +250,7 @@ export default {
       var properties = []
       for (var prop in entity) {
         if (this.isSpecifcAttribute(entity, prop)) {
-          properties.push({value: entity[prop], name: prop})
+          properties.push({ value: entity[prop], name: prop })
         }
       }
       return properties
@@ -261,7 +259,7 @@ export default {
       var properties = []
       for (var prop in entity) {
         if (this.isExtendedAttribute(entity, prop)) {
-          properties.push({value: entity[prop], name: prop})
+          properties.push({ value: entity[prop], name: prop })
         }
       }
       return properties

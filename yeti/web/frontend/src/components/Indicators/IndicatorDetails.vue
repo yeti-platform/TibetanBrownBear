@@ -211,10 +211,8 @@ export default {
   },
   computed: {
     indicatorType () {
-      if (this.indicator.type) {
-        let arr = this.indicator.type.split('.')
-        return arr[arr.length - 1]
-      }
+      let arr = this.indicator.type.split('.')
+      return arr[arr.length - 1]
     },
     indicatorFields () {
       return editFields[this.indicatorType]
@@ -246,7 +244,7 @@ export default {
       var properties = []
       for (var prop in indicator) {
         if (this.isSpecifcAttribute(indicator, prop)) {
-          properties.push({value: indicator[prop], name: prop})
+          properties.push({ value: indicator[prop], name: prop })
         }
       }
       return properties
@@ -255,7 +253,7 @@ export default {
       var properties = []
       for (var prop in indicator) {
         if (this.isExtendedAttribute(indicator, prop)) {
-          properties.push({value: indicator[prop], name: prop})
+          properties.push({ value: indicator[prop], name: prop })
         }
       }
       return properties

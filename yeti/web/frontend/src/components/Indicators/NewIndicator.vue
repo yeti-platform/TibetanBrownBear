@@ -23,7 +23,7 @@ export default {
   props: ['type'],
   methods: {
     navigateToNew: function (data) {
-      this.$router.push({name: 'IndicatorDetails', params: {id: data.id}})
+      this.$router.push({ name: 'IndicatorDetails', params: { id: data.id } })
     }
   }
 }
