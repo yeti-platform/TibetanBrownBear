@@ -21,7 +21,7 @@ describe('ObservableDetails.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: routes, mode: 'history'})
+    let router = new Router({ routes: routes, mode: 'history' })
     fetchInfoSpy = jest.spyOn(ObservableDetails.methods, 'fetchInfo')
     localWrp = shallowMount(ObservableDetails, {
       localVue,
@@ -50,8 +50,8 @@ describe('ObservableDetails.vue', () => {
 
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.observableFields).toEqual([
-      {name: 'value', type: 'text'},
-      {name: 'tags', type: 'tags'}
+      { name: 'value', type: 'text' },
+      { name: 'tags', type: 'tags' }
     ])
   })
 

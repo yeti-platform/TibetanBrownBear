@@ -21,7 +21,7 @@ describe('EntityDetails.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: routes, mode: 'history'})
+    let router = new Router({ routes: routes, mode: 'history' })
     fetchInfoSpy = jest.spyOn(EntityDetails.methods, 'fetchInfo')
     localWrp = shallowMount(EntityDetails, {
       localVue,
@@ -50,10 +50,10 @@ describe('EntityDetails.vue', () => {
 
   it('correctly determines the fields depending on the type', () => {
     expect(localWrp.vm.entityFields).toEqual([
-      {name: 'name', type: 'text', humanName: 'Name'},
-      {name: 'labels', type: 'list', vocab: 'malware-label-ov', humanName: 'Labels'},
-      {name: 'description', type: 'longtext', humanName: 'Description'},
-      {name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage'}
+      { name: 'name', type: 'text', humanName: 'Name' },
+      { name: 'labels', type: 'list', vocab: 'malware-label-ov', humanName: 'Labels' },
+      { name: 'description', type: 'longtext', humanName: 'Description' },
+      { name: 'kill_chain_phases', type: 'killchain', humanName: 'Kill-chain stage' }
     ])
   })
 

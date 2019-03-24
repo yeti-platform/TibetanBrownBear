@@ -19,7 +19,7 @@ describe('YetiForm.vue', () => {
   it('should correctly submit object information', (done) => {
     let wrapper = shallowMount(YetiForm, {
       propsData: {
-        fields: [{name: 'name', type: 'text'}],
+        fields: [{ name: 'name', type: 'text' }],
         apiPath: '/fake/api/path',
         method: 'PUT',
         object: mockObjects.mockMalware
@@ -39,7 +39,7 @@ describe('YetiForm.vue', () => {
   it('correctly calls the onsavecallback function', () => {
     let wrapper = shallowMount(YetiForm, {
       propsData: {
-        fields: [{name: 'name', type: 'text'}],
+        fields: [{ name: 'name', type: 'text' }],
         apiPath: '/fake/api/path',
         method: 'PUT',
         object: mockObjects.mockMalware

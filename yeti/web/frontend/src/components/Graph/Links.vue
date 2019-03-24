@@ -72,7 +72,6 @@
 
 <script>
 import axios from 'axios'
-import TableFilter from '@/components/scaffolding/TableFilter'
 import TypeToIcon from '@/components/scaffolding/TypeToIcon'
 import MarkdownText from '@/components/scaffolding/MarkdownText'
 import NewLink from '@/components/Graph/NewLink'
@@ -83,7 +82,6 @@ import NeighborIcons from '@/components/Graph/NeighborIcons'
 
 export default {
   components: {
-    TableFilter,
     TypeToIcon,
     MarkdownText,
     NewLink,

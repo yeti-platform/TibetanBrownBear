@@ -35,7 +35,7 @@ export default {
       this.observables = this.rawInput.split('\n').map(item => item.trim()).filter(item => item.length)
     },
     sendMatchQuery: function () {
-      axios.post(this.defaultApiPath, {observables: this.observables})
+      axios.post(this.defaultApiPath, { observables: this.observables })
         .then(response => {
           if (response.status !== 200) {
             this.error = response.data

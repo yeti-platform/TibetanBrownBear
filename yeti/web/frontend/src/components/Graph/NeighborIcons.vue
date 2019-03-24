@@ -17,7 +17,7 @@ export default {
   },
   props: {
     entity: Object,
-    neighbors: { type: Object, default: function () { return {edges: [], vertices: []} } }
+    neighbors: { type: Object, default: function () { return { edges: [], vertices: [] } } }
   },
   data () {
     return {

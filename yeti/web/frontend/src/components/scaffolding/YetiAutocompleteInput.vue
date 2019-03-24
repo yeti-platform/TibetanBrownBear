@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     filteredItems () {
-      return this.autocompleteItems.filter(item => new RegExp(this.item, 'i').test(item.name)).map(item => Object({text: item.name}))
+      return this.autocompleteItems.filter(item => new RegExp(this.item, 'i').test(item.name)).map(item => Object({ text: item.name }))
     }
   },
   mounted () {

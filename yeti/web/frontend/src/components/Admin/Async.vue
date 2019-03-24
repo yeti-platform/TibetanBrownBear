@@ -29,13 +29,13 @@ export default {
       filterParams: {
         apiPath: apiRoot + 'filter',
         fields: [
-          {name: 'name', type: 'text'},
-          {name: 'last_executed', type: 'datetime'},
-          {name: 'period', type: 'text'},
-          {name: 'enabled', type: 'text'},
-          {name: 'status', type: 'text'},
-          {calls: this.toggle, type: 'action', label: 'Toggle'},
-          {calls: this.execute, type: 'action', label: 'Execute'}
+          { name: 'name', type: 'text' },
+          { name: 'last_executed', type: 'datetime' },
+          { name: 'period', type: 'text' },
+          { name: 'enabled', type: 'text' },
+          { name: 'status', type: 'text' },
+          { calls: this.toggle, type: 'action', label: 'Toggle' },
+          { calls: this.execute, type: 'action', label: 'Execute' }
         ],
         queryKey: 'name'
       },

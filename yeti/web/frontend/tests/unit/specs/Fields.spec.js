@@ -7,7 +7,7 @@ describe('Fields.vue', () => {
   it('should correctly render generic text fields', () => {
     let wrapper = shallowMount(Fields, {
       propsData: {
-        field: {name: 'name', type: 'text'}, elt: mockObjects.mockMalware
+        field: { name: 'name', type: 'text' }, elt: mockObjects.mockMalware
       }
     })
     expect(wrapper.text()).toBe('Gootkit')
@@ -16,7 +16,7 @@ describe('Fields.vue', () => {
   it('should correctly render list fields', () => {
     let wrapper = shallowMount(Fields, {
       propsData: {
-        field: {name: 'labels', type: 'list'}, elt: mockObjects.mockMalware
+        field: { name: 'labels', type: 'list' }, elt: mockObjects.mockMalware
       }
     })
     expect(wrapper.findAll('.labels span.badge').length).toBe(2)

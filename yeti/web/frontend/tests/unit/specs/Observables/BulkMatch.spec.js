@@ -20,7 +20,7 @@ describe('BulkMatch.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: routes, mode: 'history'})
+    let router = new Router({ routes: routes, mode: 'history' })
     localWrp = shallowMount(BulkMatch, {
       localVue,
       router
@@ -33,20 +33,20 @@ describe('BulkMatch.vue', () => {
   })
 
   it('the textarea is correctly parsed when form is submitted', () => {
-    localWrp.setData({rawInput: 'tota.com\ntoto.com\nasd'})
+    localWrp.setData({ rawInput: 'tota.com\ntoto.com\nasd' })
     localWrp.find('form').trigger('submit')
     expect(localWrp.vm.observables).toEqual(['tota.com', 'toto.com', 'asd'])
   })
 
   it('query is correcly sent', () => {
-    localWrp.setData({rawInput: 'tota.com\ntoto.com\nasd'})
+    localWrp.setData({ rawInput: 'tota.com\ntoto.com\nasd' })
     localWrp.find('form').trigger('submit')
-    let expectedParams = {observables: ['tota.com', 'toto.com', 'asd']}
+    let expectedParams = { observables: ['tota.com', 'toto.com', 'asd'] }
     expect(axios.post).toHaveBeenCalledWith('/observables/match', expectedParams)
   })
 
   it('results are correctly displayed in a <pre> tag', (done) => {
-    localWrp.setData({rawInput: 'tota.com\ntoto.com\nasd'})
+    localWrp.setData({ rawInput: 'tota.com\ntoto.com\nasd' })
     localWrp.find('form').trigger('submit')
     localWrp.vm.$nextTick(() => {
       let resultText = localWrp.find('pre').text()

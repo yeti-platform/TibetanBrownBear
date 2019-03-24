@@ -34,12 +34,10 @@
 <script>
 import axios from 'axios'
 
-import YetiForm from '@/components/scaffolding/YetiForm'
 import YetiFormField from '@/components/scaffolding/YetiFormField'
 
 export default {
   components: {
-    YetiForm,
     YetiFormField
   },
   props: ['selectedLinks'],

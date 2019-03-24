@@ -10,7 +10,7 @@ describe('Sidebar.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: routes, mode: 'history'})
+    let router = new Router({ routes: routes, mode: 'history' })
     wrapper = shallowMount(Sidebar, {
       localVue,
       router,

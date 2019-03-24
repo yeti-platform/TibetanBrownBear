@@ -33,9 +33,9 @@ export default {
       filterParams: {
         apiPath: apiRoot + 'filter/',
         fields: [
-          {name: 'name', type: 'text'},
-          {name: 'created_at', type: 'datetime'},
-          {name: 'default_expiration', type: 'text'}
+          { name: 'name', type: 'text' },
+          { name: 'created_at', type: 'datetime' },
+          { name: 'default_expiration', type: 'text' }
         ],
         queryKey: 'name'
       },

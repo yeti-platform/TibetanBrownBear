@@ -46,7 +46,7 @@ export default {
     getValuesForVocab: function () {
       axios.get('/settings/vocabs/' + this.autocompleteVocab + '/').then(response => {
         if (response.status === 200) {
-          this.autocompleteItems = response.data.map(item => Object({text: item}))
+          this.autocompleteItems = response.data.map(item => Object({ text: item }))
         }
       })
     }
@@ -57,9 +57,9 @@ export default {
     },
     listItems () {
       if (this.displayKey) {
-        return (this.vocabList || []).map(item => Object({text: item[this.displayKey]}))
+        return (this.vocabList || []).map(item => Object({ text: item[this.displayKey] }))
       } else {
-        return (this.vocabList || []).map(item => Object({text: item}))
+        return (this.vocabList || []).map(item => Object({ text: item }))
       }
     }
   },

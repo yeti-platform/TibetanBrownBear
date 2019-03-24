@@ -63,7 +63,7 @@ export default {
     },
     updateKillChain (killChain, phases) {
       this.saving = true
-      axios.put('/settings/killchains/' + killChain.name + '/', {phases: phases})
+      axios.put('/settings/killchains/' + killChain.name + '/', { phases: phases })
         .then(response => {
           killChain = response.data
         })
@@ -75,7 +75,7 @@ export default {
         })
     },
     addField (killChainPhases) {
-      killChainPhases.push({name: '', description: ''})
+      killChainPhases.push({ name: '', description: '' })
     },
     removeField (killChainPhases, phase) {
       killChainPhases.splice(killChainPhases.indexOf(phase), 1)

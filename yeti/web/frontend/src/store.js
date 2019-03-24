@@ -27,7 +27,7 @@ const state = {
 }
 
 const actions = {
-  login ({commit}, params) {
+  login ({ commit }, params) {
     return new Promise((resolve, reject) => {
       commit('authRequest')
       axios.post('/users/login/', params)
@@ -42,7 +42,7 @@ const actions = {
         })
     })
   },
-  logout ({commit}) {
+  logout ({ commit }) {
     return new Promise((resolve, reject) => {
       commit('logout')
       delete axios.defaults.headers.common['Authorization']

@@ -54,7 +54,7 @@ export const entityRoutes = {
       name: 'EntityEdit',
       path: '/entities/:id' + uuidRegex + '/edit',
       component: EntityDetails,
-      props: (route) => { return {id: route.params.id, edit: true} }
+      props: (route) => { return { id: route.params.id, edit: true } }
     }
   ]
 }
@@ -86,7 +86,7 @@ export const indicatorRoutes = {
       name: 'IndicatorEdit',
       path: '/indicators/:id' + uuidRegex + '/edit',
       component: IndicatorDetails,
-      props: (route) => { return {id: route.params.id, edit: true} }
+      props: (route) => { return { id: route.params.id, edit: true } }
     }
   ]
 }
@@ -112,7 +112,7 @@ export const observableRoutes = {
       name: 'ObservableEdit',
       path: '/observables/:id(\\d+)/edit',
       component: ObservableDetails,
-      props: (route) => { return {id: route.params.id, edit: true} }
+      props: (route) => { return { id: route.params.id, edit: true } }
     },
     {
       name: 'ObservablesBulk',

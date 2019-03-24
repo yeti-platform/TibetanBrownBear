@@ -24,7 +24,6 @@
 <script>
 import axios from 'axios'
 import YetiForm from '@/components/scaffolding/YetiForm'
-import Fields from '@/components/helpers/Fields'
 import { listFields } from './ObservableFields.js'
 
 export default {
@@ -37,8 +36,7 @@ export default {
     }
   },
   components: {
-    YetiForm,
-    Fields
+    YetiForm
   },
   props: ['id'],
   beforeRouteUpdate (to, from, next) {
@@ -50,10 +48,8 @@ export default {
       return this.$route.path.endsWith('edit')
     },
     observableType () {
-      if (this.observable.type) {
-        let arr = this.observable.type.split('.')
-        return arr[arr.length - 1]
-      }
+      let arr = this.observable.type.split('.')
+      return arr[arr.length - 1]
     },
     observableFields () {
       return listFields[this.observableType]

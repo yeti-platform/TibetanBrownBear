@@ -15,8 +15,8 @@ jest.mock('axios', () => ({
 const mockFilterParams = {
   apiPath: '/fake/api/path',
   fields: [
-    {name: 'name', type: 'text'},
-    {name: 'labels', type: 'list'}
+    { name: 'name', type: 'text' },
+    { name: 'labels', type: 'list' }
   ],
   queryKey: 'name',
   typeFilter: 'malware'
@@ -29,7 +29,7 @@ describe('TableFilter.vue', () => {
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Router)
-    let router = new Router({routes: routes, mode: 'history'})
+    let router = new Router({ routes: routes, mode: 'history' })
     wrapper = shallowMount(TableFilter, {
       localVue,
       router,
@@ -104,7 +104,7 @@ describe('TableFilter.vue', () => {
     expect(wrapper.vm.selectedElements.length).toBe(1)
     expect(wrapper.vm.selectedElements[0]).toEqual(mockObjects.mockMalwareList[0].id)
     expect(wrapper.emitted('input').length).toBe(1)
-    rows.at(1).trigger('click.exact', {shiftKey: true})
+    rows.at(1).trigger('click.exact', { shiftKey: true })
     expect(wrapper.vm.selectedElements.length).toBe(2)
     expect(wrapper.vm.selectedElements[0]).toEqual(mockObjects.mockMalwareList[0].id)
     expect(wrapper.vm.selectedElements[1]).toEqual(mockObjects.mockMalwareList[1].id)
@@ -114,7 +114,7 @@ describe('TableFilter.vue', () => {
   it('cancels a multiple selection when clicking on a single row', () => {
     let rows = wrapper.findAll('#table-filter tbody tr')
     rows.at(0).trigger('click.exact')
-    rows.at(1).trigger('click.exact', {shiftKey: true})
+    rows.at(1).trigger('click.exact', { shiftKey: true })
     rows.at(0).trigger('click.exact')
     expect(wrapper.vm.selectedElements.length).toBe(1)
     expect(wrapper.emitted('input').length).toBe(3)
@@ -122,17 +122,17 @@ describe('TableFilter.vue', () => {
 
   it('shif+clicking twice on an item cancels its selection', () => {
     let rows = wrapper.findAll('#table-filter tbody tr')
-    rows.at(0).trigger('click.exact', {shiftKey: true})
-    rows.at(1).trigger('click.exact', {shiftKey: true})
-    rows.at(1).trigger('click.exact', {shiftKey: true})
+    rows.at(0).trigger('click.exact', { shiftKey: true })
+    rows.at(1).trigger('click.exact', { shiftKey: true })
+    rows.at(1).trigger('click.exact', { shiftKey: true })
     expect(wrapper.vm.selectedElements.length).toBe(1)
     expect(wrapper.emitted('input').length).toBe(3)
   })
 
   it('selection is cleared correctly and emits an event', () => {
     let rows = wrapper.findAll('#table-filter tbody tr')
-    rows.at(0).trigger('click.exact', {shiftKey: true})
-    rows.at(1).trigger('click.exact', {shiftKey: true})
+    rows.at(0).trigger('click.exact', { shiftKey: true })
+    rows.at(1).trigger('click.exact', { shiftKey: true })
     wrapper.vm.clearSelection()
     expect(wrapper.vm.selectedElements.length).toBe(0)
     expect(wrapper.emitted('input').length).toBe(3)
