@@ -1,11 +1,10 @@
 """Main Yeti web module."""
 
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, current_app
 from .web.api.api import blueprint
 
 app = Flask(__name__,
-            static_folder='web/frontend/dist/static',
-            template_folder='web/frontend/dist')
+            static_folder='web/frontend/dist')
 app.register_blueprint(blueprint, url_prefix='/api')
 
 
@@ -15,7 +14,11 @@ def index(path): # pylint: disable=unused-argument
     if app.debug:
         import requests
         return requests.get('http://localhost:8080/' + path).text
-    return render_template("index.html")
+
+    if path.startswith('css/') or path.startswith('js/'):
+        return current_app.send_static_file(path)
+
+    return current_app.send_static_file("index.html")
 
 @app.route('/list_routes')
 def list_routes():
