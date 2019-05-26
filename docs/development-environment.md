@@ -91,7 +91,7 @@ You'll also want to add users to your database:
 
 or, if you haven't installed the scripts:
 
-    $ python ctl/yetictl.py add-user admin@yourorg.com --admin
+    $ python3 ctl/yetictl.py add-user admin@yourorg.com --admin
 
 And follow the on-screen prompts.
 
@@ -106,7 +106,7 @@ frontend is written in [Vue.js](https://vuejs.org/) so you're going to need
 $ brew install node
 
 # Ubuntu
-$ sudo apt install node
+$ sudo apt install nodejs npm
 ```
 
 To spin up a Vue.js development server (automatically reloads on each file
@@ -114,7 +114,7 @@ change, which is quite handy), run these commands from the directory in which
 you cloned Yeti::
 
     $ cd yeti/web/frontend
-    $ npm run dev
+    $ npm run serve
 
 This will build and start a webserver listening on `localhost:8080` for connections.
 
