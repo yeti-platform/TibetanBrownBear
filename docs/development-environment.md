@@ -53,20 +53,15 @@ instance listening on the default port and default interfaces.
   Setting up ArangoDB this way is dangerous for production use since it
   is not authenticated whatsoever; but it's more than enough for development
 ```
-### Linux (Ubuntu 16.04)
+### Linux (Ubuntu 18.04)
 
 Add the ArangoDB repo key to your install, update your packages and install everything as usual.
 
-    $ wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+    $ wget https://download.arangodb.com/arangodb34/DEBIAN/Release.key
     $ sudo apt-key add Release.key
-    $ sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
-    $ sudo apt-get update -y && sudo apt-get install arangodb3 --allow-unauthenticated
+    $ sudo apt-add-repository 'deb https://download.arangodb.com/arangodb34/DEBIAN/ /'
+    $ sudo apt-get update -y && sudo apt-get install arangodb3
 
-```eval_rst
-.. warning::
-  Setting up ArangoDB this way is dangerous for production use since it
-  is not authenticated whatsoever; but it's more than enough for development
-```
 
 ## Import demo data
 
