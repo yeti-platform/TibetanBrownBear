@@ -39,8 +39,8 @@ class ArangoDatabase:
             port=yeti_config.arangodb.port)
 
         sys_db = client.db(
-            '_system', 
-            username=yeti_config.arangodb.username, 
+            '_system',
+            username=yeti_config.arangodb.username,
             password=yeti_config.arangodb.password)
         for _ in range(0, 4):
             try:
