@@ -408,11 +408,13 @@ class ArangoYetiConnector(AbstractYetiConnector):
             if key in ['value', 'name', 'type', 'stix_id', 'attributes.id', 'email']:
                 conditions.append('o.{0:s} =~ @{1:s}'.format(key, key.replace('.', '_')))
                 sorts.append('o.{0:s}'.format(key))
+            if key in ['labels']:
+                conditions.append('@{1:s} ALL IN o.{0:s}'.format(key, key.replace('.', '_')))
+                sorts.append('o.{0:s}'.format(key))
 
         limit = ''
         if offset and count:
             limit = f'LIMIT {offset}, {count}'
-
 
         aql_string = f"""
             FOR o IN @@collection
