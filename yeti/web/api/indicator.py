@@ -18,6 +18,7 @@ class IndicatorResource(GenericResource):
     searchargs = {
         'name': fields.Str(required=True),
         'type': fields.Str(),
+        'labels': fields.List(fields.Str()),
     }
 
     @as_json
