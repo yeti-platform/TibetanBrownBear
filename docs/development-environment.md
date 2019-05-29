@@ -53,20 +53,15 @@ instance listening on the default port and default interfaces.
   Setting up ArangoDB this way is dangerous for production use since it
   is not authenticated whatsoever; but it's more than enough for development
 ```
-### Linux (Ubuntu 16.04)
+### Linux (Ubuntu 18.04)
 
 Add the ArangoDB repo key to your install, update your packages and install everything as usual.
 
-    $ wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+    $ wget https://download.arangodb.com/arangodb34/DEBIAN/Release.key
     $ sudo apt-key add Release.key
-    $ sudo apt-add-repository 'deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /'
-    $ sudo apt-get update -y && sudo apt-get install arangodb3 --allow-unauthenticated
+    $ sudo apt-add-repository 'deb https://download.arangodb.com/arangodb34/DEBIAN/ /'
+    $ sudo apt-get update -y && sudo apt-get install arangodb3
 
-```eval_rst
-.. warning::
-  Setting up ArangoDB this way is dangerous for production use since it
-  is not authenticated whatsoever; but it's more than enough for development
-```
 
 ## Import demo data
 
@@ -96,7 +91,7 @@ You'll also want to add users to your database:
 
 or, if you haven't installed the scripts:
 
-    $ python ctl/yetictl.py add-user admin@yourorg.com --admin
+    $ python3 ctl/yetictl.py add-user admin@yourorg.com --admin
 
 And follow the on-screen prompts.
 
@@ -111,7 +106,7 @@ frontend is written in [Vue.js](https://vuejs.org/) so you're going to need
 $ brew install node
 
 # Ubuntu
-$ sudo apt install node
+$ sudo apt install nodejs npm
 ```
 
 To spin up a Vue.js development server (automatically reloads on each file
@@ -119,7 +114,7 @@ change, which is quite handy), run these commands from the directory in which
 you cloned Yeti::
 
     $ cd yeti/web/frontend
-    $ npm run dev
+    $ npm run serve
 
 This will build and start a webserver listening on `localhost:8080` for connections.
 
