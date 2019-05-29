@@ -3,6 +3,7 @@ import click
 
 from yeti.auth.local import user_management
 from yeti.core.model.user import User
+from yeti.core.errors import IntegrityError
 
 # pylint: disable=line-too-long
 @click.command()
@@ -10,9 +11,14 @@ from yeti.core.model.user import User
 @click.option('--admin', help='Give admin rights to this user', is_flag=True, default=False)
 @click.argument('user_email')
 def add_user(user_email, password=None, admin=False):
-    user = User(email=user_email, admin=admin).save()
-    user_management.set_password(user, password)
-    user.save()
+    try:
+        user = User(email=user_email, admin=admin).save()
+        user_management.set_password(user, password)
+        user.save()
+    except IntegrityError:  # user already exists, force reset password
+        user = User.get_or_create(email=user_email)
+        user_management.set_password(user, password)
+
     print(f'User {user_email} created succesfully (ID: {user.id})')
     print(f'Admin: {user.admin}')
     print(f'API key: {user.api_key}')
