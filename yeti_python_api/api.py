@@ -90,7 +90,7 @@ class YetiAPI:
             uri = 'entities/{0:s}/neighbors/'.format(obj.id)
         if isinstance(obj, indicator_base.Indicator):
             uri = 'indicators/{0:s}/neighbors/'.format(obj.id)
-        response = self._do_get(uri)
+        response = self._do_post(uri, data={})
         response['edges'] = [Relationship(**r) for r in response['edges']]
         vertices = []
         for item in response['vertices']:
