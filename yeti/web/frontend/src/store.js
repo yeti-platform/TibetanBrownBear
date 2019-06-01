@@ -21,9 +21,8 @@ function getJwtSubject (jwt) {
   return ''
 }
 
-axios.defaults.headers.common['Authorization'] = `Bearer: ${localStorage.getItem('user-token')}`
 const state = {
-  token: localStorage.getItem('user-token') || ''
+  token: ''
 }
 
 const actions = {
@@ -32,7 +31,7 @@ const actions = {
       commit('authRequest')
       axios.post('/users/login/', params)
         .then(response => {
-          axios.defaults.headers.common['Authorization'] = `Bearer: ${response.data.token}`
+          console.log(response)
           commit('authSuccess', response.data.token)
           resolve(response)
         })
@@ -44,8 +43,15 @@ const actions = {
   },
   logout ({ commit }) {
     return new Promise((resolve, reject) => {
-      commit('logout')
-      delete axios.defaults.headers.common['Authorization']
+      axios.post('/users/logout/')
+        .then(response => {
+          commit('logout')
+          resolve(response)
+        })
+        .catch(err => {
+          commit('authError', err)
+          reject(err)
+        })
       resolve()
     })
   }
@@ -53,29 +59,28 @@ const actions = {
 
 const mutations = {
   authRequest (state) {
+    state.authenticated = false
     state.token = ''
-    localStorage.setItem('user-token', '')
-    delete axios.defaults.headers.common['Authorization']
   },
   authSuccess (state, token) {
+    console.log('Auth cookie set!')
+    state.authenticated = true
     state.token = token
-    localStorage.setItem('user-token', token)
   },
   authError (state, error) {
+    state.authenticated = false
     console.log(error)
     state.token = ''
-    localStorage.removeItem('user-token')
-    delete axios.defaults.headers.common['Authorization']
   },
   logout (state) {
+    state.authenticated = false
+    console.log('Cookie cleared.')
     state.token = ''
-    localStorage.removeItem('user-token')
-    delete axios.defaults.headers.common['Authorization']
   }
 }
 
 const getters = {
-  isAuthenticated: state => !!state.token,
+  isAuthenticated: state => !!state.authenticated,
   tokenSubject: state => getJwtSubject(state.token)
 }
 

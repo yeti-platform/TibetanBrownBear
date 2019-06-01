@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 
 import jwt
-from flask import request
+from flask import request, session
 from flask_classful import route
 from marshmallow import fields
 from webargs.flaskparser import parser
@@ -58,4 +58,14 @@ class UserResource(GenericResource):
             'exp': datetime.utcnow() + timedelta(minutes=30),
         }, yeti_config.core.secret_key)
 
-        return {'token': token.decode('UTF-8'), 'authenticated': True}
+        session['token'] = token.decode('UTF-8')
+
+        return {'authenticated': True, 'token': session['token']}, 200
+
+    @as_json
+    @route('/logout/', methods=['POST'])
+    @auth_required
+    def logout(self):
+        """Delete user authentication data."""
+        session['token'] = ''
+        return {'authenticated': False}, 200

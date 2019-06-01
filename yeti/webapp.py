@@ -6,6 +6,8 @@ from .web.api.api import blueprint
 app = Flask(__name__,
             static_folder='web/frontend/dist')
 app.register_blueprint(blueprint, url_prefix='/api')
+app.secret_key = 'secret'  # changeme
+app.config.update(SESSION_COOKIE_SAMESITE='Lax')
 
 
 @app.route('/', defaults={'path': ''})
