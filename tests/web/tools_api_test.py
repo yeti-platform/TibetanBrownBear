@@ -52,5 +52,5 @@ def test_attack_pattern_wrong_kc_format(authenticated_client):
     assert rv.status_code == 400
     assert response == {
         'ValidationError':
-        'Unexpected properties for KillChainPhase: (lol, rofl).'
+        'Invalid value for Tool \'kill_chain_phases\': Unexpected properties for KillChainPhase: (lol, rofl).'
     }
