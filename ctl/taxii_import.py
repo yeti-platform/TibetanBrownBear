@@ -17,6 +17,27 @@ from yeti.core.entities import tool
 from yeti.core.entities import vulnerability
 
 
+OBJECT_CLASSES = {
+    'attack-pattern': attack_pattern.AttackPattern,
+    'campaign': campaign.Campaign,
+    'course-of-action': course_of_action.CourseOfAction,
+    'identity': identity.Identity,
+    'intrusion-set': intrusion_set.IntrusionSet,
+    'malware': malware.Malware,
+    'threat-actor': threat_actor.ThreatActor,
+    'tool': tool.Tool,
+    'vulnerability': vulnerability.Vulnerability,
+}
+
+def _lazy_get_object(all_objects, stix_id):
+    if stix_id in all_objects:
+        return all_objects[stix_id]
+    for name, yeti_class in OBJECT_CLASSES.items():
+        if stix_id.startswith(name):
+            return yeti_class.get(stix_id)
+    raise RuntimeError('No data found for STIX ID: {0:s}'.format(stix_id))
+
+
 def _get_collection_url(server_url):
     server = Server(server_url)
     api_root = server.api_roots[0]
@@ -37,7 +58,7 @@ def _get_collection_url(server_url):
 
 @click.command()
 @click.option('--collection_url', help='Remote TAXII collection URL ', type=click.STRING)  # pylint: disable=line-too-long
-@click.option('--server_url', help='Remote TAXII collection URL ', type=click.STRING)  # pylint: disable=line-too-long
+@click.option('--server_url', help='Remote TAXII server URL ', type=click.STRING)  # pylint: disable=line-too-long
 def taxii_import(server_url, collection_url):
 
     if not (server_url or collection_url):
@@ -52,21 +73,9 @@ def taxii_import(server_url, collection_url):
         collection = Collection(collection_url)
         tc_source = TAXIICollectionSource(collection)
 
-        object_classes = {
-            'attack-pattern': attack_pattern.AttackPattern,
-            'campaign': campaign.Campaign,
-            'course-of-action': course_of_action.CourseOfAction,
-            'identity': identity.Identity,
-            'intrusion-set': intrusion_set.IntrusionSet,
-            'malware': malware.Malware,
-            'threat-actor': threat_actor.ThreatActor,
-            'tool': tool.Tool,
-            'vulnerability': vulnerability.Vulnerability,
-        }
-
         all_objects = {}
 
-        for name, yeti_class in object_classes.items():
+        for name, yeti_class in OBJECT_CLASSES.items():
             print('Fetching', name)
             stats = {
                 'updated': 0,
@@ -103,8 +112,8 @@ def taxii_import(server_url, collection_url):
         taxii_filter = Filter('type', '=', 'relationship')
         for relationship in tc_source.query(taxii_filter):
             stats += 1
-            source = all_objects[relationship.source_ref]
-            target = all_objects[relationship.target_ref]
+            source = _lazy_get_object(all_objects, relationship.source_ref)
+            target = _lazy_get_object(all_objects, relationship.target_ref)
             source.link_to(target, stix_rel=json.loads(
                 relationship.serialize()))
         print('Added {0:d} relationships'.format(stats))
