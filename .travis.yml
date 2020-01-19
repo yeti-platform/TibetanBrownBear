@@ -1,11 +1,7 @@
-
-sudo: required
-
 os: linux
 dist: xenial
 language: python
 python: "3.6"
-node_js: "10"
 env:
   - YETI_ASYNC_ENABLED=True
 
@@ -18,21 +14,16 @@ before_install:
   - sudo apt-add-repository 'deb https://download.arangodb.com/arangodb34/DEBIAN/ /'
   - sudo apt-get update -y
   - sudo apt-get install arangodb3 --allow-unauthenticated
-  - npm i -g npm@latest
 
 install:
   - pip install pipenv
   - pipenv install --dev --system --deploy
-  - cd yeti/web/frontend && npm install
-  - cd ../../../
 
 before_script:
   - PYTHONPATH=tests/ rq worker &
 
 script:
   - pytest tests --verbose
-  - cd yeti/web/frontend && npm run test:unit
-  - cd ../../../docs && make html
 
 after_success:
   - codecov

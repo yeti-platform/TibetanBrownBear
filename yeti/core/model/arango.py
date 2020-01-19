@@ -33,10 +33,8 @@ class ArangoDatabase:
         self.graphs = dict()
 
     def connect(self):
-        client = ArangoClient(
-            protocol='http',
-            host=yeti_config.arangodb.host,
-            port=yeti_config.arangodb.port)
+        host_string = f'http://{yeti_config.arangodb.host}:{yeti_config.arangodb.port}'
+        client = ArangoClient(hosts=host_string)
 
         sys_db = client.db(
             '_system',

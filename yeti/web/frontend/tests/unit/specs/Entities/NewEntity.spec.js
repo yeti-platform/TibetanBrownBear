@@ -44,8 +44,7 @@ describe('NewEntity.vue', () => {
     wrapper.vm.navigateToNew(mockObjects.mockMalware)
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: 'EntityDetails',
-      params: { id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b' },
-      path: '/entities/malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b'
+      params: { id: 'malware--976c0bcf-91f3-4ab8-a0cf-f01692afcb5b' }
     })
   })
 })
