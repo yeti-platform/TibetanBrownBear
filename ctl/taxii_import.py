@@ -34,9 +34,10 @@ def _lazy_get_object(all_objects, stix_id):
         return all_objects[stix_id]
     for name, yeti_class in OBJECT_CLASSES.items():
         if stix_id.startswith(name):
-            return yeti_class.get(stix_id)
-    raise RuntimeError('No data found for STIX ID: {0:s}'.format(stix_id))
-
+            obj = yeti_class.get(stix_id)
+            if not obj:
+                raise RuntimeError('No data found for STIX ID: {0:s}'.format(stix_id))
+            return obj
 
 def _get_collection_url(server_url):
     server = Server(server_url)
