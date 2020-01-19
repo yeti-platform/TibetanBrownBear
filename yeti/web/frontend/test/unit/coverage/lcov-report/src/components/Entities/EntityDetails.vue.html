@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/Entities/EntityDetails.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/components/Entities</a> EntityDetails.vue
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;!-- Display details nicely --&gt;
+  &lt;span v-if="loading" class="loading"&gt;
+    &lt;i class="fas fa-circle-notch fa-spin fa-5x m-5"&gt;&lt;/i&gt;
+  &lt;/span&gt;
+  &lt;div v-else-if="!edit" class="entity-details"&gt;
+&nbsp;
+    &lt;!-- Title and edit button --&gt;
+    &lt;div class="title border-bottom mb-4 pb-2"&gt;
+      &lt;div class="entity-type"&gt;
+        {{entityTypeHuman.singular}}
+      &lt;/div&gt;
+      &lt;div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center"&gt;
+        &lt;h1 class="h1 yeti-title"&gt;{{entity.name}}&lt;/h1&gt;
+        &lt;div class="btn-toolbar mb-2 mb-md-0"&gt;
+          &lt;div class="btn-group mr-2"&gt;
+            &lt;router-link class="edit btn btn-sm btn-outline-secondary" :to="{name: 'EntityEdit', params: {id: id}}"&gt;Edit&lt;/router-link&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="labels"&gt;
+        &lt;fields :field="{'type': 'list', 'name': 'labels'}"  :elt="entity" /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+&nbsp;
+    &lt;ul class="nav nav-pills mb-3" role="tablist"&gt;
+      &lt;li class="nav-item"&gt;
+        &lt;a class="nav-link active" id="main-tab" data-toggle="tab" href="#main" role="tab" aria-controls="main" aria-selected="true"&gt;Main&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="nav-item"&gt;
+        &lt;a class="nav-link" id="details-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false"&gt;Details&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="nav-item"&gt;
+        &lt;a class="nav-link" id="relationships-tab" data-toggle="tab" href="#relationships" role="tab" aria-controls="relationships" aria-selected="false"&gt;Relationships&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="nav-item"&gt;
+        &lt;a class="nav-link" id="killchainview-tab" data-toggle="tab" href="#killchainview" role="tab" aria-controls="killchainview" aria-selected="false"&gt;Kill chain view&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="nav-item"&gt;
+        &lt;a class="nav-link" id="json-tab" data-toggle="tab" href="#json" role="tab" aria-controls="json" aria-selected="false"&gt;Raw JSON&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+&nbsp;
+    &lt;div class="tab-content"&gt;
+&nbsp;
+      &lt;!-- Labels and other common info --&gt;
+      &lt;div class="tab-pane show active" id="main" role="tabpanel" aria-labelledby="main-tab"&gt;
+&nbsp;
+        &lt;table class="table"&gt;
+          &lt;tr&gt;
+            &lt;th&gt;Created:&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'created'}" :elt="entity" /&gt;&lt;/td&gt;
+            &lt;th&gt;Modified:&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'modified'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.tool_version"&gt;
+            &lt;th&gt;Tool version&lt;/th&gt;&lt;td&gt;{{entity.tool_version}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.action"&gt;
+            &lt;th&gt;Action&lt;/th&gt;&lt;td&gt;{{entity.action}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.identity_class"&gt;
+            &lt;th&gt;Identity class&lt;/th&gt;&lt;td colspan="5"&gt;{{entity.identity_class}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.sectors"&gt;
+            &lt;th&gt;Sectors&lt;/th&gt;&lt;td colspan="5"&gt;&lt;fields :field="{'type': 'list', 'name': 'sectors'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.contact_information"&gt;
+            &lt;th&gt;Contact info&lt;/th&gt;&lt;td colspan="5"&gt;{{entity.contact_information}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.aliases"&gt;
+            &lt;th&gt;Aliases&lt;/th&gt;&lt;td colspan="5"&gt;&lt;fields :field="{'type': 'list', 'name': 'aliases'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.kill_chain_phases"&gt;
+            &lt;th&gt;Kill-chain phases&lt;/th&gt;
+            &lt;td colspan="5"&gt;&lt;fields :field="{'type': 'killchain', 'name': 'kill_chain_phases'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.first_seen || entity.last_seen"&gt;
+            &lt;th&gt;First seen:&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'first_seen'}" :elt="entity" /&gt;&lt;/td&gt;
+            &lt;th&gt;Last seen:&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'last_Seen'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.objective"&gt;
+            &lt;th&gt;Objective&lt;/th&gt;&lt;td colspan="5"&gt;{{entity.objective}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.roles || entity.sophistication"&gt;
+            &lt;th&gt;Roles&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'list', 'name': 'roles'}" :elt="entity" /&gt;&lt;/td&gt;
+            &lt;th&gt;Sophistication&lt;/th&gt;&lt;td&gt;{{entity.sophistication}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.goals || entity.resource_level"&gt;
+            &lt;th&gt;Goals&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'list', 'name': 'goals'}" :elt="entity" /&gt;&lt;/td&gt;
+            &lt;th&gt;Resource level&lt;/th&gt;&lt;td&gt;{{entity.resource_level}}&lt;/td&gt;
+          &lt;/tr&gt;
+          &lt;tr v-if="entity.primary_motivation || entity.secondary_motivations || entity.personal_motivations"&gt;
+            &lt;th&gt;Primary motivation&lt;/th&gt;&lt;td&gt;{{entity.primary_motivation}}&lt;/td&gt;
+            &lt;th&gt;Secondary&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'list', 'name': 'secondary_motivations'}" :elt="entity" /&gt;&lt;/td&gt;
+            &lt;th&gt;Personal&lt;/th&gt;&lt;td&gt;&lt;fields :field="{'type': 'list', 'name': 'personal_motivations'}" :elt="entity" /&gt;&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/table&gt;
+&nbsp;
+        &lt;div class="description mb-3"&gt;
+          &lt;h2&gt;Description&lt;/h2&gt;
+          &lt;markdown-text :text="entity.description || 'No description'"&gt;&lt;/markdown-text&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&nbsp;
+      &lt;!-- Detailed information --&gt;
+      &lt;div class="tab-pane" id="details" role="tabpanel" aria-labelledby="details-tab"&gt;
+        &lt;div class="details mb-3"&gt;
+          &lt;h2&gt;Details&lt;/h2&gt;
+          &lt;table class='table'&gt;
+            &lt;tr&gt;&lt;td&gt;Type&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'code', 'name': 'type'}" :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;STIX ID&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'code', 'name': 'id'}" :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Created by&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'code', 'name': 'created_by_ref'}"  :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Created&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'created'}"  :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Modified&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'datetime', 'name': 'modified'}"  :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Revoked&lt;/td&gt;&lt;td&gt;&lt;fields :field="{'type': 'boolean', 'name': 'revoked'}"  :elt="entity" /&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr v-for="ref in entity.external_references" v-bind:key="ref.source_name"&gt;
+              &lt;td&gt;External reference&lt;/td&gt;&lt;td&gt;
+                &lt;a :href="ref.url" target="_blank"&gt;{{ref.source_name}}&lt;/a&gt;
+                &lt;small v-if="ref.description"&gt;&lt;br&gt;{{ref.description}}&lt;/small&gt;
+                &lt;small v-if="ref.external_id"&gt;&lt;br&gt;{{ref.external_id}}&lt;/small&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Object markings&lt;/td&gt;&lt;td&gt;&lt;code v-bind:key="ref" v-for="ref in entity.object_marking_refs"&gt;{{ref}}&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;
+            &lt;tr&gt;&lt;td&gt;Granular markings&lt;/td&gt;&lt;td&gt;&lt;code v-bind:key="marking" v-for="marking in entity.granular_markings"&gt;{{marking}}&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;div v-if="getSpecificProperties(entity).length &gt; 0"&gt;
+          &lt;h2&gt;{{entityTypeHuman.singular}} specific properties&lt;/h2&gt;
+          &lt;table class="table"&gt;
+            &lt;tr v-for="prop in getSpecificProperties(entity)" v-bind:key="prop.name"&gt;
+              &lt;td&gt;&lt;code&gt;{{prop.name}}&lt;/code&gt;&lt;/td&gt;&lt;td&gt;{{prop.value}}&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+        &lt;div v-if="getExtendedProperties(entity).length &gt; 0"&gt;
+          &lt;h2&gt;Extended properties&lt;/h2&gt;
+          &lt;table class="table"&gt;
+            &lt;tr v-for="prop in getExtendedProperties(entity)" v-bind:key="prop.name"&gt;
+              &lt;td&gt;&lt;code&gt;{{prop.name}}&lt;/code&gt;&lt;/td&gt;&lt;td&gt;{{prop.value}}&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+&nbsp;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&nbsp;
+      &lt;!-- Links and graph --&gt;
+      &lt;div class="tab-pane" id="relationships" role="tabpanel" aria-labelledby="relationships-tab"&gt;
+        &lt;div class="relationships"&gt;
+          &lt;h2&gt;Relationships&lt;/h2&gt;
+          &lt;links :object="entity" :detailComponent="'EntityDetails'"/&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&nbsp;
+      &lt;div class="tab-pane" id="killchainview" role="tabpanel" aria-labelledby="killchainview-tab"&gt;
+        &lt;div class="killchainview"&gt;
+          &lt;h2&gt;Kill chain view&lt;/h2&gt;
+          &lt;kill-chain-view :entity="entity"&gt;&lt;/kill-chain-view&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&nbsp;
+      &lt;!-- JSON --&gt;
+      &lt;div class="tab-pane" id="json" role="tabpanel" aria-labelledby="json-tab"&gt;
+        &lt;div class="json"&gt;
+          &lt;pre&gt;{{entity}}&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+&nbsp;
+    &lt;!-- End tab content --&gt;
+    &lt;/div&gt;
+&nbsp;
+  &lt;/div&gt;
+&nbsp;
+  &lt;!--  Edit form --&gt;
+  &lt;!-- yeti-form should use emit instead of an onSaveCallback --&gt;
+  &lt;yeti-form :object="entity"
+             :fields="entityFields"
+             :apiPath="defaultApiPath+id+'/'"
+             method='PUT'
+             v-on:form-submit='toggleEdit'
+             v-else
+             /&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;style lang="css"&gt;
+  .json pre {
+    white-space: pre-wrap;
+  }
+&lt;/style&gt;
+&nbsp;
+&lt;script&gt;
+import axios from 'axios'
+&nbsp;
+import YetiForm from '@/components/scaffolding/YetiForm'
+import MarkdownText from '@/components/scaffolding/MarkdownText'
+import Links from '@/components/Graph/Links'
+import KillChainView from '@/components/Entities/KillChainView'
+import Fields from '@/components/helpers/Fields'
+&nbsp;
+import { editFields } from './EntityFields.js'
+import { entityTypes } from './EntityTypes.js'
+&nbsp;
+export default {
+  data () {
+    return {
+      loading: true,
+      entity: {},
+      error: {},
+      defaultApiPath: `/entities/`
+    }
+  },
+  props: { id: [Number, String], edit: Boolean },
+  components: {
+    YetiForm,
+    Fields,
+    Links,
+    MarkdownText,
+    KillChainView
+  },
+  computed: {
+    entityType () {
+      let arr = this.entity.type.split('.')
+      return arr[arr.length - 1]
+    },
+    entityFields () {
+      return editFields[this.entityType]
+    },
+    entityTypeHuman () {
+      return entityTypes[this.entityType]
+    }
+  },
+  methods: {
+    fetchInfo () {
+      this.loading = true
+      axios.get(this.defaultApiPath + this.id)
+        .then(response =&gt; {
+<span class="missing-if-branch" title="if path not taken" >I</span>          if (response.status !== 200) {
+<span class="cstat-no" title="statement not covered" >            this.error = response.data</span>
+          } else {
+            this.entity = response.data
+          }
+<span class="fstat-no" title="function not covered" >        })</span>
+        .catch(error =&gt; { // how do we catch 404 errors?
+<span class="cstat-no" title="statement not covered" >          this.error = error</span>
+        })
+        .finally(() =&gt; { this.loading = false })
+    },
+    toggleEdit () {
+<span class="cstat-no" title="statement not covered" >      this.$router.go(-1)</span>
+    },
+    getSpecificProperties (entity) {
+      var properties = []
+      for (var prop in entity) {
+<span class="missing-if-branch" title="if path not taken" >I</span>        if (this.isSpecifcAttribute(entity, prop)) {
+<span class="cstat-no" title="statement not covered" >          properties.push({ value: entity[prop], name: prop })</span>
+        }
+      }
+      return properties
+    },
+    getExtendedProperties (entity) {
+      var properties = []
+      for (var prop in entity) {
+<span class="missing-if-branch" title="if path not taken" >I</span>        if (this.isExtendedAttribute(entity, prop)) {
+<span class="cstat-no" title="statement not covered" >          properties.push({ value: entity[prop], name: prop })</span>
+        }
+      }
+      return properties
+    },
+    isSpecifcAttribute (entity, attribute) {
+      let commonProperties = [
+        'created',
+        'type',
+        'id',
+        'created_by_ref',
+        'created',
+        'modified',
+        'revoked',
+        'external_references',
+        'object_marking_refs',
+        'granular_markings',
+        'description',
+        'labels',
+        'name'
+      ]
+<span class="branch-2 cbranch-no" title="branch not covered" >      return entity.hasOwnProperty(attribute) &amp;&amp; !commonProperties.includes(attribute) &amp;&amp; !attribute.startsWith('x_')</span>
+    },
+    isExtendedAttribute (entity, attribute) {
+      return entity.hasOwnProperty(attribute) &amp;&amp; attribute.startsWith('x_')
+    }
+  },
+  mounted () {
+    this.fetchInfo()
+  },
+  watch: {
+    // call again the method if the id changes
+    'id': 'fetchInfo'
+  }
+}
+&lt;/script&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 19 2020 15:54:50 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

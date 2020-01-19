@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/Graph/EditLinks.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/components/Graph</a> EditLinks.vue
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;div class="new-link mb-2 mr-2 float-left"&gt;
+    &lt;a v-if="selectedLinks.length == 1" href="#" class="btn btn-light" data-toggle="modal" data-target="#relationshipModal"&gt;Edit link&lt;/a&gt;
+    &lt;a v-if="selectedLinks.length &gt; 1" href="#" class="btn btn-light" data-toggle="modal" data-target="#relationshipModal"&gt;Edit {{ selectedLinks.length }} links&lt;/a&gt;
+    &lt;div class="modal" id="relationshipModal" tabindex="-1" role="dialog" aria-labelledby="relationshipModalLabel" aria-hidden="true"&gt;
+      &lt;div class="modal-dialog modal-dialog-centered" role="document"&gt;
+        &lt;div class="modal-content"&gt;
+&nbsp;
+          &lt;div class="modal-header"&gt;
+            &lt;h5 class="modal-title" id="relationshipModalLabel"&gt;Edit links&lt;/h5&gt;
+            &lt;button type="button" class="close" data-dismiss="modal" aria-label="Close"&gt;
+              &lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;
+            &lt;/button&gt;
+          &lt;/div&gt;
+&nbsp;
+          &lt;div class="modal-body"&gt;
+            &lt;yeti-form-field v-model="newRelationship.relationship_type" :field="{'name': 'relationship_type', 'type': 'text', humanName: 'Relationship type'}"&gt;
+            &lt;/yeti-form-field&gt;
+            &lt;yeti-form-field v-model="newRelationship.description" :field="{'name': 'description', 'type': 'longtext', humanName: 'Description'}"&gt;
+            &lt;/yeti-form-field&gt;
+          &lt;/div&gt;
+&nbsp;
+          &lt;div class="modal-footer"&gt;
+            &lt;small&gt;This action will affect {{ selectedLinks.length }} selected links.&lt;/small&gt;
+            &lt;button type="button" ref="modalClose" class="btn btn-secondary" data-dismiss="modal"&gt;Close&lt;/button&gt;
+            &lt;button type="button" class="btn btn-primary" @click="saveLinkData" v-bind:class="{ disabled: saving }"&gt;{{saving ? "Saving..." : "Save changes"}}&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+import axios from 'axios'
+&nbsp;
+import YetiFormField from '@/components/scaffolding/YetiFormField'
+&nbsp;
+export default {
+  components: {
+    YetiFormField
+  },
+  props: ['selectedLinks'],
+  data () {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      newRelationship: {},
+      saving: false
+    }
+  },
+  methods: {
+    fetchLinkData (linkId) {
+<span class="cstat-no" title="statement not covered" >      var linkID = this.selectedLinks[0]</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      axios.get('/relationships/' + linkID + '/')</span></span>
+        .then(response =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (response.status === 200) {</span>
+<span class="cstat-no" title="statement not covered" >            this.newRelationship = response.data</span>
+          }
+        })
+    },
+    saveLinkData () {
+<span class="cstat-no" title="statement not covered" >      this.saving = true</span>
+<span class="cstat-no" title="statement not covered" >      for (var index = 0; index &lt; this.selectedLinks.length; index++) {</span>
+<span class="cstat-no" title="statement not covered" >        var lastIndex = index</span>
+<span class="cstat-no" title="statement not covered" >        var linkID = this.selectedLinks[index]</span>
+<span class="cstat-no" title="statement not covered" >        let linkData = {</span>
+          'description': this.newRelationship.description,
+          'relationship_type': this.newRelationship.relationship_type
+        }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        axios.put('/relationships/' + linkID + '/', linkData)</span></span>
+          .then(response =&gt; {
+<span class="cstat-no" title="statement not covered" >            if (lastIndex === this.selectedLinks.length - 1) {</span>
+<span class="cstat-no" title="statement not covered" >              this.saving = false</span>
+<span class="cstat-no" title="statement not covered" >              this.$refs.modalClose.click()</span>
+<span class="cstat-no" title="statement not covered" >              this.$emit('links-changed', response.data)</span>
+            }
+          })
+      }
+    }
+  },
+  watch: {
+<span class="fstat-no" title="function not covered" >    'selectedLinks': function () {</span>
+<span class="cstat-no" title="statement not covered" >      if (this.selectedLinks.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >        this.fetchLinkData()</span>
+      }
+    }
+  }
+}
+&lt;/script&gt;
+&nbsp;
+&lt;style&gt;
+&nbsp;
+&lt;/style&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 19 2020 15:54:50 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

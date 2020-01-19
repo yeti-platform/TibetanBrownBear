@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/Graph/Links.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/components/Graph</a> Links.vue
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;div class="links"&gt;
+    &lt;ul class="nav nav-pills mb-3 float-left" role="tablist"&gt;
+      &lt;li class="nav-item" v-bind:key="linkType" v-for="(linkType, index) in linkTypes"&gt;
+        &lt;a class="nav-link" v-bind:class="{active: index === 0}" :id="linkType + '-tab'" data-toggle="tab" :href="'#'+linkType" role="tab" :aria-controls="linkType" aria-selected="true"&gt;
+          &lt;type-to-icon :type="linkType"&gt;&lt;/type-to-icon&gt; {{entityType(linkType).plural}}
+          &lt;span class="badge badge-pill badge-light ml-2"&gt; {{getFilterEdges(linkType).length}}&lt;/span&gt;
+        &lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="float-right"&gt;
+      &lt;new-link ref="newLink" :sourceEntity="object" v-on:links-changed='fetchNeighbors'&gt;&lt;/new-link&gt;
+      &lt;delete-links ref="deleteLinks"
+                    v-if="selectedLinks.length &gt;= 1"
+                    :selectedLinks="selectedLinks"
+                    v-on:links-deleted='fetchNeighbors'&gt;
+      &lt;/delete-links&gt;
+      &lt;edit-links :selectedLinks="selectedLinks" v-on:links-changed='fetchNeighbors'&gt;&lt;/edit-links&gt;
+    &lt;/div&gt;
+&nbsp;
+    &lt;div class="tab-content"&gt;
+      &lt;div v-bind:class="{active: index === 0, show: index === 0}" v-bind:key="linkType" v-for="(linkType, index) in linkTypes" class="tab-pane" :id="linkType" role="tabpanel" :aria-labelledby="linkType+'-tab'"&gt;
+        &lt;div&gt;
+           &lt;span v-if="loading"&gt;
+            &lt;i class='fas fa-circle-notch fa-spin fa-3x m-3'&gt;&lt;/i&gt;
+          &lt;/span&gt;
+          &lt;table v-else class="table table-sm"&gt;
+            &lt;tr v-for="edge in getFilterEdges(linkType)"
+                v-bind:key='edge._id'
+                @click.exact="select(edge)"
+                @click.shift.exact="selectMultiple(edge)"
+                v-bind:class="{'selected': selectedLinks.includes(edge.id)}"
+                class="show-on-hover"
+              &gt;
+              &lt;td class="show-on-hover"&gt;&lt;a href="#" @click="$refs.deleteLinks.deleteLinks([edge.id])"&gt;&lt;i class="fas fa-unlink"&gt;&lt;/i&gt;&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="incoming-vertice"&gt;
+                &lt;router-link :to="{ name: detailComponent, params: {id: getIncomingVertice(graph, edge).id}}"&gt;
+                  &lt;type-to-icon :type="getIncomingVertice(graph, edge).type"&gt;&lt;/type-to-icon&gt;{{getIncomingVertice(graph, edge).name}}
+                &lt;/router-link&gt;
+                &lt;neighbor-icons v-if="getIncomingVertice(graph, edge).id !== object.id"
+                                :entity="getIncomingVertice(graph, edge)"
+                                :neighbors="extendedGraph"&gt;
+                &lt;/neighbor-icons&gt;
+                &lt;/td&gt;
+              &lt;td&gt;&amp;rarr;&lt;/td&gt;
+              &lt;td&gt;{{edge.relationship_type}}&lt;/td&gt;
+              &lt;td&gt;&amp;rarr;&lt;/td&gt;
+              &lt;td class="outgoing-vertice"&gt;
+                &lt;router-link :to="{ name: '', params: {id: getOutgoingVertice(graph, edge).id} }"&gt;
+                  &lt;type-to-icon :type="getOutgoingVertice(graph, edge).type"&gt;&lt;/type-to-icon&gt;{{getOutgoingVertice(graph, edge).name}}
+                &lt;/router-link&gt;
+                &lt;neighbor-icons v-if="getOutgoingVertice(graph, edge).id !== object.id"
+                                :entity="getOutgoingVertice(graph, edge)"
+                                :neighbors="extendedGraph"&gt;
+                &lt;/neighbor-icons&gt;
+              &lt;/td&gt;
+              &lt;td&gt;&lt;markdown-text :text="edge.description || 'No description'"&gt;&lt;/markdown-text&gt;&lt;/td&gt;
+              &lt;td&gt;
+                &lt;p v-for="ref in edge.external_references" v-bind:key="ref.source_name"&gt;
+                    &lt;a :href="ref.url" target="_blank"&gt;{{ref.source_name}}&lt;/a&gt;
+                    &lt;small v-if="ref.description"&gt;&lt;br&gt;{{ref.description}}&lt;/small&gt;
+                    &lt;small v-if="ref.external_id"&gt;&lt;br&gt;{{ref.external_id}}&lt;/small&gt;
+                &lt;/p&gt;
+              &lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+import axios from 'axios'
+import TypeToIcon from '@/components/scaffolding/TypeToIcon'
+import MarkdownText from '@/components/scaffolding/MarkdownText'
+import NewLink from '@/components/Graph/NewLink'
+import DeleteLinks from '@/components/Graph/DeleteLinks'
+import EditLinks from '@/components/Graph/EditLinks'
+import { entityTypes } from '@/components/Entities/EntityTypes.js'
+import NeighborIcons from '@/components/Graph/NeighborIcons'
+&nbsp;
+export default {
+  components: {
+    TypeToIcon,
+    MarkdownText,
+    NewLink,
+    DeleteLinks,
+    EditLinks,
+    NeighborIcons
+  },
+  props: ['object', 'detailComponent'],
+  data () {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      graph: {},
+      loading: true,
+      selectedLinks: [],
+      extendedGraph: undefined
+    }
+  },
+  computed: {
+    apiPath () {
+<span class="cstat-no" title="statement not covered" >      return 'entities/' + this.object.id + '/neighbors/'</span>
+    },
+    linkTypes () {
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      return [...new Set(Object.values(this.graph.vertices || []).map(vertice =&gt; vertice.type))].sort()</span></span>
+    }
+  },
+  methods: {
+    entityType (type) {
+<span class="cstat-no" title="statement not covered" >      return entityTypes[type]</span>
+    },
+    fetchNeighbors () {
+<span class="cstat-no" title="statement not covered" >      console.log('fetching neighbors for ' + this.object.id)</span>
+<span class="cstat-no" title="statement not covered" >      this.loading = true</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      axios.post(this.apiPath)</span></span>
+        .then(response =&gt; {
+<span class="cstat-no" title="statement not covered" >          console.log('Got ' + response.data.edges.length + ' edges')</span>
+<span class="cstat-no" title="statement not covered" >          this.graph = response.data</span>
+<span class="cstat-no" title="statement not covered" >          this.selectedLinks = []</span>
+<span class="fstat-no" title="function not covered" >        })</span>
+<span class="cstat-no" title="statement not covered" >        .finally(() =&gt; { this.loading = false })</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      let extendedGraphParams = {</span>
+        hops: 2,
+        include_original: true
+      }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      axios.post(this.apiPath, extendedGraphParams)</span></span>
+        .then(response =&gt; {
+<span class="cstat-no" title="statement not covered" >          console.log('(extended) Got ' + response.data.edges.length + ' edges')</span>
+<span class="cstat-no" title="statement not covered" >          this.extendedGraph = response.data</span>
+<span class="fstat-no" title="function not covered" >        })</span>
+<span class="cstat-no" title="statement not covered" >        .finally(() =&gt; { this.loading = false })</span>
+    },
+    getFilterEdges (filter) {
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      return this.graph.edges.filter(edge =&gt; this.getVerticeForEdge(edge).type === filter)</span></span>
+    },
+    getVerticeForEdge (edge) {
+<span class="cstat-no" title="statement not covered" >      if (edge.source_ref === this.object.id) {</span>
+<span class="cstat-no" title="statement not covered" >        return this.graph.vertices[edge.target_ref]</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return this.graph.vertices[edge.source_ref]</span>
+    },
+    getIncomingVertice (graph, edge) {
+<span class="cstat-no" title="statement not covered" >      if (edge.target_ref === this.object.id) {</span>
+<span class="cstat-no" title="statement not covered" >        return graph.vertices[edge.source_ref]</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return this.object</span>
+    },
+    getOutgoingVertice (graph, edge) {
+<span class="cstat-no" title="statement not covered" >      if (edge.source_ref === this.object.id) {</span>
+<span class="cstat-no" title="statement not covered" >        return graph.vertices[edge.target_ref]</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return this.object</span>
+    },
+    select (elt) {
+<span class="cstat-no" title="statement not covered" >      this.selectedLinks = [elt.id]</span>
+<span class="cstat-no" title="statement not covered" >      this.$emit('input', [elt])</span>
+    },
+    selectMultiple (elt) {
+<span class="cstat-no" title="statement not covered" >      if (!this.selectedLinks.includes(elt.id)) {</span>
+<span class="cstat-no" title="statement not covered" >        this.selectedLinks.push(elt.id)</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.selectedLinks.splice(this.selectedLinks.indexOf(elt.id), 1)</span>
+      }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      this.$emit('input', this.graph.edges.filter(elt =&gt; this.selectedLinks.includes(elt.id)))</span></span>
+    }
+  },
+  watch: {
+    object: 'fetchNeighbors'
+  },
+  mounted () {
+<span class="cstat-no" title="statement not covered" >    this.fetchNeighbors()</span>
+  }
+}
+&lt;/script&gt;
+&nbsp;
+&lt;style lang="css"&gt;
+&nbsp;
+.selected {
+  background-color: #ffffe4;
+}
+&nbsp;
+td.show-on-hover {
+  opacity: 0;
+}
+&nbsp;
+tr.show-on-hover:hover .show-on-hover {
+  opacity: 1;
+}
+&nbsp;
+.links .outgoing-vertice, .links .incoming-vertice {
+  white-space: nowrap;
+}
+&nbsp;
+#relationships .nav-pills .nav-link.active, .nav-pills .show &gt; .nav-link {
+  border-radius: 0;
+  color: black;
+  background-color: #fff;
+  border-bottom: 3px solid #6ab2ff;
+}
+&lt;/style&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 19 2020 15:54:50 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

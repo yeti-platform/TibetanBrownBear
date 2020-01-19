@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/components/Graph/NewLink.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/components/Graph</a> NewLink.vue
+    </h1>
+    <div class='clearfix'>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;div class="new-link mb-2 mr-2 float-left"&gt;
+    &lt;a href="#" class="btn btn-light" @click="toggleForm" v-if="!displayForm"&gt;Add relationships&lt;/a&gt;
+    &lt;form @submit="addLink" class="form" v-if="displayForm"&gt;
+      &lt;div class="form-group mb-2"&gt;
+        &lt;yeti-autocomplete-input
+          autocompleteUrl="entities"
+          displayKey="name"
+          v-model="entities"
+          ref="relInput"
+          placeholder="Search entities..."
+        /&gt;
+      &lt;/div&gt;
+      &lt;button id="submit" type="submit" class="btn btn-primary" v-bind:class="{ disabled: saving }"&gt;{{saving ? "Saving..." : "Save"}}&lt;/button&gt;
+      &lt;a href="#" class="btn btn-secondary" @click="toggleForm"&gt;Cancel&lt;/a&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+import YetiAutocompleteInput from '@/components/scaffolding/YetiAutocompleteInput'
+import axios from 'axios'
+import { relationships } from './StixRelationships.js'
+&nbsp;
+export default {
+  components: {
+    YetiAutocompleteInput
+  },
+  props: ['sourceEntity'],
+  data () {
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      entities: [],
+      saving: false,
+      displayForm: false
+    }
+  },
+  methods: {
+    toggleForm (e) {
+<span class="cstat-no" title="statement not covered" >      this.displayForm = !this.displayForm</span>
+    },
+<span class="fstat-no" title="function not covered" >    addLink: function (e) {</span>
+<span class="cstat-no" title="statement not covered" >      e.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >      this.saving = true</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      var links = []</span>
+<span class="cstat-no" title="statement not covered" >      for (var entity of this.entities) {</span>
+<span class="cstat-no" title="statement not covered" >        let linkType = relationships[this.sourceEntity.type][entity.type]</span>
+<span class="cstat-no" title="statement not covered" >        if (linkType === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >          linkType = ['related-to']</span>
+        }
+<span class="cstat-no" title="statement not covered" >        links.push({</span>
+          target: entity,
+          link_type: linkType[0],
+          stix_rel: null
+        })
+      }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      axios.post('entities/' + this.sourceEntity.id + '/addlink/', links)</span></span>
+        .then(response =&gt; {
+<span class="cstat-no" title="statement not covered" >          console.log('OK!')</span>
+<span class="cstat-no" title="statement not covered" >          this.$emit('links-changed', response.data)</span>
+<span class="cstat-no" title="statement not covered" >          this.entities = []</span>
+<span class="cstat-no" title="statement not covered" >          this.$refs.relInput.clearItems()</span>
+<span class="fstat-no" title="function not covered" >        })</span>
+        .catch(error =&gt; {
+<span class="cstat-no" title="statement not covered" >          this.errors = error.response.data</span>
+<span class="fstat-no" title="function not covered" >        })</span>
+        .finally(() =&gt; {
+<span class="cstat-no" title="statement not covered" >          this.displayForm = false</span>
+<span class="cstat-no" title="statement not covered" >          this.saving = false</span>
+        })
+    }
+  }
+}
+&lt;/script&gt;
+&nbsp;
+&lt;style&gt;
+&nbsp;
+&lt;/style&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jan 19 2020 15:54:50 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
