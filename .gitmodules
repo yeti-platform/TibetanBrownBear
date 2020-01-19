@@ -1,0 +1,3 @@
+[submodule "yeti/web/frontend"]
+	path = yeti/web/frontend
+	url = https://github.com/yeti-platform/tbb-frontend.git
