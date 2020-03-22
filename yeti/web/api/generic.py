@@ -10,10 +10,10 @@ from ..helpers import as_json, get_object_or_404, auth_required
 
 @parser.error_handler
 def handle_args(err,
-                unused_response,
-                unused_schema,
-                unused_error_status_code,
-                unused_error_headers):
+                response,
+                schema,
+                error_status_code,
+                error_headers):
     raise ValidationError(err.messages)
 
 class GenericResource(FlaskView):
