@@ -71,7 +71,7 @@ def test_filter(authenticated_client):
 @pytest.mark.usefixtures("clean_db")
 def test_filter_fulltext(populate_hostnames, authenticated_client):
     """Tests searching for specific Observables using fulltext"""
-    keywords = {'keywords': 'com,-asd1,-asd2'}
+    keywords = {'keywords': ['com', '-asd1', '-asd2']}
     rv = authenticated_client.post('/api/observables/filter/fulltext/',
                                    data=json.dumps(keywords),
                                    content_type='application/json')
