@@ -10,3 +10,4 @@ from . import campaign
 from . import course_of_action
 from . import identity
 from . import observed_data
+from . import incident
