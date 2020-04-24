@@ -1,6 +1,7 @@
 """Main Yeti web module."""
 
 from flask import Flask, url_for, current_app
+from yeti.common.config import yeti_config
 from .web.api.api import blueprint
 
 app = Flask(__name__,
@@ -11,10 +12,6 @@ app.register_blueprint(blueprint, url_prefix='/api')
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path): # pylint: disable=unused-argument
-    if app.debug:
-        import requests
-        return requests.get('http://localhost:8080/' + path).text
-
     if path.startswith('css/') or path.startswith('js/'):
         return current_app.send_static_file(path)
 
