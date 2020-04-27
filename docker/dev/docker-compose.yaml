@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+
+  arangodb:
+    image: arangodb
+    restart: always
+    environment:
+      - ARANGO_ROOT_PASSWORD=
+
+  redis:
+    image: redis
+    restart: always
+
+  api:
+    build:
+      context: ../../
+      dockerfile: ./docker/dev/Dockerfile
+    ports:
+      - 127.0.0.1:5000:5000
+    environment:
+      - YETI_ARANGO_HOST=arangodb
+      - YETI_WEB_DEBUG=true
+      - YETI_WEB_LISTEN_INTERFACE=0.0.0.0
+      - YETI_WEB_LISTEN_PORT=5000
+      - YETI_ASYNC_ENABLED=True
+      - YETI_REDIS_SERVER=redis
+    entrypoint:
+      - /docker-entrypoint.sh
+      - webserver
+    depends_on:
+      - arangodb
+      - redis
+    volumes:
+      - ../../:/app/
