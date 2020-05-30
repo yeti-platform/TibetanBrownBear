@@ -12,7 +12,7 @@ yeti_config.arangodb.database = yeti_config.arangodb.database + '__tests'
 
 from yeti.auth.local import user_management
 # Async jobs
-from yeti.core import async
+from yeti.core import asyncjob
 from yeti.core.entities.entity import Entity
 from yeti.core.entities.malware import Malware
 from yeti.core.indicators.indicator import Indicator
@@ -33,18 +33,18 @@ from yeti.core.relationships import Relationship
 from yeti.webapp import app
 
 
-class FastDummyFeed(async.AsyncJob):
+class FastDummyFeed(asyncjob.AsyncJob):
     def execute(self):
         return 5
 
-class SlowDummyFeed(async.AsyncJob):
+class SlowDummyFeed(asyncjob.AsyncJob):
     def execute(self):
         import time
         time.sleep(3)
         return 10
 
-async.functions['FastDummyFeed'] = FastDummyFeed
-async.functions['SlowDummyFeed'] = SlowDummyFeed
+asyncjob.functions['FastDummyFeed'] = FastDummyFeed
+asyncjob.functions['SlowDummyFeed'] = SlowDummyFeed
 
 @pytest.fixture
 def populate_feeds():

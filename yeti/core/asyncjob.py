@@ -21,8 +21,8 @@ def get_active_jobs():
     return jobs
 
 try:
-    redis_connection = redis.Redis(host=yeti_config.async.redis_server,
-                                   port=yeti_config.async.redis_port)
+    redis_connection = redis.Redis(host=yeti_config.asyncjob.redis_server,
+                                   port=yeti_config.asyncjob.redis_port)
     # Set a dummy key to actually trigger the connction.
     redis_connection.set('yeti', 'redis_init')
     q = Queue(connection=redis_connection)

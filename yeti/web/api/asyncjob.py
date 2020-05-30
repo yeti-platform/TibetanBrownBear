@@ -4,7 +4,7 @@ from flask import request
 from marshmallow import fields
 from webargs.flaskparser import parser
 
-from yeti.core.async import functions, q, get_active_jobs
+from yeti.core.asyncjob import functions, q, get_active_jobs
 from yeti.core.errors import GenericYetiError
 from ..helpers import as_json, auth_required
 

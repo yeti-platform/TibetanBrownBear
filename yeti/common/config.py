@@ -74,8 +74,8 @@ yeti_config.set_default_value(
     'webserver', 'port', os.environ.get('YETI_WEB_LISTEN_PORT') or 5000)
 
 yeti_config.set_default_value(
-    'async', 'enabled', os.environ.get('YETI_ASYNC_ENABLED') or False)
+    'asyncjob', 'enabled', os.environ.get('YETI_ASYNC_ENABLED') or False)
 yeti_config.set_default_value(
-    'async', 'redis_server', os.environ.get('YETI_REDIS_SERVER') or '127.0.0.1')
+    'asyncjob', 'redis_server', os.environ.get('YETI_REDIS_SERVER') or '127.0.0.1')
 yeti_config.set_default_value(
-    'async', 'redis_port', os.environ.get('YETI_REDIS_PORT') or 6379)
+    'asyncjob', 'redis_port', os.environ.get('YETI_REDIS_PORT') or 6379)

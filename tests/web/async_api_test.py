@@ -6,7 +6,7 @@ import time
 
 import pytest
 
-from yeti.core.async import get_active_jobs
+from yeti.core.asyncjob import get_active_jobs
 
 
 @pytest.yield_fixture(autouse=True)

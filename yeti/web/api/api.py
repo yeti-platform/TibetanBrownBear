@@ -8,7 +8,7 @@ from .observable import ObservableResource
 from .entity import EntityResource
 from .indicator import IndicatorResource
 from .tag import TagResource
-from .async import AsyncResource
+from .asyncjob import AsyncResource
 from .settings import SettingsResource
 from .relationship import RelationshipResource
 from .user import UserResource
@@ -23,5 +23,5 @@ SettingsResource.register(blueprint)
 RelationshipResource.register(blueprint)
 UserResource.register(blueprint)
 
-if yeti_config.async.enabled:
+if yeti_config.asyncjob.enabled:
     AsyncResource.register(blueprint)

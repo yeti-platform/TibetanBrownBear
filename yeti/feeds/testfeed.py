@@ -1,11 +1,11 @@
 from time import sleep
 
-from yeti.core import async
+from yeti.core import asyncjob
 
-class TestFeed(async.AsyncJob):
+class TestFeed(asyncjob.AsyncJob):
     def execute(self):
         sleep(10)
         print("TestFeed was executed asynchronously")
         return 5
 
-async.functions['TestFeed'] = TestFeed
+asyncjob.functions['TestFeed'] = TestFeed
