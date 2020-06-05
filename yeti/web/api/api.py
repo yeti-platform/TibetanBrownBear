@@ -4,6 +4,8 @@ from flask import Blueprint
 
 from yeti.common.config import yeti_config
 
+from yeti.auth.local.views import UserResource
+
 from .observable import ObservableResource
 from .entity import EntityResource
 from .indicator import IndicatorResource
@@ -11,7 +13,6 @@ from .tag import TagResource
 from .asyncjob import AsyncResource
 from .settings import SettingsResource
 from .relationship import RelationshipResource
-from .user import UserResource
 
 blueprint = Blueprint('api', __name__)
 
