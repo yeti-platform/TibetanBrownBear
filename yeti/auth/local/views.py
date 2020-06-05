@@ -58,4 +58,7 @@ class UserResource(GenericResource):  # FlaskView
             'exp': datetime.utcnow() + timedelta(minutes=30),
         }, yeti_config.core.secret_key)
 
-        return {'token': token.decode('UTF-8'), 'authenticated': True}
+        session.clear()
+        session['token'] = token.decode('utf-8')
+
+        return {'authenticated': True, 'user': user.email}
