@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 
 import jwt
-from flask import request
+from flask import request, session, g
 from flask_classful import FlaskView, route
 from marshmallow import fields
 from webargs.flaskparser import parser
@@ -32,10 +32,10 @@ class UserResource(GenericResource):  # FlaskView
     }
 
     @as_json
-    @route('/protected/', methods=['GET'])
+    @route('/me', methods=['GET'])
     @auth_required
     def protected(self):
-        return {'msg': 'You\'re in!'}
+        return {'authenticated': True, 'user': g.user.email}
 
     @as_json
     @route('/login/', methods=['POST'])
@@ -62,3 +62,11 @@ class UserResource(GenericResource):  # FlaskView
         session['token'] = token.decode('utf-8')
 
         return {'authenticated': True, 'user': user.email}
+
+    @as_json
+    @route('/logout/', methods=['PUT'])
+    @auth_required
+    def logout(self):
+        """Logout user."""
+        session.clear()
+        return {'authenticated': False}
