@@ -27,7 +27,6 @@ INVALID_API_KEY = {
 def auth_required(f):
     @functools.wraps(f)
     def inner(*args, **kwargs):
-        auth_headers = request.headers.get('Authorization', None)
         api_key = request.headers.get('X-Yeti-API', None)
         user = None
 
