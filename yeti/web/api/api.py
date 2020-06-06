@@ -4,8 +4,6 @@ from flask import Blueprint
 
 from yeti.common.config import yeti_config
 
-from yeti.auth.local.views import UserResource
-
 from .observable import ObservableResource
 from .entity import EntityResource
 from .indicator import IndicatorResource
@@ -22,7 +20,12 @@ IndicatorResource.register(blueprint)
 TagResource.register(blueprint)
 SettingsResource.register(blueprint)
 RelationshipResource.register(blueprint)
-UserResource.register(blueprint)
 
 if yeti_config.asyncjob.enabled:
     AsyncResource.register(blueprint)
+
+if yeti_config.core.auth == 'oidc':
+    from yeti.auth.oidc.views import UserResource
+if yeti_config.core.auth == 'local':
+    from yeti.auth.local.views import UserResource
+UserResource.register(blueprint)
