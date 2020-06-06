@@ -79,3 +79,10 @@ yeti_config.set_default_value(
     'asyncjob', 'redis_server', os.environ.get('YETI_REDIS_SERVER') or '127.0.0.1')
 yeti_config.set_default_value(
     'asyncjob', 'redis_port', os.environ.get('YETI_REDIS_PORT') or 6379)
+
+yeti_config.set_default_value(
+    'oidc', 'client_id', os.environ.get('CLIENT_ID'))
+yeti_config.set_default_value(
+    'oidc', 'client_secret', os.environ.get('CLIENT_SECRET'))
+yeti_config.set_default_value(
+    'oidc', 'google_discovery_url', os.environ.get('GOOGLE_DISCOVERY_URL'))
