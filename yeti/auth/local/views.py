@@ -16,10 +16,10 @@ from yeti.web.helpers import as_json, auth_required
 from yeti.web.api.generic import GenericResource
 
 
-class UserResource(GenericResource):  # FlaskView
+class UserResource(FlaskView):
     """Class describing resources to manipulate User objects."""
 
-    route_base = '/users/'
+    route_base = '/auth/'
     resource_object = User
 
     searchargs = {
