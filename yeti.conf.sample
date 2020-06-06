@@ -1,10 +1,12 @@
 [core]
 
 ##
-## These settings define general Yeti settings
+## These settings define general Yeti settings.
+## If you're using OIDC auth, you need to fill in the oidc section of the config.
 ##
 
 # secret_key = "CHANGEME"
+# auth = local | oidc
 
 [arangodb]
 
@@ -35,3 +37,9 @@
 # enabled = False
 # redis_server = 127.0.0.1
 # redis_port = 6379
+
+[oidc]
+
+# CLIENT_ID = 99999999.apps.googleusercontent.com
+# CLIENT_SECRET = blah-blahblah
+# GOOGLE_DISCOVERY_URL = https://accounts.google.com/.well-known/openid-configuration
