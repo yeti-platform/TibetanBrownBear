@@ -21,6 +21,7 @@ taxii2-client = "==0.5.0"
 pyjwt = "*"
 sigmatools = "*"
 pyyaml = ">=4.2b1"
+oauthlib = {extras = ["signedtoken"], version = "*"}
 
 [dev-packages]
 pytest = "*"
