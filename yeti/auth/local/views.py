@@ -55,7 +55,7 @@ class UserResource(FlaskView):
         token = jwt.encode({
             'sub': user.email,
             'iat': datetime.utcnow(),
-            'exp': datetime.utcnow() + timedelta(minutes=30),
+            'exp': datetime.utcnow() + timedelta(days=30),
         }, yeti_config.core.secret_key)
 
         session.clear()
