@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 
 import jwt
-from flask import request, g, session
+from flask import request, g, session, redirect
 from flask_classful import FlaskView, route
 from marshmallow import fields
 from webargs.flaskparser import parser
@@ -51,7 +51,6 @@ class UserResource(FlaskView):
 
         return {'redirect': request_uri}
 
-    @as_json
     @route('/login/callback', methods=['GET', 'POST'])
     def login_callback(self):
         """Authenticate a user and return a user object if sucessful."""
@@ -99,7 +98,9 @@ class UserResource(FlaskView):
         session.clear()
         session['token'] = token.decode('utf-8')
 
-        return {'authenticated': True, 'user': user.email}
+        # Return JSON here instead of a redirect if we want popup-winow login.
+        # return {'authenticated': True, 'user': user.email}
+        return redirect('/')
 
     @as_json
     @route('/logout/', methods=['PUT'])
