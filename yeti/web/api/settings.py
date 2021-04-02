@@ -1,6 +1,7 @@
 from flask_classful import route
 from flask import request
 
+from yeti.common.config import yeti_config
 from yeti.core.model.settings.setting import Setting
 from yeti.core.errors import RuntimeException
 from ..helpers import as_json, auth_required
@@ -135,3 +136,9 @@ class SettingsResource(GenericResource):
         except RuntimeException as exception:
             return exception, 400
         return kc.get_killchain()
+
+    @as_json
+    @route('/auth/', methods=['GET'])
+    def get_auth(self):
+        """Return runtime auth method."""
+        return {'method': yeti_config.core.auth}
