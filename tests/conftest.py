@@ -220,8 +220,7 @@ def authenticated_client(populate_users):
         'sub': populate_users[0].email,
         'iat': populate_users[0].last_password_change + timedelta(seconds=1),
         'exp': datetime.utcnow() + timedelta(minutes=30),
-    }, yeti_config.core.secret_key).decode('UTF-8')
-
+    }, yeti_config.core.secret_key, algorithm='HS512')
     AuthenticatedFlaskClient.token = token
     app.test_client_class = AuthenticatedFlaskClient
     return app.test_client()

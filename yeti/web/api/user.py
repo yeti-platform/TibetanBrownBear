@@ -56,6 +56,6 @@ class UserResource(GenericResource):
             'sub': user.email,
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(minutes=30),
-        }, yeti_config.core.secret_key)
+        }, yeti_config.core.secret_key, algorithm='HS512')
 
-        return {'token': token.decode('UTF-8'), 'authenticated': True}
+        return {'token': token, 'authenticated': True}
