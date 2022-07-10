@@ -15,7 +15,7 @@ jobs:
     services:
       redis:
         image: redis
-       arangodb:
+      arangodb:
          image: arangodb
     steps:
     - uses: actions/checkout@v2

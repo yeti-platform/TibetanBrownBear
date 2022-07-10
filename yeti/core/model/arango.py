@@ -399,6 +399,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
             A List of Yeti objects
         """
+        cls._get_collection()
         colname = cls._collection_name
         conditions = []
         sorts = []
