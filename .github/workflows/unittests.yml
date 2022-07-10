@@ -21,6 +21,8 @@ jobs:
          image: arangodb
          ports:
           - 8529:8529
+    env:
+      PYTHONPATH: 'tests/'
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
