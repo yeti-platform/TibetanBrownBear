@@ -15,8 +15,12 @@ jobs:
     services:
       redis:
         image: redis
+        ports:
+          - 6379:6379
       arangodb:
          image: arangodb
+         ports:
+          - 8529:8529
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
