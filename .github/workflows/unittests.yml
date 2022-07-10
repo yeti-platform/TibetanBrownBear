@@ -37,4 +37,4 @@ jobs:
         poetry install
     - name: Test with unittest
       run: |
-        poetry run pytest tests/core/vocabs_test.py --verbose
+        poetry run pytest tests --verbose
