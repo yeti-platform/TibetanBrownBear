@@ -15,7 +15,6 @@ jobs:
     services:
       redis:
         image: redis
-    services:
        arangodb:
          image: arangodb
     steps:
