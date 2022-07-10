@@ -13,7 +13,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         python-version: [3.9, "3.10"]
     env:
-      DFTIMEWOLF_NO_CURSES: 1
+      YETI_ASYNC_ENABLED: False
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
