@@ -12,8 +12,12 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python-version: [3.9, "3.10"]
-    env:
-      YETI_ASYNC_ENABLED: False
+    services:
+      redis:
+        image: redis
+    services:
+       arangodb:
+         image: arangodb
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
