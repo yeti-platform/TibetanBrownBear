@@ -22,7 +22,7 @@ jobs:
          ports:
           - 8529:8529
     env:
-      PYTHONPATH: 'tests/'
+      PYTHONPATH: "."
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
