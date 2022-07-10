@@ -1,4 +1,5 @@
 """Detail Yeti's IP object structure."""
+import re
 
 import ipaddress
 
@@ -16,10 +17,11 @@ class IP(Observable):  # pylint: disable=too-many-ancestors
     """
 
     type = 'ipv4-addr'
+    _strip_leading_zeros = re.compile(r'\.0{2,}')
 
     @classmethod
     def validate_string(cls, string):
-        string = refang(string)
+        string = '.'.join([str(int(octets)) for octets in refang(string).split('.')])
         try:
             ipaddress.ip_address(string)
             return True
@@ -27,7 +29,9 @@ class IP(Observable):  # pylint: disable=too-many-ancestors
             return False
 
     def normalize(self):
-        value = str(ipaddress.ip_address(refang(self.value)))
+        """Normalize the IP address."""
+        final = '.'.join([str(int(octets)) for octets in refang(self.value).split('.')])
+        value = str(ipaddress.ip_address(final))
         self._stix_object = STIXIPv4Address(value=value)
 
 Observable.datatypes[IP.type] = IP
