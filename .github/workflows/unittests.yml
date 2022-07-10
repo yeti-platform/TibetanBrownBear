@@ -21,6 +21,8 @@ jobs:
          image: arangodb
          ports:
           - 8529:8529
+    env:
+      PYTHONPATH: '.'
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -33,4 +35,4 @@ jobs:
         poetry install
     - name: Test with unittest
       run: |
-        poetry run python -m unittest discover -s tests -p '*.py'
+        poetry run pytest tests --verbose
