@@ -6,7 +6,7 @@
 ##
 
 # secret_key = "CHANGEME"
-# auth = local | oidc
+auth = local # or oidc
 
 [arangodb]
 
