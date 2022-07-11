@@ -30,7 +30,7 @@
 # interface = 127.0.0.1
 # port = 5000
 
-[async]
+[asyncjob]
 
 ## Configuration settings for Yeti's asynchronous functionality.
 

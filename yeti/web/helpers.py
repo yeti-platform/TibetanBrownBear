@@ -37,8 +37,12 @@ def auth_required(f):
 
         if 'token' in session:
             try:
+                # token = auth_headers.split()[1]
                 token = session['token']
-                data = jwt.decode(token, yeti_config.core.secret_key)
+                data = jwt.decode(
+                    token,
+                    yeti_config.core.secret_key,
+                    algorithms=['HS512'])
                 user = User.find(email=data['sub'])
                 issued_at = datetime.utcfromtimestamp(data['iat'])
                 last_pwd_reset = user.last_password_change.replace(

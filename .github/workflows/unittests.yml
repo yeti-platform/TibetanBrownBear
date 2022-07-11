@@ -1,0 +1,44 @@
+name: Unit tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+
+  poetry:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: [3.9, "3.10"]
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+      arangodb:
+        image: arangodb
+        env:
+          ARANGO_NO_AUTH: True
+        ports:
+          - 8529:8529
+    env:
+      PYTHONPATH: "."
+      YETI_ASYNC_ENABLED: "True"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        poetry install
+    - name: Start rq worker
+      run:  |
+        PYTHONPATH=tests/ poetry run rq worker &
+    - name: Test with unittest
+      run: |
+        poetry run pytest tests --verbose

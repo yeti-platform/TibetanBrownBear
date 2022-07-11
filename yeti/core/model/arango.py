@@ -399,6 +399,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
         Returns:
             A List of Yeti objects
         """
+        cls._get_collection()
         colname = cls._collection_name
         conditions = []
         sorts = []
@@ -423,7 +424,7 @@ class ArangoYetiConnector(AbstractYetiConnector):
             """
 
         args['@collection'] = colname
-        for key in args:
+        for key in list(args.keys()):
             args[key.replace('.', '_')] = args.pop(key)
         documents = cls._db.aql.execute(aql_string, bind_vars=args)
         yeti_objects = []
