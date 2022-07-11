@@ -36,12 +36,13 @@ jobs:
       run: |
         pip install poetry
         poetry install
-    - name: Start rq worker
-      run:  |
-        PYTHONPATH=tests/ poetry run rq worker &
     - name: Set up config files
       run: |
         cp yeti.conf.sample yeti.conf
+        cat yeti.conf
+    - name: Start rq worker
+      run:  |
+        PYTHONPATH=tests/ poetry run rq worker &
     - name: Test with unittest
       run: |
         poetry run pytest tests --verbose
