@@ -24,7 +24,7 @@ def test_index(populate_users, authenticated_client):
     emails = [user.email for user in populate_users]
     for email in emails:
         query_json = {'email': email}
-        rv = authenticated_client.post('/api/users/filter/',
+        rv = authenticated_client.post('/api/auth/filter/',
                                        data=json.dumps(query_json),
                                        content_type='application/json')
         response = json.loads(rv.data)
@@ -41,14 +41,17 @@ def test_login():
         'password': 'admin'
     }
 
-    rv = client.post('/api/users/login/',
+    rv = client.post('/api/auth/login/',
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
-    assert 'token' in response
-    assert response
+    with client.session_transaction() as local_session:
+        assert 'token' in local_session
+    assert response['authenticated']
+    assert response['user'] == 'admin@email.com'
+
     decoded = jwt.decode(
-        response['token'],
+        local_session['token'],
         yeti_config.core.secret_key,
         algorithms=['HS512'])
     assert decoded['sub'] == 'admin@email.com'
@@ -60,7 +63,7 @@ def test_failed_login():
         'email': 'admin@email.com',
         'password': 'DIDNTSAYTHEMAGICWORD'
     }
-    rv = client.post('/api/users/login/',
+    rv = client.post('/api/auth/login/',
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
@@ -73,7 +76,7 @@ def test_nonexistent_user():
         'email': 'notexist@email.com',
         'password': '123456'
     }
-    rv = client.post('/api/users/login/',
+    rv = client.post('/api/auth/login/',
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
@@ -86,36 +89,39 @@ def test_protected_resource_access_granted():
         'email': 'admin@email.com',
         'password': 'admin'
     }
-    rv = client.post('/api/users/login/',
+    rv = client.post('/api/auth/login/',
                      data=json.dumps(query_json),
                      content_type='application/json')
     response = json.loads(rv.data)
     assert rv.status_code == 200
-    token = response['token']
-    rv = client.get('/api/users/protected/',
-                    headers={'Authorization': f'Bearer: {token}'},
+    assert response['authenticated']
+    assert response['user'] == 'admin@email.com'
+
+    rv = client.get('/api/auth/me',
                     content_type='application/json')
     assert rv.status_code == 200
     response = json.loads(rv.data)
-    assert response['msg'] == "You're in!"
+    assert response['authenticated']
+    assert response['user'] == 'admin@email.com'
 
 
 @pytest.mark.usefixtures('clean_db')
 def test_api_key_access_granted(populate_users):
     """Tests that a user using an API key has access to protected resources."""
     user = populate_users[0]
-    rv = client.get('/api/users/protected/',
+    rv = client.get('/api/auth/me',
                     headers={'X-Yeti-API': user.api_key},
                     content_type='application/json')
     assert rv.status_code == 200
     response = json.loads(rv.data)
-    assert response['msg'] == "You're in!"
+    assert response['authenticated']
+    assert response['user'] == 'admin@email.com'
 
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')
 def test_invalid_api_key():
     """Tests that a user using an API key has access to protected resources."""
-    rv = client.get('/api/users/protected/',
+    rv = client.get('/api/auth/me',
                     headers={'X-Yeti-API': 'INVALID'},
                     content_type='application/json')
     assert rv.status_code == 401
@@ -127,7 +133,9 @@ def test_invalid_api_key():
 def test_protected_resource_access_denied():
     """Tests that an unauthenticated client can't access a protected
     resource."""
-    rv = client.get('/api/users/protected/',
+    with client.session_transaction() as local_session:
+        local_session.clear()
+    rv = client.get('/api/auth/me',
                     content_type='application/json')
     assert rv.status_code == 401
     response = json.loads(rv.data)
@@ -138,13 +146,13 @@ def test_protected_resource_access_denied():
 @pytest.mark.usefixtures('clean_db')
 def test_password_reset_expires_token(populate_users, authenticated_client):
     """Tests a password reset expires a users JWT."""
-    rv = authenticated_client.get('/api/users/protected/',
+    rv = authenticated_client.get('/api/auth/me',
                     content_type='application/json')
     assert rv.status_code == 200
     time.sleep(2)
     admin = populate_users[0]
     user_management.set_password(admin)
     admin.save()
-    rv = authenticated_client.get('/api/users/protected/',
+    rv = authenticated_client.get('/api/auth/protected/',
                     content_type='application/json')
     assert rv.status_code == 401
