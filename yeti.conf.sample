@@ -2,12 +2,11 @@
 
 ##
 ## These settings define general Yeti settings.
-## If you're using OIDC auth, you need to fill in the oidc section of the config.
+## If you're using OIDC auth set `auth = oidc` and fill in the oidc section of the config.
 ##
 
 # secret_key = "CHANGEME"
-# `local` or `oidc`, depending on your setup
-auth = local
+# auth = local
 
 [arangodb]
 

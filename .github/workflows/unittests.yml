@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  poetry:
+  unittests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,6 +26,7 @@ jobs:
     env:
       PYTHONPATH: "."
       YETI_ASYNC_ENABLED: "True"
+      AUTH_METHOD: "local"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -36,10 +37,6 @@ jobs:
       run: |
         pip install poetry
         poetry install
-    - name: Set up config files
-      run: |
-        cp yeti.conf.sample yeti.conf
-        cat yeti.conf
     - name: Start rq worker
       run:  |
         PYTHONPATH=tests/ poetry run rq worker &
