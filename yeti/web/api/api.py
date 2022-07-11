@@ -31,4 +31,4 @@ try:
         from yeti.auth.local.views import UserResource
     UserResource.register(blueprint)
 except Exception as e:
-    raise(f'{e}\n\n{yeti_config.core}')
+    raise(Exception(f'{e}\n\n{yeti_config.core}'))
