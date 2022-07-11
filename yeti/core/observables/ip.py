@@ -17,11 +17,11 @@ class IP(Observable):  # pylint: disable=too-many-ancestors
     """
 
     type = 'ipv4-addr'
-    _strip_leading_zeros = re.compile(r'\.0{2,}')
+    _strip_leading_zeros = re.compile(r'(^|:|\.)0+(?=[^.])')
 
     @classmethod
     def validate_string(cls, string):
-        string = '.'.join([str(int(octets)) for octets in refang(string).split('.')])
+        string = cls._strip_leading_zeros.sub(r'\1', string)
         try:
             ipaddress.ip_address(string)
             return True
@@ -30,8 +30,8 @@ class IP(Observable):  # pylint: disable=too-many-ancestors
 
     def normalize(self):
         """Normalize the IP address."""
-        final = '.'.join([str(int(octets)) for octets in refang(self.value).split('.')])
-        value = str(ipaddress.ip_address(final))
+        value = self._strip_leading_zeros.sub(r'\1', self.value)
+        value = str(ipaddress.ip_address(value))
         self._stix_object = STIXIPv4Address(value=value)
 
 Observable.datatypes[IP.type] = IP
