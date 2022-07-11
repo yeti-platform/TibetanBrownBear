@@ -29,6 +29,6 @@ try:
         from yeti.auth.oidc.views import UserResource
     if yeti_config.core.auth == 'local':
         from yeti.auth.local.views import UserResource
+    UserResource.register(blueprint)
 except Exception as e:
     raise(f'{e}\n\n{yeti_config.core}')
-UserResource.register(blueprint)
