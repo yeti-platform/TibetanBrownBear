@@ -16,7 +16,7 @@ from yeti.web.helpers import as_json, auth_required
 from yeti.web.api.generic import GenericResource
 
 
-class UserResource(FlaskView):
+class UserResource(GenericResource):
     """Class describing resources to manipulate User objects."""
 
     route_base = '/auth/'

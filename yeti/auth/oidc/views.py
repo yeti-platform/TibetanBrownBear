@@ -21,7 +21,7 @@ from yeti.web.helpers import as_json, auth_required
 client = WebApplicationClient(yeti_config.oidc.client_id)
 
 
-class UserResource(FlaskView):
+class UserResource(GenericResource):
     """Class describing resources to manipulate User objects."""
 
     route_base = '/auth/'
