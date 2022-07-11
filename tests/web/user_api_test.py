@@ -47,7 +47,10 @@ def test_login():
     response = json.loads(rv.data)
     assert 'token' in response
     assert response
-    decoded = jwt.decode(response['token'], yeti_config.core.secret_key)
+    decoded = jwt.decode(
+        response['token'],
+        yeti_config.core.secret_key,
+        algorithms=['HS512'])
     assert decoded['sub'] == 'admin@email.com'
 
 @pytest.mark.usefixtures('clean_db', 'populate_users')

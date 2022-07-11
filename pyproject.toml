@@ -1,9 +1,12 @@
-[[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
-name = "pypi"
+[tool.poetry]
+name = "tibetanbrownbear"
+version = "0.1.0"
+description = ""
+authors = ["Thomas Chopitea <tomchop@gmail.com>"]
+license = "Apache"
 
-[packages]
+[tool.poetry.dependencies]
+python = "^3.9"
 python-arango = "*"
 marshmallow = "<3"
 flask = "*"
@@ -22,21 +25,16 @@ pyjwt = "*"
 sigmatools = "*"
 pyyaml = ">=4.2b1"
 
-[dev-packages]
+[tool.poetry.dev-dependencies]
 pytest = "*"
 pytest-cov = "*"
-"e1839a8" = {path = ".", editable = true}
 pylint = "*"
 codecov = "*"
 sphinx = "==1.7.7"
 sphinx-autobuild = "*"
 sphinx-rtd-theme = "*"
 recommonmark = "*"
-yeti = {path = ".", editable = true}
 
-[requires]
-python_version = "3.7"
-
-[scripts]
-yeticli = "cli/yeticli.py"
-yetictl = "cli/yetictl.py"
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

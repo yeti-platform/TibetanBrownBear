@@ -73,7 +73,10 @@ class Regex(Indicator):
             obj = bytes(obj, 'utf-8')
         match = self.compiled_pattern.search(obj)
         if match:
-            return {'name': self.name, 'details': match.group(), 'id': self.id}
+            results = match.group()
+            if isinstance(results, bytes):
+                results = results.decode('utf-8')
+            return {'name': self.name, 'details': results, 'id': self.id}
         return None
 
 Indicator.datatypes[Regex.type] = Regex
