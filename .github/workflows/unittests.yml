@@ -25,6 +25,7 @@ jobs:
           - 8529:8529
     env:
       PYTHONPATH: "."
+      YETI_ASYNC_ENABLED: "True"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
