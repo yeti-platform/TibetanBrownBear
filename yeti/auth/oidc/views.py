@@ -93,10 +93,10 @@ class UserResource(FlaskView):
             'sub': user.email,
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(days=30),
-        }, yeti_config.core.secret_key)
+        }, yeti_config.core.secret_key, algorithm='HS512')
 
         session.clear()
-        session['token'] = token.decode('utf-8')
+        session['token'] = token
 
         # Return JSON here instead of a redirect if we want popup-winow login.
         # return {'authenticated': True, 'user': user.email}
