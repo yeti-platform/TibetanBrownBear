@@ -8,6 +8,13 @@ app = Flask(__name__,
             static_folder='web/frontend/dist')
 app.register_blueprint(blueprint, url_prefix='/api')
 
+app.secret_key = yeti_config.core.secret_key
+
+app.config.update(
+    SESSION_COOKIE_SECURE=False,  # Change when moving to production
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Strict',
+)
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')

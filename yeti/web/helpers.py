@@ -3,7 +3,7 @@ import functools
 from datetime import datetime
 
 import jwt
-from flask import g, jsonify, request
+from flask import g, jsonify, request, session
 
 from yeti.common.config import yeti_config
 from yeti.core.errors import GenericYetiError
@@ -27,7 +27,6 @@ INVALID_API_KEY = {
 def auth_required(f):
     @functools.wraps(f)
     def inner(*args, **kwargs):
-        auth_headers = request.headers.get('Authorization', None)
         api_key = request.headers.get('X-Yeti-API', None)
         user = None
 
@@ -36,9 +35,10 @@ def auth_required(f):
             if not user:
                 return INVALID_API_KEY, 401
 
-        if auth_headers:
+        if 'token' in session:
             try:
-                token = auth_headers.split()[1]
+                # token = auth_headers.split()[1]
+                token = session['token']
                 data = jwt.decode(
                     token,
                     yeti_config.core.secret_key,

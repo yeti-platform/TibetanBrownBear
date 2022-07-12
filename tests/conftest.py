@@ -204,12 +204,8 @@ app.testing = True
 class AuthenticatedFlaskClient(testing.FlaskClient):
     token = None
     def open(self, *args, **kwargs):
-        api_key_headers = Headers({
-            'Authorization': f'Bearer: {self.token}'
-        })
-        headers = kwargs.pop('headers', Headers())
-        headers.extend(api_key_headers)
-        kwargs['headers'] = headers
+        with self.session_transaction() as session:
+            session["token"] = self.token
         return super().open(*args, **kwargs)
 
 
@@ -221,6 +217,7 @@ def authenticated_client(populate_users):
         'iat': populate_users[0].last_password_change + timedelta(seconds=1),
         'exp': datetime.utcnow() + timedelta(minutes=30),
     }, yeti_config.core.secret_key, algorithm='HS512')
+
     AuthenticatedFlaskClient.token = token
     app.test_client_class = AuthenticatedFlaskClient
     return app.test_client()

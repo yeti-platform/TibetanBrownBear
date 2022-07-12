@@ -55,6 +55,9 @@ yeti_config = Config()
 yeti_config.set_default_value(
     'core', 'secret_key', os.environ.get('SECRET_KEY') or secrets.token_hex(32))
 yeti_config.set_default_value(
+    'core', 'auth', os.environ.get('AUTH_METHOD') or 'local')
+
+yeti_config.set_default_value(
     'arangodb', 'host', os.environ.get('YETI_ARANGO_HOST') or '127.0.0.1')
 yeti_config.set_default_value(
     'arangodb', 'port', int(os.environ.get('YETI_ARANGO_PORT', 0)) or 8529)
@@ -79,3 +82,10 @@ yeti_config.set_default_value(
     'asyncjob', 'redis_server', os.environ.get('YETI_REDIS_SERVER') or '127.0.0.1')
 yeti_config.set_default_value(
     'asyncjob', 'redis_port', os.environ.get('YETI_REDIS_PORT') or 6379)
+
+yeti_config.set_default_value(
+    'oidc', 'client_id', os.environ.get('CLIENT_ID'))
+yeti_config.set_default_value(
+    'oidc', 'client_secret', os.environ.get('CLIENT_SECRET'))
+yeti_config.set_default_value(
+    'oidc', 'google_discovery_url', os.environ.get('GOOGLE_DISCOVERY_URL'))

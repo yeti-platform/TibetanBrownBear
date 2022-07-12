@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  poetry:
+  unittests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,6 +26,7 @@ jobs:
     env:
       PYTHONPATH: "."
       YETI_ASYNC_ENABLED: "True"
+      AUTH_METHOD: "local"
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
