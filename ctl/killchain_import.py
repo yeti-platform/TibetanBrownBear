@@ -3,7 +3,7 @@ import json
 import os
 import click
 
-from taxii2client import Collection
+from taxii2client.v20 import Collection
 from stix2 import TAXIICollectionSource, Filter
 
 from yeti.core.model.settings.killchains import KillChains
