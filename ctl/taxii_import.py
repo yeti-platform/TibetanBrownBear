@@ -3,8 +3,8 @@ import json
 
 import click
 import requests
-from stix2 import TAXIICollectionSource, Filter, datastore
-from taxii2client import Collection, Server
+from stix2 import TAXIICollectionSource, Filter, datastore, parse
+from taxii2client.v20 import Collection, Server
 
 from yeti.core.entities import attack_pattern
 from yeti.core.entities import campaign
@@ -29,7 +29,7 @@ OBJECT_CLASSES = {
     'vulnerability': vulnerability.Vulnerability,
 }
 
-def _lazy_get_object(all_objects, stix_id):
+def _cached_get_objects(all_objects, stix_id):
     if stix_id in all_objects:
         return all_objects[stix_id]
     for name, yeti_class in OBJECT_CLASSES.items():
@@ -86,9 +86,12 @@ def taxii_import(server_url, collection_url):
 
             try:
                 for item in tc_source.query(Filter('type', '=', name)):
-                    item_json = json.loads(item.serialize())
-                    obj = yeti_class.get(item.id)
+                    if not isinstance(item, dict):
+                        item_json = json.loads(item.serialize())
+                    else:
+                        item_json = item
 
+                    obj = yeti_class.get(item['id'])
                     if not obj:
                         obj = yeti_class(**item).save()
                         stats['new'] += 1
@@ -113,8 +116,11 @@ def taxii_import(server_url, collection_url):
         taxii_filter = Filter('type', '=', 'relationship')
         for relationship in tc_source.query(taxii_filter):
             stats += 1
-            source = _lazy_get_object(all_objects, relationship.source_ref)
-            target = _lazy_get_object(all_objects, relationship.target_ref)
-            source.link_to(target, stix_rel=json.loads(
-                relationship.serialize()))
+            source = _cached_get_objects(all_objects, relationship.source_ref)
+            target = _cached_get_objects(all_objects, relationship.target_ref)
+            if source and target:
+                source.link_to(target, stix_rel=json.loads(
+                    relationship.serialize()))
+            else:
+                print(f'Skipping relationship: {relationship.source_ref} -> {relationship.target_ref}')
         print('Added {0:d} relationships'.format(stats))
