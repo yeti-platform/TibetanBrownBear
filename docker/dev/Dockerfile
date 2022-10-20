@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y \
     python-yara \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-RUN pip3 install pipenv
+RUN pip3 install poetry
 ADD . /app
 WORKDIR /app
-RUN pipenv install --system --deploy
+RUN poetry install
 
 EXPOSE 5000
 
