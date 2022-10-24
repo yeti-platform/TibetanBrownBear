@@ -308,7 +308,8 @@ class ArangoYetiConnector(AbstractYetiConnector):
         if stix_rel is None:
             stix_rel = StixRelationship(relationship_type=relationship_type,
                                         source_ref=self.id,
-                                        target_ref=target.id)
+                                        target_ref=target.id,
+                                        allow_custom=True)
             stix_rel = json.loads(stix_rel.serialize())
 
         existing = list(Relationship.filter({'attributes.id': stix_rel['id']}))
