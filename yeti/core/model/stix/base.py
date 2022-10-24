@@ -2,7 +2,7 @@
 import json
 
 from stix2 import parse
-from stix2 import utils
+from stix2 import versioning
 from stix2.exceptions import MissingPropertiesError, ParseError, UnmodifiablePropertyError
 
 from yeti.core.errors import ValidationError, YetiSTIXError
@@ -111,7 +111,7 @@ class StixObject(YetiObject):
         for key, value in args.items():
             if not value:
                 args[key] = None
-        for prop in utils.STIX_UNMOD_PROPERTIES:
+        for prop in versioning.STIX_UNMOD_PROPERTIES:
             args.pop(prop, None)
         try:
             new_version = self._stix_object.new_version(**args, allow_custom=True)
