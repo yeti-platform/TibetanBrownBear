@@ -92,6 +92,8 @@ class StixObject(YetiObject):
         """
         if 'type' not in stix_dict:
             stix_dict['type'] = self.type
+        if 'spec_version' not in stix_dict:
+            stix_dict['spec_version'] = '2.1'
         try:
             self._stix_object = parse(stix_dict, allow_custom=True)
         except (MissingPropertiesError, ParseError) as err:
